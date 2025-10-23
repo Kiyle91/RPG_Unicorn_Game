@@ -1,0 +1,16 @@
+RPG_Unicorn_Game/
+├── index.html          <-- main HTML file
+├── style.css           <-- global CSS (optional)
+├── script.js           <-- main JS (optional)
+├── images/             <-- all static images
+├── sounds/             <-- all sound effects / music
+├── assets/             <-- optional other assets
+└── animations/         <-- animation files and CSS
+     ├── buttons.css
+     ├── story.css
+     ├── battle.css
+     ├── transitions.css
+     └── effects/
+          ├── sparkle.json
+          ├── heal.json
+          └── attack_slash.gif

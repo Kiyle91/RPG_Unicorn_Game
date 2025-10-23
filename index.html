@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<!-- 
+    Declares the document type as HTML5.
+    This helps the browser render the page correctly and ensures modern HTML features work.
+-->
+<html lang="en">
+<!-- 
+    <html> is the root element of the page.
+    'lang="en"' sets the language for accessibility and SEO.
+-->
+<head>
+    <meta charset="UTF-8">
+    <!-- Sets character encoding to UTF-8 for proper text rendering -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Ensures responsive scaling on mobile devices -->
+    <title>Olivia's World RPG</title>
+    <!-- The page title appears in the browser tab -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Links external CSS file for styling and animations -->
+</head>
+<body>
+    <!-- BODY: Everything the player sees or interacts with goes here -->
+
+    <!-- Landing Page -->
+    <section id="landing-page" class="screen active">
+        <!-- 
+            Each major screen in the game is a <section>.
+            'screen' class is generic for CSS styling of all screens.
+            'active' class indicates this screen is currently visible (others hidden via CSS).
+        -->
+        <h1>Olivia's World</h1>
+        <!-- Game title displayed prominently -->
+        <button id="start-btn">Start Adventure</button>
+        <!-- Clicking this button will trigger JS to move to the Naming Page -->
+    </section>
+
+    <!-- Naming Page -->
+    <section id="naming-page" class="screen">
+        <!-- Hidden by default; becomes visible when 'active' is added -->
+        <h2>Enter Your Name</h2>
+        <input type="text" id="player-name" placeholder="Your Name">
+        <!-- Player types their character name here -->
+        <button id="name-confirm-btn">Next</button>
+        <!-- Clicking triggers JS to save name and move to Class Selection -->
+    </section>
+
+    <!-- Class Selection Page -->
+    <section id="class-page" class="screen">
+        <h2>Choose Your Class</h2>
+        <div class="classes">
+            <!-- Container for class buttons -->
+            <button class="class-btn" data-class="Warrior">Warrior</button>
+            <button class="class-btn" data-class="Mage">Mage</button>
+            <button class="class-btn" data-class="Healer">Healer</button>
+            <!-- 
+                'data-class' attributes store the class choice for JS.
+                JS reads this value to determine player stats/abilities.
+            -->
+        </div>
+        <button id="class-confirm-btn">Confirm</button>
+        <!-- Confirms selected class and proceeds to Difficulty Selection -->
+    </section>
+
+    <!-- Difficulty Selection Page -->
+    <section id="difficulty-page" class="screen">
+        <h2>Select Difficulty</h2>
+        <button class="difficulty-btn" data-difficulty="Easy">Easy</button>
+        <button class="difficulty-btn" data-difficulty="Medium">Medium</button>
+        <button class="difficulty-btn" data-difficulty="Hard">Hard</button>
+        <!-- 'data-difficulty' will let JS adjust math challenge difficulty & enemy HP -->
+        <button id="difficulty-confirm-btn">Confirm</button>
+        <!-- Moves the game forward to the first Story Page -->
+    </section>
+
+    <!-- Story Page -->
+    <section id="story-page" class="screen">
+        <div id="story-text"></div>
+        <!-- JS will dynamically inject narrative text here -->
+        <button id="story-continue-btn">Continue</button>
+        <!-- Clicking advances story or triggers next battle -->
+    </section>
+
+    <!-- Battle Page -->
+    <section id="battle-page" class="screen">
+        <h2>Battle!</h2>
+        <div id="battle-info">
+            <p id="player-hp">HP: </p>
+            <p id="enemy-hp">Enemy HP: </p>
+            <!-- These <p> tags will be updated in real-time during battle -->
+        </div>
+        <div id="battle-actions">
+            <!-- Buttons for battle options -->
+            <button class="battle-btn" data-action="attack">Attack</button>
+            <button class="battle-btn" data-action="spell">Spell</button>
+            <button class="battle-btn" data-action="heal">Heal</button>
+            <button class="battle-btn" data-action="flee">Flee</button>
+            <!-- 'data-action' lets JS identify which action was chosen -->
+        </div>
+        <div id="math-challenge"></div>
+        <!-- Math challenge appears here for parry/critical hit mechanics -->
+    </section>
+
+    <!-- Game Over Page -->
+    <section id="gameover-page" class="screen">
+        <h2>Game Over</h2>
+        <button id="retry-btn">Return to Class Menu</button>
+        <!-- Clicking resets player stats & returns to class selection -->
+    </section>
+
+    <!-- JS scripts should go at the end of <body> for faster loading -->
+    <script src="script.js"></script>
+    <!-- External JS file handles screen navigation, player input, battles, etc. -->
+</body>
+</html>
