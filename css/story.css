@@ -1,5 +1,13 @@
-/* Testing CSS */
-body {
-    background-color: yellow !important;  /* easy to see */
- 
+#story-page {
+    background-color: #FFE4B5; /* moccasin */
+    font-size: 20px;
+}
+
+#story-text {
+    margin-bottom: 30px;
+}
+
+#story-continue-btn {
+    padding: 12px 25px;
+    font-size: 18px;
 }

@@ -1,5 +1,14 @@
-/* Testing CSS */
-body {
-    background-color: yellow !important;  /* easy to see */
- 
+#class-page {
+    background-color: #90EE90; /* light green */
+}
+
+#class-page h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.classes .class-btn {
+    padding: 15px 30px;
+    font-size: 18px;
+    margin: 10px;
 }

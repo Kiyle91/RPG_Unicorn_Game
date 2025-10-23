@@ -1,5 +1,13 @@
-/* Testing CSS */
-body {
-    background-color: yellow !important;  /* easy to see */
- 
+#gameover-page {
+    background-color: #FFA07A; /* light salmon */
+}
+
+#gameover-page h2 {
+    font-size: 48px;
+    margin-bottom: 30px;
+}
+
+#retry-btn {
+    padding: 12px 25px;
+    font-size: 18px;
 }

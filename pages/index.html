@@ -10,12 +10,74 @@
 </head>
 <body>
 
+<!-- Landing Page -->
 <section id="landing-page" class="screen active">
   <h1>Olivia's World</h1>
   <button id="start-btn">Start Adventure</button>
 </section>
 
+<!-- Naming Page -->
+<section id="naming-page" class="screen">
+  <h2>Enter Your Name</h2>
+  <input type="text" id="player-name" placeholder="Your Name">
+  <button id="name-confirm-btn">Next</button>
+</section>
+
+<!-- Class Selection Page -->
+<section id="class-page" class="screen">
+  <h2>Choose Your Class</h2>
+  <button class="class-btn" data-class="Warrior">Warrior</button>
+  <button class="class-btn" data-class="Mage">Mage</button>
+  <button class="class-btn" data-class="Healer">Healer</button>
+  <button id="class-confirm-btn">Confirm</button>
+</section>
+
+<!-- Difficulty Page -->
+<section id="difficulty-page" class="screen">
+  <h2>Select Difficulty</h2>
+  <button class="difficulty-btn" data-difficulty="Easy">Easy</button>
+  <button class="difficulty-btn" data-difficulty="Medium">Medium</button>
+  <button class="difficulty-btn" data-difficulty="Hard">Hard</button>
+  <button id="difficulty-confirm-btn">Confirm</button>
+</section>
+
+<!-- Story Page -->
+<section id="story-page" class="screen">
+  <div id="story-text">Welcome to Olivia's World!</div>
+  <button id="story-continue-btn">Continue</button>
+</section>
+
+<!-- Battle Page -->
+<section id="battle-page" class="screen">
+  <h2>Battle!</h2>
+  <div id="battle-info">
+    <p id="player-hp">HP: 100</p>
+    <p id="enemy-hp">Enemy HP: 100</p>
+  </div>
+  <div id="battle-actions">
+    <button class="battle-btn" data-action="attack">Attack</button>
+    <button class="battle-btn" data-action="spell">Spell</button>
+    <button class="battle-btn" data-action="heal">Heal</button>
+    <button class="battle-btn" data-action="flee">Flee</button>
+  </div>
+  <div id="math-challenge"></div>
+</section>
+
+<!-- Game Over Page -->
+<section id="gameover-page" class="screen">
+  <h2>Game Over</h2>
+  <button id="retry-btn">Return to Class Menu</button>
+</section>
+
+<!-- Scripts -->
 <script src="../js/script.js"></script>
 <script src="../js/landing.js"></script>
+<script src="../js/naming.js"></script>
+<script src="../js/class_selection.js"></script>
+<script src="../js/difficulty.js"></script>
+<script src="../js/story.js"></script>
+<script src="../js/battle.js"></script>
+<script src="../js/gameover.js"></script>
+
 </body>
 </html>

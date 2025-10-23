@@ -1,5 +1,15 @@
-/* Testing CSS */
-body {
-    background-color: yellow !important;  /* easy to see */
- 
+#naming-page {
+    background-color: #ADD8E6; /* light blue */
+}
+
+#naming-page h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+#naming-page input {
+    padding: 10px;
+    font-size: 18px;
+    width: 200px;
+    margin-bottom: 20px;
 }

@@ -1,5 +1,10 @@
-/* Testing CSS */
-body {
-    background-color: yellow !important;  /* easy to see */
- 
+#landing-page {
+    background-color: #FFFACD;  /* light yellow */
 }
+
+#landing-page h1 {
+    font-size: 48px;
+    margin-bottom: 30px;
+}
+
+

@@ -1,6 +1,13 @@
-/* Testing CSS */
-body {
-    background-color: yellow !important;  /* easy to see */
- 
+#battle-page {
+    background-color: #D3D3D3; /* light gray */
 }
 
+#battle-info {
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+#battle-actions button {
+    padding: 12px 25px;
+    margin: 10px;
+}

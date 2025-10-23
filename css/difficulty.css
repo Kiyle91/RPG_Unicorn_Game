@@ -1,5 +1,14 @@
-/* Testing CSS */
-body {
-    background-color: yellow !important;  /* easy to see */
- 
+#difficulty-page {
+    background-color: #FFB6C1; /* light pink */
+}
+
+#difficulty-page h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.difficulty-btn {
+    padding: 15px 30px;
+    font-size: 18px;
+    margin: 10px;
 }
