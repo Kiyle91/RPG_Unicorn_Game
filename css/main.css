@@ -1,4 +1,12 @@
 /* ------------------ General Screens ------------------ */
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden; /* prevents horizontal scrollbars */
+
+}
+
 .screen {
   display: none;
   height: 100vh;
@@ -16,6 +24,10 @@
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa, #fffacd);
   background-size: 400% 400%;
   animation: rainbowBG 15s ease infinite;
+  padding: 20px;           /* space around edges */
+  width: 100%;            /* full width of window */
+  height: 100vh;                    /* center horizontally */
+  box-sizing: border-box;
 }
 
 /* ------------------ Rainbow Background Animation ------------------ */
@@ -28,10 +40,13 @@
 /* ------------------ Intro Box ------------------ */
 #intro-box {
   background: rgba(255, 255, 255, 0.8);
+  padding: 30px 40px 50px 40px;
   border: 3px dashed #ff69b4;
   border-radius: 30px;
+  margin: 0;
   padding: 50px 40px;
   max-width: 700px;
+  width: 90%;
   box-shadow: 0 0 30px rgba(255, 182, 193, 0.8);
   animation: sparkle 2s infinite alternate;
   position: relative;
@@ -46,7 +61,7 @@
 
 #intro-box h1 {
   font-size: 3rem;
-  margin-bottom: 20px;
+  margin: 0 0 25px 0;
   color: #ff69b4;
   text-shadow: 2px 2px 8px #fff;
 }
@@ -121,7 +136,7 @@
   #unicorn3 {
     display: none;
   }
-  
+
   #intro-box h1 {
     font-size: 2rem; /* smaller heading */
   }
@@ -133,5 +148,6 @@
   #start-btn {
     font-size: 1.5rem; /* smaller button text */
     padding: 15px 30px; /* smaller padding */
-  }
+  
+    }
 }
