@@ -40,8 +40,11 @@ document.addEventListener('click', (e) => {
 const bgMusic = document.getElementById('bg-music');
 const muteBtn = document.getElementById('mute-btn');
 
-let isMuted = false;
+let isMuted = false;       // music starts unmuted
 let musicStarted = false;
+
+// set initial icon
+muteBtn.textContent = isMuted ? "🔇" : "🔊";
 
 // autoplay-safe: start music on first click if not muted
 document.addEventListener('click', function startMusic() {
@@ -51,15 +54,15 @@ document.addEventListener('click', function startMusic() {
   }
 });
 
-// mute/unmute button
+// mute/unmute button click
 muteBtn.addEventListener('click', () => {
   if (isMuted) {
-    // Unmute / play
+    // unmute / play
     bgMusic.play().catch(() => console.log("Autoplay blocked"));
     muteBtn.textContent = "🔊";
     isMuted = false;
   } else {
-    // Mute / pause
+    // mute / pause
     bgMusic.pause();
     muteBtn.textContent = "🔇";
     isMuted = true;
