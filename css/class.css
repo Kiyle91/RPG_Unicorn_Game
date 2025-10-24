@@ -1,0 +1,156 @@
+/* ==============================
+   CLASS SELECTION PAGE
+   ============================== */
+#class-selection-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+  width: 100vw;
+  padding: 40px 20px;
+  font-family: 'Princess Sofia', cursive;
+  color: #fff;
+  text-align: center;
+  background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa, #fffacd);
+  background-size: 400% 400%;
+  animation: rainbowBG 5s ease infinite;
+  overflow-y: auto;
+  
+
+  
+}
+
+/* Page Title */
+#class-selection-page .page-title {
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: #ff69b4;
+  text-shadow: 2px 2px 10px #fff;
+  margin-bottom: 50px;
+  animation: sparkle 2s infinite alternate;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 30px;
+  padding: 20px 40px;
+  box-shadow: 0 0 30px rgba(255, 182, 193, 0.8);
+  display: inline-block;
+}
+
+/* Class Options Container */
+.class-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* ------------------ Individual Class Buttons ------------------ */
+.class-btn {
+  position: relative;
+  border: none;
+  border-radius: 25px;
+  width: 250px;
+  min-height: 200px;
+  padding: 20px;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Glitter Guardian - Pink/Gold */
+.class-btn[data-class="Glitter Guardian"] {
+  background: linear-gradient(135deg, #ffb6c1, #ffd700);
+  box-shadow: 0 0 25px #ff69b4;
+}
+
+/* Star Sage - Purple/Blue */
+.class-btn[data-class="Star Sage"] {
+  background: linear-gradient(135deg, #9370db, #00bfff);
+  box-shadow: 0 0 25px #8a2be2;
+}
+
+/* Rainbow Healer - Green/Teal */
+.class-btn[data-class="Moonflower Healer"] {
+  background: linear-gradient(135deg, #32cd32, #40e0d0);
+  box-shadow: 0 0 25px #3cb371;
+}
+
+/* Silver Arrow - Silver/Light Blue */
+.class-btn[data-class="Silver Arrow"] {
+  background: linear-gradient(135deg, #c0c0c0, #87cefa);
+  box-shadow: 0 0 25px #b0c4de;
+}
+
+/* Hover effect for all buttons */
+.class-btn:hover {
+  transform: scale(1.1) rotate(-2deg);
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.9);
+  background-blend-mode: lighten;
+}
+
+/* Class Description */
+.class-btn .class-desc {
+  font-size: 1rem;
+  margin-top: 15px;
+  color: #fff;
+  line-height: 1.4;
+}
+
+/* Responsive */
+@media (max-width: 1280px) {
+  #class-selection-page .page-title {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+  }
+
+  .class-btn {
+    width: 200px;
+    min-height: 180px;
+    padding: 15px;
+  }
+
+  .class-btn .class-desc {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  #class-selection-page {
+    padding: 30px 10px;
+  }
+
+  .class-options {
+    gap: 20px;
+  }
+
+  .class-btn {
+    width: 180px;
+    min-height: 160px;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  #class-selection-page .page-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  .class-btn {
+    width: 150px;
+    min-height: 140px;
+    padding: 10px;
+  }
+
+  .class-btn .class-desc {
+    font-size: 0.8rem;
+  }
+}
