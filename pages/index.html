@@ -22,7 +22,7 @@
        MUTE BUTTON & BACKGROUND MUSIC
        ========================== -->
   <button id="mute-btn" aria-label="Toggle background music">🔊</button>
-  <audio id="bg-music" src="../sounds/soundtrack - remove me to turn on music.mp3" loop></audio>
+  <audio id="bg-music" src="../sounds/soundtrack.mp3" loop></audio>
 
   <!-- ==========================
        LANDING PAGE
@@ -63,44 +63,54 @@
   </div>
 </section>
 
-  <!-- ==========================
-       CLASS SELECTION PAGE
-       ========================== -->
-    <section id="class-selection-page" class="screen">
-        <h2 class="page-title">✨ What kind of Princess are you? ✨</h2>
+<section id="class-selection-page" class="screen">
+    <h2 class="page-title">✨ What kind of Princess are you? ✨</h2>
 
     <div class="class-options">
-    <button class="class-btn" data-class="Glitter Guardian">
-        Glitter Guardian
-    <p class="class-desc">Brave princess who protects unicorns with courage and magical strength.</p>
-    <img src="../images/guardian_icon.png" alt="Glitter Guardian Icon" class="hover-icon">
-    </button>
-    <button class="class-btn" data-class="Star Sage">
-        Star Sage
-        <p class="class-desc">Clever princess who uses magical knowledge to outsmart creatures and solve puzzles.</p>
-        <img src="../images/starsage_icon.png" alt="Star Sage Icon" class="hover-icon">
+        <button class="class-btn" data-class="glitterGuardian">
+            Glitter Guardian
+            <p class="class-desc">Brave princess who protects unicorns with courage and magical strength.</p>
+            <img src="../images/guardian_icon.png" alt="Glitter Guardian Icon" class="hover-icon">
         </button>
 
-  <button class="class-btn" data-class="Moonflower Healer">
-    Moonflower Healer
-    <p class="class-desc">A gentle princess who grows magical moonflowers and uses their petals and light to heal and protect.</p>
-    <img src="../images/moonflower_icon.png" alt="Moonflower Healer Icon" class="hover-icon">
-  </button>
+        <button class="class-btn" data-class="starSage">
+            Star Sage
+            <p class="class-desc">Clever princess who uses magical knowledge to outsmart creatures and solve puzzles.</p>
+            <img src="../images/starsage_icon.png" alt="Star Sage Icon" class="hover-icon">
+        </button>
 
-  <button class="class-btn" data-class="Silver Arrow">
-     Silver Arrow
-    <p class="class-desc">A brave princess who uses magical sparkling arrows to protect unicorns and guide them safely.</p>
-    <img src="../images/silver_icon.png" alt="Silver Arrow Icon" class="hover-icon">
-  </button>
+        <button class="class-btn" data-class="moonflower">
+            Moonflower
+            <p class="class-desc">A gentle princess who grows magical moonflowers and uses their petals and light to heal and protect.</p>
+            <img src="../images/moonflower_icon.png" alt="Moonflower Icon" class="hover-icon">
+        </button>
 
-    <div class ="class-text-box">
-        <h2 id="classtextheader" class="class-text">Your Journey Begins Here Princess </h2>
-        <p id="classtextscreen" class ="class-text"><br>“Every princess holds a spark of magic within her heart" </P>
+        <button class="class-btn" data-class="silverArrow">
+            Silver Arrow
+            <p class="class-desc">A brave princess who uses magical sparkling arrows to protect unicorns and guide them safely.</p>
+            <img src="../images/silver_icon.png" alt="Silver Arrow Icon" class="hover-icon">
+        </button>
     </div>
 
+    <div class="class-text-box">
+        <h2 id="classtextheader" class="class-text">Your Journey Begins Here, Princess</h2>
+        <p id="classtextscreen" class="class-text">“Every princess holds a spark of magic within her heart”</p>
+    </div>
+</section> 
+    
 
 </section>
 
+<section id="difficulty-screen" class="screen">
+  <div id="difficulty-box">
+    <h1>Choose Your Adventure's Difficulty</h1>
+    <div id="difficulty-buttons">
+      <button class="difficulty-btn" data-difficulty="easy">Easy</button>
+      <button class="difficulty-btn" data-difficulty="medium">Medium</button>
+      <button class="difficulty-btn" data-difficulty="hard">Hard</button>
+    </div>
+  </div>
+</section>
 
 
 
