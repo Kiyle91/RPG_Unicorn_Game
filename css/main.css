@@ -136,6 +136,7 @@ body {
 
 /* ------------------ Welcome Back & Crown ------------------ */
 #welcome-back {
+  display: none;  
   position: absolute;
   top: 250px;
   left: 380px;
