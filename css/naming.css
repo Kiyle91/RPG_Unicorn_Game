@@ -1,0 +1,115 @@
+/* ==============================
+   Magical Input Box
+   ============================== */
+#naming-page input[type="text"] {
+  font-family: 'Princess Sofia', cursive;
+  font-size: 2rem;
+  padding: 20px 25px;
+  border-radius: 35px;
+  border: 3px solid #ff69b4;
+  background: linear-gradient(135deg, #fff0f5, #ffe4e1, #f0f8ff);
+  color: #8a2be2;
+  text-align: left;
+  width: 60%;
+  max-width: 200px;
+  margin-bottom: 30px;
+  outline: none;
+  box-shadow: 0 0 25px rgba(255, 182, 193, 0.7);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 10;
+}
+
+/* Input Focus Animation */
+#naming-page input[type="text"]:focus {
+  border-color: #8a2be2;
+  background: linear-gradient(135deg, #ffe4e1, #f0f8ff, #fff0f5);
+  box-shadow: 0 0 50px rgba(138, 43, 226, 0.9),
+              0 0 80px rgba(255, 182, 193, 0.6);
+  animation: glowPulse 1.5s infinite alternate;
+}
+
+/* Placeholder Styling */
+#naming-page input::placeholder {
+  color: #dda0dd;
+  font-style: italic;
+  text-shadow: 1px 1px 2px #fff;
+}
+
+/* Floating Sparkles (Input & Button) */
+#naming-page input::before,
+#naming-page input::after,
+#naming-page button::before,
+#naming-page button::after {
+  content: '✨';
+  position: absolute;
+  font-size: 1.5rem;
+  opacity: 0.5;
+  animation: sparkleFloat 3s infinite;
+}
+
+/* ==============================
+   Magical Naming Page Button
+   ============================== */
+#naming-page button {
+  font-family: 'Princess Sofia', cursive;
+  font-size: 2rem;
+  padding: 20px 50px;
+  border-radius: 40px;
+  border: 3px solid #ff69b4;
+  background: linear-gradient(45deg, #ffb6c1, #dda0dd, #87cefa);
+  background-size: 400% 400%;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 5px 20px rgba(255, 182, 193, 0.7);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 10;
+  animation: shimmer 2.5s infinite alternate;
+}
+
+/* Hover Animation for Button */
+#naming-page button:hover {
+  transform: scale(1.1) rotate(-1deg);
+  box-shadow: 0 10px 40px rgba(255, 105, 180, 0.9),
+              0 0 20px rgba(138, 43, 226, 0.6);
+  background: linear-gradient(45deg, #ff69b4, #ba55d3, #00bfff);
+}
+
+/* ==============================
+   Keyframes
+   ============================== */
+@keyframes glowPulse {
+  0%   { box-shadow: 0 0 40px rgba(138, 43, 226, 0.8), 0 0 60px rgba(255, 182, 193, 0.5); }
+  100% { box-shadow: 0 0 60px rgba(138, 43, 226, 1), 0 0 100px rgba(255, 182, 193, 0.8); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes sparkleFloat {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 0.5; }
+  50%  { transform: translateY(-10px) rotate(20deg); opacity: 1; }
+  100% { transform: translateY(0) rotate(0deg); opacity: 0.5; }
+}
+
+/* ==============================
+   Princess Image
+   ============================== */
+#princess {
+  display: flex;
+  max-height: 100vh;
+  max-width: 100vh;
+  margin: 0 auto;
+}
+
+@media (max-width: 1280px) {
+  #princess {
+    
+    display: none
+
+  }
+}
+

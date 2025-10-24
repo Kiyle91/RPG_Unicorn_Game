@@ -10,6 +10,9 @@
 
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/naming.css">
+
+
 </head>
 
 <body>
@@ -18,7 +21,7 @@
        MUTE BUTTON & BACKGROUND MUSIC
        ========================== -->
   <button id="mute-btn" aria-label="Toggle background music">🔊</button>
-  <audio id="bg-music" src="../sounds/soundtrack.mp3" loop></audio>
+  <audio id="bg-music" src="../sounds/soundtrack - remove me to turn on music.mp3" loop></audio>
 
   <!-- ==========================
        LANDING PAGE
@@ -51,10 +54,13 @@
        NAMING PAGE
        ========================== -->
   <section id="naming-page" class="screen">
-    <h2>Enter Your Name</h2>
-    <input type="text" id="player-name" placeholder="Your Name">
-    <button id="name-confirm-btn">Next</button>
-  </section>
+  <img src="../images/princess.png" id="princess">
+  <div id="intro-box">
+    <h1>What is your name, brave princess?</h1>
+    <input type="text" id="player-name" placeholder="Enter your name" maxlength="12">
+    <button id="confirm-name">Next</button>
+  </div>
+</section>
 
   <!-- ==========================
        CLASS SELECTION PAGE

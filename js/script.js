@@ -60,7 +60,7 @@ const startBtn = document.getElementById('start-btn');
 startBtn.addEventListener('click', () => {
   // Example: hide landing page and show next screen
   const landingScreen = document.querySelector('#landing-page');
-  const nextScreen = document.querySelector('#class-page'); // replace with your actual screen ID
+  const nextScreen = document.querySelector('#naming-page'); // replace with your actual screen ID
 
   if (landingScreen && nextScreen) {
     landingScreen.classList.remove('active');
