@@ -1,4 +1,4 @@
-/* General screen setup */
+/* ------------------ General Screens ------------------ */
 .screen {
   display: none;
   height: 100vh;
@@ -6,6 +6,7 @@
   text-align: center;
   font-family: 'Comic Sans MS', cursive, sans-serif;
   color: #fff;
+  overflow: hidden; /* keep floating elements inside */
 }
 
 .screen.active {
@@ -17,14 +18,14 @@
   animation: rainbowBG 15s ease infinite;
 }
 
-/* Rainbow background animation */
+/* ------------------ Rainbow Background Animation ------------------ */
 @keyframes rainbowBG {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
-} 
+}
 
-/* Intro box styling */
+/* ------------------ Intro Box ------------------ */
 #intro-box {
   background: rgba(255, 255, 255, 0.8);
   border: 3px dashed #ff69b4;
@@ -33,9 +34,11 @@
   max-width: 700px;
   box-shadow: 0 0 30px rgba(255, 182, 193, 0.8);
   animation: sparkle 2s infinite alternate;
+  position: relative;
+  z-index: 5;
 }
 
-/* Sparkle animation */
+/* Sparkle Animation */
 @keyframes sparkle {
   0% { box-shadow: 0 0 30px rgba(255, 182, 193, 0.8); }
   100% { box-shadow: 0 0 60px rgba(255, 182, 193, 1); }
@@ -55,7 +58,7 @@
   line-height: 1.6;
 }
 
-/* Start button styling */
+/* Start Button */
 #start-btn {
   font-size: 2rem;
   padding: 20px 40px;
@@ -71,4 +74,64 @@
 #start-btn:hover {
   transform: scale(1.1);
   box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+/* ------------------ Floating Unicorns ------------------ */
+.unicorn {
+  position: absolute;
+  width: 100px;
+  pointer-events: none;
+  z-index: 6;
+}
+
+/* Float + rotate animations */
+@keyframes float1 {
+  0% { transform: translate(0,0) rotate(0deg); }
+  25% { transform: translate(100px,-50px) rotate(10deg); }
+  50% { transform: translate(200px,20px) rotate(-10deg); }
+  75% { transform: translate(100px,50px) rotate(15deg); }
+  100% { transform: translate(0,0) rotate(0deg); }
+}
+
+@keyframes float2 {
+  0% { transform: translate(0,0) rotate(0deg); }
+  25% { transform: translate(-80px,60px) rotate(-10deg); }
+  50% { transform: translate(-160px,-30px) rotate(15deg); }
+  75% { transform: translate(-80px,-50px) rotate(-15deg); }
+  100% { transform: translate(0,0) rotate(0deg); }
+}
+
+@keyframes float3 {
+  0% { transform: translate(0,0) rotate(0deg); }
+  25% { transform: translate(50px,40px) rotate(10deg); }
+  50% { transform: translate(100px,-20px) rotate(-10deg); }
+  75% { transform: translate(50px,-40px) rotate(15deg); }
+  100% { transform: translate(0,0) rotate(0deg); }
+}
+
+/* Assign animations to unicorns */
+#unicorn1 { top: 20%; left: 10%; animation: float1 12s ease-in-out infinite; }
+#unicorn2 { top: 50%; left: 70%; animation: float2 15s ease-in-out infinite; }
+#unicorn3 { top: 70%; left: 30%; animation: float3 10s ease-in-out infinite; }
+
+
+/* Hide unicorn2 and unicorn3 on small screens */
+@media (max-width: 768px) {
+  #unicorn2,
+  #unicorn3 {
+    display: none;
+  }
+  
+  #intro-box h1 {
+    font-size: 2rem; /* smaller heading */
+  }
+
+  #intro-box p {
+    font-size: 1rem; /* smaller paragraph */
+  }
+
+  #start-btn {
+    font-size: 1.5rem; /* smaller button text */
+    padding: 15px 30px; /* smaller padding */
+  }
 }
