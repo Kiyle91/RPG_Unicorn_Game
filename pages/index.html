@@ -1,105 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Olivia's World RPG</title>
-<link href="https://fonts.googleapis.com/css2?family=Princess+Sofia&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/main.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Olivia's World RPG</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Princess+Sofia&display=swap" rel="stylesheet">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="../css/main.css">
 </head>
 
 <body>
 
-<button id="mute-btn">🔊</button>
-<audio id="bg-music" src="../sounds/soundtrack.mp3" loop></audio>
+  <!-- ==========================
+       MUTE BUTTON & BACKGROUND MUSIC
+       ========================== -->
+  <button id="mute-btn" aria-label="Toggle background music">🔊</button>
+  <audio id="bg-music" src="../sounds/soundtrack.mp3" loop></audio>
 
-<!-- Landing Page -->
-<section id="landing-page" class="screen active">
+  <!-- ==========================
+       LANDING PAGE
+       ========================== -->
+  <section id="landing-page" class="screen active">
+    
+    <!-- Flashing Welcome Back Message -->
     <div id="welcome-back">✨ Welcome Back! ✨</div>
+
+    <!-- Floating Unicorns -->
     <img src="../images/float_one.png" alt="Unicorn 1" class="unicorn" id="unicorn1">
     <img src="../images/float_two.png" alt="Unicorn 2" class="unicorn" id="unicorn2">
     <img src="../images/float_three.png" alt="Unicorn 3" class="unicorn" id="unicorn3">
-    <img src="../images/crown.png" alt ="crown" id ="crown">
-    
 
-  
-  <div id="intro-box">
-    <h1>The Brave Princess and the Unicorn V1.0</h1>
-    <p>Welcome, brave adventurer, to a land of sparkling forests, rainbow rivers, and skies alive with unicorns! Solve clever puzzles, uncover treasures, and let your story unfold.</p>
-    <button id="start-btn">Start Adventure</button>
-    <p id="disclaimer"><br>⚠️ This game is for **demonstration and practice purposes only**. It’s a learning project and not intended for real-world use. Created by Kiyle Edwards for Olivia Edwards</p>
-  </div>
-</section>
+    <!-- Crown decoration -->
+    <img src="../images/crown.png" alt="Crown" id="crown">
 
-<!-- Naming Page -->
-<section id="naming-page" class="screen">
-  <h2>Enter Your Name</h2>
-  <input type="text" id="player-name" placeholder="Your Name">
-  <button id="name-confirm-btn">Next</button>
-</section>
+    <!-- Intro Box -->
+    <div id="intro-box">
+      <h1>The Brave Princess and the Unicorn V1.0</h1>
+      <p>Welcome, brave adventurer, to a land of sparkling forests, rainbow rivers, and skies alive with unicorns! Solve clever puzzles, uncover treasures, and let your story unfold.</p>
+      <button id="start-btn">Start Adventure</button>
+      <p id="disclaimer">
+        <br>⚠️ This game is for <strong>demonstration and practice purposes only</strong>. It’s a learning project and not intended for real-world use. Created by Kiyle Edwards for Olivia Edwards.
+      </p>
+    </div>
+  </section>
 
-<!-- Naming Page -->
-<section id="naming-page" class="screen">
+  <!-- ==========================
+       NAMING PAGE
+       ========================== -->
+  <section id="naming-page" class="screen">
     <h2>Enter Your Name</h2>
     <input type="text" id="player-name" placeholder="Your Name">
     <button id="name-confirm-btn">Next</button>
-</section>
+  </section>
 
-<!-- Class Selection Page -->
-<section id="class-page" class="screen">
+  <!-- ==========================
+       CLASS SELECTION PAGE
+       ========================== -->
+  <section id="class-page" class="screen">
     <h2>Choose Your Class</h2>
     <button class="class-btn" data-class="Warrior">Warrior</button>
     <button class="class-btn" data-class="Mage">Mage</button>
     <button class="class-btn" data-class="Healer">Healer</button>
     <button id="class-confirm-btn">Confirm</button>
-</section>
+  </section>
 
-<!-- Difficulty Page -->
-<section id="difficulty-page" class="screen">
+  <!-- ==========================
+       DIFFICULTY PAGE
+       ========================== -->
+  <section id="difficulty-page" class="screen">
     <h2>Select Difficulty</h2>
     <button class="difficulty-btn" data-difficulty="Easy">Easy</button>
     <button class="difficulty-btn" data-difficulty="Medium">Medium</button>
     <button class="difficulty-btn" data-difficulty="Hard">Hard</button>
     <button id="difficulty-confirm-btn">Confirm</button>
-</section>
+  </section>
 
-<!-- Story Page -->
-<section id="story-page" class="screen">
+  <!-- ==========================
+       STORY PAGE
+       ========================== -->
+  <section id="story-page" class="screen">
     <div id="story-text">Welcome to Olivia's World!</div>
     <button id="story-continue-btn">Continue</button>
-</section>
+  </section>
 
-<!-- Battle Page -->
-<section id="battle-page" class="screen">
+  <!-- ==========================
+       BATTLE PAGE
+       ========================== -->
+  <section id="battle-page" class="screen">
     <h2>Battle!</h2>
     <div id="battle-info">
-        <p id="player-hp">HP: 100</p>
-        <p id="enemy-hp">Enemy HP: 100</p>
+      <p id="player-hp">HP: 100</p>
+      <p id="enemy-hp">Enemy HP: 100</p>
     </div>
     <div id="battle-actions">
-        <button class="battle-btn" data-action="attack">Attack</button>
-        <button class="battle-btn" data-action="spell">Spell</button>
-        <button class="battle-btn" data-action="heal">Heal</button>
-        <button class="battle-btn" data-action="flee">Flee</button>
+      <button class="battle-btn" data-action="attack">Attack</button>
+      <button class="battle-btn" data-action="spell">Spell</button>
+      <button class="battle-btn" data-action="heal">Heal</button>
+      <button class="battle-btn" data-action="flee">Flee</button>
     </div>
     <div id="math-challenge"></div>
-</section>
+  </section>
 
-<!-- Game Over Page -->
-<section id="gameover-page" class="screen">
+  <!-- ==========================
+       GAME OVER PAGE
+       ========================== -->
+  <section id="gameover-page" class="screen">
     <h2>Game Over</h2>
     <button id="retry-btn">Return to Class Menu</button>
-</section>
+  </section>
 
-<!-- Scripts -->
-<script src="../js/script.js"></script>
-<script src="../js/landing.js"></script>
-<script src="../js/naming.js"></script>
-<script src="../js/class_selection.js"></script>
-<script src="../js/difficulty.js"></script>
-<script src="../js/story.js"></script>
-<script src="../js/battle.js"></script>
-<script src="../js/gameover.js"></script>
+  <!-- ==========================
+       SCRIPTS
+       ========================== -->
+  <script src="../js/script.js"></script>
+  <script src="../js/landing.js"></script>
+  <script src="../js/naming.js"></script>
+  <script src="../js/class_selection.js"></script>
+  <script src="../js/difficulty.js"></script>
+  <script src="../js/story.js"></script>
+  <script src="../js/battle.js"></script>
+  <script src="../js/gameover.js"></script>
 
 </body>
 </html>
