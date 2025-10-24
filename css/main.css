@@ -41,7 +41,7 @@ body {
 #intro-box {
   background: rgba(255, 255, 255, 0.8);
   padding: 30px 40px 50px 40px;
-  border: 3px dashed #ff69b4;
+  border: none;
   border-radius: 30px;
   margin: 0;
   padding: 50px 40px;
@@ -60,7 +60,9 @@ body {
 }
 
 #intro-box h1 {
-  font-size: 3rem;
+  font-size: 4rem;
+  font: weight 900px;
+  font-family: 'Princess Sofia', cursive;
   margin: 0 0 25px 0;
   color: #ff69b4;
   text-shadow: 2px 2px 8px #fff;
@@ -97,7 +99,7 @@ body {
 /* ------------------ Floating Unicorns ------------------ */
 .unicorn {
   position: absolute;
-  width: 100px;
+  width: 150px;
   pointer-events: none;
   z-index: 6;
 }
@@ -161,4 +163,38 @@ body {
   text-align: center;
   margin-top: 20px;
   font-style: italic;
+}
+
+.fairy-dust {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background: radial-gradient(circle, #fff 0%, #ffb6c1 60%, transparent 100%);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  animation: swirl 1.5s linear forwards;
+  z-index: 2000;
+
+  /* GPU acceleration */
+  transform: translate3d(0,0,0);
+  will-change: transform, opacity;
+}
+
+@keyframes swirl {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  30% {
+    transform: translate3d(calc(20px * var(--dir-x)), calc(-20px * var(--dir-y)), 0) rotate(90deg) scale(1.3);
+  }
+  60% {
+    transform: translate3d(calc(60px * var(--dir-x)), calc(-60px * var(--dir-y)), 0) rotate(180deg) scale(0.8);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate3d(calc(100px * var(--dir-x)), calc(-100px * var(--dir-y)), 0) rotate(360deg) scale(0);
+    opacity: 0;
+  }
 }
