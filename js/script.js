@@ -1,24 +1,67 @@
-// Universal fairy dust effect
+/* ------------------ FAIRY DUST PARTICLES ------------------ */
+const particlePool = [];
+const maxParticles = 100;
+let nextParticle = 0;
+
+// create particle pool once
+for (let i = 0; i < maxParticles; i++) {
+  const p = document.createElement('div');
+  p.classList.add('fairy-dust');
+  document.body.appendChild(p);
+  particlePool.push(p);
+}
+
+// click anywhere to trigger particles
 document.addEventListener('click', (e) => {
-  const numParticles = 30;
+  for (let i = 0; i < 30; i++) {
+    const particle = particlePool[nextParticle];
+    nextParticle = (nextParticle + 1) % maxParticles;
 
-  for (let i = 0; i < numParticles; i++) {
-    const particle = document.createElement('div');
-    particle.classList.add('fairy-dust');
+    // reset particle
+    particle.style.opacity = 1;
+    particle.style.transform = 'translate3d(0,0,0) scale(1)';
 
-    // Random swirl direction
-    const dirX = Math.random() * 2 - 1;
-    const dirY = Math.random() * 2 - 1;
-    particle.style.setProperty('--dir-x', dirX);
-    particle.style.setProperty('--dir-y', dirY);
+    // random swirl direction
+    particle.style.setProperty('--dir-x', Math.random() * 2 - 1);
+    particle.style.setProperty('--dir-y', Math.random() * 2 - 1);
 
-    // Position at click
+    // position at click
     particle.style.left = `${e.clientX}px`;
     particle.style.top = `${e.clientY}px`;
 
-    document.body.appendChild(particle);
+    // restart animation
+    particle.classList.remove('swirl');
+    void particle.offsetWidth; // force reflow
+    particle.classList.add('swirl');
+  }
+});
 
-    // Remove after animation
-    setTimeout(() => particle.remove(), 1500);
+/* ------------------ BACKGROUND MUSIC & MUTE ------------------ */
+const bgMusic = document.getElementById('bg-music');
+const muteBtn = document.getElementById('mute-btn');
+
+let isMuted = false;
+let musicStarted = false;
+
+// autoplay-safe: start music on first click if not muted
+document.addEventListener('click', function startMusic() {
+  if (!musicStarted && !isMuted) {
+    bgMusic.play().catch(() => console.log("Autoplay blocked"));
+    musicStarted = true;
+  }
+});
+
+// mute/unmute button
+muteBtn.addEventListener('click', () => {
+  if (isMuted) {
+    // Unmute / play
+    bgMusic.play().catch(() => console.log("Autoplay blocked"));
+    muteBtn.textContent = "🔊";
+    isMuted = false;
+  } else {
+    // Mute / pause
+    bgMusic.pause();
+    muteBtn.textContent = "🔇";
+    isMuted = true;
   }
 });
