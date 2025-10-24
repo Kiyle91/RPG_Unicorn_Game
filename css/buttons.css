@@ -1,5 +1,13 @@
-/* Testing CSS */
-body {
-    background-color: yellow !important;  /* easy to see */
- 
+button {
+    font-family: 'Comic Sans MS', cursive;
+    padding: 15px 30px;
+    margin: 10px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    transform: scale(1.1);
 }
