@@ -23,7 +23,7 @@ body {
   align-items: center;
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa, #fffacd);
   background-size: 400% 400%;
-  animation: rainbowBG 15s ease infinite;
+  animation: rainbowBG 5s ease infinite;
   padding: 20px;           /* space around edges */
   width: 100%;            /* full width of window */
   height: 100vh;                    /* center horizontally */
@@ -91,6 +91,9 @@ body {
   box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
+
+
+
 /* ------------------ Floating Unicorns ------------------ */
 .unicorn {
   position: absolute;
@@ -150,4 +153,12 @@ body {
     padding: 15px 30px; /* smaller padding */
   
     }
+}
+
+#intro-box #disclaimer {
+  font-size: 0.9rem;
+  color: #ff69b4;
+  text-align: center;
+  margin-top: 20px;
+  font-style: italic;
 }
