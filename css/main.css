@@ -136,7 +136,13 @@ body {
 
 
 /* Hide unicorn2 and unicorn3 on small screens */
-@media (max-width: 768px) {
+@media (max-width: 1280px) {
+
+
+
+  #welcome-back {
+    display: none;}
+
   #unicorn2,
   #unicorn3 {
     display: none;
@@ -153,8 +159,19 @@ body {
   #start-btn {
     font-size: 1.5rem; /* smaller button text */
     padding: 15px 30px; /* smaller padding */
-  
     }
+
+  #crown {
+    display: none;
+  }      
+
+  
+
+#mute-btn:hover {
+  transform: scale(1.2);
+  background: linear-gradient(135deg, #ff69b4, #ba55d3, #00bfff);
+}
+  
 }
 
 #intro-box #disclaimer {
@@ -199,17 +216,50 @@ body {
   }
 }
 
+
+
+
+
+
+#welcome-back {
+  position: absolute;
+  top: 120px;
+  left:360px;
+  rotate: 45deg;
+  width: 100%;
+  text-align: center;
+  font-family: 'Princess Sofia', cursive;
+  font-size: 3rem;
+  color: #ff69b4;
+  text-shadow: 2px 2px 10px #fff;
+  animation: flash 1.5s infinite alternate;
+  z-index: 10;
+}
+
+/* Flashing effect */
+@keyframes flash {
+  0% { opacity: 0.5; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1.05); }
+  100% { opacity: 0.5; transform: scale(0.95); }
+}
+
+#crown {
+    position: absolute;
+    height: 100vh;
+
+}
+
 #mute-btn {
   position: absolute; /* top-right inside the screen */
-  top: 15px;
-  right: 15px;
+  top: 30px;
+  right: 30px;
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
   color: white;
-  font-size: 1.5rem;
+  font-size: 3rem;
   border: none;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 100px;
+  height: 100px;
   cursor: pointer;
   box-shadow: 0 4px 8px rgba(0,0,0,0.3);
   display: flex;
@@ -222,4 +272,47 @@ body {
 #mute-btn:hover {
   transform: scale(1.2);
   background: linear-gradient(135deg, #ff69b4, #ba55d3, #00bfff);
+}
+
+
+#mute-btn {
+  position: absolute; /* top-right inside the screen */
+  top: 30px;
+  right: 30px;
+  background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
+  color: white;
+  font-size: 2rem;        /* default size */
+  border: none;
+  border-radius: 50%;
+  width: 70px;               /* clickable size */
+  height: 70px;              /* clickable size */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: transform 0.2s, background 0.3s;
+  z-index: 1000;
+}
+
+#mute-btn:hover {
+  transform: scale(1.2);
+  background: linear-gradient(135deg, #ff69b4, #ba55d3, #00bfff);
+}
+
+/* Responsive scaling for smaller devices */
+@media (max-width: 768px) {
+  #mute-btn {
+    width: 40px;        /* slightly smaller for mobile */
+    height: 40px;
+    font-size: 1rem;    /* reduce text size */
+  }
+}
+
+@media (max-width: 480px) {
+  #mute-btn {
+    width: 35px;        /* extra small screens */
+    height: 35px;
+    font-size: 0.9rem;
+  }
 }

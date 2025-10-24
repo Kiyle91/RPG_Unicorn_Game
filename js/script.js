@@ -1,6 +1,6 @@
 // Universal fairy dust effect
 document.addEventListener('click', (e) => {
-  const numParticles = 30;
+  const numParticles = 100;
 
   for (let i = 0; i < numParticles; i++) {
     const particle = document.createElement('div');
@@ -22,6 +22,8 @@ document.addEventListener('click', (e) => {
     setTimeout(() => particle.remove(), 1500);
   }
 });
+
+// Background music with mute/unmute
 
 const bgMusic = document.getElementById('bg-music');
 let musicStarted = false;
