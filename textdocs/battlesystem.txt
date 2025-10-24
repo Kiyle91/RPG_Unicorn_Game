@@ -1,0 +1,111 @@
+═══════════════════════════════════════════════════════════════
+           ★  RPG BATTLE SYSTEM – OLIVIA’S WORLD  ★
+═══════════════════════════════════════════════════════════════
+
+CLASSES & LEVELING
+────────────────
+• WARRIOR → Melee-focused, faster HP and melee level-up  
+• MAGE → Spell-focused, faster mana and spell level-up  
+• HEALER → Moderate melee, healing focus (more efficient heals)  
+
+───────────────────────────────────────────────────────────────
+BATTLE FLOW
+───────────────────────────────────────────────────────────────
+① INITIATIVE ROLL  
+   • Determines who attacks first (player or enemy).  
+
+② ENEMY ATTACK PHASE  
+   • Enemy attacks.  
+   • Player can *parry* by answering a math question within a time limit.  
+
+③ PLAYER TURN OPTIONS  
+   • **Attack / Spell / Heal:**  
+        → Chance for critical damage (x2) if math question answered correctly.  
+        → Otherwise, normal damage or healing is applied.  
+   • **Flee:** Returns to class menu.  
+
+④ LOOP CONDITION  
+   • Continues until:  
+        → Enemy HP = 0 → Victory  
+        → Player HP = 0 → Game Over  
+
+───────────────────────────────────────────────────────────────
+GAME OVER
+───────────────────────────────────────────────────────────────
+• Display “Game Over” text.  
+• Continue button → Returns to class menu.  
+
+───────────────────────────────────────────────────────────────
+SPECIAL BATTLE MECHANIC – “OPTIONAL PASS”
+───────────────────────────────────────────────────────────────
+• Player can skip a math question when prompted.  
+• **Availability Rules:**  
+     → Can only be used after every 3 correct answers.  
+     → Track count until skip ability recharges.  
+     → Player can use up to 5 total passes per game.  
+
+───────────────────────────────────────────────────────────────
+DIFFICULTY SCALING
+───────────────────────────────────────────────────────────────
+• **EASY** → Simpler math questions, lower enemy HP.  
+• **MEDIUM** → Moderate difficulty and HP.  
+• **HARD** → Complex math challenges, stronger enemies.  
+
+───────────────────────────────────────────────────────────────
+BOSS FIGHT – “THE EVIL SORCERER” 🧙‍♂️✨
+───────────────────────────────────────────────────────────────
+
+STORY INTEGRATION
+   • The boss fight concludes the tutorial and acts as the story climax.  
+   • Storyline example:  
+     “The evil sorcerer has captured the unicorn! Defeat him to save your friend!”  
+   • Introduced on a story page with suspenseful animations before the battle.  
+
+BOSS STATS & MECHANICS
+   • HP: ~150 (significantly higher than normal enemies).  
+   • Attack Type: Mix of melee and magic.  
+   • Special Moves:
+        → Fireball (magic attack)  
+        → Dark Swipe (heavy melee strike)  
+   • Turn Mechanics:
+        → Boss attacks every turn.  
+        → Occasionally uses special attack for added challenge.  
+   • Visual Effects: Flashing glow, larger character sprite, sparkles, and shadow aura.  
+
+BATTLE FLOW (BOSS)
+   1. **Player Turn**
+        → Attack / Spell / Heal / Flee  
+        → Math questions still apply for critical hits.  
+        → Skip ability available if previously earned.  
+   2. **Boss Turn**
+        → Random attack or special move.  
+   3. **Victory**
+        → Boss defeated animation triggers.  
+        → Story concludes with victory dialogue.  
+        → Player earns their first badge or reward for completing the tutorial.  
+
+BOSS FIGHT ANIMATIONS
+   • **Entrance:** Dramatic fade-in, large shadow, glowing eyes.  
+   • **Attacks:**  
+        → Fireball: Magic projectile animation.  
+        → Melee: Large slash GIF with flash effect.  
+   • **Critical Hits:** Comic-style “BAM!” overlay and screen shake.  
+   • **Victory:** Confetti explosion, unicorn flies in, rainbow sparkle animation.  
+   • **Defeat:** Soft fade to black with playful “Try Again!” message.  
+
+IMPLEMENTATION TIPS
+   • Create separate **boss.css** and **boss.js** files for modular structure.  
+   • Use a *flag variable* so the tutorial boss triggers only once.  
+   • Add collectibles or stars as post-battle rewards.  
+   • Keep assets light — use SVGs, Lotties, or compressed GIFs for animation.  
+
+───────────────────────────────────────────────────────────────
+NOTES
+───────────────────────────────────────────────────────────────
+• Keep combat logic modular for easy balancing and testing.  
+• Math challenge difficulty scales with selected difficulty mode.  
+• Encourage replay value through random math questions and optional rewards.  
+
+═══════════════════════════════════════════════════════════════
+END OF BATTLE SYSTEM ✨
+═══════════════════════════════════════════════════════════════

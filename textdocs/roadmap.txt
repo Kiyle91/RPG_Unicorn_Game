@@ -1,0 +1,122 @@
+═══════════════════════════════════════════════════════════════
+            ★  RPG GAME DESIGN ROADMAP – OLIVIA’S WORLD  ★
+═══════════════════════════════════════════════════════════════
+
+PROJECT OVERVIEW
+────────────────
+• Repository: GitHub  
+• Environment: Visual Studio  
+• Technologies: HTML, CSS, JavaScript  
+• Game Type: Text-based RPG (Ages 5+)  
+• Theme: Brave Princess ✨ Unicorn Adventure  
+
+───────────────────────────────────────────────────────────────
+GAME FLOW
+───────────────────────────────────────────────────────────────
+
+① LANDING PAGE / WELCOME SCREEN
+   • Displays the game title  
+   • “Start” button → Leads to Naming Page  
+
+② NAMING PAGE
+   • Player enters their name  
+   • Confirm / Next button  
+   • Name displayed at the top of all following screens  
+
+③ CLASS SELECTION PAGE
+   • Classes:
+       → Warrior  
+       → Mage  
+       → Healer  
+   • Selected class appears in a top-left info box  
+
+④ DIFFICULTY SELECTION PAGE
+   • Options: Easy / Medium / Hard  
+   • Affects:
+       → Enemy HP  
+       → Math challenge difficulty in battles  
+
+⑤ STORY PAGES
+   • Series of short, storybook-style pages  
+   • “Continue” button to progress the adventure  
+
+───────────────────────────────────────────────────────────────
+BATTLE SYSTEM
+───────────────────────────────────────────────────────────────
+
+CLASSES & LEVELING
+   • WARRIOR → Melee focus, faster HP and melee level-up  
+   • MAGE → Spell focus, faster mana and spell level-up  
+   • HEALER → Balanced melee, efficient healing  
+
+BATTLE FLOW
+   1. Initiative roll – determines who attacks first  
+   2. Enemy attacks – player can *parry* with a math answer  
+   3. Player’s turn:
+       → Attack / Spell / Heal  
+       → Critical hit (x2) if math question answered correctly  
+       → “Flee” returns to class menu  
+   4. Loop until:
+       → Enemy HP = 0 → Victory  
+       → Player HP = 0 → Game Over  
+
+GAME OVER
+   • Display “Game Over”  
+   • Continue → returns to Class Menu  
+
+SPECIAL MECHANIC – “PASS”
+   • Skip a math question once every 3 correct answers  
+   • Max 5 total passes per playthrough  
+
+───────────────────────────────────────────────────────────────
+BOSS BATTLE – “THE SHADOW UNICORN” 🌑🦄
+───────────────────────────────────────────────────────────────
+• Occurs after the final story section, before the exit page  
+• A powerful dark unicorn appears, testing all learned skills  
+
+BOSS FEATURES
+   • Multi-phase fight with increased HP and harder math questions  
+   • Uses both melee and magic attacks  
+   • Occasionally reverses player healing (turns it into damage)  
+   • Unlocks special dialogue lines based on player’s class  
+   • On victory:
+       → Screen transition to bright light / rainbow animation  
+       → Reward: “Heart of Light” crystal item  
+       → Leads directly into the ending scene  
+
+BOSS STRATEGY NOTES
+   • Player’s math accuracy and timing heavily influence damage  
+   • Mage gains advantage with critical spell bursts  
+   • Healer benefits from efficient recovery timing  
+   • Warrior relies on parry consistency and raw strength  
+
+───────────────────────────────────────────────────────────────
+STORY PROGRESSION & ENDING
+───────────────────────────────────────────────────────────────
+• Story continues between battles  
+• Final chapter leads into the Boss Fight  
+• Upon victory:
+     → Display celebration / rainbow animation  
+     → NPCs cheer and fade to ending screen  
+• Ending page includes:
+     → “Congratulations, Hero!” message  
+     → Option: Return to Title Screen or Exit Game  
+
+───────────────────────────────────────────────────────────────
+DEVELOPMENT NOTES
+───────────────────────────────────────────────────────────────
+• Keep code modular and easy to expand  
+• Folder structure:
+     /images  
+     /sounds  
+     /assets  
+• Git branching strategy:
+     → main (stable)  
+     → dev (development)  
+     → feature/* (new features)  
+• Math difficulty scales with game difficulty  
+• Boss battle uses adaptive math based on player performance  
+
+═══════════════════════════════════════════════════════════════
+END OF ROADMAP ✨
+═══════════════════════════════════════════════════════════════
