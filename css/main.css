@@ -1,22 +1,74 @@
-/* Global Styles */
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Comic Sans MS', cursive;
-    background: url('../images/unicorn.jpg') no-repeat center center fixed;
-    background-size: cover;
-    color: #fff;
-}
-
+/* General screen setup */
 .screen {
-    display: none;
-    text-align: center;
-    padding: 50px 20px;
-    min-height: 100vh;
+  display: none;
+  height: 100vh;
+  width: 100vw;
+  text-align: center;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  color: #fff;
 }
 
 .screen.active {
-    display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa, #fffacd);
+  background-size: 400% 400%;
+  animation: rainbowBG 15s ease infinite;
 }
 
+/* Rainbow background animation */
+@keyframes rainbowBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+} 
 
+/* Intro box styling */
+#intro-box {
+  background: rgba(255, 255, 255, 0.8);
+  border: 3px dashed #ff69b4;
+  border-radius: 30px;
+  padding: 50px 40px;
+  max-width: 700px;
+  box-shadow: 0 0 30px rgba(255, 182, 193, 0.8);
+  animation: sparkle 2s infinite alternate;
+}
+
+/* Sparkle animation */
+@keyframes sparkle {
+  0% { box-shadow: 0 0 30px rgba(255, 182, 193, 0.8); }
+  100% { box-shadow: 0 0 60px rgba(255, 182, 193, 1); }
+}
+
+#intro-box h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  color: #ff69b4;
+  text-shadow: 2px 2px 8px #fff;
+}
+
+#intro-box p {
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+  color: #8a2be2;
+  line-height: 1.6;
+}
+
+/* Start button styling */
+#start-btn {
+  font-size: 2rem;
+  padding: 20px 40px;
+  background: linear-gradient(45deg, #ffb6c1, #dda0dd, #87cefa);
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#start-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
