@@ -15,10 +15,10 @@
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa, #fffacd);
   background-size: 400% 400%;
   animation: rainbowBG 5s ease infinite;
+  /* allow hover icons to appear outside the button area while still
+    permitting vertical scrolling */
+  overflow: visible;
   overflow-y: auto;
-  
-
-  
 }
 
 /* Page Title */
@@ -152,5 +152,72 @@
 
   .class-btn .class-desc {
     font-size: 0.8rem;
+  }
+}
+
+/* ==============================
+   Hover Icon Animation (Fixed for mobile)
+   ============================== */
+.class-btn {
+  position: relative;
+  overflow: visible; /* allows icons to appear outside */
+  margin-bottom: 90px; /* adds space for hover icon */
+}
+
+/* Hidden by default */
+.class-btn .hover-icon {
+  position: absolute;
+  bottom: -70px; /* sits just below button */
+  left: 50%;
+  transform: translateX(-50%) scale(0.5);
+  opacity: 0;
+  width: 90px;
+  height: 90px;
+  pointer-events: none;
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease,
+    filter 0.4s ease;
+  filter: drop-shadow(0 0 10px rgba(255,255,255,0.6));
+  z-index: 5; /* ensures it's above other buttons */
+}
+
+/* When button hovered, icon pops up magically */
+.class-btn:hover .hover-icon {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-15px) scale(1);
+  filter: drop-shadow(0 0 20px rgba(255,255,255,1));
+  animation: hoverPop 0.6s ease;
+}
+
+/* Optional subtle bounce */
+@keyframes hoverPop {
+  0%   { transform: translateX(-50%) translateY(20px) scale(0.3); opacity: 0; }
+  60%  { transform: translateX(-50%) translateY(-10px) scale(1.15); opacity: 1; }
+  100% { transform: translateX(-50%) translateY(-15px) scale(1); opacity: 1; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .class-btn {
+    margin-bottom: 70px;
+  }
+
+  .class-btn .hover-icon {
+    bottom: -60px;
+    width: 70px;
+    height: 70px;
+  }
+}
+
+@media (max-width: 480px) {
+  .class-btn {
+    margin-bottom: 60px;
+  }
+
+  .class-btn .hover-icon {
+    bottom: -50px;
+    width: 60px;
+    height: 60px;
   }
 }
