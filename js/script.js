@@ -42,32 +42,36 @@ document.addEventListener('click', () => {
 
 // ------------------ Mute / Unmute Button ------------------
 const muteBtn = document.getElementById('mute-btn');
-
-muteBtn.addEventListener('click', () => {
-  if (bgMusic.paused) {
-    bgMusic.play();
-    muteBtn.textContent = "🔊";
-  } else {
-    bgMusic.pause();
-    muteBtn.textContent = "🔇";
-  }
-});
+if (muteBtn) {
+  muteBtn.addEventListener('click', () => {
+    if (bgMusic.paused) {
+      bgMusic.play();
+      muteBtn.textContent = "🔊";
+    } else {
+      bgMusic.pause();
+      muteBtn.textContent = "🔇";
+    }
+  });
+}
 
 
 // ------------------ Start Button Listener ------------------
 const startBtn = document.getElementById('start-btn');
+if (startBtn) {
+  startBtn.addEventListener('click', () => {
+    const landingScreen = document.querySelector('#landing-page');
+    const nextScreen = document.querySelector('#naming-page');
 
-startBtn.addEventListener('click', () => {
-  // Example: hide landing page and show next screen
-  const landingScreen = document.querySelector('#landing-page');
-  const nextScreen = document.querySelector('#naming-page'); // replace with your actual screen ID
+    if (landingScreen && nextScreen) {
+      // toggle visibility via classes (keeps CSS in charge)
+      landingScreen.classList.remove('active');
+      nextScreen.classList.add('active');
 
-  if (landingScreen && nextScreen) {
-    landingScreen.classList.remove('active');
-    landingScreen.style.display = 'none';
-    nextScreen.classList.add('active');
-  }
+      // move keyboard focus to first focusable element in the next screen
+      const focusable = nextScreen.querySelector('input, button, [tabindex]:not([tabindex="-1"])');
+      if (focusable) focusable.focus();
+    }
 
-  // You can also trigger other startup logic here
-  console.log("Start button clicked! Game starting...");
-});
+    console.log("Start button clicked! Game starting...");
+  });
+}
