@@ -51,6 +51,7 @@
 #explore-nav .nav-btn {
   all: unset; /* 🚨 resets every inherited property */
   display: inline-block;
+  top: 3.5%;
   font-family: 'Comic Sans MS', cursive;
   font-size: 1.3rem;
   text-align: center;
@@ -83,3 +84,42 @@
   transform: scale(1.05);
 }
 
+/* ============================================================
+   💖 PLAYER HP BAR – FLOATING BELOW NAV
+   ============================================================ */
+
+#player-hp-container {
+  position: absolute;
+  bottom: 3.5%;                    /* just beneath nav bar */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 25vw;                        /* nice compact width */
+  height: 25px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 105, 180, 0.7);
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(255, 182, 193, 0.6);
+  overflow: hidden;
+  z-index: 9999;                      /* just below nav */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px);
+}
+
+#player-hp-bar {
+  height: 100%;
+  width: 100%;                        /* will change dynamically */
+  background: linear-gradient(90deg, #ff69b4, #ffb6c1, #fffacd);
+  border-radius: 15px;
+  transition: width 0.4s ease-in-out;
+}
+
+#player-hp-text {
+  position: absolute;
+  color: #fff;
+  font-family: 'Comic Sans MS', cursive;
+  font-size: 1rem;
+  text-shadow: 0 0 8px #ff69b4;
+  pointer-events: none;
+}

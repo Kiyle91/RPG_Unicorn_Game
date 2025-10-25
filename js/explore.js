@@ -1,18 +1,23 @@
 /* ============================================================
-   EXPLORE.JS – FULL-SCREEN GRID MAP + SMOOTH MOVEMENT
+   EXPLORE.JS – FULL-SCREEN GRID MAP + SMOOTH MOVEMENT + HP
    ============================================================ */
 
 document.addEventListener("DOMContentLoaded", () => {
   const canvas = document.getElementById("explore-canvas");
-  if (!canvas) return;
+  if (!canvas) {
+    console.warn("🟡 Explore canvas not found yet.");
+    return;
+  }
+
   const ctx = canvas.getContext("2d");
 
   /* ============================================================
      AUTO-SIZE CANVAS TO SCREEN
   ============================================================ */
   function resizeCanvas() {
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
   }
   resizeCanvas();
   window.addEventListener("resize", resizeCanvas);
@@ -20,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ============================================================
      GRID MAP SETTINGS
   ============================================================ */
-  const tileSize = 50; // 🔧 Adjust tile size here for scale
+  const tileSize = 20; // 🔧 Adjust for grid density (20 = small squares)
 
   function getMapSize() {
     const cols = Math.ceil(canvas.width / tileSize);
@@ -34,9 +39,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const player = {
     x: canvas.width / 2,
     y: canvas.height / 2,
-    size: 30,
+    size: 15,
     color: "#ff69b4",
-    speed: 4,
+    speed: 3,
+    hp: 100,
+    maxHp: 100,
   };
 
   const keys = {};
@@ -81,6 +88,9 @@ document.addEventListener("DOMContentLoaded", () => {
     requestAnimationFrame(update);
   }
 
+  /* ============================================================
+     DRAW PLAYER + UI
+  ============================================================ */
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawMap();
@@ -90,6 +100,22 @@ document.addEventListener("DOMContentLoaded", () => {
     ctx.beginPath();
     ctx.arc(player.x, player.y, player.size / 2, 0, Math.PI * 2);
     ctx.fill();
+
+    // Update player HP UI if it exists
+    updateHPBar();
+  }
+
+  /* ============================================================
+     PLAYER HP UI HANDLER
+  ============================================================ */
+  function updateHPBar() {
+    const hpBar = document.getElementById("player-hp-bar");
+    const hpText = document.getElementById("player-hp-text");
+    if (!hpBar || !hpText) return;
+
+    const hpPercent = (player.hp / player.maxHp) * 100;
+    hpBar.style.width = `${hpPercent}%`;
+    hpText.textContent = `HP: ${player.hp} / ${player.maxHp}`;
   }
 
   /* ============================================================
@@ -102,16 +128,6 @@ document.addEventListener("DOMContentLoaded", () => {
     update();
   }
 
-  // Expose globally so showScreen() can call it
+  // Expose globally for showScreen() controller
   window.startExploreGame = startExploreGame;
 });
-
-
-// Set canvas resolution to match its display size (16:9 ratio)
-function resizeCanvas() {
-  const rect = canvas.getBoundingClientRect();
-  canvas.width = rect.width;
-  canvas.height = rect.height;
-}
-resizeCanvas();
-window.addEventListener("resize", resizeCanvas);
