@@ -19,6 +19,8 @@ body {
   overflow: hidden;
 }
 
+
+
 /* Theme variables - tweak these to scale the UI */
 :root {
   --h1-size: 4rem;
@@ -45,7 +47,6 @@ body {
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa, #fffacd);
   background-size: 400% 400%;
   animation: rainbowBG 5s ease infinite;
-  padding: 20px;
   width: 100%;
   height: 100vh;
   box-sizing: border-box;
@@ -141,10 +142,13 @@ button:focus,
 
 /* ------------------ Floating Unicorns ------------------ */
 .unicorn {
-  position: absolute;
-  width: 150px;
+  position: fixed;
+  object-fit: contain;
+  width: 15vw;
+  height: 15vh;
   pointer-events: none;
   z-index: 6;
+  
 }
 
 @keyframes float1 {
@@ -171,25 +175,11 @@ button:focus,
   100% { transform: translate(0,0) rotate(0deg); }
 }
 
-#unicorn1 { top: 20%; left: 10%; animation: float1 12s ease-in-out infinite; }
-#unicorn2 { top: 50%; left: 70%; animation: float2 15s ease-in-out infinite; }
-#unicorn3 { top: 70%; left: 30%; animation: float3 10s ease-in-out infinite; }
+#unicorn1 { top: 20%; left: 10%; animation: float1 12s linear infinite; }
+#unicorn2 { top: 50%; left: 70%; animation: float2 15s linear infinite; }
+#unicorn3 { top: 70%; left: 30%; animation: float3 10s linear infinite; }
 
 /* ------------------ Welcome Back & Crown ------------------ */
-#welcome-back {
-  display: none;  
-  position: absolute;
-  rotate: 35deg;
-  width: 100vw;
-  height: 100vh;
-  text-align: center;
-  font-family: 'Princess Sofia', cursive;
-  font-size: 2rem;
-  color: #ff69b4;
-  text-shadow: 2px 2px 10px #fff;
-  animation: flash 1.5s infinite alternate;
-  z-index: 10;
-}
 
 @keyframes flash {
   0% { opacity: 0.5; transform: scale(0.95); }
@@ -199,8 +189,8 @@ button:focus,
 
 #crown {
   position: absolute;
-  height: 100vh;
-  width: 80vw;
+  height: 50vh;
+  width: 40vw;
 }
 
 /* ------------------ Mute Button ------------------ */
@@ -254,12 +244,16 @@ button:focus,
 
 /* ------------------ Responsive ------------------ */
 @media (max-width: 1280px) {
-  #welcome-back,
-  #unicorn2,
-  #unicorn3,
-  #crown {
-    display: none;
+  #unicorn2 {display:none}
+  .unicorn {
+    max-height: 20vh;
+    max-width: 20vw;
   }
+
+  #crown {max-height: 50vh;
+    max-width: 50vw;}
+
+
 
   #intro-box h1 { font-size: 2rem; }
   #intro-box p { font-size: 1rem; }
