@@ -231,9 +231,9 @@ button:focus,
 
 /* ------------------ Fairy Dust ------------------ */
 .fairy-dust {
-  position: fixed;
-  width: 10px;
-  height: 10px;
+  position: flex;
+  width: 1%;
+  height: 1%;
   background: radial-gradient(circle, #fff 0%, #ffb6c1 60%, transparent 100%);
   border-radius: 50%;
   pointer-events: none;

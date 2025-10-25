@@ -1,115 +1,63 @@
 /* ==============================
-   Magical Input Box
+   NAMING PAGE – SIMPLE LAYOUT
    ============================== */
-
-   
-#naming-page input[type="text"] {
-  font-family: 'Princess Sofia', cursive;
-  font-size: 2rem;
-  padding: 20px 25px;
-  border-radius: 35px;
-  border: 3px solid #ff69b4;
-  background: linear-gradient(135deg, #fff0f5, #ffe4e1, #f0f8ff);
-  color: #8a2be2;
-  text-align: left;
-  width: 60%;
-  outline: none;
-  box-shadow: 0 0 25px rgba(255, 182, 193, 0.7);
-  transition: all 0.3s ease;
-  position: relative;
-  z-index: 10;
+#naming-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;      /* vertical centering */
+    align-items: center;          /* horizontal centering */
+    height: 100vh;                /* full viewport height */
+    width: 100vw;                 /* full viewport width */
+    margin: 0;
+    padding: 0;
+    font-family: 'Princess Sofia', cursive;
+    background: #fddde6;          /* solid soft pink background */
+    text-align: center;
+    box-sizing: border-box;
 }
 
-/* Input Focus Animation */
-#naming-page input[type="text"]:focus {
-  border-color: #8a2be2;
-  background: linear-gradient(135deg, #ffe4e1, #f0f8ff, #fff0f5);
-  box-shadow: 0 0 50px rgba(138, 43, 226, 0.9),
-              0 0 80px rgba(255, 182, 193, 0.6);
-  animation: glowPulse 1.5s infinite alternate;
+/* Page title / greeting */
+#naming-page h1 {
+    font-size: 6vw;               /* scales with viewport width */
+    margin-bottom: 5vh;           /* spacing below heading */
+    color: #fff;
 }
 
-/* Placeholder Styling */
-#naming-page input::placeholder {
-  color: #dda0dd;
-  font-style: italic;
-  text-shadow: 1px 1px 2px #fff;
+/* Input container for vertical spacing */
+#naming-page .input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2vh;                     /* space between input and button */
 }
 
-/* Floating Sparkles (Input & Button) */
-#naming-page input::before,
-#naming-page input::after,
-#naming-page button::before,
-#naming-page button::after {
-  content: '✨';
-  position: absolute;
-  font-size: 1.5rem;
-  opacity: 0.5;
-  animation: sparkleFloat 3s infinite;
+/* Input field for player name */
+#naming-page input {
+    font-size: 2.5vw;             /* scalable text */
+    padding: 1.5vh 2vw;           /* scalable padding */
+    border-radius: 1vh;
+    border: 2px solid #fff;
+    width: 30vw;                   /* scales with screen width */
+    text-align: center;
+    outline: none;
 }
 
-/* ==============================
-   Magical Naming Page Button
-   ============================== */
+/* Confirm / Next button */
 #naming-page button {
-  font-family: 'Princess Sofia', cursive;
-  font-size: 2rem;
-  padding: 20px 50px;
-  border-radius: 40px;
-  border: 3px solid #ff69b4;
-  background: linear-gradient(45deg, #ffb6c1, #dda0dd, #87cefa);
-  background-size: 400% 400%;
-  color: #fff;
-  cursor: pointer;
-  box-shadow: 0 5px 20px rgba(255, 182, 193, 0.7);
-  transition: all 0.3s ease;
-  position: relative;
-  z-index: 10;
-  animation: shimmer 2.5s infinite alternate;
+    font-size: 2.5vw;
+    padding: 1.5vh 2vw;
+    border-radius: 1vh;
+    border: 2px solid #fff;
+    background: #ff9ce3;
+    color: #fff;
+    cursor: pointer;
 }
 
-/* Hover Animation for Button */
-#naming-page button:hover {
-  transform: scale(1.1) rotate(-1deg);
-  box-shadow: 0 10px 40px rgba(255, 105, 180, 0.9),
-              0 0 20px rgba(138, 43, 226, 0.6);
-  background: linear-gradient(45deg, #ff69b4, #ba55d3, #00bfff);
+
+/* Princess image at the top of the naming page */
+#naming-page #princess {
+    width: 50vw;        /* 50% of viewport width */
+    height: 50vh;       /* 50% of viewport height */ /* keeps aspect ratio */
+    margin-bottom: 2vh;
+    object-fit: contain; /* spacing below the image */
 }
-
-/* ==============================
-   Keyframes
-   ============================== */
-@keyframes glowPulse {
-  0%   { box-shadow: 0 0 40px rgba(138, 43, 226, 0.8), 0 0 60px rgba(255, 182, 193, 0.5); }
-  100% { box-shadow: 0 0 60px rgba(138, 43, 226, 1), 0 0 100px rgba(255, 182, 193, 0.8); }
-}
-
-@keyframes shimmer {
-  0%   { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-@keyframes sparkleFloat {
-  0%   { transform: translateY(0) rotate(0deg); opacity: 0.5; }
-  50%  { transform: translateY(-10px) rotate(20deg); opacity: 1; }
-  100% { transform: translateY(0) rotate(0deg); opacity: 0.5; }
-}
-
-/* ==============================
-   Princess Image
-   ============================== */
-#princess {
-  display: flex;
-  max-height: 100vh;
-  max-width: 100vh;
-  margin: 0 auto;
-}
-
-@media (max-width: 1280px) {
-  #princess {
-    
-    display: none
-
-  }
-}
-
