@@ -26,8 +26,8 @@
    ============================================================ */
 #explore-canvas {
   aspect-ratio: 16 / 9;          /* ✅ maintain 16:9 ratio always */
-  width: 90vw;                   /* fill 90% of screen width */
-  height: auto;                  /* adjusts automatically */
+  width: 70vw;                   /* fill 90% of screen width */
+  height: 70vh;                  /* adjusts automatically */
   max-height: 90vh;              /* safety limit */
   border: 8px solid #ff69b4;
   border-radius: 20px;
@@ -42,3 +42,44 @@
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
+
+
+/* ============================================================
+   🌸 NAV BUTTONS (FULL ISOLATION)
+   ============================================================ */
+
+#explore-nav .nav-btn {
+  all: unset; /* 🚨 resets every inherited property */
+  display: inline-block;
+  font-family: 'Comic Sans MS', cursive;
+  font-size: 1.3rem;
+  text-align: center;
+  color: #fff;
+  cursor: pointer;
+  padding: 10px 25px;
+  margin: 0;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
+  border: 2px solid #fff;
+  box-shadow: 0 0 15px rgba(255, 182, 193, 0.5);
+  transition: all 0.25s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover Glow */
+#explore-nav .nav-btn:hover {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, #ff69b4, #ba55d3, #87cefa);
+  box-shadow: 0 0 25px rgba(255, 182, 193, 0.8);
+}
+
+/* Focus/Active */
+#explore-nav .nav-btn:focus,
+#explore-nav .nav-btn.active {
+  outline: none;
+  background: linear-gradient(135deg, #ff69b4, #dda0dd);
+  box-shadow: 0 0 25px rgba(255, 182, 193, 0.9);
+  transform: scale(1.05);
+}
+
