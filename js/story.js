@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       continueBtn.disabled = false;
       continueBtn.classList.remove("fade-out-btn");
-    }, 1500);
+    }, 500);
 
     // ➡️ Advance the story
     currentPage++;
