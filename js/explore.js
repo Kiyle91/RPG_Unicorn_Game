@@ -5,7 +5,8 @@
 document.addEventListener("DOMContentLoaded", () => {
   const canvas = document.getElementById("explore-canvas");
   if (!canvas) return;
-  const ctx = canvas.getContext("2d");
+  const ctx = canvas.getContext("2d")
+;
 
   /* ============================================================
      AUTO-SIZE CANVAS TO SCREEN
@@ -60,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ============================================================ */
   function update() {
     if (!exploreRunning || !player) return;
+    if (document.getElementById("inventory-page").classList.contains("active")) return; // 🧩 pause when inventory open
 
     // Movement input
     if (keys["ArrowUp"]) player.y -= player.speed;
@@ -153,17 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ============================================================
      CONSOLE DEBUG TOOLS
   ============================================================ */
-  window.showStats = () => {
-    if (!window.player) return console.warn("⚠️ Player not initialized yet!");
-    console.table({
-      X: player.x?.toFixed(1) || 0,
-      Y: player.y?.toFixed(1) || 0,
-      Size: player.size,
-      Speed: player.speed,
-      HP: `${player.hp} / ${player.maxHp}`,
-      Class: player.classKey,
-    });
-  };
+showStats
 
   window.setHP = (value) => {
     if (!window.player) return console.warn("⚠️ Player not initialized yet!");
@@ -193,4 +185,45 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(`✨ ${stat} set to ${value}`);
     showStats();
   };
+});
+
+
+/* ============================================================
+   EXPLORE NAVIGATION – OPEN INVENTORY SCREEN
+============================================================ */
+
+document.addEventListener("DOMContentLoaded", () => {
+  const inventoryBtn = document.getElementById("open-inventory");
+  const inventoryPage = document.getElementById("inventory-page");
+  const explorePage = document.getElementById("explore-page");
+  const backBtn = document.getElementById("back-to-explore");
+
+  if (!inventoryBtn || !inventoryPage || !explorePage) {
+    console.warn("⚠️ Missing one or more elements for inventory toggle.");
+    return;
+  }
+
+  // 👜 Open inventory
+  inventoryBtn.addEventListener("click", () => {
+    console.log("🎒 Opening inventory page...");
+    explorePage.classList.remove("active");
+    inventoryPage.classList.add("active");
+  });
+
+  // ⬅️ Back to explore
+  if (backBtn) {
+    backBtn.addEventListener("click", () => {
+      console.log("⬅️ Returning to explore page...");
+      inventoryPage.classList.remove("active");
+      explorePage.classList.add("active");
+    });
+  }
+
+  // ESC key also closes inventory
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && inventoryPage.classList.contains("active")) {
+      inventoryPage.classList.remove("active");
+      explorePage.classList.add("active");
+    }
+  });
 });

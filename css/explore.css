@@ -123,3 +123,86 @@
   text-shadow: 0 0 8px #ff69b4;
   pointer-events: none;
 }
+
+
+/* ============================================================
+   INVENTORY OVERLAY (CSS-CONTROLLED)
+============================================================ */
+
+#inventory-page.overlay-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  /* Hide by default */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  /* Smooth transition */
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  
+  /* Pretty blur and tint */
+  background: rgba(255, 182, 193, 0.25);
+  backdrop-filter: blur(8px);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 9999;
+}
+
+/* When active: visible + interactive */
+#inventory-page.overlay-screen.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Inventory panel styles */
+.inventory-wrapper {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 30px;
+  padding: 40px 60px;
+  box-shadow: 0 0 40px rgba(255, 182, 193, 0.8);
+  text-align: center;
+  color: #fff;
+  font-family: 'Princess Sofia', cursive;
+  transform: scale(0.9);
+  transition: transform 0.4s ease;
+}
+
+/* Scale up smoothly when active */
+#inventory-page.active .inventory-wrapper {
+  transform: scale(1);
+}
+
+/* Optional glowing fade-in */
+@keyframes inventoryFade {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+#inventory-page.active .inventory-wrapper {
+  animation: inventoryFade 0.5s ease forwards;
+}
+
+/* Make sure your Back button matches theme */
+#back-to-explore.nav-btn {
+  margin-top: 25px;
+  background: linear-gradient(135deg, #ff69b4, #ffb6c1, #dda0dd);
+  border: 3px solid #fff;
+  color: #fff;
+  border-radius: 30px;
+  padding: 12px 35px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#back-to-explore.nav-btn:hover {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, #ffa6c9, #dda0dd, #87cefa);
+}
