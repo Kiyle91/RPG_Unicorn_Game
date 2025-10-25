@@ -1,27 +1,41 @@
-/* ------------------ General Screens ------------------ */
+/* ==============================
+   **** MAIN CSS FILE ******
+============================== */
+
+/* INDEX
+   1. Body
+   2. Theme Variables
+   3. Pink Border Tool
+   4. Screen Wrapper
+   5. Background Animation
+   6. Intro Box
+   ...
+*/
+
+/* ==============================
+   BODY                // Our body from our html document, so everything not in a section
+============================== */
+
 body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
+  /* Flexible scaling */
+  min-height: 100vh;
+  width: 100%;
   overflow-x: hidden;
-  height: 100vh;
-  width: 100vw;
+  overflow-y: auto;
 
-  /* Pink border */
-  border: 10px solid #ff69b4;
-  border-radius: 10px;
-
-  /* Round the internal corners visually */
-  box-shadow: inset 0 0 0 10px #ff69b4;
-
-  /* Optional: keep full window view */
-  height: 100vh;
-  overflow: hidden;
+  /* Background */
+  background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa, #fffacd);
+  background-size: 400% 400%;
+  animation: rainbowBG 5s ease infinite;
 }
 
-
-
-/* Theme variables - tweak these to scale the UI */
+/* ==============================
+   THEME VARIABLES   // These are some root variables that we made to control all the buttons and headings etc to keep our theme consistant
+============================== */
 :root {
   --h1-size: 4rem;
   --intro-font-size: 1.5rem;
@@ -30,14 +44,41 @@ body {
   --focus-ring: 3px solid rgba(255,255,255,0.9);
 }
 
+/* ==============================
+   PINK BORDER TOOL          // I made this tool so we can check our scalability - and it looks pretty.
+============================== */
+#pink-border-tool {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 2% solid #ff69b4;
+  border-radius: 0;                
+  box-shadow: inset 0 0 0 10px #ff69b4;  
+  pointer-events: none;
+  z-index: 9999;
+  box-sizing: border-box;
+}
+
+
+/* ==============================
+   SCREEN WRAPPER             //  .screen is our first screen, then we cycle through .screen.active, letting us move page without reloading
+============================== */
 .screen {
   display: none;
-  height: 100vh;
-  width: 100vw;
   text-align: center;
   font-family: 'Comic Sans MS', cursive, sans-serif;
   color: #fff;
+  min-height: 100vh;
+  min-width: 100vw;
   overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
 }
 
 .screen.active {
@@ -47,20 +88,27 @@ body {
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa, #fffacd);
   background-size: 400% 400%;
   animation: rainbowBG 5s ease infinite;
-  width: 100%;
-  height: 100vh;
   box-sizing: border-box;
-  z-index: -10;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  opacity: 1;
+  pointer-events: all;
 }
 
-/* ------------------ Rainbow Background Animation ------------------ */
+/* ==============================
+   BACKGROUND ANIMATION   // The pretty blue/pink shifting background animation.
+============================== */
 @keyframes rainbowBG {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
-/* ------------------ Intro Box ------------------ */
+/* ==============================
+   INTRO BOX                 // The box our player sees on the first screen containing all our other elements
+============================== */
 #intro-box {
   background: rgba(255, 255, 255, 0.8);
   border: none;
@@ -99,8 +147,9 @@ body {
   font-style: italic;
 }
 
-/* ------------------ Start Button ------------------ */
-/* ------------------ Start Button ------------------ */
+/* ==============================
+   START BUTTON   // The players selects this to move to the next screen, we made it pretty
+============================== */
 #start-btn {
   font-size: var(--btn-font-size);
   padding: var(--btn-padding);
@@ -125,14 +174,13 @@ button:focus,
   box-shadow: 0 0 0 4px rgba(255, 182, 193, 0.6);
 }
 
-/* Ensure keyboard users can see the hover icon when focusing a class button */
 .class-btn:focus .hover-icon {
   opacity: 1;
   transform: translateX(-50%) translateY(-15px) scale(1);
   filter: drop-shadow(0 0 20px rgba(255,255,255,1));
 }
 
-/* Respect users who prefer reduced motion */
+/* Reduce motion */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation: none !important;
@@ -140,7 +188,9 @@ button:focus,
   }
 }
 
-/* ------------------ Floating Unicorns ------------------ */
+/* ==============================
+   FLOATING UNICORNS  // the floating unicorns that move around the screen
+============================== */
 .unicorn {
   position: fixed;
   object-fit: contain;
@@ -148,7 +198,6 @@ button:focus,
   height: 15vh;
   pointer-events: none;
   z-index: 6;
-  
 }
 
 @keyframes float1 {
@@ -179,8 +228,9 @@ button:focus,
 #unicorn2 { top: 50%; left: 70%; animation: float2 15s linear infinite; }
 #unicorn3 { top: 70%; left: 30%; animation: float3 10s linear infinite; }
 
-/* ------------------ Welcome Back & Crown ------------------ */
-
+/* ==============================
+   CROWN  // the crown graphic thats behind our box
+============================== */
 @keyframes flash {
   0% { opacity: 0.5; transform: scale(0.95); }
   50% { opacity: 1; transform: scale(1.05); }
@@ -189,28 +239,30 @@ button:focus,
 
 #crown {
   position: absolute;
-  height: 50vh;
-  width: 40vw;
+  max-height: 50vh;
+  max-width: 40vw;
 }
 
-/* ------------------ Mute Button ------------------ */
+/* ==============================
+   MUTE BUTTON  // the mute button that appears in the top right hand of the screen
+============================== */
 #mute-btn {
-  position: absolute;
+  position: fixed;
   top: 5%;
   right: 5%;
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
   color: white;
-  font-size: 2rem;
+  font-size: clamp(1rem, 2vw, 1.5rem);
   border: none;
   border-radius: 50%;
-  width: 70px;
-  height: 70px;
   cursor: pointer;
+  width: clamp(50px, 7vw, 70px);
+  height: clamp(50px, 7vw, 70px);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  transition: transform 0.2s, background 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease, background 0.3s ease;
   z-index: 1000;
 }
 
@@ -219,20 +271,21 @@ button:focus,
   background: linear-gradient(135deg, #ff69b4, #ba55d3, #00bfff);
 }
 
-/* ------------------ Fairy Dust ------------------ */
+/* ==============================
+   FAIRY DUST    // The animations that causes fireworks when the player clicks anywhere on the screen
+============================== */
 .fairy-dust {
-  position: flex;
-  width: 1%;
-  height: 1%;
+  position: fixed;
+  width: 10px;
+  height: 10px;
   background: radial-gradient(circle, #fff 0%, #ffb6c1 60%, transparent 100%);
   border-radius: 50%;
   pointer-events: none;
   opacity: 0;
   animation: swirl 1.5s linear forwards;
-  z-index: 2000;
+  z-index: 10000;
   transform: translate3d(0,0,0);
   will-change: transform, opacity;
-  
 }
 
 @keyframes swirl {
@@ -242,29 +295,49 @@ button:focus,
   100% { transform: translate3d(calc(100px * var(--dir-x)), calc(-100px * var(--dir-y)), 0) rotate(360deg) scale(0); opacity: 0; }
 }
 
-/* ------------------ Responsive ------------------ */
+/* ==============================
+   RESPONSIVE  // The media functions help add additional commands after the rest of the script has run to change our screen to fit smaller sizes
+============================== */
 @media (max-width: 1280px) {
-  #unicorn2 {display:none}
+  #unicorn2 { display: none; }
+
   .unicorn {
     max-height: 20vh;
     max-width: 20vw;
   }
 
-  #crown {max-height: 50vh;
-    max-width: 50vw;}
-
-
+  #crown {
+    max-height: 50vh;
+    max-width: 50vw;
+  }
 
   #intro-box h1 { font-size: 2rem; }
   #intro-box p { font-size: 1rem; }
   #start-btn { font-size: 1.5rem; padding: 15px 30px; }
-}
 
-@media (max-width: 768px) {
-  #mute-btn { width: 40px; height: 40px; font-size: 1rem; }
+  #mute-btn {
+    top: 3.5%;
+    right: 5%;
+    width: clamp(45px, 9vw, 60px);
+    height: clamp(45px, 9vw, 60px);
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+  }
 }
 
 @media (max-width: 480px) {
-  #mute-btn { width: 35px; height: 35px; font-size: 0.9rem; }
+  #mute-btn {
+    top: 2.5%;
+    right: 5%;
+    width: clamp(45px, 9vw, 60px);
+    height: clamp(45px, 9vw, 60px);
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+  }
 }
 
+
+
+/* Notes for the script.
+
+We contain all our css dressings that will be used across the whole program here
+
+we use as much scalability and accesibility as possible*/

@@ -1,163 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Olivia's World RPG</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Brave Princess and the Unicorn</title>
 
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Princess+Sofia&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Princess+Sofia&display=swap" rel="stylesheet" />
 
-  <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="../css/main.css">
-  <link rel="stylesheet" href="../css/naming.css">
-  <link rel="stylesheet" href="../css/class.css">
-  <link rel="stylesheet" href="../css/difficulty.css">
-  <link rel="stylesheet" href="../css/story.css">
-
-
+  <!-- Styles -->
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/naming.css" />
+  <link rel="stylesheet" href="../css/class.css" />
+  <link rel="stylesheet" href="../css/difficulty.css" />
+  <link rel="stylesheet" href="../css/story.css" />
 </head>
 
 <body>
+  <!-- Fixed Pink Border -->
+  <div id="pink-border-tool"></div>
 
-  <div id="app-wrapper">
-  <!-- keep your existing root / screens here -->
-  <div class="screen app-root">
-    <!-- existing content... -->
-  </div>
-  </div>
-
-  
-  <!-- ==========================
-       MUTE BUTTON & BACKGROUND MUSIC
-       ========================== -->
+  <!-- Background Music + Mute -->
   <button id="mute-btn" aria-label="Toggle background music">🔇</button>
   <audio id="bg-music" src="../sounds/soundtrack.mp3" loop></audio>
 
-  <!-- ==========================
-       LANDING PAGE
-       ========================== -->
+  <!-- ========================== -->
+  <!-- LANDING PAGE -->
+  <!-- ========================== -->
   <section id="landing-page" class="screen active">
-    
+    <!-- Decorative Floating Elements -->
+    <img src="../images/float_one.png" alt="Unicorn 1" class="unicorn" id="unicorn1" />
+    <img src="../images/float_two.png" alt="Unicorn 2" class="unicorn" id="unicorn2" />
+    <img src="../images/float_three.png" alt="Unicorn 3" class="unicorn" id="unicorn3" />
+    <img src="../images/crown.png" alt="Crown" id="crown" />
 
-    <!-- Floating Unicorns -->
-    <img src="../images/float_one.png" alt="Unicorn 1" class="unicorn" id="unicorn1">
-    <img src="../images/float_two.png" alt="Unicorn 2" class="unicorn" id="unicorn2">
-    <img src="../images/float_three.png" alt="Unicorn 3" class="unicorn" id="unicorn3">
-
-    <!-- Crown decoration -->
-    <img src="../images/crown.png" alt="Crown" id="crown">
-
-    <!-- Intro Box -->
+    <!-- Intro -->
     <div id="intro-box">
-      <h1>The Brave Princess and the Unicorn V1.0</h1>
-      <p>Welcome, brave adventurer, to a land of sparkling forests, rainbow rivers, and skies alive with unicorns! Solve clever puzzles, uncover treasures, and let your story unfold.</p>
+      <h1>The Brave Princess and the Unicorn</h1>
+      <p>
+        Welcome, brave adventurer, to a land of sparkling forests, rainbow rivers, and skies alive with unicorns!
+        Solve clever puzzles, uncover treasures, and let your story unfold.
+      </p>
       <button id="start-btn">Start Adventure</button>
       <p id="disclaimer">
-        <br>⚠️ This game is for <strong>demonstration and practice purposes only</strong>. It’s a learning project and not intended for real-world use. Created by Kiyle Edwards for Olivia Edwards.
+        <br>⚠️ This is a learning project created by <strong>Kiyle Edwards</strong> for Olivia Edwards.⚠️
       </p>
     </div>
   </section>
 
-  <!-- ==========================
-       NAMING PAGE
-       ========================== -->
+  <!-- ========================== -->
+  <!-- NAMING PAGE -->
+  <!-- ========================== -->
   <section id="naming-page" class="screen">
-    <img src="../images/princess.png" id="princess">
-  <div id="intro-box">
-    
-    
-    <input type="text" id="player-name" placeholder="Enter your name" maxlength="12">
-    <button id="confirm-name">Next</button>
-  </div>
-</section>
+    <img src="../images/princess.png" alt="Princess" id="princess" />
+    <div id="intro-box">
+      <input type="text" id="player-name" placeholder="Enter your name" maxlength="12" />
+      <button id="confirm-name">Next</button>
+    </div>
+  </section>
 
-<section id="class-selection-page" class="screen">
-    <h2 class="page-title">✨ What kind of Princess are you? ✨</h2>
-
+  <!-- ========================== -->
+  <!-- CLASS SELECTION -->
+  <!-- ========================== -->
+  <section id="class-selection-page" class="screen">
+    <h2 class="page-title">✨ What Kind of Princess Are You? ✨</h2>
     <div class="class-options">
-        <button class="class-btn" data-class="glitterGuardian">
-            Glitter Guardian
-            <p class="class-desc">Brave princess who protects unicorns with courage and magical strength.</p>
-            <img src="../images/guardian_icon.png" alt="Glitter Guardian Icon" class="hover-icon">
-        </button>
+      <button class="class-btn" data-class="glitterGuardian">
+        Glitter Guardian
+        <p class="class-desc">Protect unicorns with courage and magical strength.</p>
+        <img src="../images/guardian_icon.png" alt="Glitter Guardian Icon" class="hover-icon" />
+      </button>
 
-        <button class="class-btn" data-class="starSage">
-            Star Sage
-            <p class="class-desc">Clever princess who uses magical knowledge to outsmart creatures and solve puzzles.</p>
-            <img src="../images/starsage_icon.png" alt="Star Sage Icon" class="hover-icon">
-        </button>
+      <button class="class-btn" data-class="starSage">
+        Star Sage
+        <p class="class-desc">Outsmart mysterious creatures with magical knowledge.</p>
+        <img src="../images/starsage_icon.png" alt="Star Sage Icon" class="hover-icon" />
+      </button>
 
-        <button class="class-btn" data-class="moonflower">
-            Moonflower
-            <p class="class-desc">A gentle princess who grows magical moonflowers and uses their petals and light to heal and protect.</p>
-            <img src="../images/moonflower_icon.png" alt="Moonflower Icon" class="hover-icon">
-        </button>
+      <button class="class-btn" data-class="moonflower">
+        Moonflower
+        <p class="class-desc">Heal and protect with the gentle light of moonflowers.</p>
+        <img src="../images/moonflower_icon.png" alt="Moonflower Icon" class="hover-icon" />
+      </button>
 
-        <button class="class-btn" data-class="silverArrow">
-            Silver Arrow
-            <p class="class-desc">A brave princess who uses magical sparkling arrows to protect unicorns and guide them safely.</p>
-            <img src="../images/silver_icon.png" alt="Silver Arrow Icon" class="hover-icon">
-        </button>
+      <button class="class-btn" data-class="silverArrow">
+        Silver Arrow
+        <p class="class-desc">Guide sparkling arrows to defend your unicorn allies.</p>
+        <img src="../images/silver_icon.png" alt="Silver Arrow Icon" class="hover-icon" />
+      </button>
     </div>
 
     <div class="class-text-box">
-        <h2 id="classtextheader" class="class-text"></h2>
-        <p id="classtextscreen" class="class-text" >“Every princess holds a spark of magic within her heart”</p>
+      <h2 id="classtextheader" class="class-text"></h2>
+      <p id="classtextscreen" class="class-text">“Every princess holds a spark of magic within her heart.”</p>
     </div>
-</section> 
-    
+  </section>
 
-</section>
-
-<section id="difficulty-screen" class="screen">
-  <div id="difficulty-box">
-    <h1>Choose Your Adventure's Difficulty</h1>
-    <div id="difficulty-buttons">
-      <button class="difficulty-btn" data-difficulty="easy">Easy</button>
-      <button class="difficulty-btn" data-difficulty="medium">Medium</button>
-      <button class="difficulty-btn" data-difficulty="hard">Hard</button>
+  <!-- ========================== -->
+  <!-- DIFFICULTY SELECTION -->
+  <!-- ========================== -->
+  <section id="difficulty-screen" class="screen">
+    <div id="difficulty-box">
+      <h1>Choose Your Adventure’s Difficulty</h1>
+      <div id="difficulty-buttons">
+        <button class="difficulty-btn" data-difficulty="easy">Easy</button>
+        <button class="difficulty-btn" data-difficulty="medium">Medium</button>
+        <button class="difficulty-btn" data-difficulty="hard">Hard</button>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ==========================
-     STORY SECTION
-========================== -->
-<section id="story-section" class="screen">
-  
-  <!-- Story Background Image (Behind content, above main background) -->
-  <img src="../images/unicorn_background.png" alt="Story Background" class="background" />
+  <!-- ========================== -->
+  <!-- STORY SECTION -->
+  <!-- ========================== -->
+  <section id="story-section" class="screen">
+    <img src="../images/unicorn_background.png" alt="Story Background" class="background" />
+    <div class="story-box">
+      <h2 id="story-title"></h2>
+      <p id="story-text">
+        Long ago, in the sparkling kingdom of Luminara, unicorns roamed freely, and magic filled the air.
+        But whispers of shadow began to creep across the forests. Ancient prophecies speak of a time when the light
+        will falter — and a brave heart will rise to protect the kingdom.
+      </p>
+      <button id="story-continue-btn">Continue</button>
+    </div>
+  </section>
 
-  <!-- Story Content Box -->
-  <div class="story-box">
-    
-    <!-- Chapter Title -->
-    <h2 id="story-title"></h2>
-
-    <!-- Story Text -->
-    <p id="story-text">
-      Long ago, in the sparkling kingdom of Luminara, unicorns roamed freely, and magic filled the air. 
-      But whispers of shadow have begun to creep across the forests and mountains. Ancient prophecies speak 
-      of a time when the light will falter, and a brave heart will rise to protect the kingdom.
-    </p>
-
-    <!-- Continue Button -->
-    <button id="story-continue-btn">Continue</button>
-  </div>
-
-</section>
-<!--=======================
-       SCRIPTS
-       ========================== -->
+  <!-- ========================== -->
+  <!-- SCRIPTS -->
+  <!-- ========================== -->
   <script src="../js/script.js"></script>
-  <script src="../js/landing.js"></script>
   <script src="../js/naming.js"></script>
   <script src="../js/class_selection.js"></script>
   <script src="../js/difficulty.js"></script>
   <script src="../js/story.js"></script>
   <script src="../js/battle.js"></script>
   <script src="../js/gameover.js"></script>
-
 </body>
 </html>
