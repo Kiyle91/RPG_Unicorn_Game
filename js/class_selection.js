@@ -8,7 +8,9 @@ const classes = {
     name: "Glitter Guardian",
     baseStats: { hp: 120, mana: 40, speed: 10, armor: 5, healing: 5, attack: 15, ranged: 5, critChance: 10 },
     preferredStats: ['hp', 'attack'],
-    classAttacks: [{ name: "Glitter Strike", type: "melee", damage: 10, extraEffect: "additional glitter damage" }]
+    classAttacks: [
+      { name: "Glitter Strike", type: "melee", damage: 10, extraEffect: "additional glitter damage" }
+    ]
   },
   starSage: {
     name: "Star Sage",
@@ -38,6 +40,20 @@ const classes = {
   }
 };
 
+// ----- Universal Screen Switcher -----
+function showScreen(nextId) {
+  document.querySelectorAll('.screen').forEach(screen => {
+    screen.classList.remove('active');
+    screen.style.display = 'none';
+  });
+
+  const nextScreen = document.getElementById(nextId);
+  if (nextScreen) {
+    nextScreen.classList.add('active');
+    nextScreen.style.display = 'flex';
+  }
+}
+
 // ----- Create Player Object -----
 function createPlayer(selectedClass) {
   const baseClass = classes[selectedClass];
@@ -47,7 +63,7 @@ function createPlayer(selectedClass) {
   }
 
   return {
-    name: window.playerName || "Player", // Global name set from naming page
+    name: window.playerName || "Player",
     classKey: selectedClass,
     ...baseClass,
     currentStats: { ...baseClass.baseStats },
@@ -59,35 +75,30 @@ function createPlayer(selectedClass) {
 
 // ----- Handle Class Selection -----
 const classButtons = document.querySelectorAll(".class-btn");
-const difficultyScreen = document.getElementById("difficulty-screen");
 
 classButtons.forEach(button => {
   button.addEventListener("click", () => {
     const selectedClass = button.dataset.class;
 
-    // Create the player object globally
+    // Create global player object
     window.player = createPlayer(selectedClass);
     if (!window.player) return;
 
-    // Print player info to console
-    console.log("=== Player Selected ===");
+    // Debug info
+    console.group("=== Player Selected ===");
     console.log("Name:", window.player.name);
-    console.log("Class:", window.player.name);
     console.log("Class Key:", window.player.classKey);
     console.log("Level:", window.player.level);
     console.log("Stats:", window.player.currentStats);
     console.log("Attacks:", window.player.classAttacks);
-    console.log("=======================");
+    console.groupEnd();
 
-    // Hide the class selection screen
-    document.getElementById("class-selection-page").classList.remove("active");
-
-    // Show the difficulty screen
-    if (difficultyScreen) difficultyScreen.classList.add("active");
+    // Move from class page → difficulty screen
+    showScreen('difficulty-screen');
   });
 });
 
-// ----- Optional Helper Function to Print Player Name -----
+// ----- Optional Helper -----
 function printPlayerName() {
   if (window.playerName) {
     console.log("Player name is:", window.playerName);

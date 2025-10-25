@@ -1,82 +1,91 @@
+/* ============================================================
+   CLASS SELECTION PAGE – OLIVIA’S WORLD RPG
+   ============================================================ */
+
 /* ==============================
-   CLASS SELECTION PAGE
+   LAYOUT & BACKGROUND
    ============================== */
 #class-selection-page {
-  display: absolute;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   height: 100vh;
   width: 100vw;
-  padding: 40px 20px;
-  font-family: 'Princess Sofia', cursive;
+  padding: 5vh 4vw;
+  font-family:'Comic Sans MS', cursive;
   color: #fff;
   text-align: center;
+  box-sizing: border-box;
+  position: relative;
+
+  /* Rainbow animated background */
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa, #fffacd);
   background-size: 400% 400%;
   animation: rainbowBG 5s ease infinite;
-  /* allow hover icons to overflow while still enabling vertical scroll */
-  overflow: visible;
+
+  /* Enable vertical scroll if content overflows */
+  overflow-x: hidden;
   overflow-y: auto;
 }
 
-/* Header Text */
-.class-text {
-  font-family: 'Princess Sofia', cursive;
-  font-size: 5rem;
-  color: #fff;
-  text-shadow: 2px 2px 6px #b8a1d0, 0 0 10px #f9c5d1;
-  margin: 0px 0 0px;
-  animation: header-glow 2s infinite alternate;
-  text-align: center;
+/* Animated background motion */
+@keyframes rainbowBG {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-@keyframes header-glow {
-  0% { text-shadow: 2px 2px 6px #b8a1d0,0 0 5px #f9c5d1; color: #fff; }
-  100% { text-shadow: 2px 2px 10px #b8a1d0,0 0 15px #f9c5d1; color: #fffce8; }
-}
-
-#classtextscreen {
-  font-family: 'Princess Sofia', cursive;
-  font-size: 1.5rem;
-  line-height: 1.6;
-  max-width: 800px;
-  margin: 0 auto 40px;
-  color: #fff;
-  text-shadow: 1px 1px 4px #9b7fbf, 0 0 6px #f9c5d1;
-  animation: paragraph-fade 3s infinite alternate;
-  text-align: center;
-}
-
-@keyframes paragraph-fade { 0% {opacity:0.85;} 100%{opacity:1;} }
-
+/* ============================================================
+   PAGE TITLES & TEXT
+   ============================================================ */
 #class-selection-page .page-title {
-  font-family: 'Princess Sofia', cursive;
-  font-size: 5rem;
+  font-size: 4vw;
   font-weight: 900;
   color: #fff;
   text-shadow: 2px 2px 8px #c4a7e7, 0 0 12px #f9c5d1, 0 0 20px #f0f8ff;
-  margin-bottom: 40px;
-  padding: 20px 50px;
+  margin-bottom: 5vh;
+  padding: 2vh 4vw;
+  border-radius: 3vh;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 30px rgba(255, 182, 193, 0.5);
   display: inline-block;
+  animation: header-glow 2s infinite alternate;
 }
 
+@keyframes header-glow {
+  0%   { text-shadow: 2px 2px 6px #b8a1d0, 0 0 5px #f9c5d1; }
+  100% { text-shadow: 2px 2px 10px #b8a1d0, 0 0 15px #f9c5d1; }
+}
+
+
+
+/* ============================================================
+   CLASS BUTTON CONTAINER
+   ============================================================ */
 .class-options {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 30px;
+  gap: 4vh 3vw;
   width: 100%;
   max-width: 1200px;
+  margin-top: 2vh;
+  margin-bottom: 8vh;
 }
 
+/* ============================================================
+   CLASS BUTTONS
+   ============================================================ */
 .class-btn {
   position: relative;
   border: none;
-  border-radius: 25px;
-  width: 250px;
-  min-height: 200px;
-  padding: 20px;
+  border-radius: 3vh;
+  width: 22vw;
+  min-width: 180px;
+  min-height: 25vh;
+  padding: 3vh 2vw;
   cursor: pointer;
   transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
   display: flex;
@@ -87,80 +96,246 @@
   font-weight: bold;
   text-align: center;
   overflow: visible;
-  margin-bottom: 90px;
+  margin-bottom: 10vh;
 }
 
+/* Individual Class Colours */
 .class-btn[data-class="glitterGuardian"] {
   background: linear-gradient(135deg, #ffb6c1, #ffd700);
   box-shadow: 0 0 25px #ff69b4;
 }
+
 .class-btn[data-class="starSage"] {
   background: linear-gradient(135deg, #9370db, #00bfff);
   box-shadow: 0 0 25px #8a2be2;
 }
+
 .class-btn[data-class="moonflower"] {
   background: linear-gradient(135deg, #32cd32, #40e0d0);
   box-shadow: 0 0 25px #3cb371;
 }
+
 .class-btn[data-class="silverArrow"] {
   background: linear-gradient(135deg, #c0c0c0, #87cefa);
   box-shadow: 0 0 25px #b0c4de;
 }
 
+/* Hover Effects */
 .class-btn:hover {
   transform: scale(1.1) rotate(-2deg);
-  box-shadow: 0 0 40px rgba(255,255,255,0.9);
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.9);
   background-blend-mode: lighten;
 }
 
-.class-btn .class-desc { font-size:1rem; margin-top:15px; line-height:1.4; }
+/* Class Descriptions */
+.class-btn .class-desc {
+  font-size: 1.2vw;
+  margin-top: 1vh;
+  line-height: 1.4;
+  text-shadow: 0 0 6px rgba(255,255,255,0.5);
+}
 
+/* ============================================================
+   HOVER ICON EFFECTS
+   ============================================================ */
 .class-btn .hover-icon {
   position: absolute;
-  bottom: -70px;
+  bottom: -9vh;
   left: 50%;
   transform: translateX(-50%) scale(0.5);
   opacity: 0;
-  width: 90px;
-  height: 90px;
+  width: 10vh;
+  height: 10vh;
   pointer-events: none;
   transition: opacity 0.4s ease, transform 0.4s ease, filter 0.4s ease;
-  filter: drop-shadow(0 0 10px rgba(255,255,255,0.6));
-  z-index: 9999;
+  filter: drop-shadow(0 0 1.5vh rgba(255,255,255,0.6));
+  z-index: 5;
 }
-.class-btn:hover .hover-icon {
+
+.class-btn:hover .hover-icon,
+.class-btn:focus .hover-icon {
   opacity: 1;
-  transform: translateX(-50%) translateY(-15px) scale(1);
-  filter: drop-shadow(0 0 20px rgba(255,255,255,1));
+  transform: translateX(-50%) translateY(-1.5vh) scale(1);
+  filter: drop-shadow(0 0 2.5vh rgba(255,255,255,1));
   animation: hoverPop 0.6s ease;
 }
 
-/* Show icon when button receives keyboard focus */
-.class-btn:focus .hover-icon {
-  opacity: 1;
-  transform: translateX(-50%) translateY(-15px) scale(1);
-  filter: drop-shadow(0 0 20px rgba(255,255,255,1));
-}
-@keyframes hoverPop { 0%{transform:translateX(-50%) translateY(20px) scale(0.3);opacity:0;} 60%{transform:translateX(-50%) translateY(-10px) scale(1.15);opacity:1;} 100%{transform:translateX(-50%) translateY(-15px) scale(1);opacity:1;} }
-
-@media(max-width:1280px){
-  #class-selection-page .page-title{font-size:2.5rem;margin-bottom:30px;}
-  .class-text{display:none;}
-  .class-btn{width:200px; min-height:180px; padding:15px;}
-  .class-btn .class-desc{font-size:0.9rem;}
-}
-@media(max-width:768px){
-  #class-selection-page{padding:30px 20px;}
-  .class-options{gap:20px;}
-  .class-btn{margin-bottom:40px;}
-  .class-btn .hover-icon{bottom:-40px;width:60px;height:50px;}
-}
-@media(max-width:480px){
-  #class-selection-page .page-title{font-size:2rem;margin-bottom:20px;}
-  .class-btn{width:150px;min-height:140px;padding:10px;margin-bottom:40px;}
-  .class-btn .class-desc{font-size:0.8rem;}
-  .class-btn .hover-icon{bottom:-50px;width:50px;height:50px;}
+@keyframes hoverPop {
+  0%   { transform: translateX(-50%) translateY(2vh) scale(0.3); opacity: 0; }
+  60%  { transform: translateX(-50%) translateY(-1vh) scale(1.15); opacity: 1; }
+  100% { transform: translateX(-50%) translateY(-1.5vh) scale(1); opacity: 1; }
 }
 
-@keyframes rainbowBG{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}
+/* ============================================================
+   RESPONSIVE ADJUSTMENTS (UPDATED FOR MOBILE FIT)
+   ============================================================ */
+
+/* Medium Screens (Tablets) */
+@media (max-width: 912px) {
+  #class-selection-page {
+    padding: 4vh 5vw;
+  }
+  .class-options {
+    gap: 3vh 2vw;
+    margin-top: 4vh;
+  }
+  .class-btn {
+    width: 38vw;
+    min-height: 20vh;
+    margin-bottom: 4vh;
+  }
+  .class-btn .hover-icon {
+    bottom: -4vh;
+    width: 7vh;
+    height: 7vh;
+  }
+  .class-btn .class-desc {
+    font-size: 2.2vw;
+  }
+  #classtextscreen {
+    font-size: 2.5vw;
+  }
+}
+
+/* ============================================================
+   SMALL SCREENS (PHONES) – CENTERED 2x2 GRID (REDUCED WIDTH)
+   ============================================================ */
+@media (max-width: 768px) {
+  #class-selection-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;    /* ✅ vertically centered */
+    align-items: center;
+    height: 100vh;
+    padding: 0 6vw;             /* ✅ more breathing room on sides */
+  }
+
+  #class-selection-page .page-title {
+    font-size: 5.5vw;
+    margin-bottom: 5vh;         /* space between header and grid */
+    margin-top: -5vh;           /* lift header slightly */
+  }
+
+  /* 🔸 2x2 Grid - smaller and centered */
+  .class-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 3vh 4vw;
+    justify-items: center;
+    align-items: center;
+    width: 85%;                 /* ✅ narrower grid for edge spacing */
+    max-width: 550px;
+  }
+
+  .class-btn {
+    width: 36vw;                /* ✅ smaller buttons */
+    min-height: 14vh;
+    padding: 1.5vh 2vw;
+  }
+
+  .class-btn .hover-icon {
+    bottom: -4vh;
+    width: 6vh;
+    height: 6vh;
+  }
+
+  .class-btn .class-desc {
+    font-size: 2.5vw;
+  }
+
+  #classtextscreen {
+    font-size: 3vw;
+    margin-top: 3vh;
+  }
+}
+
+/* ============================================================
+   EXTRA-SMALL SCREENS (VERY SMALL PHONES)
+   ============================================================ */
+@media (max-width: 480px) {
+  #class-selection-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 0 8vw;             /* ✅ extra side padding for small screens */
+  }
+
+  #class-selection-page .page-title {
+    font-size: 6vw;
+    margin-bottom: 5vh;
+    margin-top: -4vh;
+  }
+
+  .class-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 2.5vh 3vw;
+    justify-items: center;
+    align-items: center;
+    width: 80%;                 /* ✅ tighter layout */
+    max-width: 450px;
+  }
+
+  .class-btn {
+    width: 38vw;                /* ✅ slightly smaller to avoid edge contact */
+    min-height: 13vh;
+    padding: 1vh 2vw;
+  }
+
+  .class-btn .hover-icon {
+    bottom: -3vh;
+    width: 5vh;
+    height: 5vh;
+  }
+
+  .class-btn .class-desc {
+    font-size: 2.9vw;
+  }
+
+  #classtextscreen {
+    font-size: 3.6vw;
+    margin-top: 3vh;
+  }
+}
+
+
+
+
+
+
+/* ============================================================
+   DESKTOP & LARGE SCREEN LAYOUT
+   ============================================================ */
+@media (min-width: 1025px) {
+  .class-options {
+    flex-wrap: nowrap;          /* ✅ one row only */
+    justify-content: center;    /* center the row */
+    align-items: flex-start;    /* keeps equal top alignment */
+    gap: 3vw;                   /* space between buttons */
+    margin-top: 6vh;
+  }
+
+  .class-btn {
+    width: 18vw;                /* shrink slightly to fit all four comfortably */
+    min-height: 28vh;
+    margin-bottom: 0;           /* no vertical stacking gap */
+    padding: 2.5vh 2vw;
+  }
+
+  .class-btn .class-desc {
+    font-size: 1vw;
+  }
+
+  .class-btn .hover-icon {
+    bottom: -6vh;
+    width: 12vh;
+    height: 12wvh;
+  }
+
+  #classtextscreen {
+    margin-top: 5vh;
+  }
+}
 
