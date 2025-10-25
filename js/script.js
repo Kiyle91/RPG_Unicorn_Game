@@ -29,7 +29,7 @@ document.addEventListener('click', (e) => {
 
 // ------------------ Background Music ------------------
 const bgMusic = document.getElementById('bg-music');
-let musicStarted = false;
+let musicStarted = true;
 
 document.addEventListener('click', () => {
   if (!musicStarted) {
@@ -46,6 +46,7 @@ if (muteBtn) {
   muteBtn.addEventListener('click', () => {
     if (bgMusic.paused) {
       bgMusic.play();
+      
       muteBtn.textContent = "🔊";
     } else {
       bgMusic.pause();

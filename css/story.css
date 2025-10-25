@@ -2,7 +2,7 @@
    STORY SECTION (Main Wrapper)
 ============================== */
 #story-section {
-  position: absolute;              /* For stacking .background and .story-box */
+  position: fixed;              /* For stacking .background and .story-box */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -28,7 +28,6 @@
   left: 5%;
   width: 90%;
   height: 90%;
-  background-image: url("../images/unicorn_background.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;        /* Keeps image fully visible */
@@ -47,14 +46,11 @@
 .story-box {
   position: relative;
   z-index: 2;                      /* Above background */
-  background: rgba(255, 255, 255, 0.12);
   border-radius: 30px;
   max-width: 700px;
   width: 90%;
   padding: 50px 40px;
-  margin-bottom: 20px;
-  box-shadow: 0 0 40px rgba(255, 182, 193, 0.8);
-  border: 2px solid #ff69b4;
+
   
 }
 

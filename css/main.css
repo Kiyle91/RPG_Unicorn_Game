@@ -4,6 +4,19 @@ body {
   padding: 0;
   box-sizing: border-box;
   overflow-x: hidden;
+  height: 100vh;
+  width: 100vw;
+
+  /* Pink border */
+  border: 10px solid #ff69b4;
+  border-radius: 10px;
+
+  /* Round the internal corners visually */
+  box-shadow: inset 0 0 0 10px #ff69b4;
+
+  /* Optional: keep full window view */
+  height: 100vh;
+  overflow: hidden;
 }
 
 /* Theme variables - tweak these to scale the UI */
@@ -51,10 +64,8 @@ body {
   background: rgba(255, 255, 255, 0.8);
   border: none;
   border-radius: 30px;
-  max-width: 700px;
-  width: 90%;
+  width: 60%;
   padding: 50px 40px;
-  margin: 0;
   box-shadow: 0 0 30px rgba(255, 182, 193, 0.8);
   animation: sparkle 2s infinite alternate;
   position: relative;
@@ -70,14 +81,12 @@ body {
   font-size: var(--h1-size);
   font-weight: 900;
   font-family: 'Princess Sofia', cursive;
-  margin: 0 0 25px 0;
   color: #ff69b4;
   text-shadow: 2px 2px 8px #fff;
 }
 
 #intro-box p {
   font-size: var(--intro-font-size);
-  margin-bottom: 30px;
   color: #8a2be2;
   line-height: 1.6;
 }
@@ -86,7 +95,6 @@ body {
   font-size: 0.9rem;
   color: #ff69b4;
   text-align: center;
-  margin-top: 20px;
   font-style: italic;
 }
 
@@ -171,10 +179,9 @@ button:focus,
 #welcome-back {
   display: none;  
   position: absolute;
-  top: 250px;
-  left: 380px;
   rotate: 35deg;
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
   text-align: center;
   font-family: 'Princess Sofia', cursive;
   font-size: 2rem;
@@ -193,13 +200,14 @@ button:focus,
 #crown {
   position: absolute;
   height: 100vh;
+  width: 80vw;
 }
 
 /* ------------------ Mute Button ------------------ */
 #mute-btn {
   position: absolute;
-  top: 30px;
-  right: 30px;
+  top: 5%;
+  right: 5%;
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
   color: white;
   font-size: 2rem;
@@ -265,3 +273,4 @@ button:focus,
 @media (max-width: 480px) {
   #mute-btn { width: 35px; height: 35px; font-size: 0.9rem; }
 }
+
