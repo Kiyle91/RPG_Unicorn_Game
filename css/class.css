@@ -25,8 +25,7 @@
   animation: rainbowBG 5s ease infinite;
 
   /* Enable vertical scroll if content overflows */
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 /* Animated background motion */
@@ -336,6 +335,37 @@
 
   #classtextscreen {
     margin-top: 5vh;
+  }
+}
+
+/* ============================================================
+   MOBILE WIDTH FIX (Overrides any previous desktop/tablet rules)
+   ============================================================ */
+@media (max-width: 375px) {
+  .class-options {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    justify-items: center !important;
+    align-items: center !important;
+    width: 80% !important;            /* keeps inside safe area */
+    max-width: 350px !important;
+    margin: 0 auto !important;
+    gap: 2.5vh 3vw !important;
+  }
+
+  .class-btn {
+    width: 36vw !important;           /* forces smaller width */
+    max-width: 150px !important;      /* hard stop to prevent edge touching */
+    min-height: 9vh !important;
+    padding: 1vh 1.5vw !important;
+    border-radius: 1.8vh !important;
+    font-size: 3.6vw !important;
+    box-sizing: border-box;
+  }
+
+  .class-btn .class-desc {
+    font-size: 2.5vw !important;
+    line-height: 1.2 !important;
   }
 }
 

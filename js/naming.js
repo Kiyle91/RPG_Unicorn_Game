@@ -43,29 +43,4 @@ confirmBtn.addEventListener('click', () => {
   }
 });
 
-/* ------------------ Rapid Fireworks Animation ------------------ */
-document.addEventListener("DOMContentLoaded", () => {
-  const namingPage = document.getElementById("naming-page");
 
-  const createFirework = (side) => {
-    const fw = document.createElement("div");
-    fw.classList.add("firework", side);
-    namingPage.appendChild(fw);
-
-    setTimeout(() => fw.classList.add("active"), 50);
-    setTimeout(() => fw.remove(), 1500);
-  };
-
-  const triggerFireworks = () => {
-    ["left", "right"].forEach((side) => {
-      for (let i = 0; i < 3; i++) {
-        setTimeout(() => createFirework(side), i * 200);
-      }
-    });
-  };
-
-  setTimeout(() => {
-    triggerFireworks();
-    setInterval(triggerFireworks, 2000);
-  }, 2000);
-});

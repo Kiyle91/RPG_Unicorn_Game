@@ -141,54 +141,6 @@
   background: linear-gradient(45deg, #ff69b4, #ba55d3, #00bfff);
 }
 
-/* ============================================================
-   FIREWORKS ANIMATION
-   ============================================================ */
-.firework {
-  position: absolute;
-  bottom: 45%;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  pointer-events: none;
-  opacity: 0;
-  z-index: 1;
-  filter: blur(0.5px);
-}
-
-.firework.left  { left: 30%; bottom: 10%; background: radial-gradient(circle, #fff, #ff69b4, transparent); }
-.firework.right { right: 30%; bottom: 10%; background: radial-gradient(circle, #fff, #87cefa, transparent); }
-
-@keyframes firework-burst {
-  0% { transform: scale(0) translateY(0); opacity: 1; }
-  30% { transform: scale(2) translateY(-30px); opacity: 1; }
-  60% { transform: scale(4) translateY(-80px); opacity: 0.8; }
-  100% { transform: scale(6) translateY(-150px); opacity: 0; }
-}
-
-.firework::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  box-shadow:
-    0 0 15px 5px #fff,
-    0 0 25px 10px currentColor,
-    0 0 40px 20px rgba(255,255,255,0.8);
-  opacity: 0;
-  animation: firework-glow 1.2s ease forwards;
-}
-
-@keyframes firework-glow {
-  0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; }
-}
-
-.firework.active {
-  opacity: 1;
-  animation: firework-burst 1.5s linear forwards;
-}
 
 /* ============================================================
    SPEECH BUBBLES (SEQUENTIAL)
