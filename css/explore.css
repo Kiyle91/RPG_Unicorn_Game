@@ -1,0 +1,44 @@
+/* ============================================================
+   EXPLORE PAGE – DESKTOP 16:9 VIEW
+   ============================================================ */
+
+#explore-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+
+  /* Background (same pastel theme as others) */
+  background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa, #fffacd);
+  background-size: 400% 400%;
+  animation: rainbowBG 8s ease infinite;
+
+  border: 10px solid #ff69b4;
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 10px #ff69b4;
+  position: relative;
+}
+
+/* ============================================================
+   FIXED 16:9 CANVAS AREA
+   ============================================================ */
+#explore-canvas {
+  aspect-ratio: 16 / 9;          /* ✅ maintain 16:9 ratio always */
+  width: 90vw;                   /* fill 90% of screen width */
+  height: auto;                  /* adjusts automatically */
+  max-height: 90vh;              /* safety limit */
+  border: 8px solid #ff69b4;
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(255, 182, 193, 0.6);
+  background-color: #fff;
+  display: block;
+}
+
+/* Optional background motion (if not already in main.css) */
+@keyframes rainbowBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}

@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="../css/class.css" />
   <link rel="stylesheet" href="../css/difficulty.css" />
   <link rel="stylesheet" href="../css/story.css" />
+  <link rel="stylesheet" href="../css/explore.css"/>
 </head>
 
 <body>
@@ -133,14 +134,36 @@
     </div>
   </section>
 
+
+  <!-- ========================== -->
+  <!-- EXPLORE / TOP-DOWN GAME -->
+  <!-- ========================== -->
+  <section id="explore-page" class="screen">
+  <div id="explore-wrapper">
+    <canvas id="explore-canvas"></canvas>
+
+    <!-- 🌸 Navigation Bar -->
+    <div id="explore-nav">
+      <button class="nav-btn" data-action="home">🏰 Home</button>
+      <button class="nav-btn" data-action="quest">📜 Quest</button>
+      <button class="nav-btn" data-action="battle">⚔️ Battle</button>
+      <button class="nav-btn" data-action="inventory">🎒 Inventory</button>
+      <button class="nav-btn" data-action="settings">⚙️ Settings</button>
+    </div>
+  </div>
+</section>
+
+
   <!-- ========================== -->
   <!-- SCRIPTS -->
   <!-- ========================== -->
+  <script src="../js/explore.js"></script>
   <script src="../js/script.js"></script>
   <script src="../js/naming.js"></script>
   <script src="../js/class_selection.js"></script>
   <script src="../js/difficulty.js"></script>
   <script src="../js/story.js"></script>
+  
   <script src="../js/battle.js"></script>
   <script src="../js/gameover.js"></script>
 </body>

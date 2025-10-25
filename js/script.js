@@ -90,4 +90,6 @@ function showScreen(nextId) {
     nextScreen.classList.add('active');
     nextScreen.style.display = 'flex';
   }
+
+  
 }
