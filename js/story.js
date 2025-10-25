@@ -1,42 +1,78 @@
-/* ------------------ Story Section JS ------------------ */
+/* ============================================================
+   STORY SCREEN – OLIVIA’S WORLD RPG
+   ============================================================ */
 
-const storySection = document.getElementById("story-section");
-const storyPage1 = document.getElementById("story-page-1");
-const continueBtn = document.getElementById("story-continue-btn");
+document.addEventListener("DOMContentLoaded", () => {
+  const storySection = document.getElementById("story-section");
+  const storyTitle = document.getElementById("story-title");
+  const storyText = document.getElementById("story-text");
+  const continueBtn = document.getElementById("story-continue-btn");
 
-// Example: you could have multiple story pages if needed
-const storyPages = [
-  {
-    title: "",
-    text: "Long ago, in the sparkling kingdom of Luminara, unicorns roamed freely, and magic filled the air. But whispers of shadow have begun to creep across the forests and mountains. Ancient prophecies speak of a time when the light will falter, and a brave heart will rise to protect the kingdom. You, the princess of Luminara, are that heart. Your journey begins in the quiet of dawn, as the first rays of sunlight dance across your chamber and the winds carry faint, urgent whispers from the enchanted forests. The air smells of morning dew and jasmine, and somewhere far off, a unicorn’s soft neigh pierces the stillness, calling you toward your destiny."
-  },
-  {
-    title: "",
-    text: "A brave princess awakens, sensing a calling far greater than any ordinary morning. The unicorns of the kingdom, majestic guardians of magic, are in danger, and only one with courage, wisdom, and a spark of magic can guide them to safety. Your heart pounds with purpose as you rise, feeling the weight of destiny settle upon your shoulders. Each step toward the castle gates echoes with the promise of adventure, friendship, and the challenges that lie ahead. The enchanted forests shimmer faintly in the morning light, as if the world itself is holding its breath, waiting to see what you will do next."
-  },
-  {
-    title: "",
-    text: "Stepping into the courtyard, the morning breeze carries the scent of fresh grass and magical blooms. A gentle glow surrounds the stables, where the unicorns wait, sensing your presence. One of them, a silver-maned unicorn with eyes like liquid sapphires, approaches, bowing its head in recognition. You realize that the journey ahead is not just about courage, but compassion, wisdom, and the bond you share with these creatures. Dark clouds gather on the horizon, hinting at the trials to come, yet your resolve shines brighter than the rising sun. The adventure of a lifetime begins with a single step."
+  if (!storySection || !continueBtn) {
+    console.error("❌ Story section or Continue button not found in the DOM!");
+    return;
   }
-];
 
-let currentPage = 0;
+  const storyPages = [
+    {
+    
+      text: "Long ago, in the sparkling kingdom of Luminara, unicorns roamed freely under pastel skies. The gentle magic of the land kept everything in harmony — but tonight, the stars whisper of change..."
+    },
+    {
+      
+      text: "A brave princess awakens, sensing a calling far greater than any ordinary morning. The unicorns, once playful, now seem restless. Something stirs in the enchanted forest beyond the palace walls..."
+    },
+    {
+      
+      text: "Stepping into the courtyard, the air hums with power. A silver-maned unicorn bows before you, its eyes filled with urgency. The light is fading — and your destiny begins now..."
+    }
+  ];
 
-continueBtn.addEventListener("click", () => {
-  currentPage++;
+  let currentPage = 0;
 
-  if (currentPage < storyPages.length) {
-    // Show next story content
-    document.getElementById("story-title").textContent = storyPages[currentPage].title;
-    document.getElementById("story-text").textContent = storyPages[currentPage].text;
-  } else {
-    // Finished the story
-    storySection.classList.remove("active");
+  // Initial setup
+  storyTitle.textContent = storyPages[0].title;
+  storyText.textContent = storyPages[0].text;
 
-    // Move to next stage (e.g., battle screen)
-    const battleScreen = document.getElementById("battle-screen");
-    if (battleScreen) battleScreen.classList.add("active");
+  continueBtn.addEventListener("click", () => {
+    console.log("✨ Continue button clicked!");
 
-    console.log("✅ Story finished — moving to the next screen!");
-  }
+    // 💫 Disable button briefly to prevent spamming
+    continueBtn.disabled = true;
+    continueBtn.classList.add("fade-out-btn");
+
+    // Re-enable after 1 second
+    setTimeout(() => {
+      continueBtn.disabled = false;
+      continueBtn.classList.remove("fade-out-btn");
+    }, 4000);
+
+    // Advance the story
+    currentPage++;
+
+    if (currentPage < storyPages.length) {
+      // Fade the text out, change content, fade back in
+      storyText.classList.add("fade-out");
+      storyTitle.classList.add("fade-out");
+
+      setTimeout(() => {
+        storyTitle.textContent = storyPages[currentPage].title;
+        storyText.textContent = storyPages[currentPage].text;
+        storyText.classList.remove("fade-out");
+        storyTitle.classList.remove("fade-out");
+      }, 300);
+    } else {
+      // End of story → next screen
+      storySection.classList.remove("active");
+      storySection.style.display = "none";
+
+      const battleScreen = document.getElementById("battle-screen");
+      if (battleScreen) {
+        battleScreen.classList.add("active");
+        battleScreen.style.display = "flex";
+      }
+
+      console.log("✅ Story finished — moving to battle!");
+    }
+  });
 });

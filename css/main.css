@@ -18,6 +18,13 @@
    BODY                // Our body from our html document, so everything not in a section
 ============================== */
 
+html {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;       /* ✅ Disable page scrolling entirely */
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -71,8 +78,8 @@ body {
   text-align: center;
   font-family: 'Comic Sans MS', cursive, sans-serif;
   color: #fff;
-  min-height: 100vh;
-  min-width: 100vw;
+  height: 100vh;
+  width: 100vw;
   overflow: hidden;
   position: absolute;
   top: 0;
@@ -89,6 +96,8 @@ body {
   align-items: center;
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa, #fffacd);
   background-size: 400% 400%;
+  height: 100vh;          /* ✅ fixed height keeps it flush */
+  width: 100vw;
   animation: rainbowBG 5s ease infinite;
   box-sizing: border-box;
   position: absolute;

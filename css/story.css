@@ -121,3 +121,18 @@
     transform: translateY(0);
   }
 }
+
+
+/* Fade effect for text between story pages */
+.fade-out {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Button fade-out/disable visual */
+.fade-out-btn {
+  opacity: 0.5;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}

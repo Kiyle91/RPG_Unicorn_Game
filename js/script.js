@@ -76,3 +76,18 @@ if (startBtn) {
     console.log("Start button clicked! Game starting...");
   });
 }
+
+function showScreen(nextId) {
+  // Hide all screens
+  document.querySelectorAll('.screen').forEach(screen => {
+    screen.classList.remove('active');
+    screen.style.display = 'none';
+  });
+
+  // Show the requested screen
+  const nextScreen = document.getElementById(nextId);
+  if (nextScreen) {
+    nextScreen.classList.add('active');
+    nextScreen.style.display = 'flex';
+  }
+}
