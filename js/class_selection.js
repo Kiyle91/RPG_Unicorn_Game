@@ -58,20 +58,42 @@ function showScreen(nextId) {
 function createPlayer(selectedClass) {
   const baseClass = classes[selectedClass];
   if (!baseClass) {
-    console.error(`Class "${selectedClass}" does not exist!`);
+    console.error(`❌ Class "${selectedClass}" does not exist!`);
     return null;
   }
 
-  return {
-    name: window.playerName || "Player",
-    classKey: selectedClass,
-    ...baseClass,
-    currentStats: { ...baseClass.baseStats },
+  // 🧩 Build player object
+  const player = {
+    classKey: selectedClass,                    // internal class ID (e.g., 'starSage')
+    ...baseClass,                               // includes stats, attacks, etc.
+    name: window.playerName || "Player",        // ✅ player's chosen name takes priority
+    currentStats: { ...baseClass.baseStats },   // copy of base stats (modifiable)
     level: 1,
     experience: 0,
     armorUpgrades: []
   };
+
+  // 🪄 Sync global name if necessary
+  if (window.playerName) {
+    player.name = window.playerName;
+    console.log("👑 Player name synced:", player.name);
+  }
+
+  // ✅ Save globally
+  window.player = player;
+
+  // Debug info
+  console.group("🎀 Player Created");
+  console.log("Name:", player.name);
+  console.log("Class:", player.classKey);
+  console.log("Base Stats:", player.baseStats);
+  console.log("Current Stats:", player.currentStats);
+  console.log("Attacks:", player.classAttacks);
+  console.groupEnd();
+
+  return player;
 }
+
 
 // ----- Handle Class Selection -----
 const classButtons = document.querySelectorAll(".class-btn");
