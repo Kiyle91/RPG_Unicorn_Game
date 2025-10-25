@@ -2,62 +2,289 @@
    NAMING PAGE – SIMPLE LAYOUT
    ============================== */
 #naming-page {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;      /* vertical centering */
-    align-items: center;          /* horizontal centering */
-    height: 100vh;                /* full viewport height */
-    width: 100vw;                 /* full viewport width */
-    margin: 0;
-    padding: 0;
-    font-family: 'Princess Sofia', cursive;
-    background: #fddde6;          /* solid soft pink background */
-    text-align: center;
-    box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;     /* vertical centering */
+  align-items: center;         /* horizontal centering */
+
+  min-height: 100vh;           /* full viewport height, scalable */
+  width: 100%;                 /* use percentage for better scaling */
+  margin: 0;
+  padding: 0;
+  font-family: 'Princess Sofia', cursive;
+  text-align: center;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+
+  /* ==============================
+     RAINBOW BACKGROUND ANIMATION
+     ============================== */
+  background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa, #fffacd);
+  background-size: 400% 400%;
+  animation: rainbowBG 5s ease infinite;
 }
 
-/* Page title / greeting */
+/* Keyframes for the rainbow effect */
+@keyframes rainbowBG {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ==============================
+   PAGE TITLE / GREETING
+   ============================== */
 #naming-page h1 {
-    font-size: 6vw;               /* scales with viewport width */
-    margin-bottom: 5vh;           /* spacing below heading */
-    color: #fff;
+  font-size: 6vw;
+  margin-bottom: 5vh;
+  color: #fff;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
 }
 
-/* Input container for vertical spacing */
+/* ==============================
+   INPUT CONTAINER
+   ============================== */
 #naming-page .input-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2vh;                     /* space between input and button */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5vh;
 }
 
-/* Input field for player name */
+/* ==============================
+   INPUT FIELD – PLAYER NAME
+   ============================== */
 #naming-page input {
-    font-size: 2.5vw;             /* scalable text */
-    padding: 1.5vh 2vw;           /* scalable padding */
-    border-radius: 1vh;
-    border: 2px solid #fff;
-    width: 30vw;                   /* scales with screen width */
-    text-align: center;
-    outline: none;
+  font-size: 2.5vw;
+  padding: 1.5vh 2vw;
+  border-radius: 1vh;
+  border: 2px solid #fff;
+  max-width: 60vw;
+  text-align: center;
+  outline: none;
+  background: rgba(255,255,255,0.8);
+  color: #8a2be2;
+  box-shadow: 0 0 15px rgba(255, 182, 193, 0.5);
+  transition: box-shadow 0.3s ease;
 }
 
-/* Confirm / Next button */
+#naming-page input:focus {
+  box-shadow: 0 0 25px rgba(255, 182, 193, 0.9);
+}
+
+/* ==============================
+   CONFIRM / NEXT BUTTON
+   ============================== */
 #naming-page button {
-    font-size: 2.5vw;
-    padding: 1.5vh 2vw;
-    border-radius: 1vh;
-    border: 2px solid #fff;
-    background: #ff9ce3;
-    color: #fff;
-    cursor: pointer;
+  font-size: 2.5vw;
+  padding: 1.5vh 2vw;
+  border-radius: 30px;                       
+  border: none;
+  background: linear-gradient(45deg, #ffb6c1, #dda0dd, #87cefa); 
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); 
+  transition: transform 0.2s, box-shadow 0.2s, background 0.3s ease;
 }
 
+#naming-page button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(45deg, #ff69b4, #ba55d3, #00bfff);
+}
 
-/* Princess image at the top of the naming page */
+/* ==============================
+   FIREWORK ANIMATION
+   ============================== */
+
+/* Base container for both sides */
+.firework {
+  position: absolute;
+  bottom: 45%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 15;
+  filter: blur(0.5px);
+}
+
+/* Positioning & base colors */
+.firework.left  { left: 15%; background: radial-gradient(circle, #fff, #ff69b4, transparent); }
+.firework.right { right: 15%; background: radial-gradient(circle, #fff, #87cefa, transparent); }
+
+/* Burst animation */
+@keyframes firework-burst {
+  0% {
+    transform: scale(0) translateY(0);
+    opacity: 1;
+  }
+  30% {
+    transform: scale(2) translateY(-30px);
+    opacity: 1;
+  }
+  60% {
+    transform: scale(4) translateY(-80px);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(6) translateY(-150px);
+    opacity: 0;
+  }
+}
+
+/* Glow burst overlay */
+.firework::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow:
+    0 0 15px 5px #fff,
+    0 0 25px 10px currentColor,
+    0 0 40px 20px rgba(255,255,255,0.8);
+  opacity: 0;
+  animation: firework-glow 1.2s ease forwards;
+}
+
+@keyframes firework-glow {
+  0%   { opacity: 0; }
+  50%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* When active */
+.firework.active {
+  opacity: 1;
+  animation: firework-burst 1.5s linear forwards;
+}
+
+/* ==============================
+   PRINCESS IMAGE
+   ============================== */
 #naming-page #princess {
-    width: 50vw;        /* 50% of viewport width */
-    height: 50vh;       /* 50% of viewport height */ /* keeps aspect ratio */
-    margin-bottom: 2vh;
-    object-fit: contain; /* spacing below the image */
+  width: 50vw;
+  height: auto;
+  max-height: 50vh;
+  margin-bottom: 2vh;
+  object-fit: contain;
+  z-index: 1;
+  pointer-events: none;
 }
+
+/* ==============================
+   SPEECH BUBBLE – PRINCESS DIALOGUE
+   ============================== */
+#speech-bubble {
+  position: absolute;
+  top: 10%;               
+  left: 55%;              
+  max-width: 30vw;            
+  min-height: 12vh;
+  background: rgba(255, 255, 255, 0.9);
+  border: 3px solid #ffb6c1;
+  border-radius: 30px;
+  box-shadow: 0 0 25px rgba(255, 182, 193, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2vh 3vw;
+  font-family: 'Comic Sans MS', cursive;
+  color: #8a2be2;
+  text-align: center;
+  z-index: 20;
+  opacity: 0;
+  transform: scale(0.8);
+  animation: bubbleAppear 1.2s ease forwards 3s; /* appears 3s after load */
+}
+
+/* ✨ Tail that points to the princess */
+#speech-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -18px;                /* how far below the bubble the tail sits */
+  left: 25px;                   /* how far along the bubble it starts */
+  width: 0;
+  height: 0;
+  border-width: 18px 14px 0 14px;  /* triangle size */
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.9) transparent transparent transparent;
+  filter: drop-shadow(0 0 6px rgba(255, 182, 193, 0.5)); /* soft glow to match theme */
+}
+
+/* Text inside the bubble */
+#speech-bubble p {
+  margin: 0;
+  max-width: 20vh;
+  font-size: 1.3vw;
+  line-height: 1.4;
+  animation: textPulse 1.5s linear infinite alternate;
+}
+
+/* Bubble appearance animation */
+@keyframes bubbleAppear {
+  0% { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Subtle text pulse */
+@keyframes textPulse {
+  0% { text-shadow: 0 0 5px rgba(255, 182, 193, 0.4); }
+  100% { text-shadow: 0 0 15px rgba(255, 182, 193, 0.9); }
+}
+
+
+
+/* ==============================
+   RESPONSIVE TWEAKS
+   ============================== */
+@media (max-width: 768px) {
+  #naming-page input {
+    width: 60vw;
+    font-size: 4vw;
+  }
+
+  #naming-page button {
+    font-size: 4vw;
+    padding: 2vh 5vw;
+  }
+
+  #naming-page #princess {
+    width: 70vw;
+    max-height: 40vh;
+  }
+
+  #speech-bubble p {
+    font-size: 2.2vw;
+    line-height: 1.6;
+
+}
+
+@media (max-width: 480px) {
+  #naming-page input {
+    width: 75vw;
+    font-size: 5vw;
+  }
+
+  #naming-page button {
+    font-size: 5vw;
+    padding: 2vh 6vw;
+  }
+
+  #naming-page #princess {
+    width: 80vw;
+    max-height: 35vh;
+  }
+
+  #speech-bubble p {
+    font-size: 3.5vw; /* bigger for small screens */
+    line-height: 1.7;
+}
+
+/* Notes for this page:
+   - Added rainbow background animation for consistency with main screen
+   - Kept all scaling + layout fixes for viewport safety
+   - Smooth transitions and soft pastel theme to match game tone
+*/

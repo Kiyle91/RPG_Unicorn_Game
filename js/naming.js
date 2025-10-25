@@ -30,3 +30,40 @@ confirmBtn.addEventListener('click', () => {
     }
 });
 
+// ⚡ Rapid looping fireworks – more bursts, faster pace
+document.addEventListener("DOMContentLoaded", () => {
+  const namingPage = document.getElementById("naming-page");
+
+  // Helper to create a single firework dynamically
+  const createFirework = (side) => {
+    const fw = document.createElement("div");
+    fw.classList.add("firework", side);
+    namingPage.appendChild(fw);
+
+    // Trigger animation
+    setTimeout(() => {
+      fw.classList.add("active");
+    }, 50);
+
+    // Remove after animation ends
+    setTimeout(() => fw.remove(), 1500);
+  };
+
+  // Function that spawns multiple fireworks per side
+  const triggerFireworks = () => {
+    const sides = ["left", "right"];
+    sides.forEach((side) => {
+      for (let i = 0; i < 3; i++) { // 💥 three bursts per side
+        setTimeout(() => createFirework(side), i * 200);
+      }
+    });
+  };
+
+  // Start after 2s, then keep going faster
+  setTimeout(() => {
+    triggerFireworks();
+    setInterval(triggerFireworks, 2000); // 🎇 every 2 seconds
+  }, 2000);
+});
+
+
