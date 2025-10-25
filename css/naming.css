@@ -236,11 +236,12 @@
 }
 
 
-
 /* ==============================
-   RESPONSIVE TWEAKS
+   RESPONSIVE – SPEECH BUBBLE, PRINCESS, INPUT & BUTTON
    ============================== */
-@media (max-width: 768px) {
+
+/* 🎯 Surface Pro 7 and mid-tablet fix */
+@media (max-width: 912px) {
   #naming-page input {
     width: 60vw;
     font-size: 4vw;
@@ -257,11 +258,35 @@
   }
 
   #speech-bubble p {
-    font-size: 2.2vw;
+    font-size: 3vw;   /* ⬆️ bigger text */
     line-height: 1.6;
-
+  }
 }
 
+/* 📱 Tablets & small screens */
+@media (max-width: 768px) {
+  #naming-page input {
+    width: 60vw;
+    font-size: 4.5vw;
+  }
+
+  #naming-page button {
+    font-size: 4.5vw;
+    padding: 2vh 5vw;
+  }
+
+  #naming-page #princess {
+    width: 70vw;
+    max-height: 40vh;
+  }
+
+  #speech-bubble p {
+    font-size: 3.5vw; /* ⬆️ bigger text for smaller screens */
+    line-height: 1.6;
+  }
+}
+
+/* 📱 Small phones */
 @media (max-width: 480px) {
   #naming-page input {
     width: 75vw;
@@ -279,9 +304,12 @@
   }
 
   #speech-bubble p {
-    font-size: 3.5vw; /* bigger for small screens */
+    font-size: 4.2vw; /* ⬆️ largest text for phones */
     line-height: 1.7;
+  }
 }
+
+
 
 /* Notes for this page:
    - Added rainbow background animation for consistency with main screen
