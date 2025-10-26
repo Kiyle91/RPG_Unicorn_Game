@@ -88,7 +88,7 @@
 #player-hp-container {
   position: absolute;
   bottom: 10%;
-  left: 16%;
+  left: 15%;
   transform: translateX(-50%);
   width: 20vw;
   height: 15px;
@@ -126,9 +126,9 @@
    ============================================================ */
 
 #player-mana-container {
-  position: absolute;
+  position: fixed;
   bottom: 13%;                  /* just beneath HP bar */
-  left: 16%;
+  left: 15%;
   transform: translateX(-50%);
   width: 20vw;
   height: 15px;
@@ -150,7 +150,7 @@
 }
 
 #player-mana-text {
-  position: absolute;
+  position: fixed;
   color: #fff;
   font-family: 'Comic Sans MS', cursive;
   font-size: 0rem;
@@ -167,41 +167,6 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ============================================================
-   RESPONSIVE ADJUSTMENTS
-============================================================ */
-@media (max-width: 1024px) {
-  #explore-canvas {
-    width: 95vw;
-    height: 75vh;
-  }
-
-  #explore-nav .nav-btn {
-    font-size: 1.1rem;
-    padding: 10px 20px;
-  }
-
-  #player-hp-container {
-    width: 85vw;
-    height: 20px;
-  }
-}
-
-@media (max-width: 768px) {
-  #explore-canvas {
-    width: 100vw;
-    height: 65vh;
-  }
-
-  #explore-nav .nav-btn {
-    font-size: 1rem;
-    padding: 8px 15px;
-  }
-
-  #player-hp-text {
-    font-size: 0.9rem;
-  }
-}
 
 /* ============================================================
    🌈 END OF EXPLORE SCREEN STYLES
