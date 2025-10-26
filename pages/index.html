@@ -40,6 +40,7 @@
     </div>
   </div>
 
+
   <!-- ============================================================
        🩷 LANDING PAGE
   ============================================================ -->
@@ -60,21 +61,23 @@
         <button id="start-btn">New Game</button>
         <button id="continue-btn" style="display:none;">Continue</button>
         <button id="load-btn">Load Game</button>
-        <p id="disclaimer">
-        <br>⚠️ This is a learning project created by <strong>Kiyle Edwards</strong> for Olivia Edwards. ⚠️
-      </p> 
-      </div>
-      </div>
 
-  <div id="load-wrapper" class="overlay-screen">
-    <div class="load-panel">
-        <h3>💾 Select a Save Slot</h3>
-    <div id="save-slot-list" class="slot-list"></div>
-    <button id="close-load" class="nav-btn">⬅️ Back</button>
+        <p id="disclaimer">
+          <br>⚠️ This is a learning project created by <strong>Kiyle Edwards</strong> for Olivia Edwards. ⚠️
+        </p>
+      </div>
     </div>
 
-
+    <!-- 💾 LOAD MENU OVERLAY -->
+    <div id="load-wrapper" class="overlay-screen">
+      <div class="load-panel">
+        <h3>💾 Select a Save Slot</h3>
+        <div id="save-slot-list" class="slot-list"></div>
+        <button id="close-load" class="nav-btn">⬅️ Back</button>
+      </div>
+    </div>
   </section>
+
 
   <!-- ============================================================
        🌟 NAMING PAGE
@@ -82,6 +85,7 @@
   <section id="naming-page" class="screen">
     <img src="../images/float_one.png" id="naming-unicorn" />
     <img src="../images/princess.png" id="princess" />
+
     <div id="speech-bubble"><p>Hello there! What’s your name, brave adventurer?</p></div>
     <div id="speech-bubble-2"><p>We have to get ready for the banquet!</p></div>
 
@@ -92,6 +96,7 @@
       </div>
     </div>
   </section>
+
 
   <!-- ============================================================
        🌙 CLASS SELECTION
@@ -125,8 +130,9 @@
     </div>
   </section>
 
+
   <!-- ============================================================
-       ⚔️ DIFFICULTY PAGE
+       ⚔️ DIFFICULTY SELECTION
   ============================================================ -->
   <section id="difficulty-screen" class="screen">
     <div id="difficulty-box">
@@ -138,6 +144,7 @@
       </div>
     </div>
   </section>
+
 
   <!-- ============================================================
        📖 STORY PAGE
@@ -154,11 +161,13 @@
     </div>
   </section>
 
+
   <!-- ============================================================
        🦄 EXPLORE PAGE
   ============================================================ -->
   <section id="explore-page" class="screen">
     <div id="explore-wrapper">
+
       <!-- 🗺️ Explore Canvas -->
       <canvas id="explore-canvas"></canvas>
 
@@ -177,12 +186,16 @@
         <span id="player-hp-text">HP: 100 / 100</span>
       </div>
 
+      <!-- 🔵 MANA BAR -->
       <div id="player-mana-container">
         <div id="player-mana-bar"></div>
         <span id="player-mana-text">MP: 80 / 80</span>
       </div>
 
-      <!-- 🎒 INVENTORY -->
+
+      <!-- ============================================================
+           🎒 INVENTORY OVERLAY
+      ============================================================ -->
       <div id="inventory-wrapper" class="overlay-screen">
         <div class="inventory-panel">
           <h3>📊 Player Stats</h3>
@@ -206,7 +219,10 @@
         </div>
       </div>
 
-      <!-- ⚙️ SETTINGS -->
+
+      <!-- ============================================================
+           ⚙️ SETTINGS OVERLAY
+      ============================================================ -->
       <div id="settings-wrapper" class="overlay-screen">
         <div class="settings-panel">
           <h3>⚙️ Settings</h3>
@@ -220,10 +236,14 @@
         </div>
       </div>
 
-      <!-- ⚔️ CONTROLS -->
+
+      <!-- ============================================================
+           ⚔️ CONTROLS OVERLAY
+      ============================================================ -->
       <div id="controls-wrapper" class="overlay-screen">
         <div class="controls-panel">
           <h3>🎮 Controls & Abilities</h3>
+
           <div class="controls-section">
             <ul>
               <li>Move: <strong>W / A / S / D</strong></li>
@@ -232,6 +252,7 @@
               <li>Dash: <strong>Shift</strong></li>
             </ul>
           </div>
+
           <div class="abilities-section">
             <h4>Abilities</h4>
             <ul>
@@ -242,11 +263,15 @@
               <li>C – Special</li>
             </ul>
           </div>
+
           <button id="close-controls" class="nav-btn">⬅️ Back</button>
         </div>
       </div>
 
-      <!-- 📜 QUESTS -->
+
+      <!-- ============================================================
+           📜 QUESTS OVERLAY
+      ============================================================ -->
       <div id="quests-wrapper" class="overlay-screen">
         <div class="quests-panel">
           <h3>📜 Active Quests</h3>
@@ -258,6 +283,7 @@
       </div>
     </div>
   </section>
+
 
   <!-- ============================================================
        📜 SCRIPTS
