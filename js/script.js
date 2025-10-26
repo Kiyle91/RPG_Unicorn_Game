@@ -412,6 +412,31 @@ function updateStatsDisplay(stats) {
   document.getElementById('stat-speed').textContent = stats.speed;
 }
 
+window.setMP = (value) => {
+  if (!window.player) return console.warn("⚠️ Player not initialized yet!");
+  player.mana = Math.max(0, Math.min(player.maxMana, value));
+  updateManaBar?.();
+  console.log(`🔵 Mana set to ${player.mana}/${player.maxMana}`);
+  return `🔵 Mana set to ${player.mana}/${player.maxMana}`;
+};
+
+window.useMana = (amount = 10) => {
+  if (!window.player) return console.warn("⚠️ Player not initialized yet!");
+  player.mana = Math.max(0, player.mana - amount);
+  updateManaBar?.();
+  console.log(`💧 Used ${amount} mana → ${player.mana}/${player.maxMana}`);
+  return `💧 Used ${amount} mana → ${player.mana}/${player.maxMana}`;
+};
+
+window.restoreMana = (amount = 10) => {
+  if (!window.player) return console.warn("⚠️ Player not initialized yet!");
+  player.mana = Math.min(player.maxMana, player.mana + amount);
+  updateManaBar?.();
+  console.log(`🔮 Restored ${amount} mana → ${player.mana}/${player.maxMana}`);
+  return `🔮 Restored ${amount} mana → ${player.mana}/${player.maxMana}`;
+};
+
+
 
 /* ============================================================
    ⚠️ CUSTOM ALERT BOX

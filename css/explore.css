@@ -10,7 +10,7 @@
    MAIN EXPLORE PAGE WRAPPER
 ============================================================ */
 #explore-page {
-  display: fixed;
+  display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
@@ -41,24 +41,14 @@
    FIXED 16:9 CANVAS AREA
 ============================================================ */
 #explore-canvas {
-  aspect-ratio: 16 / 9;
-  width: 90vw;
-  height: 80vh;
-  max-height: 90vh;
+  display: absolute;
+  width: 70vw;
   background-color: #fff;
   border: 4px solid #fff;
   border-radius: 20px;
-  box-shadow:
-    0 0 35px rgba(255, 182, 193, 0.8),
-    0 0 70px rgba(138, 43, 226, 0.4);
-  display: block;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
-#explore-canvas:hover {
-  box-shadow: 0 0 55px rgba(255, 182, 193, 1);
-  transform: scale(1.01);
-}
+
 
 /* ============================================================
    🌸 NAVIGATION BUTTONS
@@ -97,11 +87,11 @@
 
 #player-hp-container {
   position: absolute;
-  top: 1.5%;
-  left: 50%;
+  bottom: 10%;
+  left: 16%;
   transform: translateX(-50%);
-  width: 50vw;
-  height: 10px;
+  width: 20vw;
+  height: 15px;
   background: rgba(255, 255, 255, 0.15);
   border: 2px solid rgba(255, 255, 255, 0.7);
   border-radius: 15px;
@@ -130,6 +120,44 @@
   text-shadow: 0 0 8px #ff69b4;
   pointer-events: none;
 }
+
+/* ============================================================
+   💙 PLAYER MANA BAR – FLOATING BELOW HP BAR
+   ============================================================ */
+
+#player-mana-container {
+  position: absolute;
+  bottom: 13%;                  /* just beneath HP bar */
+  left: 16%;
+  transform: translateX(-50%);
+  width: 20vw;
+  height: 15px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(255, 182, 193, 0.6);
+  overflow: hidden;
+  z-index: 9999;
+  backdrop-filter: blur(5px)
+}
+
+#player-mana-bar {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #00bfff, #87cefa);
+  border-radius: 15px;
+  transition: width 0.4s ease-in-out;
+}
+
+#player-mana-text {
+  position: absolute;
+  color: #fff;
+  font-family: 'Comic Sans MS', cursive;
+  font-size: 0rem;
+  text-shadow: 0 0 8px #1e90ff;
+  pointer-events: none;
+}
+
 
 /* ============================================================
    🌸 GLOBAL TRANSITION KEYFRAMES

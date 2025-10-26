@@ -82,12 +82,26 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   window.updateHPBar = updateHPBar;
 
+  function updateManaBar() {
+  const bar = document.getElementById("player-mana-bar");
+  const text = document.getElementById("player-mana-text");
+  if (!bar || !text || !player) return;
+  window.updateManaBar = updateManaBar;
+
+  const manaPercent = (player.mana / player.maxMana) * 100;
+  bar.style.width = `${manaPercent}%`;
+  text.textContent = `MP: ${player.mana} / ${player.maxMana}`;
+}
+
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawMap();
     drawPlayer();
     updateHPBar();
+    updateManaBar();
   }
+
+
 
   function update() {
     if (!exploreRunning || !player) return;
@@ -148,6 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
     drawMap();
     drawPlayer();
     updateHPBar();
+    updateManaBar();
     exploreRunning = true;
     update();
   }
