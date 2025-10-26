@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let player = null;
   const keys = {};
   let exploreRunning = false;
-  let uiState = "explore"; // 🧭 Manage active overlay state
+  let uiState = "explore"; // 🧭 Manage overlay (explore/inventory)
 
   window.addEventListener("keydown", (e) => (keys[e.key] = true));
   window.addEventListener("keyup", (e) => (keys[e.key] = false));
@@ -53,6 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function drawPlayer() {
+    if (!player) return;
     ctx.fillStyle = player.color;
     ctx.beginPath();
     ctx.arc(player.x, player.y, player.size / 2, 0, Math.PI * 2);
@@ -75,19 +76,21 @@ document.addEventListener("DOMContentLoaded", () => {
   ============================================================ */
   function update() {
     if (!exploreRunning || !player) return;
+
+    // Pause movement when inventory is open
     if (uiState === "inventory") {
       draw();
       window.exploreFrameId = requestAnimationFrame(update);
       return;
     }
 
-    // Movement input
+    // WASD Movement
     if (keys["w"]) player.y -= player.speed;
     if (keys["s"]) player.y += player.speed;
     if (keys["a"]) player.x -= player.speed;
     if (keys["d"]) player.x += player.speed;
 
-    // Boundaries
+    // Keep inside map bounds
     player.x = Math.max(player.size / 2, Math.min(canvas.width - player.size / 2, player.x));
     player.y = Math.max(player.size / 2, Math.min(canvas.height - player.size / 2, player.y));
 
@@ -98,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawMap();
-    if (player) drawPlayer();
+    drawPlayer();
     updateHPBar();
   }
 
@@ -109,6 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (exploreRunning) return;
 
     if (window.player) {
+      // Use existing player data
       player = window.player;
       player.x = canvas.width / 2;
       player.y = canvas.height / 2;
@@ -118,6 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
       player.hp = player.currentStats?.hp || 100;
       player.maxHp = player.currentStats?.hp || 100;
     } else {
+      // Fallback player (if none defined)
       player = {
         name: "Fallback Hero",
         currentStats: { hp: 100, speed: 3 },
@@ -132,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
       window.player = player;
     }
 
-    drawMap(); // prewarm GPU
+    drawMap(); // Prewarm GPU
     updateHPBar();
     exploreRunning = true;
     update();
@@ -140,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.startExploreGame = startExploreGame;
 
   /* ============================================================
-     INVENTORY TOGGLE (Now Embedded)
+     INVENTORY TOGGLE (In-Explore Overlay)
   ============================================================ */
   const inventoryBtn = document.getElementById("open-inventory");
   const inventoryWrapper = document.getElementById("inventory-wrapper");
@@ -160,31 +165,57 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ============================================================
-     RETURN HOME HANDLER
+     RETURN HOME HANDLER (With Confirmation Prompt)
   ============================================================ */
   const returnHomeBtn = document.getElementById("return-home");
+
   if (returnHomeBtn) {
     returnHomeBtn.addEventListener("click", () => {
-      console.log("🏰 Returning home — resetting game...");
-      terminateGame(() => window.location.reload());
+      console.log("🏰 Return Home button clicked.");
+
+      // 🩷 Use your custom alert box if available
+      if (typeof showAlert === "function") {
+        showAlert(
+          "Are you sure you want to return home? Your current progress will be lost.",
+          () => {
+            console.log("✅ Player confirmed return home.");
+            terminateGame(() => {
+              window.location.reload();
+            });
+          }
+        );
+      } else {
+        // 🧩 Fallback native confirm if custom alert missing
+        const confirmExit = confirm(
+          "Are you sure you want to return home? Your progress will be lost."
+        );
+        if (confirmExit) {
+          terminateGame(() => {
+            window.location.reload();
+          });
+        }
+      }
     });
   }
-})
 
-/* ============================================================
-   TERMINATE GAME
+  /* ============================================================
+     TERMINATE GAME
   ============================================================ */
-function terminateGame(callback) {
-  console.log("💀 Terminating game...");
-  exploreRunning = false;
-  cancelAnimationFrame(window.exploreFrameId);
+  function terminateGame(callback) {
+    console.log("💀 Terminating game...");
+    exploreRunning = false;
+    cancelAnimationFrame(window.exploreFrameId);
 
-  const canvas = document.getElementById("explore-canvas");
-  if (canvas?.getContext) {
-    const ctx = canvas.getContext("2d");
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const canvas = document.getElementById("explore-canvas");
+    if (canvas?.getContext) {
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    window.player = null;
+    setTimeout(() => callback?.(), 200);
   }
 
-  window.player = null;
-  setTimeout(() => callback?.(), 200);
-}
+  // Expose for debugging
+  window.terminateGame = terminateGame;
+});
