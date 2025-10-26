@@ -1,204 +1,208 @@
-/* ==============================
+/* ============================================================
+   🌸 STORY SCREEN – OLIVIA’S WORLD RPG (HARMONIZED)
+   ============================================================
+   Unified with Explore Page theme:
+   ✨ Pastel gradients, glowing borders, and consistent button styling.
+   💖 Layout, animations, and responsiveness preserved.
+============================================================ */
+
+/* ============================================================
    STORY SECTION (Main Wrapper)
-============================== */
+============================================================ */
 #story-section {
-  position: fixed;              /* For stacking .background and .story-box */
+  position: fixed;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
   width: 100vw;
-  font-family: 'Princess Sofia', cursive;
+  font-family: 'Comic Sans MS', cursive;
   color: #fff;
   text-align: center;
   overflow: hidden;
-  z-index: 10;                     /* Above main background animation */
+  z-index: 10;
+
+  /* Explore-style animated pastel background */
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa, #fffacd);
   background-size: 400% 400%;
-  animation: rainbowBG 5s ease infinite;        /* Let main background show through */
+  animation: rainbowBG 8s ease infinite;
 }
 
-/* ==============================
+@keyframes rainbowBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ============================================================
    STORY BACKGROUND IMAGE
-============================== */
+============================================================ */
 .background {
-  position: absolute;              /* Anchored inside story-section */
+  position: absolute;
   top: 5%;
   left: 5%;
   width: 90%;
   height: 90%;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;        /* Keeps image fully visible */
+  background-size: cover;
   border-radius: 30px;
-  z-index: 1;                      /* Behind story box */
-                      /* Softly blended with main background */
-  pointer-events: none;            /* Allow clicks to pass through */
-  box-shadow: 0 0 30px rgba(255, 182, 193, 0.6),
+  z-index: 1;
+  pointer-events: none;
+  box-shadow: 0 0 35px rgba(255, 182, 193, 0.7),
               0 0 60px rgba(138, 43, 226, 0.3);
   transition: opacity 1s ease, transform 1s ease;
 }
 
-/* ==============================
-   STORY BOX (Foreground)
-============================== */
+/* ============================================================
+   STORY BOX (Foreground Container)
+============================================================ */
 .story-box {
   position: relative;
-  z-index: 2;                      /* Above background */
+  z-index: 2;
+  border: 3px solid #fff;
   border-radius: 30px;
   max-width: 700px;
   width: 90%;
   padding: 50px 40px;
-
-  
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 40px rgba(255, 182, 193, 0.9);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  animation: fadeInUp 1s ease forwards;
 }
 
-/* ==============================
+.story-box:hover {
+  box-shadow: 0 0 55px rgba(255, 182, 193, 1);
+}
+
+/* ============================================================
    STORY TEXT & TITLE
-============================== */
+============================================================ */
 #story-title {
   font-size: 2.5rem;
-  color: #ba55d3;
-  text-shadow: 2px 2px 10px #fff;
+  color: #fff;
+  text-shadow: 0 0 20px #ffb6c1, 0 0 30px #dda0dd;
   margin-bottom: 30px;
+  animation: titleGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+  0% { text-shadow: 0 0 10px #fff, 0 0 20px #ffb6c1; }
+  100% { text-shadow: 0 0 20px #fff, 0 0 35px #dda0dd; }
 }
 
 #story-text {
-  font-family: sans-serif;
-  font-size: 1.5rem;
+  font-family: 'Comic Sans MS', cursive;
+  font-size: 1.4rem;
   line-height: 1.6;
-  color: #8a2be2;
-  text-shadow: 1px 1px 5px #fff;
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 20px;
-  padding: 20px;
-  border: 1px solid #dda0dd;
-  margin-bottom: 30px;
+  color: #fff;
+  text-shadow: 0 0 6px #ffb6c1;
+  background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
+  background-size: 400% 400%;
+  animation: rainbowBG 8s ease infinite;
+  border-radius: 25px;
+  padding: 25px 30px;
+  border: 2px solid #fff;
+  margin-bottom: 35px;
+  box-shadow: 0 0 25px rgba(255, 182, 193, 0.7);
+  transition: box-shadow 0.3s ease;
 }
 
-/* ==============================
+#story-text:hover {
+  box-shadow: 0 0 40px rgba(255, 182, 193, 1);
+}
+
+/* ============================================================
    CONTINUE BUTTON
-============================== */
+============================================================ */
 #story-continue-btn {
   font-size: 2rem;
   padding: 20px 50px;
-  background: linear-gradient(45deg, #ffb6c1, #dda0dd, #87cefa);
+  background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
   color: #fff;
   border: none;
-  border-radius: 40px;
+  border-radius: 30px;
   cursor: pointer;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-  text-shadow: 1px 1px 5px #fff;
-  transition: all 0.3s ease;
+  box-shadow: 0 0 25px rgba(255, 182, 193, 0.7);
+  text-shadow: 0 0 10px #fff;
+  transition: all 0.3s ease-in-out;
 }
 
 #story-continue-btn:hover {
-  transform: scale(1.15);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  background: linear-gradient(45deg, #ff69b4, #ba55d3, #00bfff);
+  background: linear-gradient(135deg, #ff69b4, #ba55d3, #87cefa);
+  box-shadow: 0 0 45px rgba(255, 182, 193, 1);
+  text-shadow: 0 0 12px #fff;
 }
 
-/* ==============================
-   OPTIONAL: Smooth Entry Effect
-============================== */
+#story-continue-btn:active {
+  filter: brightness(1.2);
+}
+
+/* ============================================================
+   SMOOTH ENTRY EFFECTS
+============================================================ */
 #story-section.active .background {
   opacity: 1;
   transform: translateY(0);
 }
 
-.story-box {
-  animation: fadeInUp 1s ease forwards;
-}
-
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(50px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-
-/* Fade effect for text between story pages */
+/* Text + Button Fade Transitions */
 .fade-out {
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* Button fade-out/disable visual */
 .fade-out-btn {
   opacity: 0.5;
   pointer-events: none;
   transition: opacity 0.5s ease;
 }
 
+/* ============================================================
+   RESPONSIVE DESIGN
+============================================================ */
 
-
-/* ==============================
-   RESPONSIVE DESIGN – STORY SECTION
-============================== */
-
-/* 💻 Medium screens (tablets, small laptops) */
+/* 💻 Medium screens */
 @media (max-width: 1280px) {
-  #story-section {
-    padding: 20px;
-  }
+  #story-section { padding: 20px; }
 
   .story-box {
     max-width: 600px;
     padding: 40px 30px;
   }
 
-  #story-title {
-    font-size: 2rem;
-  }
-
-  #story-text {
-    font-size: 1.3rem;
-    line-height: 1.5;
-    padding: 15px;
-  }
-
-  #story-continue-btn {
-    font-size: 1.8rem;
-    padding: 15px 40px;
-  }
+  #story-title { font-size: 2rem; }
+  #story-text { font-size: 1.2rem; padding: 15px; }
+  #story-continue-btn { font-size: 1.6rem; padding: 15px 40px; }
 }
 
-/* 📱 Small tablets & large phones */
+/* 📱 Tablets & large phones */
 @media (max-width: 768px) {
-  #story-section {
-    padding: 10px;
-  }
+  #story-section { padding: 10px; }
 
   .story-box {
     max-width: 90%;
     padding: 30px 20px;
   }
 
-  #story-title {
-    font-size: 1.8rem;
-  }
-
-  #story-text {
-    font-size: 1.1rem;
-    line-height: 1.4;
-    padding: 15px;
-  }
-
+  #story-title { font-size: 1.8rem; }
+  #story-text { font-size: 1.1rem; line-height: 1.4; padding: 15px; }
   #story-continue-btn {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     padding: 12px 35px;
     border-radius: 30px;
   }
 }
 
-/* 📱 Extra small screens (phones) */
+/* 📱 Small phones */
 @media (max-width: 480px) {
   .story-box {
     padding: 20px 15px;
@@ -222,3 +226,7 @@
     border-radius: 25px;
   }
 }
+
+/* ============================================================
+   🌈 END OF STORY SCREEN STYLES
+============================================================ */

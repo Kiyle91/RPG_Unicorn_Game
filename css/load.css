@@ -1,5 +1,13 @@
 /* ============================================================
-   💾 LOAD GAME PANEL
+   💾 LOAD GAME PANEL — OLIVIA’S WORLD RPG (HARMONIZED)
+   ============================================================
+   Unified with Explore / Inventory / Settings:
+   ✨ Pastel gradients • White borders • Pink–blue glow
+   💫 Smooth transitions, blur depth, and hover consistency
+============================================================ */
+
+/* ============================================================
+   🌸 WRAPPER
 ============================================================ */
 #load-wrapper {
   position: absolute;
@@ -7,31 +15,50 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(255,182,193,0.25);
+  background: rgba(255, 182, 193, 0.25);
   backdrop-filter: blur(10px);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.35s ease;
+  transition: opacity 0.35s ease-in-out;
   z-index: 30;
 }
+
 #load-wrapper.active {
   opacity: 1;
   pointer-events: auto;
 }
 
+/* ============================================================
+   🌈 LOAD PANEL
+============================================================ */
 .load-panel {
-  background: rgba(255,255,255,0.25);
-  border: 3px solid rgba(255,255,255,0.4);
+  background: rgba(255, 255, 255, 0.25);
+  border: 3px solid #fff;
   border-radius: 35px;
   padding: 45px 60px;
-  box-shadow: 0 0 40px rgba(255,182,193,0.9);
-  color: #fff;
+  box-shadow:
+    0 0 40px rgba(255, 182, 193, 0.9),
+    0 0 80px rgba(173, 216, 230, 0.5);
+  color: #ff8cc6; /* Harmonized text pink */
   font-family: 'Comic Sans MS', cursive;
   text-align: center;
   width: 90%;
   max-width: 600px;
+  transform: scale(0.9);
+  transition: all 0.4s ease;
+  backdrop-filter: blur(12px);
 }
 
+#load-wrapper.active .load-panel {
+  transform: scale(1);
+  box-shadow:
+    0 0 60px rgba(255, 182, 193, 1),
+    0 0 100px rgba(138, 43, 226, 0.4);
+}
+
+/* ============================================================
+   💾 SLOT BUTTONS
+============================================================ */
 .slot-list {
   display: flex;
   flex-direction: column;
@@ -41,17 +68,30 @@
 
 .slot-btn {
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
-  border: none;
+  border: 2px solid #fff;
   border-radius: 25px;
   padding: 12px 25px;
   font-size: 1.2rem;
   color: #fff;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 15px rgba(255,182,193,0.6);
+  transition: all 0.3s ease-in-out;
+  box-shadow:
+    0 0 20px rgba(255, 182, 193, 0.6),
+    inset 0 0 5px rgba(255, 255, 255, 0.5);
 }
+
 .slot-btn:hover {
-  transform: scale(1.05);
+  transform: scale(1.1);
   background: linear-gradient(135deg, #ff69b4, #ba55d3, #87cefa);
-  box-shadow: 0 0 30px rgba(255,182,193,0.8);
+  box-shadow: 0 0 35px rgba(255, 182, 193, 1);
+  text-shadow: 0 0 12px #fff;
 }
+
+.slot-btn:active {
+  transform: scale(1.05);
+  filter: brightness(1.2);
+}
+
+/* ============================================================
+   🌈 END OF LOAD PANEL STYLES
+============================================================ */

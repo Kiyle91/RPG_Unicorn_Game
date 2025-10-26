@@ -1,10 +1,13 @@
 /* ============================================================
-   CLASS SELECTION PAGE – OLIVIA’S WORLD RPG
-   ============================================================ */
+   🌸 CLASS SELECTION PAGE – OLIVIA’S WORLD RPG (HARMONIZED)
+   ============================================================
+   Unified with Explore Page theme: pastel gradients, glowing
+   borders, hover transitions, and consistent text effects.
+============================================================ */
 
-/* ==============================
+/* ============================================================
    LAYOUT & BACKGROUND
-   ============================== */
+============================================================ */
 #class-selection-page {
   display: flex;
   flex-direction: column;
@@ -13,56 +16,50 @@
   height: 100vh;
   width: 100vw;
   padding: 5vh 4vw;
-  font-family:'Comic Sans MS', cursive;
+  font-family: 'Comic Sans MS', cursive;
   color: #fff;
   text-align: center;
   box-sizing: border-box;
   position: relative;
+  overflow: hidden;
 
-  /* Rainbow animated background */
+  /* Pastel animated background */
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa, #fffacd);
   background-size: 400% 400%;
-  animation: rainbowBG 5s ease infinite;
-
-  /* Enable vertical scroll if content overflows */
-  overflow: hidden;
+  animation: rainbowBG 8s ease infinite;
 }
 
-/* Animated background motion */
 @keyframes rainbowBG {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
 /* ============================================================
-   PAGE TITLES & TEXT
-   ============================================================ */
+   PAGE TITLE
+============================================================ */
 #class-selection-page .page-title {
   font-size: 4vw;
   font-weight: 900;
   color: #fff;
-  text-shadow: 2px 2px 8px #c4a7e7, 0 0 12px #f9c5d1, 0 0 20px #f0f8ff;
+  text-shadow: 0 0 15px #ff69b4, 0 0 25px #fff;
   margin-bottom: 5vh;
   padding: 2vh 4vw;
-  border-radius: 3vh;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 0 30px rgba(255, 182, 193, 0.5);
-  display: inline-block;
-  animation: header-glow 2s infinite alternate;
+  border-radius: 30px;
+  background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
+  border: 3px solid #fff;
+  box-shadow: 0 0 30px rgba(255, 182, 193, 0.8);
+  animation: header-glow 2s ease-in-out infinite alternate;
 }
 
 @keyframes header-glow {
-  0%   { text-shadow: 2px 2px 6px #b8a1d0, 0 0 5px #f9c5d1; }
-  100% { text-shadow: 2px 2px 10px #b8a1d0, 0 0 15px #f9c5d1; }
+  0% { box-shadow: 0 0 20px rgba(255, 182, 193, 0.6); }
+  100% { box-shadow: 0 0 40px rgba(255, 182, 193, 1); }
 }
-
-
 
 /* ============================================================
    CLASS BUTTON CONTAINER
-   ============================================================ */
+============================================================ */
 .class-options {
   display: flex;
   flex-wrap: wrap;
@@ -75,18 +72,20 @@
 }
 
 /* ============================================================
-   CLASS BUTTONS
-   ============================================================ */
+   CLASS BUTTONS (Unified Explore Gradient)
+============================================================ */
 .class-btn {
   position: relative;
-  border: none;
-  border-radius: 3vh;
+  border: 3px solid #fff;
+  border-radius: 25px;
   width: 22vw;
   min-width: 180px;
   min-height: 25vh;
   padding: 3vh 2vw;
   cursor: pointer;
-  transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+  background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
+  box-shadow: 0 0 25px rgba(255, 182, 193, 0.7);
+  transition: all 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -98,45 +97,27 @@
   margin-bottom: 10vh;
 }
 
-/* Individual Class Colours */
-.class-btn[data-class="glitterGuardian"] {
-  background: linear-gradient(135deg, #ffb6c1, #ffd700);
-  box-shadow: 0 0 25px #ff69b4;
-}
-
-.class-btn[data-class="starSage"] {
-  background: linear-gradient(135deg, #9370db, #00bfff);
-  box-shadow: 0 0 25px #8a2be2;
-}
-
-.class-btn[data-class="moonflower"] {
-  background: linear-gradient(135deg, #32cd32, #40e0d0);
-  box-shadow: 0 0 25px #3cb371;
-}
-
-.class-btn[data-class="silverArrow"] {
-  background: linear-gradient(135deg, #c0c0c0, #87cefa);
-  box-shadow: 0 0 25px #b0c4de;
-}
-
-/* Hover Effects */
+/* Hover Glow */
 .class-btn:hover {
   transform: scale(1.1) rotate(-2deg);
-  box-shadow: 0 0 40px rgba(255, 255, 255, 0.9);
-  background-blend-mode: lighten;
+  background: linear-gradient(135deg, #ff69b4, #ba55d3, #87cefa);
+  box-shadow: 0 0 40px rgba(255, 182, 193, 1);
 }
 
-/* Class Descriptions */
+/* ============================================================
+   CLASS DESCRIPTIONS
+============================================================ */
 .class-btn .class-desc {
   font-size: 1.2vw;
   margin-top: 1vh;
   line-height: 1.4;
-  text-shadow: 0 0 6px rgba(255,255,255,0.5);
+  color: #fff;
+  text-shadow: 0 0 8px #ffb6c1, 0 0 12px #fff;
 }
 
 /* ============================================================
    HOVER ICON EFFECTS
-   ============================================================ */
+============================================================ */
 .class-btn .hover-icon {
   position: absolute;
   bottom: -9vh;
@@ -147,7 +128,7 @@
   height: 10vh;
   pointer-events: none;
   transition: opacity 0.4s ease, transform 0.4s ease, filter 0.4s ease;
-  filter: drop-shadow(0 0 1.5vh rgba(255,255,255,0.6));
+  filter: drop-shadow(0 0 2vh rgba(255, 255, 255, 0.7));
   z-index: 5;
 }
 
@@ -155,110 +136,74 @@
 .class-btn:focus .hover-icon {
   opacity: 1;
   transform: translateX(-50%) translateY(-1.5vh) scale(1);
-  filter: drop-shadow(0 0 2.5vh rgba(255,255,255,1));
+  filter: drop-shadow(0 0 2.5vh rgba(255, 255, 255, 1));
   animation: hoverPop 0.6s ease;
 }
 
 @keyframes hoverPop {
-  0%   { transform: translateX(-50%) translateY(2vh) scale(0.3); opacity: 0; }
-  60%  { transform: translateX(-50%) translateY(-1vh) scale(1.15); opacity: 1; }
+  0% { transform: translateX(-50%) translateY(2vh) scale(0.3); opacity: 0; }
+  60% { transform: translateX(-50%) translateY(-1vh) scale(1.15); opacity: 1; }
   100% { transform: translateX(-50%) translateY(-1.5vh) scale(1); opacity: 1; }
 }
 
 /* ============================================================
-   RESPONSIVE ADJUSTMENTS (UPDATED FOR MOBILE FIT)
-   ============================================================ */
+   RESPONSIVE ADJUSTMENTS
+============================================================ */
 
-/* Medium Screens (Tablets) */
+/* Tablets */
 @media (max-width: 912px) {
-  #class-selection-page {
-    padding: 4vh 5vw;
-  }
-  .class-options {
-    gap: 3vh 2vw;
-    margin-top: 4vh;
-  }
+  #class-selection-page { padding: 4vh 5vw; }
+  .class-options { gap: 3vh 2vw; margin-top: 4vh; }
   .class-btn {
     width: 38vw;
     min-height: 20vh;
     margin-bottom: 4vh;
   }
-  .class-btn .hover-icon {
-    bottom: -4vh;
-    width: 7vh;
-    height: 7vh;
-  }
-  .class-btn .class-desc {
-    font-size: 2.2vw;
-  }
-  #classtextscreen {
-    font-size: 2.5vw;
-  }
+  .class-btn .hover-icon { bottom: -4vh; width: 7vh; height: 7vh; }
+  .class-btn .class-desc { font-size: 2.2vw; }
 }
 
-/* ============================================================
-   SMALL SCREENS (PHONES) – CENTERED 2x2 GRID (REDUCED WIDTH)
-   ============================================================ */
+/* Phones (2x2 Grid) */
 @media (max-width: 768px) {
-  #class-selection-page {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;    /* ✅ vertically centered */
-    align-items: center;
-    height: 100vh;
-    padding: 0 6vw;             /* ✅ more breathing room on sides */
-  }
-
-  #class-selection-page .page-title {
-    font-size: 5.5vw;
-    margin-bottom: 5vh;         /* space between header and grid */
-    margin-top: -5vh;           /* lift header slightly */
-  }
-
-  /* 🔸 2x2 Grid - smaller and centered */
-  .class-options {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 3vh 4vw;
-    justify-items: center;
-    align-items: center;
-    width: 85%;                 /* ✅ narrower grid for edge spacing */
-    max-width: 550px;
-  }
-
-  .class-btn {
-    width: 36vw;                /* ✅ smaller buttons */
-    min-height: 14vh;
-    padding: 1.5vh 2vw;
-  }
-
-  .class-btn .hover-icon {
-    bottom: -4vh;
-    width: 6vh;
-    height: 6vh;
-  }
-
-  .class-btn .class-desc {
-    font-size: 2.5vw;
-  }
-
-  #classtextscreen {
-    font-size: 3vw;
-    margin-top: 3vh;
-  }
-}
-
-/* ============================================================
-   EXTRA-SMALL SCREENS (VERY SMALL PHONES)
-   ============================================================ */
-@media (max-width: 480px) {
   #class-selection-page {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    padding: 0 8vw;             /* ✅ extra side padding for small screens */
+    padding: 0 6vw;
+  }
+
+  #class-selection-page .page-title {
+    font-size: 5.5vw;
+    margin-bottom: 5vh;
+    margin-top: -5vh;
+  }
+
+  .class-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3vh 4vw;
+    justify-items: center;
+    align-items: center;
+    width: 85%;
+    max-width: 550px;
+  }
+
+  .class-btn {
+    width: 36vw;
+    min-height: 14vh;
+    padding: 1.5vh 2vw;
+  }
+
+  .class-btn .hover-icon { bottom: -4vh; width: 6vh; height: 6vh; }
+  .class-btn .class-desc { font-size: 2.5vw; }
+}
+
+/* Small Phones */
+@media (max-width: 480px) {
+  #class-selection-page {
+    padding: 0 8vw;
+    justify-content: center;
   }
 
   #class-selection-page .page-title {
@@ -270,92 +215,63 @@
   .class-options {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-gap: 2.5vh 3vw;
+    gap: 2.5vh 3vw;
     justify-items: center;
-    align-items: center;
-    width: 80%;                 /* ✅ tighter layout */
+    width: 80%;
     max-width: 450px;
   }
 
   .class-btn {
-    width: 38vw;                /* ✅ slightly smaller to avoid edge contact */
+    width: 38vw;
     min-height: 13vh;
     padding: 1vh 2vw;
   }
 
-  .class-btn .hover-icon {
-    bottom: -3vh;
-    width: 5vh;
-    height: 5vh;
-  }
-
-  .class-btn .class-desc {
-    font-size: 2.9vw;
-  }
-
-  #classtextscreen {
-    font-size: 3.6vw;
-    margin-top: 3vh;
-  }
+  .class-btn .hover-icon { bottom: -3vh; width: 5vh; height: 5vh; }
+  .class-btn .class-desc { font-size: 2.9vw; }
 }
 
-
-
-
-
-
 /* ============================================================
-   DESKTOP & LARGE SCREEN LAYOUT
-   ============================================================ */
+   DESKTOP (16:9 / Full Width)
+============================================================ */
 @media (min-width: 1025px) {
   .class-options {
-    flex-wrap: nowrap;          /* ✅ one row only */
-    justify-content: center;    /* center the row */
-    align-items: flex-start;    /* keeps equal top alignment */
-    gap: 3vw;                   /* space between buttons */
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 3vw;
     margin-top: 6vh;
   }
 
   .class-btn {
-    width: 18vw;                /* shrink slightly to fit all four comfortably */
+    width: 18vw;
     min-height: 28vh;
-    margin-bottom: 0;           /* no vertical stacking gap */
+    margin-bottom: 0;
     padding: 2.5vh 2vw;
   }
 
-  .class-btn .class-desc {
-    font-size: 1vw;
-  }
-
-  .class-btn .hover-icon {
-    bottom: -6vh;
-    width: 12vh;
-    height: 12wvh;
-  }
-
-  #classtextscreen {
-    margin-top: 5vh;
-  }
+  .class-btn .class-desc { font-size: 1vw; }
+  .class-btn .hover-icon { bottom: -6vh; width: 12vh; height: 12vh; }
 }
 
 /* ============================================================
-   MOBILE WIDTH FIX (Overrides any previous desktop/tablet rules)
-   ============================================================ */
+   MOBILE WIDTH FIX
+============================================================ */
 @media (max-width: 375px) {
   .class-options {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
     justify-items: center !important;
     align-items: center !important;
-    width: 80% !important;            /* keeps inside safe area */
+    width: 80% !important;
     max-width: 350px !important;
     margin: 0 auto !important;
     gap: 2.5vh 3vw !important;
   }
 
   .class-btn {
-    width: 36vw !important;           /* forces smaller width */
-    max-width: 150px !important;      /* hard stop to prevent edge touching */
+    width: 36vw !important;
+    max-width: 150px !important;
     min-height: 9vh !important;
     padding: 1vh 1.5vw !important;
     border-radius: 1.8vh !important;
@@ -369,3 +285,6 @@
   }
 }
 
+/* ============================================================
+   🌸 END OF CLASS SELECTION PAGE STYLES
+============================================================ */

@@ -1,50 +1,64 @@
-/* ==============================
-   **** MAIN CSS FILE ******
-============================== */
+/* ============================================================
+   🌸 MAIN CSS – Unified Explore Theme
+   ============================================================
+   Matches Explore Page gradients, fonts, and glow effects
+   ------------------------------------------------------------
+   INDEX:
+   1. Body & Theme
+   2. Screen Wrapper
+   3. Intro Box + Buttons
+   4. Floating Elements (Unicorns, Crown)
+   5. Mute Button
+   6. Fairy Effects
+   7. Custom Alert Box
+   8. Continue / Load Buttons
+   9. Load Game Overlay
+   10. Responsive Scaling
+============================================================ */
 
-/* INDEX
-   1. Body
-   2. Theme Variables
-   3. Pink Border Tool
-   4. Screen Wrapper
-   5. Background Animation
-   6. Intro Box
-   ...
-*/
+/* ============================================================
+   🌈 GLOBAL GPU OPTIMIZATION – OLIVIA’S WORLD
+   ============================================================ */
 
-
-
-/* ==============================
-   BODY                // Our body from our html document, so everything not in a section
-============================== */
-
-html {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;       /* ✅ Disable page scrolling entirely */
-  box-sizing: border-box;
+/* Force hardware acceleration on key animation layers */
+*,
+*::before,
+*::after {
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  transform: translateZ(0);
+  will-change: transform, opacity;
 }
 
-body {
+/* Improve animation performance and text rendering */
+html, body {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+  image-rendering: -webkit-optimize-contrast;
+  scroll-behavior: smooth;
+}
+
+
+
+
+/* ============================================================
+   BODY & THEME VARIABLES
+============================================================ */
+
+
+html, body {
+  height: 100%;
+  width: 100%;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-
-  /* Flexible scaling */
-  min-height: 100vh;
-  width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
-
-  /* Background */
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa, #fffacd);
   background-size: 400% 400%;
-  animation: rainbowBG 5s ease infinite;
+  animation: rainbowBG 8s ease infinite;
 }
 
-/* ==============================
-   THEME VARIABLES   // These are some root variables that we made to control all the buttons and headings etc to keep our theme consistant
-============================== */
 :root {
   --h1-size: 4rem;
   --intro-font-size: 1.5rem;
@@ -53,26 +67,25 @@ body {
   --focus-ring: 3px solid rgba(255,255,255,0.9);
 }
 
-/* ==============================
-   PINK BORDER TOOL          // I made this tool so we can check our scalability - and it looks pretty.
-============================== */
+
+
+/* ============================================================
+   PINK BORDER TOOL
+============================================================ */
 #pink-border-tool {
   position: fixed;
   inset: 0;
   width: 100%;
   height: 100%;
   border: 2% solid #ff69b4;
-  border-radius: 0;                
-  box-shadow: inset 0 0 0 10px #ff69b4;  
+  box-shadow: inset 0 0 0 10px #ff69b4;
   pointer-events: none;
   z-index: 9999;
-  box-sizing: border-box;
 }
 
-
-/* ==============================
-   SCREEN WRAPPER             //  .screen is our first screen, then we cycle through .screen.active, letting us move page without reloading
-============================== */
+/* ============================================================
+   SCREEN WRAPPER
+============================================================ */
 .screen {
   display: none;
   text-align: center;
@@ -80,18 +93,13 @@ body {
   color: #fff;
   height: 100vh;
   width: 100vw;
-  overflow: hidden;
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 0;
   opacity: 0;
-  transform: scale(0.95);
   filter: brightness(1.2) blur(4px);
   pointer-events: none;
   transition: opacity 0.8s ease, transform 0.8s ease, filter 1s ease;
-  
-  
 }
 
 .screen.active {
@@ -100,55 +108,44 @@ body {
   align-items: center;
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa, #fffacd);
   background-size: 400% 400%;
-  height: 100vh;          /* ✅ fixed height keeps it flush */
-  width: 100vw;
-  animation: rainbowBG 5s ease infinite;
+  animation: rainbowBG 8s ease infinite;
   box-sizing: border-box;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 10;
-  opacity: 1;
   opacity: 1;
   transform: scale(1);
   filter: brightness(1) blur(0);
   pointer-events: auto;
-  
+  z-index: 10;
 }
 
-/* ==============================
-   BACKGROUND ANIMATION   // The pretty blue/pink shifting background animation.
-============================== */
 @keyframes rainbowBG {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
-/* ==============================
-   INTRO BOX                 // The box our player sees on the first screen containing all our other elements
-============================== */
+/* ============================================================
+   INTRO BOX
+============================================================ */
 #intro-box {
-  background: rgba(255, 255, 255, 0.8);
-  border: none;
+  background: rgba(255, 255, 255, 0.85);
   border-radius: 30px;
   width: 60%;
   padding: 50px 40px;
-  box-shadow: 0 0 30px rgba(255, 182, 193, 0.8);
+  box-shadow: 0 0 40px rgba(255, 182, 193, 0.8);
   animation: sparkle 2s infinite alternate;
   position: relative;
   z-index: 5;
 }
 
 @keyframes sparkle {
-  0% { box-shadow: 0 0 30px rgba(255, 182, 193, 0.8); }
+  0% { box-shadow: 0 0 30px rgba(255, 182, 193, 0.7); }
   100% { box-shadow: 0 0 60px rgba(255, 182, 193, 1); }
 }
 
 #intro-box h1 {
   font-size: var(--h1-size);
-  font-family: 'Comic Sans MS', cursive;
   color: #ff69b4;
+  font-family: 'Comic Sans MS', cursive;
   text-shadow: 2px 2px 8px #fff;
 }
 
@@ -161,54 +158,42 @@ body {
 #intro-box #disclaimer {
   font-size: 0.9rem;
   color: #ff69b4;
-  text-align: center;
   font-style: italic;
 }
 
-/* ==============================
-   START BUTTON   // The players selects this to move to the next screen, we made it pretty
-============================== */
+/* ============================================================
+   START BUTTON
+============================================================ */
 #start-btn {
   font-size: var(--btn-font-size);
   padding: var(--btn-padding);
-  background: linear-gradient(45deg, #ffb6c1, #dda0dd, #87cefa);
+  background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
   color: #fff;
-  border: none;
+  border:none;
   border-radius: 30px;
   cursor: pointer;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 0 20px rgba(255, 182, 193, 0.6);
+  transition: all 0.3s ease-in-out;
 }
 
 #start-btn:hover {
-  
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  background: linear-gradient(135deg, #ff69b4, #ba55d3, #87cefa);
+  box-shadow: 0 0 35px rgba(255, 182, 193, 1);
 }
 
-/* Focus styles for accessibility */
-button:focus,
-.class-btn:focus {
+#start-btn:active {
+  transform: scale(1.05);
+  filter: brightness(1.2);
+}
+
+button:focus {
   outline: none;
   box-shadow: 0 0 0 4px rgba(255, 182, 193, 0.6);
 }
 
-.class-btn:focus .hover-icon {
-  opacity: 1;
-  transform: translateX(-50%) translateY(-15px) scale(1);
-  filter: drop-shadow(0 0 20px rgba(255,255,255,1));
-}
-
-/* Reduce motion */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation: none !important;
-    transition: none !important;
-  }
-}
-
-/* ==============================
-   FLOATING UNICORNS  // the floating unicorns that move around the screen
-============================== */
+/* ============================================================
+   FLOATING UNICORNS + CROWN
+============================================================ */
 .unicorn {
   position: fixed;
   object-fit: contain;
@@ -218,60 +203,53 @@ button:focus,
   z-index: 6;
 }
 
-@keyframes float1 {
-  0% { transform: translate(0,0) rotate(0deg); }
-  25% { transform: translate(100px,-50px) rotate(10deg); }
-  50% { transform: translate(200px,20px) rotate(-10deg); }
-  75% { transform: translate(100px,50px) rotate(15deg); }
-  100% { transform: translate(0,0) rotate(0deg); }
-}
-
-@keyframes float2 {
-  0% { transform: translate(0,0) rotate(0deg); }
-  25% { transform: translate(-80px,60px) rotate(-10deg); }
-  50% { transform: translate(-160px,-30px) rotate(15deg); }
-  75% { transform: translate(-80px,-50px) rotate(-15deg); }
-  100% { transform: translate(0,0) rotate(0deg); }
-}
-
-@keyframes float3 {
-  0% { transform: translate(0,0) rotate(0deg); }
-  25% { transform: translate(50px,40px) rotate(10deg); }
-  50% { transform: translate(100px,-20px) rotate(-10deg); }
-  75% { transform: translate(50px,-40px) rotate(15deg); }
-  100% { transform: translate(0,0) rotate(0deg); }
-}
-
 #unicorn1 { top: 20%; left: 10%; animation: float1 12s linear infinite; }
 #unicorn2 { top: 50%; left: 70%; animation: float2 15s linear infinite; }
 #unicorn3 { top: 70%; left: 30%; animation: float3 10s linear infinite; }
 
-/* ==============================
-   CROWN  // the crown graphic thats behind our box
-============================== */
-@keyframes flash {
-  0% { opacity: 0.5; transform: scale(0.95); }
-  50% { opacity: 1; transform: scale(1.05); }
-  100% { opacity: 0.5; transform: scale(0.95); }
+@keyframes float1 {
+  0%,100% { transform: translate(0,0) rotate(0deg); }
+  25% { transform: translate(100px,-50px) rotate(10deg); }
+  50% { transform: translate(200px,20px) rotate(-10deg); }
+  75% { transform: translate(100px,50px) rotate(15deg); }
+}
+
+@keyframes float2 {
+  0%,100% { transform: translate(0,0) rotate(0deg); }
+  25% { transform: translate(-80px,60px) rotate(-10deg); }
+  50% { transform: translate(-160px,-30px) rotate(15deg); }
+  75% { transform: translate(-80px,-50px) rotate(-15deg); }
+}
+
+@keyframes float3 {
+  0%,100% { transform: translate(0,0) rotate(0deg); }
+  25% { transform: translate(50px,40px) rotate(10deg); }
+  50% { transform: translate(100px,-20px) rotate(-10deg); }
+  75% { transform: translate(50px,-40px) rotate(15deg); }
 }
 
 #crown {
   position: absolute;
   max-height: 50vh;
   max-width: 40vw;
+  animation: flash 3s infinite ease-in-out;
 }
 
-/* ==============================
-   MUTE BUTTON  // the mute button that appears in the top right hand of the screen
-============================== */
+@keyframes flash {
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+/* ============================================================
+   MUTE BUTTON
+============================================================ */
 #mute-btn {
   position: fixed;
   top: 5%;
   right: 5%;
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
-  color: white;
+  color: #fff;
   font-size: clamp(1rem, 2vw, 1.5rem);
-  border: none;
+  border: 2px solid #fff;
   border-radius: 50%;
   cursor: pointer;
   width: clamp(50px, 7vw, 70px);
@@ -279,125 +257,67 @@ button:focus,
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  transition: transform 0.2s ease, background 0.3s ease;
+  box-shadow: 0 0 15px rgba(255, 182, 193, 0.6);
+  transition: all 0.3s ease;
   z-index: 1000;
 }
 
 #mute-btn:hover {
   transform: scale(1.2);
-  background: linear-gradient(135deg, #ff69b4, #ba55d3, #00bfff);
+  background: linear-gradient(135deg, #ff69b4, #ba55d3, #87cefa);
+  box-shadow: 0 0 25px rgba(255, 182, 193, 0.9);
 }
 
-/* ==============================
-   HIDE MUTE BUTTON ON EXPLORE PAGE
-============================== */
 body:has(#explore-page.active) #mute-btn {
   display: none !important;
 }
 
 /* ============================================================
-   🌈 FAIRY DUST – SMOOTH RANDOM BURST MOTION
-   ============================================================ */
-
-.fairy-dust {
+   FAIRY EFFECTS (Dust, Spark, Burst)
+============================================================ */
+.fairy-dust,
+.fairy-spark,
+.fairy-burst {
   position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  will-change: transform, opacity;
+}
+
+/* Dust */
+.fairy-dust {
   width: 6px;
   height: 6px;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 10000;
-
-  /* 🌈 Pastel rainbow gradient */
   background: radial-gradient(circle, #fff 0%, var(--dust-color, #ffb6c1) 70%, transparent 100%);
-  box-shadow: 0 0 6px var(--dust-color, #ffb6c1), 0 0 12px #fff;
-
-  /* Start invisible and fade in/out smoothly */
-  opacity: 0;
+  box-shadow: 0 0 8px var(--dust-color, #ffb6c1), 0 0 12px #fff;
   animation: swirl 1.8s linear forwards;
-
-  transform: translate3d(0, 0, 0);
-  will-change: transform, opacity;
 }
 
-/* ============================================================
-   ✨ SWIRL REDEFINED – SMOOTH OUTWARD MOTION
-   ============================================================ */
 @keyframes swirl {
-  0% {
-    opacity: 1;
-    transform: translate(0, 0) scale(1);
-  }
-  60% {
-    opacity: 0.9;
-    transform: translate(
-      calc(80px * var(--dir-x) * var(--speed-multiplier)),
-      calc(80px * var(--dir-y) * var(--speed-multiplier))
-    ) scale(0.8);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(
-      calc(120px * var(--dir-x) * var(--speed-multiplier)),
-      calc(120px * var(--dir-y) * var(--speed-multiplier))
-    ) scale(0.3);
-  }
+  0% { opacity: 1; transform: translate(0, 0) scale(1); }
+  60% { opacity: 0.9; transform: translate(60px, -30px) scale(0.8); }
+  100% { opacity: 0; transform: translate(120px, -60px) scale(0.3); }
 }
 
-
-
-/* ============================================================
-   ✨ FAIRY SPARK – QUICK BRIGHT FLICKERS
-   ============================================================ */
-
+/* Spark */
 .fairy-spark {
-  position: fixed;
-  width: 2px;
-  height: 2px;
-  border-radius: 50%;
+  width: 3px;
+  height: 3px;
   background: radial-gradient(circle, #fff 0%, #ffd700 70%, transparent 100%);
-  box-shadow: 0 0 6px #fff, 0 0 10px #ffd700;
-  pointer-events: none;
-  z-index: 10000;
-  opacity: 0;
+  box-shadow: 0 0 8px #fff, 0 0 10px #ffd700;
   animation: sparkFly 0.8s linear forwards;
-  transform: translate3d(0, 0, 0);
-  will-change: transform, opacity;
 }
 
 @keyframes sparkFly {
-  0% {
-    opacity: 1;
-    transform: translate(0, 0) scale(1);
-  }
-  60% {
-    opacity: 0.8;
-    transform: translate(
-      calc(50px * var(--dir-x)),
-      calc(50px * var(--dir-y))
-    ) scale(1.2);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(
-      calc(80px * var(--dir-x)),
-      calc(80px * var(--dir-y))
-    ) scale(0);
-  }
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: translate(80px, -50px) scale(0); }
 }
 
-
-/* ============================================================
-   💥 FAIRY BURST – CENTRAL COLOR FLASH ON CLICK
-   ============================================================ */
+/* Burst */
 .fairy-burst {
-  position: fixed;
   width: 30px;
   height: 30px;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 10006;
-  opacity: 0;
   background: var(--burst-color, #ff69b4);
   box-shadow: 0 0 40px var(--burst-color, #ff69b4), 0 0 80px #fff;
   transform: translate(-50%, -50%) scale(0.2);
@@ -405,105 +325,14 @@ body:has(#explore-page.active) #mute-btn {
 }
 
 @keyframes burstExpand {
-  0% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(0.2);
-  }
-  60% {
-    opacity: 0.8;
-    transform: translate(-50%, -50%) scale(1.1);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1.6);
-  }
+  0% { opacity: 1; transform: scale(0.2); }
+  60% { opacity: 0.8; transform: scale(1.1); }
+  100% { opacity: 0; transform: scale(1.6); }
 }
-
-
-
-/* ==============================
-   RESPONSIVE  // The media functions help add additional commands after the rest of the script has run to change our screen to fit smaller sizes
-============================== */
-@media (max-width: 1280px) {
-  #unicorn2 { display: none; }
-
-  .unicorn {
-    max-height: 20vh;
-    max-width: 20vw;
-  }
-
-  #crown {
-    max-height: 50vh;
-    max-width: 50vw;
-  }
-
-  #intro-box h1 { font-size: 2rem; }
-  #intro-box p { font-size: 1rem; }
-  #start-btn { font-size: 1.5rem; padding: 15px 30px; }
-
-  #mute-btn {
-    top: 3.5%;
-    right: 5%;
-    width: clamp(45px, 9vw, 60px);
-    height: clamp(45px, 9vw, 60px);
-    font-size: clamp(0.9rem, 2vw, 1.1rem);
-  }
-}
-
-@media (max-width: 480px) {
-  #mute-btn {
-    top: 2.5%;
-    right: 5%;
-    width: clamp(45px, 9vw, 60px);
-    height: clamp(45px, 9vw, 60px);
-    font-size: clamp(0.9rem, 2vw, 1.1rem);
-  }
-}
-
-
-
-/* Notes for the script.
-
-We contain all our css dressings that will be used across the whole program here
-
-we use as much scalability and accesibility as possible*/
-
-
-
-/* Core screen visibility control – same pattern we used for inventory */
-.screen {
-  display: none;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.35s ease;
-}
-
-.screen.active {
-  display: flex !important;  /* ← this is the key */
-  opacity: 1;
-  pointer-events: auto;
-  transition: opacity 0.35s ease;
-}
-
-/* Keep canvas behind everything by default */
-#explore-canvas {
-  position: relative;
-  z-index: -1;
-  pointer-events: none;
-}
-
-/* Overlays (like inventory) still sit on top when active */
-.overlay-screen {
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
-}
-
 
 /* ============================================================
-   🌸 CUSTOM ALERT BOX – Olivia’s World Style
-   ============================================================ */
-
+   CUSTOM ALERT BOX
+============================================================ */
 #custom-alert {
   position: fixed;
   top: 0;
@@ -515,61 +344,11 @@ we use as much scalability and accesibility as possible*/
   align-items: center;
   justify-content: center;
   z-index: 99999;
-  opacity: 1;
   transition: opacity 0.3s ease;
 }
-#custom-alert.alert-hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.alert-box {
-  background: rgba(255, 255, 255, 0.95);
-  border: 3px solid #ffb6c1;
-  border-radius: 25px;
-  box-shadow: 0 0 25px rgba(255, 182, 193, 0.8);
-  padding: 25px 35px;
-  text-align: center;
-  color: #8a2be2;
-  font-family: 'Comic Sans MS', cursive;
-  max-width: 400px;
-  animation: fadeInUp 0.4s ease;
-}
-
-.alert-btns {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.alert-btns button {
-  border: none;
-  border-radius: 20px;
-  padding: 10px 25px;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  color: #fff;
-  font-family: 'Comic Sans MS';
-}
-
-.alert-yes {
-  background: linear-gradient(135deg, #ff69b4, #dda0dd);
-}
-
-.alert-no {
-  background: linear-gradient(135deg, #999, #ccc);
-}
-
-.alert-btns button:hover {
-  
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
-}
 
 #custom-alert.alert-hidden {
   opacity: 0;
-  visibility: hidden;
   pointer-events: none;
 }
 
@@ -577,173 +356,59 @@ we use as much scalability and accesibility as possible*/
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
   border: 3px solid #fff;
   border-radius: 25px;
+  box-shadow: 0 0 25px rgba(255, 182, 193, 0.8);
   padding: 30px 50px;
   color: #fff;
-  font-family: 'Comic Sans MS', cursive;
-  font-size: 1.8rem;
   text-align: center;
-  box-shadow: 0 0 30px rgba(255, 182, 193, 0.8);
+  font-family: 'Comic Sans MS', cursive;
+  font-size: 1.6rem;
   animation: popIn 0.4s ease forwards;
 }
 
-.alert-box p {
-  margin-bottom: 20px;
-}
-
-#alert-ok {
+.alert-btns button {
   background: linear-gradient(135deg, #ff69b4, #dda0dd, #87cefa);
   border: none;
-  border-radius: 30px;
-  padding: 10px 30px;
-  color: #fff;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  box-shadow: 0 0 15px rgba(255, 182, 193, 0.6);
-}
-
-
-
-@keyframes popIn {
-  from { transform: scale(0.8); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-
-.alert-box {
-  background: rgba(255, 255, 255, 0.9);
-  border: 3px solid #ffb6c1;
   border-radius: 25px;
-  box-shadow: 0 0 25px rgba(255, 182, 193, 0.8);
-  padding: 25px 35px;
-  text-align: center;
-  color: #8a2be2;
-  font-family: 'Comic Sans MS', cursive;
-  max-width: 400px;
-  margin: auto;
-  animation: fadeInUp 0.4s ease;
-}
-
-.alert-btns {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.alert-btns button {
-  border: none;
-  border-radius: 20px;
   padding: 10px 25px;
   font-size: 1.2rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
   color: #fff;
   font-family: 'Comic Sans MS';
-}
-
-.alert-yes {
-  background: linear-gradient(135deg, #ff69b4, #dda0dd);
-}
-
-.alert-no {
-  background: linear-gradient(135deg, #999, #ccc);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 10px;
 }
 
 .alert-btns button:hover {
-  
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+  transform: scale(1.1);
+  box-shadow: 0 0 25px rgba(255, 182, 193, 1);
 }
-
 
 /* ============================================================
-   🌸 LANDING PAGE – CONTINUE BUTTON
-   ============================================================ */
-
-/* ============================================================
-   🌸 CONTINUE BUTTON — Matches #load-btn Style
-   ============================================================ */
-#continue-btn {
-  display: none; /* Shown dynamically via JS if save exists */
-  font-size: var(--btn-font-size);
-  padding: var(--btn-padding);
-  margin-top: 20px;
-  margin-left: 10px;
-  background: linear-gradient(135deg, #87cefa, #dda0dd, #ffb6c1);
-  color: #fff;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  box-shadow: 0 0 20px rgba(255, 182, 193, 0.6),
-              inset 0 0 5px rgba(255, 255, 255, 0.5);
-  transition: all 0.3s ease-in-out;
-  animation: fadeInContinue 0.8s ease forwards;
-}
-
-#continue-btn:hover {
-  
-  background: linear-gradient(135deg, #ba55d3, #ff69b4, #fffacd);
-  box-shadow: 0 0 35px rgba(255, 182, 193, 0.9);
-  text-shadow: 0 0 12px #fff;
-}
-
-#continue-btn:active {
-  transform: scale(1.05);
-  filter: brightness(1.2);
-}
-
-/* Optional fade-in effect */
-@keyframes fadeInContinue {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-
-
+   CONTINUE + LOAD BUTTONS
+============================================================ */
+#continue-btn,
 #load-btn {
   font-size: var(--btn-font-size);
   padding: var(--btn-padding);
-  margin-top: 20px;
-  margin-left: 10px;
   background: linear-gradient(135deg, #87cefa, #dda0dd, #ffb6c1);
   color: #fff;
   border: none;
   border-radius: 30px;
   cursor: pointer;
-  box-shadow: 0 0 20px rgba(255, 182, 193, 0.6), inset 0 0 5px rgba(255,255,255,0.5);
+  box-shadow: 0 0 25px rgba(255, 182, 193, 0.7);
   transition: all 0.3s ease-in-out;
-  animation: fadeInLoad 0.8s ease forwards;
 }
 
+#continue-btn:hover,
 #load-btn:hover {
-  
-  background: linear-gradient(135deg, #ba55d3, #ff69b4, #fffacd);
+  background: linear-gradient(135deg, #ff69b4, #ba55d3, #87cefa);
   box-shadow: 0 0 35px rgba(255, 182, 193, 0.9);
-  text-shadow: 0 0 12px #fff;
-}
-
-#load-btn:active {
   transform: scale(1.05);
-  filter: brightness(1.2);
 }
-
-@keyframes fadeInLoad {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
 
 /* ============================================================
-   💾 LOAD GAME OVERLAY – BUTTONS (Unified Theme)
-   ============================================================ */
-
-/* 🌸 General Button Look (Load + Back) */
+   LOAD GAME OVERLAY BUTTONS
+============================================================ */
 #close-load,
 .slot-btn {
   font-family: 'Comic Sans MS', cursive;
@@ -753,39 +418,18 @@ we use as much scalability and accesibility as possible*/
   border-radius: 30px;
   color: #fff;
   cursor: pointer;
-  text-align: center;
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
-  box-shadow: 0 0 20px rgba(255, 182, 193, 0.6),
-              inset 0 0 5px rgba(255, 255, 255, 0.5);
-  transition: all 0.3s ease-in-out;
+  box-shadow: 0 0 20px rgba(255, 182, 193, 0.7);
+  transition: all 0.3s ease;
 }
 
-/* 💫 Hover Animation */
 #close-load:hover,
 .slot-btn:hover {
-  
-  background: linear-gradient(135deg, #ba55d3, #ff69b4, #fffacd);
-  box-shadow: 0 0 35px rgba(255, 182, 193, 0.9);
-  text-shadow: 0 0 12px #fff;
-}
-
-/* ✨ Active (Pressed) State */
-#close-load:active,
-.slot-btn:active {
+  background: linear-gradient(135deg, #ff69b4, #ba55d3, #87cefa);
+  box-shadow: 0 0 30px rgba(255, 182, 193, 1);
   transform: scale(1.05);
-  filter: brightness(1.2);
 }
 
-/* 📜 Slot List Layout */
-.slot-list {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-top: 20px;
-  align-items: center;
-}
-
-/* 🎀 Load Panel Layout */
 .load-panel {
   background: rgba(255, 255, 255, 0.25);
   border: 3px solid rgba(255, 255, 255, 0.4);
@@ -798,3 +442,18 @@ we use as much scalability and accesibility as possible*/
   width: 90%;
   max-width: 600px;
 }
+
+/* ============================================================
+   RESPONSIVE SCALING
+============================================================ */
+@media (max-width: 1280px) {
+  #unicorn2 { display: none; }
+  .unicorn { max-height: 20vh; max-width: 20vw; }
+  #crown { max-height: 50vh; max-width: 50vw; }
+  #intro-box h1 { font-size: 2rem; }
+  #intro-box p { font-size: 1rem; }
+  #start-btn { font-size: 1.5rem; padding: 15px 30px; }
+}
+/* ============================================================
+   🌸 END OF MAIN STYLES CSS
+============================================================ */

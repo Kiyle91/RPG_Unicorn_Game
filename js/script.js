@@ -27,60 +27,86 @@ function enterExploreMode() {
 
 
 /* ============================================================
-   🌈 FAIRY CLICK EFFECTS
-============================================================ */
+   🌈 FAIRY CLICK EFFECTS – Olivia’s World (Restored Style)
+   ============================================================ */
 document.addEventListener('click', (e) => {
-  // 💥 Center burst
-  const burst = document.createElement('div');
-  burst.classList.add('fairy-burst');
-  const hue = Math.floor(Math.random() * 360);
-  burst.style.setProperty('--burst-color', `hsl(${hue}, 100%, 75%)`);
-  burst.style.left = `${e.clientX}px`;
-  burst.style.top = `${e.clientY}px`;
-  document.body.appendChild(burst);
-  setTimeout(() => burst.remove(), 800);
+  const clickX = e.clientX;
+  const clickY = e.clientY;
 
-  // 🌈 Fairy dust
-  const numDust = 35;
-  for (let i = 0; i < numDust; i++) {
+  /* ============================================================
+     💥 CENTER BURST CIRCLE
+  ============================================================ */
+  const burst = document.createElement('div');
+burst.classList.add('fairy-burst');
+
+// Random hue for variation
+const hue = Math.floor(Math.random() * 360);
+burst.style.background = `radial-gradient(circle, hsl(${hue}, 100%, 70%) 30%, hsl(${hue}, 100%, 60%) 60%, transparent 100%)`;
+
+// Exact placement at click point
+burst.style.left = `${e.clientX}px`;
+burst.style.top = `${e.clientY}px`;
+burst.style.position = 'fixed';
+burst.style.transform = 'translate(-50%, -50%)'; // centers it precisely
+burst.style.width = '25px';
+burst.style.height = '25px';
+burst.style.borderRadius = '50%';
+burst.style.pointerEvents = 'none';
+burst.style.zIndex = 9998;
+burst.style.filter = 'blur(1px)';
+document.body.appendChild(burst);
+
+// More solid + longer presence + smooth fade
+burst.animate(
+  [
+    { transform: 'translate(-50%, -50%) scale(0.6)', opacity: 1 },
+    { transform: 'translate(-50%, -50%) scale(1.6)', opacity: 0.8 },
+    { transform: 'translate(-50%, -50%) scale(1.8)', opacity: 0 },
+  ],
+  { duration: 600, easing: 'linear' }
+);
+
+setTimeout(() => burst.remove(), 550);
+
+  /* ============================================================
+     ✨ OUTER FAIRY PARTICLES
+  ============================================================ */
+  const numParticles = 50;
+  for (let i = 0; i < numParticles; i++) {
     const particle = document.createElement('div');
     particle.classList.add('fairy-dust');
-    const angle = Math.random() * Math.PI * 2;
-    const dirX = Math.cos(angle);
-    const dirY = Math.sin(angle);
-    particle.style.setProperty('--dir-x', dirX);
-    particle.style.setProperty('--dir-y', dirY);
     const hueDust = Math.floor(Math.random() * 360);
-    particle.style.setProperty('--dust-color', `hsl(${hueDust}, 100%, 80%)`);
-    const speed = 0.6 + Math.random() * 0.8;
-    particle.style.setProperty('--speed-multiplier', speed);
-    const size = 4 + Math.random() * 4;
+    const size = Math.random() * 6 + 4;
+    const angle = Math.random() * 2 * Math.PI;
+    const distance = 50 + Math.random() * 80;
+
+    particle.style.background = `radial-gradient(circle, hsl(${hueDust}, 100%, 75%) 0%, transparent 80%)`;
     particle.style.width = `${size}px`;
     particle.style.height = `${size}px`;
-    particle.style.animationDuration = `${1.2 + Math.random() * 0.8}s`;
-    particle.style.left = `${e.clientX}px`;
-    particle.style.top = `${e.clientY}px`;
+    particle.style.left = `${clickX}px`;
+    particle.style.top = `${clickY}px`;
+    particle.style.position = 'fixed';
+    particle.style.borderRadius = '50%';
+    particle.style.pointerEvents = 'none';
+    particle.style.zIndex = 9999;
     document.body.appendChild(particle);
-    setTimeout(() => particle.remove(), 2200);
-  }
 
-  // ✨ Fairy sparks
-  const numSparks = 10;
-  for (let i = 0; i < numSparks; i++) {
-    const spark = document.createElement('div');
-    spark.classList.add('fairy-spark');
-    const angle = Math.random() * Math.PI * 2;
-    const dirX = Math.cos(angle);
-    const dirY = Math.sin(angle);
-    spark.style.setProperty('--dir-x', dirX);
-    spark.style.setProperty('--dir-y', dirY);
-    spark.style.animationDuration = `${0.6 + Math.random() * 0.5}s`;
-    spark.style.left = `${e.clientX}px`;
-    spark.style.top = `${e.clientY}px`;
-    document.body.appendChild(spark);
-    setTimeout(() => spark.remove(), 1000);
+    const xMove = Math.cos(angle) * distance;
+    const yMove = Math.sin(angle) * distance;
+
+    // Animate outward drift + fade
+    particle.animate(
+      [
+        { transform: `translate(0, 0) scale(1)`, opacity: 1 },
+        { transform: `translate(${xMove}px, ${yMove}px) scale(0.3)`, opacity: 0 },
+      ],
+      { duration: 1000 + Math.random() * 400, easing: 'ease-out' }
+    );
+
+    setTimeout(() => particle.remove(), 1400);
   }
 });
+
 
 
 /* ============================================================

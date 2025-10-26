@@ -39,8 +39,9 @@
    DIFFICULTY BOX (Animated Entry)
    ============================== */
 #difficulty-box {
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(10px);
+  background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
+  background-size: 400% 400%;
+  animation: rainbowBG 8s ease infinite;
   border-radius: 25px;
   padding: 50px 70px;
   box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
@@ -57,9 +58,8 @@
 #difficulty-box h1 {
   font-size: 3rem;
   margin-bottom: 30px;
-  text-shadow: 2px 2px 10px #fff;
   color: #fff;
-  animation: textGlow 3s ease-in-out infinite alternate;
+  
 }
 
 @keyframes textGlow {
@@ -91,7 +91,6 @@
 
 /* 💫 Hover State — soft glow and vibrant gradient */
 .difficulty-btn:hover {
-  transform: scale(1.1);
   background: linear-gradient(135deg, #ba55d3, #ff69b4, #fffacd);
   box-shadow: 0 0 35px rgba(255, 182, 193, 0.9);
   text-shadow: 0 0 12px #fff;
@@ -99,7 +98,6 @@
 
 /* ✨ Active Pressed State */
 .difficulty-btn:active {
-  transform: scale(1.05);
   filter: brightness(1.2);
 }
 
@@ -133,41 +131,6 @@
   .difficulty-btn { font-size: 1rem; padding: 10px 20px; }
 }
 
-
-
-/* ============================================================
-   FIREWORK EFFECT
-   ============================================================ */
-.firework {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #fff, transparent);
-  opacity: 0;
-  animation: firework-burst 1.5s ease forwards;
-  z-index: 20;
-}
-
-.firework.left {
-  left: 10%;
-  bottom: 20%;
-}
-
-.firework.right {
-  right: 10%;
-  bottom: 20%;
-}
-
-.firework.active {
-  opacity: 1;
-}
-
-@keyframes firework-burst {
-  0% { transform: scale(0); opacity: 1; }
-  50% { transform: scale(1.4); opacity: 0.8; }
-  100% { transform: scale(0); opacity: 0; }
-}
 
 
 /* ============================================================

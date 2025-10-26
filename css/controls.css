@@ -1,6 +1,14 @@
 /* ============================================================
-   ⚔️ CONTROLS & ABILITIES OVERLAY
-   ============================================================ */
+   ⚔️ CONTROLS & ABILITIES OVERLAY — OLIVIA’S WORLD RPG
+   ============================================================
+   Unified with Explore, Inventory & Settings Screens:
+   ✨ Pastel gradients • White borders • Pink–blue glow
+   💫 Smooth transitions & consistent blur depth
+============================================================ */
+
+/* ============================================================
+   🌸 WRAPPER
+============================================================ */
 #controls-wrapper {
   position: absolute;
   inset: 0;
@@ -13,6 +21,7 @@
   pointer-events: none;
   transition: opacity 0.35s ease-in-out;
   z-index: 16;
+  
 }
 
 #controls-wrapper.active {
@@ -20,34 +29,57 @@
   pointer-events: auto;
 }
 
+/* ============================================================
+   🌈 CONTROLS PANEL
+============================================================ */
 .controls-panel {
-  background: rgba(255, 255, 255, 0.25);
-  border: 3px solid rgba(255, 255, 255, 0.4);
+  background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
+  background-size: 400% 400%;
+  animation: rainbowBG 8s ease infinite;
+  border: 3px solid #fff;
   border-radius: 35px;
   padding: 45px 60px;
-  box-shadow: 0 0 40px rgba(255, 182, 193, 0.9),
-              0 0 80px rgba(173, 216, 230, 0.5);
+  box-shadow:
+    0 0 40px rgba(255, 182, 193, 0.9),
+    0 0 80px rgba(173, 216, 230, 0.5);
   color: #fff;
   font-family: 'Comic Sans MS', cursive;
   text-align: center;
   max-width: 600px;
   width: 90%;
+  transform: scale(0.9);
+  transition: all 0.4s ease;
+  backdrop-filter: blur(12px);
 }
 
+#controls-wrapper.active .controls-panel {
+  transform: scale(1);
+  box-shadow:
+    0 0 60px rgba(255, 182, 193, 1),
+    0 0 100px rgba(138, 43, 226, 0.4);
+}
+
+/* ============================================================
+   ✨ TITLES
+============================================================ */
 .controls-panel h3 {
   font-size: 2rem;
-  color: #ff69b4;
-  text-shadow: 0 0 10px #fff, 0 0 20px #ffb6c1;
+  color: #fff;
+  text-shadow: 0 0 10px #ffb6c1, 0 0 20px #87cefa;
   margin-bottom: 20px;
+  animation: fadeInUp 0.6s ease forwards;
 }
 
 .controls-panel h4 {
   font-size: 1.4rem;
   color: #fff;
   margin-bottom: 10px;
-  text-shadow: 0 0 5px rgba(255,255,255,0.8);
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.9);
 }
 
+/* ============================================================
+   🌷 CONTENT SECTIONS
+============================================================ */
 .controls-section,
 .abilities-section {
   background: rgba(255, 255, 255, 0.15);
@@ -55,6 +87,13 @@
   padding: 20px 30px;
   margin-bottom: 20px;
   box-shadow: inset 0 0 20px rgba(255, 182, 193, 0.3);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.controls-section:hover,
+.abilities-section:hover {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: inset 0 0 30px rgba(255, 182, 193, 0.5);
 }
 
 .controls-section ul,
@@ -70,18 +109,22 @@
   font-size: 1.1rem;
   text-align: left;
   color: #fff;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
 }
 
 .controls-section strong,
 .abilities-section strong {
-  color: #ffb6c1;
+  color: #fff;
+  text-shadow: 0 0 10px #ffb6c1;
 }
 
-/* Back Button */
+/* ============================================================
+   ⬅️ BACK BUTTON (Unified Theme)
+============================================================ */
 #close-controls.nav-btn {
   display: block;
   margin: 25px auto 0 auto;
-  background: linear-gradient(135deg, #ff69b4, #ffb6c1, #dda0dd);
+  background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
   border: 3px solid #fff;
   border-radius: 35px;
   padding: 12px 45px;
@@ -89,12 +132,66 @@
   font-family: 'Comic Sans MS', cursive;
   color: #fff;
   cursor: pointer;
-  box-shadow: 0 0 20px rgba(255, 182, 193, 0.6);
-  transition: all 0.3s ease;
+  box-shadow:
+    0 0 20px rgba(255, 182, 193, 0.6),
+    inset 0 0 5px rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease-in-out;
 }
 
 #close-controls.nav-btn:hover {
   transform: scale(1.1);
-  background: linear-gradient(135deg, #ffa6c9, #dda0dd, #87cefa);
+  background: linear-gradient(135deg, #ff69b4, #ba55d3, #87cefa);
   box-shadow: 0 0 35px rgba(255, 182, 193, 1);
+  text-shadow: 0 0 12px #fff;
 }
+
+#close-controls.nav-btn:active {
+  transform: scale(1.05);
+  filter: brightness(1.2);
+}
+
+/* ============================================================
+   ✨ ANIMATIONS
+============================================================ */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================================
+   📱 RESPONSIVE ADJUSTMENTS
+============================================================ */
+@media (max-width: 768px) {
+  .controls-panel {
+    padding: 35px 30px;
+    width: 90%;
+  }
+
+  .controls-panel h3 {
+    font-size: 1.7rem;
+  }
+
+  .controls-panel h4 {
+    font-size: 1.2rem;
+  }
+
+  .controls-section li,
+  .abilities-section li {
+    font-size: 1rem;
+  }
+
+  #close-controls.nav-btn {
+    padding: 10px 35px;
+    font-size: 1rem;
+  }
+}
+
+/* ============================================================
+   🌈 END OF CONTROLS OVERLAY STYLES
+============================================================ */

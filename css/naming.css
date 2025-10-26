@@ -1,15 +1,18 @@
 /* ============================================================
-   NAMING PAGE – OLIVIA’S WORLD RPG
-   ============================================================ */
+   🌸 NAMING PAGE – OLIVIA’S WORLD RPG (HARMONIZED THEME)
+   ============================================================
+   Unified with Explore Page styles: pastel gradients, glowing
+   borders, soft hover transitions, and consistent font themes.
+============================================================ */
 
-/* ==============================
+/* ============================================================
    LAYOUT & BACKGROUND
-============================== */
+============================================================ */
 #naming-page {
   display: flex;
   flex-direction: column;
-  justify-content: center;     /* ✅ vertical centering */
-  align-items: center;         /* ✅ horizontal centering */
+  justify-content: center;
+  align-items: center;
   height: 100vh;
   width: 100vw;
   margin: 0;
@@ -20,25 +23,22 @@
   position: relative;
   overflow: hidden;
 
-  /* Rainbow animated background */
+  /* Pastel animated background (Explore theme) */
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa, #fffacd);
   background-size: 400% 400%;
-  animation: rainbowBG 5s ease infinite;
+  animation: rainbowBG 8s ease infinite;
 }
 
-/* Rainbow motion keyframes */
 @keyframes rainbowBG {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
 /* ============================================================
-   FLOATING UNICORN (TOP LEFT)
-   ============================================================ */
+   FLOATING UNICORN
+============================================================ */
 #naming-unicorn {
-  margin: 0 auto;
-  padding: 0;
   position: absolute;
   top: 5%;
   left: 8%;
@@ -49,26 +49,23 @@
   pointer-events: none;
   z-index: 5;
   animation: floatUnicorn 8s ease-in-out infinite;
-  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.9));
+  filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.9));
 }
 
-/* Gentle floating motion */
 @keyframes floatUnicorn {
-  0%   { transform: translateY(0) rotate(0deg); }
-  25%  { transform: translateY(-25px) rotate(2deg); }
-  50%  { transform: translateY(0) rotate(0deg); }
-  75%  { transform: translateY(25px) rotate(-2deg); }
+  0% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-25px) rotate(2deg); }
+  50% { transform: translateY(0) rotate(0deg); }
+  75% { transform: translateY(25px) rotate(-2deg); }
   100% { transform: translateY(0) rotate(0deg); }
 }
 
 /* ============================================================
-   PRINCESS IMAGE – CENTERED
-   ============================================================ */
+   PRINCESS IMAGE – CENTER
+============================================================ */
 #naming-page #princess {
   display: block;
-  bottom: 0%;
   margin: 0 auto 2vh auto;
-  padding: 0;
   width: 50vw;
   height: auto;
   max-height: 60vh;
@@ -78,20 +75,30 @@
 }
 
 /* ============================================================
-   INPUT BOX (CENTERED UNDER PRINCESS)
-   ============================================================ */
+   INPUT BOX AREA
+============================================================ */
 #intro-box {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-top: 2vh;
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
-  border-radius: 25px;
-  padding: 25px 35px;
-  box-shadow: 0 0 25px rgba(255, 182, 193, 0.6);
+  background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
+  background-size: 400% 400%;
+  animation: rainbowBG 8s ease infinite;
+  backdrop-filter: blur(8px);
+  border-radius: 30px;
+  padding: 25px 40px;
+  border: 3px solid #fff;
+  box-shadow: 0 0 35px rgba(255, 182, 193, 0.8);
   z-index: 3;
+  transition: transform 0.3s ease;
+  
+}
+
+#intro-box:hover {
+
+  box-shadow: 0 0 45px rgba(255, 182, 193, 1);
 }
 
 #naming-page .input-container {
@@ -102,137 +109,111 @@
   width: 100%;
 }
 
-/* Input field */
+/* ============================================================
+   INPUT FIELD
+============================================================ */
 #naming-page input {
   font-size: 2.5vw;
   padding: 1.5vh 2vw;
-  border-radius: 1vh;
+  border-radius: 20px;
   border: 2px solid #fff;
   width: 60%;
   text-align: center;
   outline: none;
   background: rgba(255,255,255,0.8);
   color: #8a2be2;
-  box-shadow: 0 0 15px rgba(255, 182, 193, 0.5);
-  transition: box-shadow 0.3s ease;
+  box-shadow: 0 0 20px rgba(255, 182, 193, 0.6);
+  transition: all 0.3s ease;
 }
 
 #naming-page input:focus {
-  box-shadow: 0 0 25px rgba(255, 182, 193, 0.9);
+  box-shadow: 0 0 35px rgba(255, 182, 193, 1);
+  border-color: #ff69b4;
 }
 
-/* Confirm / Next Button */
+/* ============================================================
+   CONFIRM / NEXT BUTTON
+============================================================ */
 #naming-page button {
   font-size: 2.5vw;
   padding: 1.5vh 2vw;
   border-radius: 30px;
   border: none;
-  background: linear-gradient(45deg, #ffb6c1, #dda0dd, #87cefa);
+  background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
   color: #fff;
   cursor: pointer;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s, box-shadow 0.2s, background 0.3s ease;
+  box-shadow: 0 0 20px rgba(255, 182, 193, 0.6);
+  transition: all 0.3s ease-in-out;
   margin: 0 auto;
 }
 
 #naming-page button:hover {
-  
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-  background: linear-gradient(45deg, #ff69b4, #ba55d3, #00bfff);
+  background: linear-gradient(135deg, #ff69b4, #ba55d3, #87cefa);
+  box-shadow: 0 0 35px rgba(255, 182, 193, 0.9);
 }
-
 
 /* ============================================================
-   SPEECH BUBBLES (SEQUENTIAL)
-   ============================================================ */
-#speech-bubble {
-  position: absolute;
-  top: 10%;
-  left: 55%;
-  margin: 0 auto;
-  max-width: 30vw;
-  min-height: 12vh;
-  background: rgba(255, 255, 255, 0.9);
-  border: 3px solid #ffb6c1;
-  border-radius: 30px;
-  box-shadow: 0 0 25px rgba(255, 182, 193, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2vh 3vw;
-  font-family: 'Comic Sans MS', cursive;
-  color: #8a2be2;
-  text-align: center;
-  z-index: 20;
-  opacity: 0;
-  transform: scale(0.8);
-  animation: bubbleAppear 8s linear forwards 2s, fadeOutBubble 8s forwards linear 2s;
-}
-
-#speech-bubble p {
-  margin: 0;
-  max-width: 20vh;
-  font-size: 1.3vw;
-  line-height: 1.4;
-  animation: textPulse 1.5s linear infinite alternate;
-}
-
+   SPEECH BUBBLES
+============================================================ */
+#speech-bubble,
 #speech-bubble-2 {
   position: absolute;
   top: 10%;
   left: 55%;
   max-width: 30vw;
   min-height: 12vh;
-  background: rgba(255, 255, 255, 0.9);
-  border: 3px solid #ffb6c1;
+  background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
+  border: 3px solid #fff;
   border-radius: 30px;
-  box-shadow: 0 0 25px rgba(255, 182, 193, 0.6);
+  box-shadow: 0 0 25px rgba(255, 182, 193, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 2vh 3vw;
   font-family: 'Comic Sans MS', cursive;
-  color: #8a2be2;
+  color: #fff;
+  text-shadow: 0 0 8px #ff69b4;
   text-align: center;
   z-index: 20;
   opacity: 0;
   transform: scale(0.8);
   pointer-events: none;
-  animation:
-    bubbleAppear 1.2s ease forwards 11s,
-    fadeOutBubble 10s forwards ease-in-out 21s;
 }
 
+#speech-bubble {
+  animation: bubbleAppear 8s linear forwards 2s, fadeOutBubble 8s forwards linear 2s;
+}
+
+#speech-bubble-2 {
+  animation: bubbleAppear 1.2s ease forwards 11s, fadeOutBubble 10s forwards ease-in-out 21s;
+}
+
+#speech-bubble p,
 #speech-bubble-2 p {
   margin: 0;
   max-width: 20vh;
   font-size: 1.3vw;
   line-height: 1.4;
-  animation: textPulse 1.5s linear infinite alternate;
+  animation: textPulse 1.5s ease-in-out infinite alternate;
 }
 
 /* ============================================================
-   ANIMATION KEYFRAMES
-   ============================================================ */
-@keyframes bubbleAppear {
-  0% { opacity: 0; transform: scale(0.8); }
-  100% { opacity: 1; transform: scale(1); }
-}
+   ANIMATIONS
+============================================================ */
 
 @keyframes fadeOutBubble {
-  0%   { opacity: 1; visibility: visible; }
-  90%  { opacity: 1; visibility: visible; }
+  0%, 90% { opacity: 1; visibility: visible; }
   100% { opacity: 0; visibility: hidden; }
 }
 
 @keyframes textPulse {
-  0% { text-shadow: 0 0 5px rgba(255, 182, 193, 0.4); }
-  100% { text-shadow: 0 0 15px rgba(255, 182, 193, 0.9); }
+  0% { text-shadow: 0 0 6px rgba(255, 182, 193, 0.5); }
+  100% { text-shadow: 0 0 16px rgba(255, 182, 193, 1); }
 }
 
 /* ============================================================
    RESPONSIVE ADJUSTMENTS
-   ============================================================ */
+============================================================ */
 @media (max-width: 912px) {
   #naming-page input {
     width: 60vw;
@@ -251,8 +232,6 @@
     font-size: 3vw;
     line-height: 1.6;
   }
-  .firework.left  { left: 20%; }
-  .firework.right { right: 20%; }
 }
 
 @media (max-width: 768px) {
@@ -296,5 +275,5 @@
 }
 
 /* ============================================================
-   END OF NAMING PAGE STYLES ✨
-   ============================================================ */
+   🌸 END OF NAMING PAGE STYLES
+============================================================ */

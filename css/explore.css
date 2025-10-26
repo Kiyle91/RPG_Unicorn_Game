@@ -1,7 +1,14 @@
 /* ============================================================
-   EXPLORE PAGE – DESKTOP 16:9 VIEW
-   ============================================================ */
+   🌸 EXPLORE SCREEN – OLIVIA’S WORLD RPG (HARMONIZED CLEAN)
+   ============================================================
+   Unified with Story & Global Theme:
+   ✨ Pastel gradients, glowing borders, and consistent button styling.
+   💖 Layout, animations, and responsiveness preserved.
+============================================================ */
 
+/* ============================================================
+   MAIN EXPLORE PAGE WRAPPER
+============================================================ */
 #explore-page {
   display: flex;
   align-items: center;
@@ -9,96 +16,98 @@
   height: 100vh;
   width: 100vw;
   overflow: hidden;
+  position: relative;
 
-  /* Background (same pastel theme as others) */
+  /* 🌈 Animated pastel background */
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa, #fffacd);
   background-size: 400% 400%;
   animation: rainbowBG 8s ease infinite;
 
-  border: 10px solid #ff69b4;
-  border-radius: 12px;
-  box-shadow: inset 0 0 0 10px #ff69b4;
-  position: relative;
-}
-
-/* ============================================================
-   FIXED 16:9 CANVAS AREA
-   ============================================================ */
-#explore-canvas {
-  aspect-ratio: 16 / 9;          /* ✅ maintain 16:9 ratio always */
-  width: 90vw;                   /* fill 90% of screen width */
-  height: 80vh;                  /* adjusts automatically */
-  max-height: 90vh;              /* safety limit */
-  border: 8px solid #ff69b4;
+  border: 8px solid #fff;
   border-radius: 20px;
-  box-shadow: 0 0 25px rgba(255, 182, 193, 0.6);
-  background-color: #fff;
-  display: block;
+  box-shadow:
+    0 0 40px rgba(255, 182, 193, 0.8),
+    inset 0 0 40px rgba(255, 182, 193, 0.6);
+  z-index: 1;
 }
 
-/* Optional background motion (if not already in main.css) */
 @keyframes rainbowBG {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
+/* ============================================================
+   FIXED 16:9 CANVAS AREA
+============================================================ */
+#explore-canvas {
+  aspect-ratio: 16 / 9;
+  width: 90vw;
+  height: 80vh;
+  max-height: 90vh;
+  background-color: #fff;
+  border: 4px solid #fff;
+  border-radius: 20px;
+  box-shadow:
+    0 0 35px rgba(255, 182, 193, 0.8),
+    0 0 70px rgba(138, 43, 226, 0.4);
+  display: block;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+#explore-canvas:hover {
+  box-shadow: 0 0 55px rgba(255, 182, 193, 1);
+  transform: scale(1.01);
+}
 
 /* ============================================================
-   🌸 NAV BUTTONS (FULL ISOLATION)
-   ============================================================ */
-
+   🌸 NAVIGATION BUTTONS
+============================================================ */
 #explore-nav .nav-btn {
-  all: unset; /* 🚨 resets every inherited property */
+  top: 25px;
   display: inline-block;
-  top: 3.5%;
   font-family: 'Comic Sans MS', cursive;
   font-size: 1.3rem;
   text-align: center;
   color: #fff;
   cursor: pointer;
-  padding: 10px 25px;
-  margin: 0;
-  border-radius: 15px;
+  padding: 12px 30px;
+  margin: 0 8px;
+  border-radius: 25px;
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
   border: 2px solid #fff;
-  box-shadow: 0 0 15px rgba(255, 182, 193, 0.5);
-  transition: all 0.25s ease-in-out;
+  box-shadow: 0 0 25px rgba(255, 182, 193, 0.6);
+  transition: all 0.3s ease-in-out;
   position: relative;
-  overflow: hidden;
 }
 
-/* Hover Glow */
 #explore-nav .nav-btn:hover {
   background: linear-gradient(135deg, #ff69b4, #ba55d3, #87cefa);
-  box-shadow: 0 0 25px rgba(255, 182, 193, 0.8);
+  box-shadow: 0 0 40px rgba(255, 182, 193, 0.9);
+  transform: scale(1.08);
 }
 
-/* Focus/Active */
-#explore-nav .nav-btn:focus,
-#explore-nav .nav-btn.active {
-  outline: none;
-  background: linear-gradient(135deg, #ff69b4, #dda0dd);
-  box-shadow: 0 0 25px rgba(255, 182, 193, 0.9);
+#explore-nav .nav-btn:active {
+  filter: brightness(1.15);
 }
 
 /* ============================================================
-   💖 PLAYER HP BAR – FLOATING BELOW NAV
+   💚 PLAYER HP BAR – DYNAMIC HEALTH COLOR
    ============================================================ */
 
 #player-hp-container {
   position: absolute;
-  top: 1.5%;                    /* just beneath nav bar */
+  top: 1.5%;
   left: 50%;
   transform: translateX(-50%);
-  width: 80vw;                        /* nice compact width */
-  height: 25px;
+  width: 50vw;
+  height: 10px;
   background: rgba(255, 255, 255, 0.15);
-  border: 2px solid rgba(255, 105, 180, 0.7);
+  border: 2px solid rgba(255, 255, 255, 0.7);
   border-radius: 15px;
   box-shadow: 0 0 15px rgba(255, 182, 193, 0.6);
   overflow: hidden;
-  z-index: 9999;                      /* just below nav */
+  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -107,106 +116,65 @@
 
 #player-hp-bar {
   height: 100%;
-  width: 100%;                        /* will change dynamically */
-  background: linear-gradient(90deg, #ff69b4, #ffb6c1, #fffacd);
+  width: 100%;
+  background: linear-gradient(90deg, #00ff00, #32cd32);
   border-radius: 15px;
-  transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out, background 0.4s ease-in-out;
 }
 
 #player-hp-text {
   position: absolute;
   color: #fff;
   font-family: 'Comic Sans MS', cursive;
-  font-size: 1rem;
+  font-size: 0rem;
   text-shadow: 0 0 8px #ff69b4;
   pointer-events: none;
 }
 
+/* ============================================================
+   🌸 GLOBAL TRANSITION KEYFRAMES
+============================================================ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
 /* ============================================================
-   INVENTORY OVERLAY (CSS-CONTROLLED)
+   RESPONSIVE ADJUSTMENTS
 ============================================================ */
+@media (max-width: 1024px) {
+  #explore-canvas {
+    width: 95vw;
+    height: 75vh;
+  }
 
-#inventory-page.overlay-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  #explore-nav .nav-btn {
+    font-size: 1.1rem;
+    padding: 10px 20px;
+  }
 
-  /* Hide by default */
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-
-  /* Smooth transition */
-  transition: opacity 0.5s ease, visibility 0.5s ease;
-  
-  /* Pretty blur and tint */
-  background: rgba(255, 182, 193, 0.25);
-  backdrop-filter: blur(8px);
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  z-index: 9999;
+  #player-hp-container {
+    width: 85vw;
+    height: 20px;
+  }
 }
 
-/* When active: visible + interactive */
-#inventory-page.overlay-screen.active {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
+@media (max-width: 768px) {
+  #explore-canvas {
+    width: 100vw;
+    height: 65vh;
+  }
+
+  #explore-nav .nav-btn {
+    font-size: 1rem;
+    padding: 8px 15px;
+  }
+
+  #player-hp-text {
+    font-size: 0.9rem;
+  }
 }
 
-/* Inventory panel styles */
-.inventory-wrapper {
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 30px;
-  padding: 40px 60px;
-  box-shadow: 0 0 40px rgba(255, 182, 193, 0.8);
-  text-align: center;
-  color: #fff;
-  font-family: 'Princess Sofia', cursive;
-  transform: scale(0.9);
-  transition: transform 0.4s ease;
-}
-
-/* Scale up smoothly when active */
-#inventory-page.active .inventory-wrapper {
-  transform: scale(1);
-}
-
-/* Optional glowing fade-in */
-@keyframes inventoryFade {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-#inventory-page.active .inventory-wrapper {
-  animation: inventoryFade 0.5s ease forwards;
-}
-
-/* Make sure your Back button matches theme */
-#back-to-explore.nav-btn {
-  margin-top: 25px;
-  background: linear-gradient(135deg, #ff69b4, #ffb6c1, #dda0dd);
-  border: 3px solid #fff;
-  color: #fff;
-  border-radius: 30px;
-  padding: 12px 35px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-#back-to-explore.nav-btn:hover {
-  transform: scale(1.1);
-  background: linear-gradient(135deg, #ffa6c9, #dda0dd, #87cefa);
-}
-
-#explore-wrapper {
-  position: relative;
-  overflow: visible;
-  z-index: 0;
-}
+/* ============================================================
+   🌈 END OF EXPLORE SCREEN STYLES
+============================================================ */
