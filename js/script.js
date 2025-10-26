@@ -135,7 +135,7 @@ if (startBtn) {
         if (focusable) focusable.focus();
 
         console.log("✨ Naming page activated.");
-      }, 500);
+      }, 50);
     }
   });
 }

@@ -136,7 +136,7 @@
 }
 
 #naming-page button:hover {
-  transform: scale(1.1);
+  
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
   background: linear-gradient(45deg, #ff69b4, #ba55d3, #00bfff);
 }
