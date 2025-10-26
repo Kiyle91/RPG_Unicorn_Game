@@ -10,7 +10,7 @@
    MAIN EXPLORE PAGE WRAPPER
 ============================================================ */
 #explore-page {
-  display: flex;
+  display: fixed;
   align-items: center;
   justify-content: center;
   height: 100vh;

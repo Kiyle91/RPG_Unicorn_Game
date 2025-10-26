@@ -9,7 +9,7 @@
    LAYOUT & BACKGROUND
 ============================================================ */
 #class-selection-page {
-  display: flex;
+  display: absolute;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;

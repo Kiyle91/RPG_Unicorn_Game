@@ -25,6 +25,33 @@ function enterExploreMode() {
   });
 }
 
+/* ============================================================
+   🪄 FAIRY CURSOR LOGIC
+   ============================================================ */
+document.addEventListener("DOMContentLoaded", () => {
+  const cursor = document.createElement("div");
+  cursor.classList.add("custom-cursor");
+  document.body.appendChild(cursor);
+
+  // follow cursor
+  document.addEventListener("mousemove", (e) => {
+    cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+  });
+
+  // gentle pulse effect on click
+  document.addEventListener("click", () => {
+    cursor.animate(
+      [
+        { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+        { transform: 'translate(-50%, -50%) scale(1.8)', opacity: 0.6 },
+        { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+      ],
+      { duration: 400, easing: 'ease-out' }
+    );
+  });
+});
+
+
 
 /* ============================================================
    🌈 FAIRY CLICK EFFECTS – Olivia’s World (Restored Style)
