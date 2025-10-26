@@ -204,3 +204,9 @@
   transform: scale(1.1);
   background: linear-gradient(135deg, #ffa6c9, #dda0dd, #87cefa);
 }
+
+#explore-wrapper {
+  position: relative;
+  overflow: visible;
+  z-index: 0;
+}

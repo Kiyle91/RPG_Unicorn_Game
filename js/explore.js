@@ -110,6 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (keys["a"]) player.x -= player.speed;
     if (keys["d"]) player.x += player.speed;
 
+
     // Keep player within map bounds
     player.x = Math.max(player.size / 2, Math.min(canvas.width - player.size / 2, player.x));
     player.y = Math.max(player.size / 2, Math.min(canvas.height - player.size / 2, player.y));
@@ -347,8 +348,22 @@ window.reloadPlayerPosition = reloadPlayerPosition;
   }
 });
 
+// 🎮 CONTROLS OVERLAY
+const controlsBtn = document.querySelector('.nav-btn[data-action="controls"]');
+const controlsWrapper = document.getElementById("controls-wrapper");
+const closeControlsBtn = document.getElementById("close-controls");
+
+function toggleControls(show) {
+  uiState = show ? "controls" : "explore";
+  controlsWrapper.classList.toggle("active", show);
+}
+
+if (controlsBtn) controlsBtn.addEventListener("click", () => toggleControls(true));
+if (closeControlsBtn) closeControlsBtn.addEventListener("click", () => toggleControls(false));
+
+
 /* ============================================================
-   💾 SAVE / LOAD SYSTEM
+   💾 SAVE / LOAD SYSTEMg
 ============================================================ */
 function saveGame() {
   const p = window.player;
@@ -410,3 +425,6 @@ window.loadGame = loadGame;
 window.addEventListener("beforeunload", () => {
   if (window.player) saveGame();
 });
+
+
+

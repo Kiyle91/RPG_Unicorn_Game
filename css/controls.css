@@ -1,0 +1,100 @@
+/* ============================================================
+   ⚔️ CONTROLS & ABILITIES OVERLAY
+   ============================================================ */
+#controls-wrapper {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 182, 193, 0.25);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease-in-out;
+  z-index: 16;
+}
+
+#controls-wrapper.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.controls-panel {
+  background: rgba(255, 255, 255, 0.25);
+  border: 3px solid rgba(255, 255, 255, 0.4);
+  border-radius: 35px;
+  padding: 45px 60px;
+  box-shadow: 0 0 40px rgba(255, 182, 193, 0.9),
+              0 0 80px rgba(173, 216, 230, 0.5);
+  color: #fff;
+  font-family: 'Comic Sans MS', cursive;
+  text-align: center;
+  max-width: 600px;
+  width: 90%;
+}
+
+.controls-panel h3 {
+  font-size: 2rem;
+  color: #ff69b4;
+  text-shadow: 0 0 10px #fff, 0 0 20px #ffb6c1;
+  margin-bottom: 20px;
+}
+
+.controls-panel h4 {
+  font-size: 1.4rem;
+  color: #fff;
+  margin-bottom: 10px;
+  text-shadow: 0 0 5px rgba(255,255,255,0.8);
+}
+
+.controls-section,
+.abilities-section {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 20px 30px;
+  margin-bottom: 20px;
+  box-shadow: inset 0 0 20px rgba(255, 182, 193, 0.3);
+}
+
+.controls-section ul,
+.abilities-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.controls-section li,
+.abilities-section li {
+  margin: 8px 0;
+  font-size: 1.1rem;
+  text-align: left;
+  color: #fff;
+}
+
+.controls-section strong,
+.abilities-section strong {
+  color: #ffb6c1;
+}
+
+/* Back Button */
+#close-controls.nav-btn {
+  display: block;
+  margin: 25px auto 0 auto;
+  background: linear-gradient(135deg, #ff69b4, #ffb6c1, #dda0dd);
+  border: 3px solid #fff;
+  border-radius: 35px;
+  padding: 12px 45px;
+  font-size: 1.2rem;
+  font-family: 'Comic Sans MS', cursive;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(255, 182, 193, 0.6);
+  transition: all 0.3s ease;
+}
+
+#close-controls.nav-btn:hover {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, #ffa6c9, #dda0dd, #87cefa);
+  box-shadow: 0 0 35px rgba(255, 182, 193, 1);
+}
