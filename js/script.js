@@ -244,3 +244,28 @@ function showAlert(message, callback = null) {
     if (callback) callback();
   };
 }
+
+
+/* ============================================================
+   🌸 ENTER KEY ACTIVATION FOR BUTTONS + INPUTS
+   ============================================================ */
+document.addEventListener("keydown", (e) => {
+  // Ignore if user is typing in a textarea or pressing modifier keys
+  if (e.key !== "Enter" || e.shiftKey || e.ctrlKey || e.altKey || e.metaKey) return;
+
+  // Find the currently visible screen
+  const activeScreen = document.querySelector(".screen.active");
+  if (!activeScreen) return;
+
+  // Try to find the primary button in that screen
+  const primaryButton =
+    activeScreen.querySelector("button:enabled:not([disabled])") ||
+    document.querySelector("button:enabled:not([disabled])");
+
+  // If found, simulate click
+  if (primaryButton) {
+    e.preventDefault(); // prevent accidental form submissions
+    primaryButton.click();
+    console.log(`✨ Enter key triggered button: #${primaryButton.id || "unnamed button"}`);
+  }
+});
