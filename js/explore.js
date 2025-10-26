@@ -81,10 +81,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Movement input
-    if (keys["ArrowUp"]) player.y -= player.speed;
-    if (keys["ArrowDown"]) player.y += player.speed;
-    if (keys["ArrowLeft"]) player.x -= player.speed;
-    if (keys["ArrowRight"]) player.x += player.speed;
+    if (keys["w"]) player.y -= player.speed;
+    if (keys["s"]) player.y += player.speed;
+    if (keys["a"]) player.x -= player.speed;
+    if (keys["d"]) player.x += player.speed;
 
     // Boundaries
     player.x = Math.max(player.size / 2, Math.min(canvas.width - player.size / 2, player.x));
