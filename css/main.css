@@ -499,14 +499,65 @@ we use as much scalability and accesibility as possible*/
 
 #custom-alert {
   position: fixed;
-  inset: 0;
-  background: rgba(255, 182, 193, 0.4);
-  backdrop-filter: blur(8px);
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+#custom-alert.alert-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.alert-box {
+  background: rgba(255, 255, 255, 0.95);
+  border: 3px solid #ffb6c1;
+  border-radius: 25px;
+  box-shadow: 0 0 25px rgba(255, 182, 193, 0.8);
+  padding: 25px 35px;
+  text-align: center;
+  color: #8a2be2;
+  font-family: 'Comic Sans MS', cursive;
+  max-width: 400px;
+  animation: fadeInUp 0.4s ease;
+}
+
+.alert-btns {
+  margin-top: 20px;
   display: flex;
   justify-content: center;
-  align-items: center;
-  z-index: 100000;
-  transition: opacity 0.4s ease, visibility 0.4s ease;
+  gap: 20px;
+}
+
+.alert-btns button {
+  border: none;
+  border-radius: 20px;
+  padding: 10px 25px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #fff;
+  font-family: 'Comic Sans MS';
+}
+
+.alert-yes {
+  background: linear-gradient(135deg, #ff69b4, #dda0dd);
+}
+
+.alert-no {
+  background: linear-gradient(135deg, #999, #ccc);
+}
+
+.alert-btns button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
 }
 
 #custom-alert.alert-hidden {
@@ -551,4 +602,50 @@ we use as much scalability and accesibility as possible*/
 @keyframes popIn {
   from { transform: scale(0.8); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
+}
+
+
+.alert-box {
+  background: rgba(255, 255, 255, 0.9);
+  border: 3px solid #ffb6c1;
+  border-radius: 25px;
+  box-shadow: 0 0 25px rgba(255, 182, 193, 0.8);
+  padding: 25px 35px;
+  text-align: center;
+  color: #8a2be2;
+  font-family: 'Comic Sans MS', cursive;
+  max-width: 400px;
+  margin: auto;
+  animation: fadeInUp 0.4s ease;
+}
+
+.alert-btns {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.alert-btns button {
+  border: none;
+  border-radius: 20px;
+  padding: 10px 25px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #fff;
+  font-family: 'Comic Sans MS';
+}
+
+.alert-yes {
+  background: linear-gradient(135deg, #ff69b4, #dda0dd);
+}
+
+.alert-no {
+  background: linear-gradient(135deg, #999, #ccc);
+}
+
+.alert-btns button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
 }

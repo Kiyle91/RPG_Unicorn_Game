@@ -225,24 +225,55 @@ function updateStatsDisplay(stats) {
 /* ============================================================
    🌸 Custom Alert Function
    ============================================================ */
-function showAlert(message, callback = null) {
+function showAlert(message, onConfirm = null, onCancel = null) {
   const alertBox = document.getElementById("custom-alert");
   const alertMessage = document.getElementById("alert-message");
-  const alertOk = document.getElementById("alert-ok");
+  const btnContainer = alertBox?.querySelector(".alert-btns");
 
-  if (!alertBox || !alertMessage || !alertOk) {
+  if (!alertBox || !alertMessage || !btnContainer) {
     console.warn("⚠️ Custom alert elements missing from DOM.");
     return;
   }
 
+  // Set message text
   alertMessage.textContent = message;
-  alertBox.classList.remove("alert-hidden");
 
-  // Dismiss + optional callback
-  alertOk.onclick = () => {
-    alertBox.classList.add("alert-hidden");
-    if (callback) callback();
-  };
+  // Clear previous buttons
+  btnContainer.innerHTML = "";
+
+  if (onConfirm || onCancel) {
+    // Create Yes / No buttons
+    const yesBtn = document.createElement("button");
+    yesBtn.textContent = "Yes";
+    yesBtn.className = "alert-yes";
+    yesBtn.onclick = () => {
+      alertBox.classList.add("alert-hidden");
+      onConfirm?.();
+    };
+
+    const noBtn = document.createElement("button");
+    noBtn.textContent = "No";
+    noBtn.className = "alert-no";
+    noBtn.onclick = () => {
+      alertBox.classList.add("alert-hidden");
+      onCancel?.();
+    };
+
+    btnContainer.append(yesBtn, noBtn);
+  } else {
+    // Default OK button
+    const okBtn = document.createElement("button");
+    okBtn.textContent = "OK";
+    okBtn.className = "alert-yes";
+    okBtn.onclick = () => {
+      alertBox.classList.add("alert-hidden");
+      onConfirm?.();
+    };
+    btnContainer.append(okBtn);
+  }
+
+  // Show the alert
+  alertBox.classList.remove("alert-hidden");
 }
 
 
