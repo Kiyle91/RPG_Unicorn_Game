@@ -1,0 +1,21 @@
+/* ============================================================
+   ⚔️ REAL-TIME COMBAT VISUALS
+   ------------------------------------------------------------
+   Basic placeholder styles for future VFX
+============================================================ */
+
+.damage-text {
+  position: absolute;
+  color: #ff69b4;
+  font-weight: bold;
+  font-family: 'Comic Sans MS', cursive;
+  text-shadow: 0 0 10px #fff;
+  animation: floatUp 1s ease-out forwards;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+@keyframes floatUp {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-30px); }
+}
