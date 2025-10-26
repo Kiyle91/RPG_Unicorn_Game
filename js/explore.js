@@ -49,8 +49,15 @@ document.addEventListener("DOMContentLoaded", () => {
   let exploreRunning = false;
   let uiState = "explore"; // Current UI context (explore / inventory / settings)
 
-  window.addEventListener("keydown", (e) => (keys[e.key] = true));
-  window.addEventListener("keyup", (e) => (keys[e.key] = false));
+  window.addEventListener("keydown", (e) => {
+  keys[e.key.toLowerCase()] = true;
+  if (e.key === "Shift") keys.shift = true; // explicit tracking
+  });
+
+  window.addEventListener("keyup", (e) => {
+  keys[e.key.toLowerCase()] = false;
+  if (e.key === "Shift") keys.shift = false;
+});
 
   /* ============================================================
      🎨 DRAW FUNCTIONS
