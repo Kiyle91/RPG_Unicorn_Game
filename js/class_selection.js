@@ -81,7 +81,7 @@ function createPlayer(selectedClass) {
     return null;
   }
 
-  // Build player object
+  window.playerName = window.playerName || localStorage.getItem("playerName") || "Player";// Build player object
   const player = {
     classKey: selectedClass,
     ...baseClass,

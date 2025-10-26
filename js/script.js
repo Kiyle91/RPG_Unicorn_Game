@@ -6,6 +6,27 @@
 
 
 /* ============================================================
+   🚪 ENTER EXPLORE MODE (ensures canvas has size before start)
+============================================================ */
+function enterExploreMode() {
+  // Show the Explore screen first
+  showScreen("explore-page");
+
+  // Next frame: force a resize so explore.js's resizeCanvas() runs
+  requestAnimationFrame(() => {
+    // Triggers the window 'resize' listener in explore.js
+    window.dispatchEvent(new Event('resize'));
+
+    // Start on the next tick so layout is fully settled
+    setTimeout(() => {
+      cancelAnimationFrame(window.exploreFrameId);
+      startExploreGame?.();
+    }, 0);
+  });
+}
+
+
+/* ============================================================
    🌈 FAIRY CLICK EFFECTS
 ============================================================ */
 document.addEventListener('click', (e) => {
@@ -208,9 +229,10 @@ function populateSaveSlots() {
           landing.classList.remove("active");
           explore.classList.add("active");
         }
-        cancelAnimationFrame(window.exploreFrameId);
-        startExploreGame?.();
+        
         (window.showAlert || alert)(`🌸 Welcome back, ${loadedPlayer.name}!`);
+        cancelAnimationFrame(window.exploreFrameId);
+        enterExploreMode();
       }
     });
 
