@@ -1,45 +1,61 @@
-/* ------------------ PLAYER JS: Naming + Class Selection ------------------ */
+/* ============================================================
+   🌸 NAMING.JS – Olivia’s World RPG
+   ------------------------------------------------------------
+   Handles:
+   ✦ Player name entry and validation
+   ✦ Transition to class selection
+   ✦ Basic screen switching
+============================================================ */
 
-/* ------------------ Naming Page JS ------------------ */
-const confirmBtn = document.getElementById('confirm-name');   // Confirm / Next button
-const playerInput = document.getElementById('player-name');   // Name input
-const namingPage = document.getElementById('naming-page');    // Naming page
-const classPage = document.getElementById('class-selection-page'); // Class selection page
-const welcomeHeader = document.getElementById('classtextheader');  // Header text
 
-// 🧩 Universal screen switcher
+/* ============================================================
+   🎀 ELEMENT REFERENCES
+============================================================ */
+const confirmBtn     = document.getElementById("confirm-name");       // Confirm / Next button
+const playerInput    = document.getElementById("player-name");        // Name input field
+const namingPage     = document.getElementById("naming-page");        // Naming screen
+const classPage      = document.getElementById("class-selection-page"); // Class selection screen
+const welcomeHeader  = document.getElementById("classtextheader");    // Header text element
+
+
+/* ============================================================
+   🧭 UNIVERSAL SCREEN SWITCHER
+============================================================ */
 function showScreen(nextId) {
-  document.querySelectorAll('.screen').forEach(screen => {
-    screen.classList.remove('active');
-    screen.style.display = 'none';
+  document.querySelectorAll(".screen").forEach((screen) => {
+    screen.classList.remove("active");
+    screen.style.display = "none";
   });
 
   const nextScreen = document.getElementById(nextId);
   if (nextScreen) {
-    nextScreen.classList.add('active');
-    nextScreen.style.display = 'flex';
+    nextScreen.classList.add("active");
+    nextScreen.style.display = "flex";
   }
 }
 
-// ✨ Name confirmation + transition (with 500ms delay)
-confirmBtn.addEventListener('click', () => {
+
+/* ============================================================
+   💖 NAME CONFIRMATION & TRANSITION
+============================================================ */
+confirmBtn.addEventListener("click", () => {
   const playerName = playerInput.value.trim();
 
+  // 🚫 Prevent blank input
   if (!playerName) {
     showAlert("Please enter your name!");
     return;
   }
 
-  // Store player name globally
+  // 🌸 Save player name globally
   window.playerName = playerName;
-  console.log("Player name set to:", window.playerName);
+  console.log("👑 Player name set to:", window.playerName);
 
-  // ⏱ Add a small delay before moving to class selection
+  // ⏱ Smooth delay before moving on
   setTimeout(() => {
-    // Move to class selection screen
-    showScreen('class-selection-page');
+    showScreen("class-selection-page");
 
-    // Update header greeting
+    // ✨ Personalized greeting
     if (welcomeHeader) {
       welcomeHeader.textContent = `✨ Welcome, ${window.playerName}! Choose your class ✨`;
     }
@@ -47,6 +63,3 @@ confirmBtn.addEventListener('click', () => {
     console.log("🌸 Transitioned to class selection after 500ms delay.");
   }, 500);
 });
-
-
-

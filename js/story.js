@@ -1,11 +1,19 @@
 /* ============================================================
-   📖 STORY SCREEN – OLIVIA’S WORLD RPG
-   ============================================================ */
+   📖 STORY.JS – Olivia’s World RPG
+   ------------------------------------------------------------
+   Handles:
+   ✦ Story progression through multiple narrative pages
+   ✦ Smooth fade transitions
+   ✦ Transition into Explore mode after final story page
+============================================================ */
 
 document.addEventListener("DOMContentLoaded", () => {
+  /* ============================================================
+     🌸 ELEMENT REFERENCES
+  ============================================================ */
   const storySection = document.getElementById("story-section");
-  const storyText = document.getElementById("story-text");
-  const continueBtn = document.getElementById("story-continue-btn");
+  const storyText    = document.getElementById("story-text");
+  const continueBtn  = document.getElementById("story-continue-btn");
 
   // 🧩 Safety check
   if (!storySection || !continueBtn) {
@@ -14,22 +22,23 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ============================================================
-     🌸 STORY PAGES – Extendable Narrative System
+     🌈 STORY PAGES – EXTENDABLE NARRATIVE SYSTEM
   ============================================================ */
   const storyPages = [
     {
-      text: "Long ago, in the sparkling kingdom of Luminara, unicorns roamed freely under pastel skies. The gentle magic of the land kept everything in harmony — but tonight, the stars whisper of change..."
+      text: "Long ago, in the sparkling kingdom of Luminara, unicorns roamed freely under pastel skies. The gentle magic of the land kept everything in harmony — but tonight, the stars whisper of change...",
     },
     {
-      text: "A brave princess awakens, sensing a calling far greater than any ordinary morning. The unicorns, once playful, now seem restless. Something stirs in the enchanted forest beyond the palace walls..."
+      text: "A brave princess awakens, sensing a calling far greater than any ordinary morning. The unicorns, once playful, now seem restless. Something stirs in the enchanted forest beyond the palace walls...",
     },
     {
-      text: "⚠️ Scalability stops here so we can focus on other more advanced HTML mechanics.⚠️"
-    }
+      text: "⚠️ Scalability stops here so we can focus on other more advanced HTML mechanics.⚠️",
+    },
   ];
 
   let currentPage = 0;
   storyText.textContent = storyPages[0].text;
+
 
   /* ============================================================
      ✨ CONTINUE BUTTON HANDLER
@@ -67,10 +76,10 @@ document.addEventListener("DOMContentLoaded", () => {
         storySection.classList.remove("active");
         storySection.style.display = "none";
 
-        // Show Explore Page
+        // 🎮 Show Explore Page
         showScreen("explore-page");
 
-        // Start explore mode safely
+        // 🚀 Start Explore mode safely
         if (typeof startExploreGame === "function") {
           console.log("🌷 Starting Explore mode via Story transition...");
           startExploreGame();
@@ -78,6 +87,6 @@ document.addEventListener("DOMContentLoaded", () => {
           console.warn("⚠️ startExploreGame() not found — check script load order.");
         }
       }
-    }, 500); // ⏳ 500 ms delay before transitioning
+    }, 500); // ⏳ Delay before transitioning
   });
 });
