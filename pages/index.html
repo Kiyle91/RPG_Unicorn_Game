@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="../css/story.css" />
   <link rel="stylesheet" href="../css/explore.css" />
   <link rel="stylesheet" href="../css/inventory.css" />
+  <link rel="stylesheet" href="../css/settings.css" />
 </head>
 
 <!-- 🌸 Custom Alert Box -->
@@ -141,14 +142,12 @@
     </div>
   </section>
 
-  <!-- ========================== -->
-  <!-- EXPLORE / TOP-DOWN GAME -->
-  <!-- ========================== -->
-  <!-- ========================== -->
+<!-- ========================== -->
 <!-- EXPLORE / TOP-DOWN GAME -->
 <!-- ========================== -->
 <section id="explore-page" class="screen">
   <div id="explore-wrapper">
+
     <!-- 🎮 Explore Canvas -->
     <canvas id="explore-canvas"></canvas>
 
@@ -167,7 +166,7 @@
       <span id="player-hp-text">HP: 100 / 100</span>
     </div>
 
-    <!-- 👜 INVENTORY WRAPPER (Now inside Explore) -->
+    <!-- 👜 INVENTORY WRAPPER (Overlay inside Explore) -->
     <div id="inventory-wrapper">
       <div class="inventory-panel">
         <!-- Stats Panel -->
@@ -194,13 +193,33 @@
         <button id="back-to-explore" class="nav-btn">⬅️ Back to Explore</button>
       </div>
     </div>
+
+    <!-- ⚙️ SETTINGS OVERLAY -->
+    <div id="settings-wrapper">
+      <div class="settings-panel">
+        <h3>⚙️ Settings</h3>
+
+        <div class="setting-option">
+          <label>🎵 Music</label>
+          <button id="toggle-music">On</button>
+        </div>
+
+        <div class="setting-option">
+          <label>🔊 Sound Effects</label>
+          <button id="toggle-sfx">On</button>
+        </div>
+
+        <div class="setting-option">
+          <button id="save-game-btn">💾 Save Game</button>
+        </div>
+
+        <button id="close-settings" class="nav-btn">⬅️ Back to Explore</button>
+      </div>
+    </div>
+
   </div>
 </section>
 
-  <!-- ========================== -->
-  <!-- INVENTORY PAGE (Overlay) -->
-  <!-- ========================== -->
-  <section id="inventory-page" class="screen overlay-screen">
     
 
   <!-- ========================== -->

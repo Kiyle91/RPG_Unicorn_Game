@@ -283,3 +283,50 @@ window.loadGame = loadGame;
 window.addEventListener("beforeunload", () => {
   if (window.player) saveGame();
 });
+
+
+// SETTINGS OVERLAY
+const settingsBtn = document.querySelector('.nav-btn[data-action="settings"]');
+const settingsWrapper = document.getElementById("settings-wrapper");
+const closeSettingsBtn = document.getElementById("close-settings");
+const toggleMusicBtn = document.getElementById("toggle-music");
+const toggleSfxBtn = document.getElementById("toggle-sfx");
+const saveGameBtn = document.getElementById("save-game-btn");
+
+function toggleSettings(show) {
+  uiState = show ? "settings" : "explore";
+  settingsWrapper.classList.toggle("active", show);
+}
+
+// Open / Close
+if (settingsBtn) settingsBtn.addEventListener("click", () => toggleSettings(true));
+if (closeSettingsBtn) closeSettingsBtn.addEventListener("click", () => toggleSettings(false));
+
+// Music toggle
+if (toggleMusicBtn) {
+  toggleMusicBtn.addEventListener("click", () => {
+    const music = document.getElementById("bg-music");
+    if (music.paused) {
+      music.play();
+      toggleMusicBtn.textContent = "On";
+    } else {
+      music.pause();
+      toggleMusicBtn.textContent = "Off";
+    }
+  });
+}
+
+// SFX toggle (placeholder for future)
+if (toggleSfxBtn) {
+  toggleSfxBtn.addEventListener("click", () => {
+    toggleSfxBtn.textContent = toggleSfxBtn.textContent === "On" ? "Off" : "On";
+  });
+}
+
+// Save Game
+if (saveGameBtn) {
+  saveGameBtn.addEventListener("click", () => {
+    saveGame();
+    showAlert("💾 Game saved successfully!");
+  });
+}
