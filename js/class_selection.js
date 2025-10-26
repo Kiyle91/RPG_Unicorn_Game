@@ -101,6 +101,11 @@ function createPlayer(selectedClass) {
   // Save player globally
   window.player = player;
 
+  if (typeof saveGame === "function") {
+    saveGame();
+    console.log("💾 Initial player save created after class selection.");
+  }
+
   // Debug info
   console.group("🎀 Player Created");
   console.log("Name:", player.name);

@@ -219,3 +219,67 @@ document.addEventListener("DOMContentLoaded", () => {
   // Expose for debugging
   window.terminateGame = terminateGame;
 });
+
+
+/* ============================================================
+   💾 SAVE / LOAD SYSTEM
+============================================================ */
+function saveGame() {
+  if (!window.player) {
+    console.warn("⚠️ No player to save!");
+    return;
+  }
+
+  const saveData = {
+    name: player.name,
+    classKey: player.classKey,
+    currentStats: player.currentStats,
+    level: player.level,
+    experience: player.experience,
+    difficulty: window.difficulty,
+    position: { x: player.x, y: player.y },
+    timestamp: new Date().toISOString()
+  };
+
+  localStorage.setItem("olivia_save", JSON.stringify(saveData));
+  console.log("💾 Game saved:", saveData);
+}
+
+function loadGame() {
+  const data = localStorage.getItem("olivia_save");
+  if (!data) {
+    console.warn("⚠️ No saved game found!");
+    return null;
+  }
+
+  const save = JSON.parse(data);
+  console.log("📂 Loaded save:", save);
+
+  window.player = {
+    name: save.name,
+    classKey: save.classKey,
+    currentStats: save.currentStats,
+    level: save.level,
+    experience: save.experience,
+    ...save,
+    x: save.position?.x || 100,
+    y: save.position?.y || 100,
+    size: 15,
+    color: "#ff69b4",
+    speed: save.currentStats?.speed || 3,
+    hp: save.currentStats?.hp || 100,
+    maxHp: save.currentStats?.hp || 100
+  };
+
+  window.difficulty = save.difficulty;
+  console.log(`🎮 Game loaded for ${window.player.name} (${window.player.classKey})`);
+  return window.player;
+}
+
+window.saveGame = saveGame;
+window.loadGame = loadGame;
+
+// ✅ Auto-save on unload (so progress isn't lost)
+window.addEventListener("beforeunload", () => {
+  if (window.player) saveGame();
+});

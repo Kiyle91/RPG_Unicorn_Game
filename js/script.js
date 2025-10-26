@@ -97,7 +97,11 @@ if (muteBtn) {
 
 
 // ------------------ Start Button Listener ------------------
-const startBtn = document.getElementById('start-btn');
+// ------------------ Start + Continue Button Logic ------------------
+const startBtn = document.getElementById('start-btn');// 🌸 new continue button
+const continueBtn =document.getElementById('continue-btn');
+
+// ------------------ START BUTTON ------------------
 if (startBtn) {
   startBtn.addEventListener('click', () => {
     const landingScreen = document.querySelector('#landing-page');
@@ -106,21 +110,54 @@ if (startBtn) {
     if (landingScreen && nextScreen) {
       console.log("🌸 Start button clicked! Transitioning in 1s...");
 
-      // small transition pause before switching screens
+      // 🕐 small transition pause before switching screens
       setTimeout(() => {
         // toggle visibility via classes (keeps CSS in charge)
         landingScreen.classList.remove('active');
         nextScreen.classList.add('active');
 
         // move keyboard focus to first focusable element in the next screen
-        const focusable = nextScreen.querySelector('input, button, [tabindex]:not([tabindex="-1"])');
+        const focusable = nextScreen.querySelector('input, button, [tabindex]:not([tabindex=\"-1\"])');
         if (focusable) focusable.focus();
 
         console.log("✨ Naming page activated.");
-      }, 500); // ⏱ 1 second delay
+      }, 500);
     }
   });
 }
+
+// ------------------ CONTINUE BUTTON ------------------
+if (continueBtn) {
+  // 💾 Check if a save exists in browser localStorage
+  const hasSave = localStorage.getItem('olivia_save');
+  if (hasSave) {
+    continueBtn.style.display = 'inline-block'; // Show button only if save exists
+    console.log("💾 Save found — showing Continue button.");
+  } else {
+    console.log("⚠️ No save found — hiding Continue button.");
+  }
+
+  // ▶️ Continue button click handler
+  continueBtn.addEventListener('click', () => {
+    console.log("🔄 Continue button clicked!");
+
+    // Try to load saved data
+    const save = loadGame?.();
+    if (!save) {
+      showAlert?.("No saved game found!");
+      return;
+    }
+
+    // Jump straight into Explore mode
+    showScreen("explore-page");
+    setTimeout(() => {
+      startExploreGame?.();
+      console.log(`🌈 Continued as ${window.player?.name || "Unknown Hero"} (${window.player?.classKey || "Unknown Class"})`);
+    }, 500);
+  });
+}
+
+
 
 
 function showScreen(nextId) {
@@ -300,3 +337,7 @@ document.addEventListener("keydown", (e) => {
     console.log(`✨ Enter key triggered button: #${primaryButton.id || "unnamed button"}`);
   }
 });
+
+
+// ------------------ Continue Button ------------------
+
