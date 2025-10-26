@@ -1,7 +1,8 @@
 /* ============================================================
-   DIFFICULTY SELECTION – OLIVIA’S WORLD RPG
+   🌈 DIFFICULTY SELECTION – OLIVIA’S WORLD RPG
    ============================================================ */
 
+// ----- Element References -----
 const difficultyButtons = document.querySelectorAll(".difficulty-btn");
 const difficultyScreen = document.getElementById("difficulty-screen");
 const difficultyBox = document.getElementById("difficulty-box");
@@ -10,7 +11,7 @@ const storyTitle = document.getElementById("story-title");
 const storyText = document.getElementById("story-text");
 
 /* ============================================================
-   Helper: Hide All Screens
+   🪄 Helper – Hide All Screens
    ============================================================ */
 function hideAllScreens() {
   document.querySelectorAll(".screen").forEach(screen => {
@@ -20,10 +21,10 @@ function hideAllScreens() {
 }
 
 /* ============================================================
-   Load Story Screen Function
+   📖 Load Story Screen
    ============================================================ */
 function loadStory(selectedDifficulty) {
-  // 🌈 Difficulty-based intro text
+  // ✨ Difficulty-based intro text
   const storyContent = {
     easy: {
       title: " ",
@@ -41,63 +42,38 @@ function loadStory(selectedDifficulty) {
 
   const content = storyContent[selectedDifficulty] || storyContent.medium;
 
-  // ✨ Fill in story screen
+  // 🧩 Update story UI
   if (storyTitle) storyTitle.textContent = content.title;
   if (storyText) storyText.textContent = content.text;
 
-  // Show story screen after fade-out
+  // 🎬 Show story section
   hideAllScreens();
   storySection.style.display = "flex";
   storySection.classList.add("active");
 
-  console.log("Story screen loaded for difficulty:", selectedDifficulty);
+  console.log(`📖 Story screen loaded for difficulty: ${selectedDifficulty}`);
 }
 
 /* ============================================================
-   Difficulty Selection Handler (with fade-out animation)
+   🧭 Difficulty Selection Handler (with transition delay)
    ============================================================ */
 difficultyButtons.forEach(button => {
   button.addEventListener("click", () => {
     const selectedDifficulty = button.dataset.difficulty;
     window.difficulty = selectedDifficulty;
 
-    console.log("=== Difficulty Selected ===");
+    console.group("🎯 Difficulty Selected");
     console.log("Difficulty:", window.difficulty);
-    console.log("===========================");
+    console.groupEnd();
 
-    // Add fade-out animation class for visuals only
-    if (difficultyBox) {
-      difficultyBox.classList.add("fade-out");
-    }
+    // Add CSS fade-out (handled by CSS)
+    if (difficultyBox) difficultyBox.classList.add("fade-out");
 
-    // ⚡ Immediately transition to story (no delay)
-    loadStory(selectedDifficulty);
+    // ⏳ Smooth 500 ms delay before story screen
+    console.log(`✨ Transitioning to story in 500 ms...`);
+    setTimeout(() => {
+      loadStory(selectedDifficulty);
+      console.log("🌸 Story screen now active.");
+    }, 500);
   });
-});
-
-
-document.addEventListener("DOMContentLoaded", () => {
-  const namingPage = document.getElementById("naming-page");
-
-  const createFirework = (side) => {
-    const fw = document.createElement("div");
-    fw.classList.add("firework", side);
-    namingPage.appendChild(fw);
-
-    setTimeout(() => fw.classList.add("active"), 50);
-    setTimeout(() => fw.remove(), 1500);
-  };
-
-  const triggerFireworks = () => {
-    ["left", "right"].forEach((side) => {
-      for (let i = 0; i < 3; i++) {
-        setTimeout(() => createFirework(side), i * 200);
-      }
-    });
-  };
-
-  setTimeout(() => {
-    triggerFireworks();
-    setInterval(triggerFireworks, 2000);
-  }, 2000);
 });

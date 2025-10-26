@@ -468,6 +468,7 @@ we use as much scalability and accesibility as possible*/
   display: flex !important;  /* ← this is the key */
   opacity: 1;
   pointer-events: auto;
+  transition: opacity 0.35s ease;
 }
 
 /* Keep canvas behind everything by default */

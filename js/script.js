@@ -104,18 +104,24 @@ if (startBtn) {
     const nextScreen = document.querySelector('#naming-page');
 
     if (landingScreen && nextScreen) {
-      // toggle visibility via classes (keeps CSS in charge)
-      landingScreen.classList.remove('active');
-      nextScreen.classList.add('active');
+      console.log("🌸 Start button clicked! Transitioning in 1s...");
 
-      // move keyboard focus to first focusable element in the next screen
-      const focusable = nextScreen.querySelector('input, button, [tabindex]:not([tabindex="-1"])');
-      if (focusable) focusable.focus();
+      // small transition pause before switching screens
+      setTimeout(() => {
+        // toggle visibility via classes (keeps CSS in charge)
+        landingScreen.classList.remove('active');
+        nextScreen.classList.add('active');
+
+        // move keyboard focus to first focusable element in the next screen
+        const focusable = nextScreen.querySelector('input, button, [tabindex]:not([tabindex="-1"])');
+        if (focusable) focusable.focus();
+
+        console.log("✨ Naming page activated.");
+      }, 500); // ⏱ 1 second delay
     }
-
-    console.log("Start button clicked! Game starting...");
   });
 }
+
 
 function showScreen(nextId) {
   // Hide all screens

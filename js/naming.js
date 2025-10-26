@@ -21,7 +21,7 @@ function showScreen(nextId) {
   }
 }
 
-// ✨ Name confirmation + transition
+// ✨ Name confirmation + transition (with 500ms delay)
 confirmBtn.addEventListener('click', () => {
   const playerName = playerInput.value.trim();
 
@@ -34,13 +34,19 @@ confirmBtn.addEventListener('click', () => {
   window.playerName = playerName;
   console.log("Player name set to:", window.playerName);
 
-  // Move to class selection screen
-  showScreen('class-selection-page');
+  // ⏱ Add a small delay before moving to class selection
+  setTimeout(() => {
+    // Move to class selection screen
+    showScreen('class-selection-page');
 
-  // Update header greeting
-  if (welcomeHeader) {
-    welcomeHeader.textContent = `✨ Welcome, ${window.playerName}! Choose your class ✨`;
-  }
+    // Update header greeting
+    if (welcomeHeader) {
+      welcomeHeader.textContent = `✨ Welcome, ${window.playerName}! Choose your class ✨`;
+    }
+
+    console.log("🌸 Transitioned to class selection after 500ms delay.");
+  }, 500);
 });
+
 
 
