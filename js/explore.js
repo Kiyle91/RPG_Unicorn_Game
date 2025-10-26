@@ -21,6 +21,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const rect = canvas.getBoundingClientRect();
     canvas.width = rect.width;
     canvas.height = rect.height;
+
+    // ✅ Keep saved position inside bounds
+    if (window.player) {
+      const p = window.player;
+      const r = p.size ? p.size / 2 : 7.5;
+      p.x = Math.max(r, Math.min(canvas.width - r, p.x));
+      p.y = Math.max(r, Math.min(canvas.height - r, p.y));
+    }
   }
   resizeCanvas();
   window.addEventListener("resize", resizeCanvas);
@@ -82,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function update() {
     if (!exploreRunning || !player) return;
 
-    // Pause movement when inventory is open
+    // Pause movement when overlays are open
     if (uiState === "inventory" || uiState === "settings") {
       draw();
       window.exploreFrameId = requestAnimationFrame(update);
@@ -117,17 +125,24 @@ document.addEventListener("DOMContentLoaded", () => {
     if (exploreRunning) return;
 
     if (window.player) {
-      // Use existing player data
+      // ✅ Use existing player data directly (keep saved coords)
       player = window.player;
-      player.x = canvas.width / 2;
-      player.y = canvas.height / 2;
-      player.size = 15;
-      player.color = "#ff69b4";
+
+      // Only center if no saved position
+      if (player.x == null || player.y == null) {
+        player.x = canvas.width / 2;
+        player.y = canvas.height / 2;
+      }
+
+      // Normalise other essentials
+      player.size  = player.size  ?? 15;
+      player.color = player.color ?? "#ff69b4";
       player.speed = player.currentStats?.speed || 3;
-      player.hp = player.currentStats?.hp || 100;
-      player.maxHp = player.currentStats?.hp || 100;
+      player.hp    = player.currentStats?.hp    || 100;
+      player.maxHp = player.currentStats?.hp    || 100;
+
     } else {
-      // Fallback player (no save or new game)
+      // 🩷 Fallback player (new game)
       player = {
         name: "Fallback Hero",
         currentStats: { hp: 100, speed: 3 },
@@ -143,11 +158,40 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     drawMap();
+    drawPlayer();
     updateHPBar();
     exploreRunning = true;
     update();
   }
   window.startExploreGame = startExploreGame;
+
+
+
+  /* ============================================================
+   🔄 RELOAD PLAYER POSITION (USED FOR LOAD GAME)
+============================================================ */
+  function reloadPlayerPosition() {
+    if (!window.player) return;
+    player = window.player;
+
+  // Only center if no saved coords
+    if (player.x == null || player.y == null) {
+    player.x = canvas.width / 2;
+    player.y = canvas.height / 2;
+  }
+
+    player.size  = player.size  ?? 15;
+    player.color = player.color ?? "#ff69b4";
+    player.speed = player.currentStats?.speed || 3;
+    player.hp    = player.currentStats?.hp    || 100;
+    player.maxHp = player.currentStats?.hp    || 100;
+
+    drawMap();
+    drawPlayer();
+    updateHPBar();
+    console.log(`🎯 Player reloaded at X:${player.x}, Y:${player.y}`);
+  }
+window.reloadPlayerPosition = reloadPlayerPosition;
 
   /* ============================================================
      🎒 INVENTORY OVERLAY
@@ -207,7 +251,6 @@ document.addEventListener("DOMContentLoaded", () => {
     exploreRunning = false;
     cancelAnimationFrame(window.exploreFrameId);
 
-    const canvas = document.getElementById("explore-canvas");
     if (canvas?.getContext) {
       const ctx = canvas.getContext("2d");
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -279,19 +322,20 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      showAlert("📂 Game loaded successfully!");
-      startExploreGame?.();
-
-      console.log(
-        `🔄 Loaded game for ${window.player?.name || "Unknown Hero"} (${window.player?.classKey || "Unknown Class"})`
-      );
-
+      // ✅ Close overlays and resume game
       settingsWrapper?.classList.remove("active");
       inventoryWrapper?.classList.remove("active");
       uiState = "explore";
 
-      // ✅ Resume explore mode
       startExploreGame?.();
+      drawMap();
+      drawPlayer();
+      reloadPlayerPosition?.();
+
+      showAlert("📂 Game loaded successfully!");
+      console.log(
+        `🔄 Loaded game for ${window.player?.name || "Unknown Hero"} (${window.player?.classKey || "Unknown Class"})`
+      );
     });
   }
 });
@@ -300,19 +344,20 @@ document.addEventListener("DOMContentLoaded", () => {
    💾 SAVE / LOAD SYSTEM
 ============================================================ */
 function saveGame() {
-  if (!window.player) {
+  const p = window.player;
+  if (!p) {
     console.warn("⚠️ No player to save!");
     return;
   }
 
   const saveData = {
-    name: player.name,
-    classKey: player.classKey,
-    currentStats: player.currentStats,
-    level: player.level,
-    experience: player.experience,
+    name: p.name,
+    classKey: p.classKey,
+    currentStats: p.currentStats,
+    level: p.level,
+    experience: p.experience,
     difficulty: window.difficulty,
-    position: { x: player.x, y: player.y },
+    position: { x: p.x, y: p.y }, // ✅ save current position
     timestamp: new Date().toISOString(),
   };
 
@@ -337,8 +382,8 @@ function loadGame() {
     level: save.level,
     experience: save.experience,
     ...save,
-    x: save.position?.x || 100,
-    y: save.position?.y || 100,
+    x: save.position?.x ?? 100,
+    y: save.position?.y ?? 100,
     size: 15,
     color: "#ff69b4",
     speed: save.currentStats?.speed || 3,
