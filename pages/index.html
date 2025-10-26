@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Brave Princess and the Unicorn</title>
 
-  <!-- Fonts -->
+  <!-- 🌸 Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Princess+Sofia&display=swap" rel="stylesheet" />
 
-  <!-- Styles -->
+  <!-- 🌈 Styles -->
   <link rel="stylesheet" href="../css/main.css" />
   <link rel="stylesheet" href="../css/naming.css" />
   <link rel="stylesheet" href="../css/class.css" />
@@ -21,30 +21,32 @@
   <link rel="stylesheet" href="../css/quests.css" />
 </head>
 
-<!-- 🌸 Custom Alert Box -->
-<div id="custom-alert" class="alert-hidden">
-  <div class="alert-box">
-    <p id="alert-message">Default message</p>
-    <div class="alert-btns"></div>
-  </div>
-</div>
-
 <body>
-  <!-- Fixed Pink Border -->
+  <!-- ============================================================
+       🌸 GLOBAL ELEMENTS
+  ============================================================ -->
   <div id="pink-border-tool"></div>
 
-  <!-- Background Music + Mute -->
+  <!-- 🎵 Background Music -->
   <button id="mute-btn" aria-label="Toggle background music">🔇</button>
   <audio id="bg-music" src="../sounds/soundtrack.mp3" loop></audio>
 
-  <!-- ========================== -->
-  <!-- LANDING PAGE -->
-  <!-- ========================== -->
+  <!-- 🌸 Custom Alert Box -->
+  <div id="custom-alert" class="alert-hidden">
+    <div class="alert-box">
+      <p id="alert-message">Default message</p>
+      <div class="alert-btns"></div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       🩷 LANDING PAGE
+  ============================================================ -->
   <section id="landing-page" class="screen active">
-    <img src="../images/float_one.png" alt="Unicorn 1" class="unicorn" id="unicorn1" />
-    <img src="../images/float_two.png" alt="Unicorn 2" class="unicorn" id="unicorn2" />
-    <img src="../images/float_three.png" alt="Unicorn 3" class="unicorn" id="unicorn3" />
-    <img src="../images/crown.png" alt="Crown" id="crown" />
+    <img src="../images/float_one.png" class="unicorn" id="unicorn1" />
+    <img src="../images/float_two.png" class="unicorn" id="unicorn2" />
+    <img src="../images/float_three.png" class="unicorn" id="unicorn3" />
+    <img src="../images/crown.png" id="crown" />
 
     <div id="intro-box">
       <h1>The Brave Princess and the Unicorn</h1>
@@ -52,28 +54,27 @@
         Welcome, brave adventurer, to a land of sparkling forests, rainbow rivers, and skies alive with unicorns!
         Solve clever puzzles, uncover treasures, and let your story unfold.
       </p>
-      <button id="start-btn">Start Adventure</button>
-      <button id="continue-btn" style="display:none;">Continue</button>
+
+      <div id="landing-buttons">
+        <button id="start-btn">Start Adventure</button>
+        <button id="continue-btn" style="display:none;">Continue</button>
+      </div>
+
       <p id="disclaimer">
-        <br>⚠️ This is a learning project created by <strong>Kiyle Edwards</strong> for Olivia Edwards.⚠️
+        <br>⚠️ This is a learning project created by <strong>Kiyle Edwards</strong> for Olivia Edwards. ⚠️
       </p>
     </div>
   </section>
 
-  <!-- ========================== -->
-  <!-- NAMING PAGE -->
-  <!-- ========================== -->
+  <!-- ============================================================
+       🌟 NAMING PAGE
+  ============================================================ -->
   <section id="naming-page" class="screen">
-    <img src="../images/float_one.png" alt="Floating Unicorn" id="naming-unicorn" />
-    <img src="../images/princess.png" alt="Princess" id="princess" />
-    <div id="speech-bubble">
-      <p id="bubble-text">Hello there! What’s your name, brave adventurer?</p>
-    </div>
-    <div id="speech-bubble-2">
-      <p>We have to get ready for the banquet!</p>
-    </div>
-    <div class="firework left"></div>
-    <div class="firework right"></div>
+    <img src="../images/float_one.png" id="naming-unicorn" />
+    <img src="../images/princess.png" id="princess" />
+    <div id="speech-bubble"><p>Hello there! What’s your name, brave adventurer?</p></div>
+    <div id="speech-bubble-2"><p>We have to get ready for the banquet!</p></div>
+
     <div id="intro-box">
       <div class="input-container">
         <input type="text" id="player-name" placeholder="Enter your name" maxlength="12" />
@@ -82,41 +83,41 @@
     </div>
   </section>
 
-  <!-- ========================== -->
-  <!-- CLASS SELECTION -->
-  <!-- ========================== -->
+  <!-- ============================================================
+       🌙 CLASS SELECTION
+  ============================================================ -->
   <section id="class-selection-page" class="screen">
     <h2 class="page-title">✨ What Kind of Princess Are You? ✨</h2>
     <div class="class-options">
       <button class="class-btn" data-class="glitterGuardian">
         Glitter Guardian
         <p class="class-desc">Protect unicorns with courage and magical strength.</p>
-        <img src="../images/guardian_icon.png" alt="Glitter Guardian Icon" class="hover-icon" />
+        <img src="../images/guardian_icon.png" class="hover-icon" />
       </button>
 
       <button class="class-btn" data-class="starSage">
         Star Sage
         <p class="class-desc">Outsmart mysterious creatures with magical knowledge.</p>
-        <img src="../images/starsage_icon.png" alt="Star Sage Icon" class="hover-icon" />
+        <img src="../images/starsage_icon.png" class="hover-icon" />
       </button>
 
       <button class="class-btn" data-class="moonflower">
         Moonflower
         <p class="class-desc">Heal and protect with the gentle light of moonflowers.</p>
-        <img src="../images/moonflower_icon.png" alt="Moonflower Icon" class="hover-icon" />
+        <img src="../images/moonflower_icon.png" class="hover-icon" />
       </button>
 
       <button class="class-btn" data-class="silverArrow">
         Silver Arrow
         <p class="class-desc">Guide sparkling arrows to defend your unicorn allies.</p>
-        <img src="../images/silver_icon.png" alt="Silver Arrow Icon" class="hover-icon" />
+        <img src="../images/silver_icon.png" class="hover-icon" />
       </button>
     </div>
   </section>
 
-  <!-- ========================== -->
-  <!-- DIFFICULTY SELECTION -->
-  <!-- ========================== -->
+  <!-- ============================================================
+       ⚔️ DIFFICULTY PAGE
+  ============================================================ -->
   <section id="difficulty-screen" class="screen">
     <div id="difficulty-box">
       <h1>Choose Your Adventure’s Difficulty</h1>
@@ -128,51 +129,47 @@
     </div>
   </section>
 
-  <!-- ========================== -->
-  <!-- STORY SECTION -->
-  <!-- ========================== -->
+  <!-- ============================================================
+       📖 STORY PAGE
+  ============================================================ -->
   <section id="story-section" class="screen">
-    <img src="../images/unicorn_background.png" alt="Story Background" class="background" />
+    <img src="../images/unicorn_background.png" class="background" />
     <div class="story-box">
       <h2 id="story-title"></h2>
       <p id="story-text">
         Long ago, in the sparkling kingdom of Luminara, unicorns roamed freely, and magic filled the air.
-        But whispers of shadow began to creep across the forests. Ancient prophecies speak of a time when the light
-        will falter — and a brave heart will rise to protect the kingdom.
+        But whispers of shadow began to creep across the forests...
       </p>
       <button id="story-continue-btn">Continue</button>
     </div>
   </section>
 
-<!-- ========================== -->
-<!-- EXPLORE / TOP-DOWN GAME -->
-<!-- ========================== -->
-<section id="explore-page" class="screen">
-  <div id="explore-wrapper">
+  <!-- ============================================================
+       🦄 EXPLORE PAGE
+  ============================================================ -->
+  <section id="explore-page" class="screen">
+    <div id="explore-wrapper">
+      <!-- 🗺️ Explore Canvas -->
+      <canvas id="explore-canvas"></canvas>
 
-    <!-- 🎮 Explore Canvas -->
-    <canvas id="explore-canvas"></canvas>
+      <!-- 🌸 Navigation -->
+      <nav id="explore-nav">
+        <button id="return-home" class="nav-btn" data-action="home">🏰 Home</button>
+        <button class="nav-btn" data-action="quest">📜 Quest</button>
+        <button class="nav-btn" data-action="battle">⚔️ Battle</button>
+        <button id="open-inventory" class="nav-btn" data-action="inventory">🎒 Inventory</button>
+        <button class="nav-btn" data-action="settings">⚙️ Settings</button>
+      </nav>
 
-    <!-- 🌸 Navigation Bar -->
-    <div id="explore-nav">
-      <button id="return-home" class="nav-btn" data-action="home">🏰 Home</button>
-      <button class="nav-btn" data-action="quest">📜 Quest</button>
-      <button class="nav-btn" data-action="battle">⚔️ Battle</button>
-      <button id="open-inventory" class="nav-btn" data-action="inventory">🎒 Inventory</button>
-      <button class="nav-btn" data-action="settings">⚙️ Settings</button>
-    </div>
+      <!-- ❤️ HP BAR -->
+      <div id="player-hp-container">
+        <div id="player-hp-bar"></div>
+        <span id="player-hp-text">HP: 100 / 100</span>
+      </div>
 
-    <!-- 💖 Dynamic Player HP Bar -->
-    <div id="player-hp-container">
-      <div id="player-hp-bar"></div>
-      <span id="player-hp-text">HP: 100 / 100</span>
-    </div>
-
-    <!-- 👜 INVENTORY WRAPPER (Overlay inside Explore) -->
-    <div id="inventory-wrapper">
-      <div class="inventory-panel">
-        <!-- Stats Panel -->
-        <div class="stats-panel">
+      <!-- 🎒 INVENTORY -->
+      <div id="inventory-wrapper" class="overlay-screen">
+        <div class="inventory-panel">
           <h3>📊 Player Stats</h3>
           <ul id="stats-list">
             <li>Health: <span id="stat-health">120</span></li>
@@ -181,100 +178,75 @@
             <li>Armor: <span id="stat-armor">10</span></li>
             <li>Speed: <span id="stat-speed">15</span></li>
           </ul>
-        </div>
 
-        <!-- Inventory Grid -->
-        <div class="inventory-grid">
-          <div class="item-slot">Health Potion</div>
-          <div class="item-slot">Mana Crystal</div>
-          <div class="item-slot">Golden Key</div>
-          <div class="item-slot empty">Empty Slot</div>
-        </div>
+          <h3>🎒 Items</h3>
+          <div class="inventory-grid">
+            <div class="item-slot">Health Potion</div>
+            <div class="item-slot">Mana Crystal</div>
+            <div class="item-slot">Golden Key</div>
+            <div class="item-slot empty">Empty Slot</div>
+          </div>
 
-        <!-- Back Button -->
-        <button id="back-to-explore" class="nav-btn">⬅️ Back to Explore</button>
+          <button id="back-to-explore" class="nav-btn">⬅️ Back</button>
+        </div>
       </div>
-    </div>
 
-    <!-- ⚙️ SETTINGS OVERLAY -->
-    <div id="settings-wrapper">
-      <div class="settings-panel">
-        <h3>⚙️ Settings</h3>
+      <!-- ⚙️ SETTINGS -->
+      <div id="settings-wrapper" class="overlay-screen">
+        <div class="settings-panel">
+          <h3>⚙️ Settings</h3>
 
-        <div class="setting-option">
-          <label>🎵 Music</label>
-          <button id="toggle-music">On</button>
+          <div class="setting-option"><label>Music:</label><button id="toggle-music">On</button></div>
+          <div class="setting-option"><label>Sound FX:</label><button id="toggle-sfx">On</button></div>
+          <div class="setting-option"><button id="save-game-btn">💾 Save Game</button></div>
+          <div class="setting-option"><button id="load-game-btn">📂 Load Game</button></div>
+
+          <button id="close-settings" class="nav-btn">⬅️ Back</button>
         </div>
-
-        <div class="setting-option">
-          <label>🔊 Effects </label>
-          <button id="toggle-sfx">On</button>
-        </div>
-
-        <div class="setting-option">
-          <button id="save-game-btn">💾 Save Game</button>
-        </div>
-
-        <div class="setting-option">
-          <button id="load-game-btn">📂 Load Game</button>
-        </div>
-
-        <button id="close-settings" class="nav-btn">⬅️ Back to Explore</button>
       </div>
-    </div>
 
-    <div id="controls-wrapper">
-      <div class="controls-panel">
-        <h3>🎮 Controls & Abilities</h3>
-
-        <!-- 🕹️ Basic Controls -->
-        <div class="controls-section">
-          <h4>Basic Controls</h4>
+      <!-- ⚔️ CONTROLS -->
+      <div id="controls-wrapper" class="overlay-screen">
+        <div class="controls-panel">
+          <h3>🎮 Controls & Abilities</h3>
+          <div class="controls-section">
             <ul>
-          <li><strong>Move:</strong> W / A / S / D</li>
-          <li><strong>Melee Attack:</strong> Spacebar</li>
-          <li><strong>Ranged / Spell:</strong> Mouse Click</li>
-          <li><strong>Dash / Sprint:</strong> Shift</li>
-      </ul>
-    </div>
-
-    <!-- 💫 Abilities Section -->
-    <div class="abilities-section">
-      <h4>Abilities</h4>
-      <ul>
-        <li><strong>Q:</strong> Defensive Ability</li>
-        <li><strong>E:</strong> Offensive Ability 1</li>
-        <li><strong>R:</strong> Offensive Ability 2</li>
-        <li><strong>F:</strong> Offensive Ability 3</li>
-        <li><strong>C:</strong> Offensive Ability 4</li>
-      </ul>
-    </div>
-
-    <button id="close-controls" class="nav-btn">⬅️ Back to Explore</button>
-  </div>
-
-  <!-- 📜 QUESTS OVERLAY -->
-  <div id="quests-wrapper">
-    <div class="quests-panel">
-      <h3>📜 Active Quests</h3>
-
-      <div class="quest-list">
-        <p class="no-quests">You currently have no quests. Explore the world to find some!</p>
+              <li>Move: <strong>W / A / S / D</strong></li>
+              <li>Melee: <strong>Spacebar</strong></li>
+              <li>Magic: <strong>Mouse Click</strong></li>
+              <li>Dash: <strong>Shift</strong></li>
+            </ul>
+          </div>
+          <div class="abilities-section">
+            <h4>Abilities</h4>
+            <ul>
+              <li>Q – Defensive</li>
+              <li>E – Offensive 1</li>
+              <li>R – Offensive 2</li>
+              <li>F – Offensive 3</li>
+              <li>C – Special</li>
+            </ul>
+          </div>
+          <button id="close-controls" class="nav-btn">⬅️ Back</button>
+        </div>
       </div>
 
-      <button id="close-quests" class="nav-btn">⬅️ Back to Explore</button>
+      <!-- 📜 QUESTS -->
+      <div id="quests-wrapper" class="overlay-screen">
+        <div class="quests-panel">
+          <h3>📜 Active Quests</h3>
+          <div class="quest-list">
+            <p class="no-quests">You currently have no quests. Explore the world to find some!</p>
+          </div>
+          <button id="close-quests" class="nav-btn">⬅️ Back</button>
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
 
-
-  </div>
-</section>
-
-    
-
-  <!-- ========================== -->
-  <!-- SCRIPTS -->
-  <!-- ========================== -->
+  <!-- ============================================================
+       📜 SCRIPTS
+  ============================================================ -->
   <script src="../js/explore.js"></script>
   <script src="../js/script.js"></script>
   <script src="../js/naming.js"></script>
