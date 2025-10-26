@@ -1,27 +1,14 @@
 /* ==============================
-   **** MAIN CSS FILE ******
-============================== */
-
-/* INDEX
-   1. Body
-   2. Theme Variables
-   3. Pink Border Tool
-   4. Screen Wrapper
-   5. Background Animation
-   6. Intro Box
-   ...
-*/
-
-
+   🌸 MAIN CSS FILE
+   ============================== */
 
 /* ==============================
-   BODY                // Our body from our html document, so everything not in a section
-============================== */
-
+   1. GLOBAL & BODY
+   ============================== */
 html {
   height: 100%;
   width: 100%;
-  overflow: hidden;       /* ✅ Disable page scrolling entirely */
+  overflow: hidden;
   box-sizing: border-box;
 }
 
@@ -29,50 +16,45 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-
-  /* Flexible scaling */
   min-height: 100vh;
   width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
-
-  /* Background */
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa, #fffacd);
   background-size: 400% 400%;
   animation: rainbowBG 5s ease infinite;
 }
 
 /* ==============================
-   THEME VARIABLES   // These are some root variables that we made to control all the buttons and headings etc to keep our theme consistant
-============================== */
+   2. THEME VARIABLES
+   ============================== */
 :root {
   --h1-size: 4rem;
   --intro-font-size: 1.5rem;
   --btn-font-size: 2rem;
   --btn-padding: 20px 40px;
-  --focus-ring: 3px solid rgba(255,255,255,0.9);
+  --focus-ring: 3px solid rgba(255, 255, 255, 0.9);
 }
 
 /* ==============================
-   PINK BORDER TOOL          // I made this tool so we can check our scalability - and it looks pretty.
-============================== */
+   3. PINK BORDER TOOL
+   ============================== */
 #pink-border-tool {
   position: fixed;
   inset: 0;
   width: 100%;
   height: 100%;
   border: 2% solid #ff69b4;
-  border-radius: 0;                
-  box-shadow: inset 0 0 0 10px #ff69b4;  
+  border-radius: 0;
+  box-shadow: inset 0 0 0 10px #ff69b4;
   pointer-events: none;
   z-index: 9999;
   box-sizing: border-box;
 }
 
-
 /* ==============================
-   SCREEN WRAPPER             //  .screen is our first screen, then we cycle through .screen.active, letting us move page without reloading
-============================== */
+   4. SCREENS
+   ============================== */
 .screen {
   display: none;
   text-align: center;
@@ -91,12 +73,12 @@ body {
 }
 
 .screen.active {
-  display: flex;
+  display: flex !important;
   justify-content: center;
   align-items: center;
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa, #fffacd);
   background-size: 400% 400%;
-  height: 100vh;          /* ✅ fixed height keeps it flush */
+  height: 100vh;
   width: 100vw;
   animation: rainbowBG 5s ease infinite;
   box-sizing: border-box;
@@ -109,8 +91,8 @@ body {
 }
 
 /* ==============================
-   BACKGROUND ANIMATION   // The pretty blue/pink shifting background animation.
-============================== */
+   5. BACKGROUND ANIMATION
+   ============================== */
 @keyframes rainbowBG {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -118,8 +100,8 @@ body {
 }
 
 /* ==============================
-   INTRO BOX                 // The box our player sees on the first screen containing all our other elements
-============================== */
+   6. INTRO BOX
+   ============================== */
 #intro-box {
   background: rgba(255, 255, 255, 0.8);
   border: none;
@@ -159,49 +141,71 @@ body {
 }
 
 /* ==============================
-   START BUTTON   // The players selects this to move to the next screen, we made it pretty
-============================== */
-#start-btn {
+   7. LANDING BUTTONS
+   ============================== */
+#start-btn,
+#continue-btn,
+#load-btn {
   font-size: var(--btn-font-size);
   padding: var(--btn-padding);
-  background: linear-gradient(45deg, #ffb6c1, #dda0dd, #87cefa);
-  color: #fff;
   border: none;
   border-radius: 30px;
   cursor: pointer;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  transition: transform 0.2s, box-shadow 0.2s;
+  color: #fff;
+  background: linear-gradient(135deg, #87cefa, #dda0dd, #ffb6c1);
+  box-shadow: 0 0 20px rgba(255, 182, 193, 0.6), inset 0 0 5px rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease-in-out;
 }
 
-#start-btn:hover {
+#start-btn:hover,
+#continue-btn:hover,
+#load-btn:hover {
   transform: scale(1.1);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  background: linear-gradient(135deg, #ba55d3, #ff69b4, #fffacd);
+  box-shadow: 0 0 35px rgba(255, 182, 193, 0.9);
+  text-shadow: 0 0 12px #fff;
 }
 
-/* Focus styles for accessibility */
-button:focus,
-.class-btn:focus {
-  outline: none;
-  box-shadow: 0 0 0 4px rgba(255, 182, 193, 0.6);
+#start-btn:active,
+#continue-btn:active,
+#load-btn:active {
+  transform: scale(1.05);
+  filter: brightness(1.2);
 }
 
-.class-btn:focus .hover-icon {
-  opacity: 1;
-  transform: translateX(-50%) translateY(-15px) scale(1);
-  filter: drop-shadow(0 0 20px rgba(255,255,255,1));
+#start-btn {
+  background: linear-gradient(45deg, #ffb6c1, #dda0dd, #87cefa);
 }
 
-/* Reduce motion */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation: none !important;
-    transition: none !important;
-  }
+#continue-btn {
+  display: none;
+  font-family: 'Comic Sans MS', cursive;
+  font-size: 1.8rem;
+  padding: 15px 45px;
+  margin-top: 20px;
+  margin-left: 10px;
+  animation: fadeInContinue 0.8s ease forwards;
+}
+
+@keyframes fadeInContinue {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+#load-btn {
+  margin-top: 20px;
+  margin-left: 10px;
+  animation: fadeInLoad 0.8s ease forwards;
+}
+
+@keyframes fadeInLoad {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 /* ==============================
-   FLOATING UNICORNS  // the floating unicorns that move around the screen
-============================== */
+   8. FLOATING UNICORNS
+   ============================== */
 .unicorn {
   position: fixed;
   object-fit: contain;
@@ -240,8 +244,8 @@ button:focus,
 #unicorn3 { top: 70%; left: 30%; animation: float3 10s linear infinite; }
 
 /* ==============================
-   CROWN  // the crown graphic thats behind our box
-============================== */
+   9. CROWN
+   ============================== */
 @keyframes flash {
   0% { opacity: 0.5; transform: scale(0.95); }
   50% { opacity: 1; transform: scale(1.05); }
@@ -255,8 +259,8 @@ button:focus,
 }
 
 /* ==============================
-   MUTE BUTTON  // the mute button that appears in the top right hand of the screen
-============================== */
+   10. MUTE BUTTON
+   ============================== */
 #mute-btn {
   position: fixed;
   top: 5%;
@@ -282,141 +286,56 @@ button:focus,
   background: linear-gradient(135deg, #ff69b4, #ba55d3, #00bfff);
 }
 
-/* ==============================
-   HIDE MUTE BUTTON ON EXPLORE PAGE
-============================== */
 body:has(#explore-page.active) #mute-btn {
   display: none !important;
 }
 
-/* ============================================================
-   🌈 FAIRY DUST – SMOOTH RANDOM BURST MOTION
-   ============================================================ */
-
-.fairy-dust {
+/* ==============================
+   11. OVERLAYS (GLOBAL)
+   ============================== */
+.overlay-screen {
   position: fixed;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
+  inset: 0;
+  z-index: 99999;
+}
+
+#explore-canvas {
+  position: relative;
+  z-index: -1;
   pointer-events: none;
-  z-index: 10000;
-
-  /* 🌈 Pastel rainbow gradient */
-  background: radial-gradient(circle, #fff 0%, var(--dust-color, #ffb6c1) 70%, transparent 100%);
-  box-shadow: 0 0 6px var(--dust-color, #ffb6c1), 0 0 12px #fff;
-
-  /* Start invisible and fade in/out smoothly */
-  opacity: 0;
-  animation: swirl 1.8s linear forwards;
-
-  transform: translate3d(0, 0, 0);
-  will-change: transform, opacity;
 }
-
-/* ============================================================
-   ✨ SWIRL REDEFINED – SMOOTH OUTWARD MOTION
-   ============================================================ */
-@keyframes swirl {
-  0% {
-    opacity: 1;
-    transform: translate(0, 0) scale(1);
-  }
-  60% {
-    opacity: 0.9;
-    transform: translate(
-      calc(80px * var(--dir-x) * var(--speed-multiplier)),
-      calc(80px * var(--dir-y) * var(--speed-multiplier))
-    ) scale(0.8);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(
-      calc(120px * var(--dir-x) * var(--speed-multiplier)),
-      calc(120px * var(--dir-y) * var(--speed-multiplier))
-    ) scale(0.3);
-  }
-}
-
-
-
-/* ============================================================
-   ✨ FAIRY SPARK – QUICK BRIGHT FLICKERS
-   ============================================================ */
-
-.fairy-spark {
-  position: fixed;
-  width: 2px;
-  height: 2px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #fff 0%, #ffd700 70%, transparent 100%);
-  box-shadow: 0 0 6px #fff, 0 0 10px #ffd700;
-  pointer-events: none;
-  z-index: 10000;
-  opacity: 0;
-  animation: sparkFly 0.8s linear forwards;
-  transform: translate3d(0, 0, 0);
-  will-change: transform, opacity;
-}
-
-@keyframes sparkFly {
-  0% {
-    opacity: 1;
-    transform: translate(0, 0) scale(1);
-  }
-  60% {
-    opacity: 0.8;
-    transform: translate(
-      calc(50px * var(--dir-x)),
-      calc(50px * var(--dir-y))
-    ) scale(1.2);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(
-      calc(80px * var(--dir-x)),
-      calc(80px * var(--dir-y))
-    ) scale(0);
-  }
-}
-
-
-/* ============================================================
-   💥 FAIRY BURST – CENTRAL COLOR FLASH ON CLICK
-   ============================================================ */
-.fairy-burst {
-  position: fixed;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 10006;
-  opacity: 0;
-  background: var(--burst-color, #ff69b4);
-  box-shadow: 0 0 40px var(--burst-color, #ff69b4), 0 0 80px #fff;
-  transform: translate(-50%, -50%) scale(0.2);
-  animation: burstExpand 0.5s linear forwards;
-}
-
-@keyframes burstExpand {
-  0% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(0.2);
-  }
-  60% {
-    opacity: 0.8;
-    transform: translate(-50%, -50%) scale(1.1);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1.6);
-  }
-}
-
-
 
 /* ==============================
-   RESPONSIVE  // The media functions help add additional commands after the rest of the script has run to change our screen to fit smaller sizes
-============================== */
+   12. LOAD GAME FIX
+   ============================== */
+#load-wrapper {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60vw;
+  height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 182, 193, 0.25);
+  backdrop-filter: blur(10px);
+  border-radius: 25px;
+  box-shadow: 0 0 30px rgba(255, 182, 193, 0.6);
+  z-index: 999999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+#load-wrapper.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ==============================
+   13. RESPONSIVE
+   ============================== */
 @media (max-width: 1280px) {
   #unicorn2 { display: none; }
 
@@ -454,244 +373,33 @@ body:has(#explore-page.active) #mute-btn {
 }
 
 
+/* ============================================================
+   💾 LOAD MENU – HARD CENTER FIX
+   ============================================================ */
+#load-wrapper {
+  position: fixed !important;             /* override .overlay-screen */
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 60vw !important;
+  height: 80vh !important;
 
-/* Notes for the script.
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
 
-We contain all our css dressings that will be used across the whole program here
+  background: rgba(255, 182, 193, 0.25) !important;
+  backdrop-filter: blur(10px) !important;
+  border-radius: 25px !important;
+  box-shadow: 0 0 30px rgba(255, 182, 193, 0.6) !important;
 
-we use as much scalability and accesibility as possible*/
-
-
-
-/* Core screen visibility control – same pattern we used for inventory */
-.screen {
-  display: none;
+  z-index: 999999 !important;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.35s ease;
 }
 
-.screen.active {
-  display: flex !important;  /* ← this is the key */
+#load-wrapper.active {
   opacity: 1;
   pointer-events: auto;
-  transition: opacity 0.35s ease;
-}
-
-/* Keep canvas behind everything by default */
-#explore-canvas {
-  position: relative;
-  z-index: -1;
-  pointer-events: none;
-}
-
-/* Overlays (like inventory) still sit on top when active */
-.overlay-screen {
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
-}
-
-
-/* ============================================================
-   🌸 CUSTOM ALERT BOX – Olivia’s World Style
-   ============================================================ */
-
-#custom-alert {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0,0,0,0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 99999;
-  opacity: 1;
-  transition: opacity 0.3s ease;
-}
-#custom-alert.alert-hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.alert-box {
-  background: rgba(255, 255, 255, 0.95);
-  border: 3px solid #ffb6c1;
-  border-radius: 25px;
-  box-shadow: 0 0 25px rgba(255, 182, 193, 0.8);
-  padding: 25px 35px;
-  text-align: center;
-  color: #8a2be2;
-  font-family: 'Comic Sans MS', cursive;
-  max-width: 400px;
-  animation: fadeInUp 0.4s ease;
-}
-
-.alert-btns {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.alert-btns button {
-  border: none;
-  border-radius: 20px;
-  padding: 10px 25px;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  color: #fff;
-  font-family: 'Comic Sans MS';
-}
-
-.alert-yes {
-  background: linear-gradient(135deg, #ff69b4, #dda0dd);
-}
-
-.alert-no {
-  background: linear-gradient(135deg, #999, #ccc);
-}
-
-.alert-btns button:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
-}
-
-#custom-alert.alert-hidden {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-.alert-box {
-  background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
-  border: 3px solid #fff;
-  border-radius: 25px;
-  padding: 30px 50px;
-  color: #fff;
-  font-family: 'Comic Sans MS', cursive;
-  font-size: 1.8rem;
-  text-align: center;
-  box-shadow: 0 0 30px rgba(255, 182, 193, 0.8);
-  animation: popIn 0.4s ease forwards;
-}
-
-.alert-box p {
-  margin-bottom: 20px;
-}
-
-#alert-ok {
-  background: linear-gradient(135deg, #ff69b4, #dda0dd, #87cefa);
-  border: none;
-  border-radius: 30px;
-  padding: 10px 30px;
-  color: #fff;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  box-shadow: 0 0 15px rgba(255, 182, 193, 0.6);
-}
-
-#alert-ok:hover {
-  transform: scale(1.1);
-}
-
-@keyframes popIn {
-  from { transform: scale(0.8); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-
-.alert-box {
-  background: rgba(255, 255, 255, 0.9);
-  border: 3px solid #ffb6c1;
-  border-radius: 25px;
-  box-shadow: 0 0 25px rgba(255, 182, 193, 0.8);
-  padding: 25px 35px;
-  text-align: center;
-  color: #8a2be2;
-  font-family: 'Comic Sans MS', cursive;
-  max-width: 400px;
-  margin: auto;
-  animation: fadeInUp 0.4s ease;
-}
-
-.alert-btns {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.alert-btns button {
-  border: none;
-  border-radius: 20px;
-  padding: 10px 25px;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  color: #fff;
-  font-family: 'Comic Sans MS';
-}
-
-.alert-yes {
-  background: linear-gradient(135deg, #ff69b4, #dda0dd);
-}
-
-.alert-no {
-  background: linear-gradient(135deg, #999, #ccc);
-}
-
-.alert-btns button:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
-}
-
-
-/* ============================================================
-   🌸 LANDING PAGE – CONTINUE BUTTON
-   ============================================================ */
-
-#continue-btn {
-  display: none; /* Shown dynamically via JS if save exists */
-  font-family: 'Comic Sans MS', cursive;
-  font-size: 1.8rem;
-  padding: 15px 45px;
-  margin-top: 20px;
-  margin-left: 10px;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  color: #fff;
-  background: linear-gradient(135deg, #87cefa, #dda0dd, #ffb6c1);
-  box-shadow: 0 0 20px rgba(255, 182, 193, 0.6), inset 0 0 5px rgba(255,255,255,0.5);
-  transition: all 0.3s ease-in-out;
-  animation: fadeInContinue 0.8s ease forwards;
-}
-
-#continue-btn:hover {
-  transform: scale(1.1);
-  background: linear-gradient(135deg, #ba55d3, #ff69b4, #fffacd);
-  box-shadow: 0 0 35px rgba(255, 182, 193, 0.9);
-  text-shadow: 0 0 12px #fff;
-}
-
-#continue-btn:active {
-  transform: scale(1.05);
-  filter: brightness(1.2);
-}
-
-/* 🌈 Subtle fade-in animation */
-@keyframes fadeInContinue {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
 }

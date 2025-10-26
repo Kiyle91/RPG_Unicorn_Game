@@ -157,6 +157,79 @@ if (continueBtn) {
   });
 }
 
+/* ============================================================
+   💾 LOAD GAME BUTTON
+============================================================ */
+const loadBtn = document.getElementById("load-btn");
+const loadWrapper = document.getElementById("load-wrapper");
+const saveSlotList = document.getElementById("save-slot-list");
+const closeLoadBtn = document.getElementById("close-load");
+
+// Show the load overlay
+loadBtn.addEventListener("click", () => {
+  populateSaveSlots();
+  loadWrapper.classList.add("active");
+});
+
+// Hide overlay
+closeLoadBtn.addEventListener("click", () => {
+  loadWrapper.classList.remove("active");
+});
+
+// 🗂️ List all saves
+function populateSaveSlots() {
+  saveSlotList.innerHTML = "";
+
+  const saves = Object.keys(localStorage)
+    .filter(k => k.startsWith("olivia_save_"))
+    .map(k => ({
+      key: k,
+      data: JSON.parse(localStorage.getItem(k))
+    }));
+
+  if (saves.length === 0) {
+    saveSlotList.innerHTML = "<p>No saved characters found!</p>";
+    return;
+  }
+
+  saves.forEach(save => {
+    const btn = document.createElement("button");
+    btn.className = "slot-btn";
+    btn.textContent = `${save.data.name || "Unknown"} – Lv.${save.data.level || 1}`;
+    btn.addEventListener("click", () => {
+      const confirmLoad = confirm(`Load ${save.data.name}?`);
+      if (!confirmLoad) return;
+      window.player = loadSpecificSave(save.key);
+      loadWrapper.classList.remove("active");
+      document.getElementById("landing-page").classList.remove("active");
+      document.getElementById("explore-page").classList.add("active");
+      startExploreGame?.();
+      alert(`🌸 Welcome back, ${save.data.name}!`);
+    });
+    saveSlotList.appendChild(btn);
+  });
+}
+
+// Helper for loading specific saves
+function loadSpecificSave(key) {
+  const data = localStorage.getItem(key);
+  if (!data) return null;
+  const save = JSON.parse(data);
+  window.player = {
+    ...save,
+    x: save.position?.x ?? 100,
+    y: save.position?.y ?? 100,
+    size: 15,
+    color: "#ff69b4",
+    speed: save.currentStats?.speed || 3,
+    hp: save.currentStats?.hp || 100,
+    maxHp: save.currentStats?.hp || 100,
+  };
+  window.difficulty = save.difficulty;
+  return window.player;
+}
+
+
 
 
 

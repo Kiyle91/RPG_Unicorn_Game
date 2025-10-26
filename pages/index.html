@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="../css/settings.css" />
   <link rel="stylesheet" href="../css/controls.css" />
   <link rel="stylesheet" href="../css/quests.css" />
+  <link rel="stylesheet" href="../css/load.css" />
 </head>
 
 <body>
@@ -58,12 +59,21 @@
       <div id="landing-buttons">
         <button id="start-btn">Start Adventure</button>
         <button id="continue-btn" style="display:none;">Continue</button>
+        <button id="load-btn">Load Game</button>
+        <p id="disclaimer">
+        <br>⚠️ This is a learning project created by <strong>Kiyle Edwards</strong> for Olivia Edwards. ⚠️
+      </p> 
+      </div>
       </div>
 
-      <p id="disclaimer">
-        <br>⚠️ This is a learning project created by <strong>Kiyle Edwards</strong> for Olivia Edwards. ⚠️
-      </p>
+  <div id="load-wrapper" class="overlay-screen">
+    <div class="load-panel">
+        <h3>💾 Select a Save Slot</h3>
+    <div id="save-slot-list" class="slot-list"></div>
+    <button id="close-load" class="nav-btn">⬅️ Back</button>
     </div>
+
+
   </section>
 
   <!-- ============================================================
