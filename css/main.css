@@ -282,29 +282,130 @@ button:focus,
   background: linear-gradient(135deg, #ff69b4, #ba55d3, #00bfff);
 }
 
-/* ==============================
-   FAIRY DUST    // The animations that causes fireworks when the player clicks anywhere on the screen
-============================== */
+/* ============================================================
+   🌈 FAIRY DUST – SMOOTH RANDOM BURST MOTION
+   ============================================================ */
+
 .fairy-dust {
   position: fixed;
-  width: 10px;
-  height: 10px;
-  background: radial-gradient(circle, #fff 0%, #ffb6c1 60%, transparent 100%);
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   pointer-events: none;
-  opacity: 0;
-  animation: swirl 1.5s linear forwards;
   z-index: 10000;
-  transform: translate3d(0,0,0);
+
+  /* 🌈 Pastel rainbow gradient */
+  background: radial-gradient(circle, #fff 0%, var(--dust-color, #ffb6c1) 70%, transparent 100%);
+  box-shadow: 0 0 6px var(--dust-color, #ffb6c1), 0 0 12px #fff;
+
+  /* Start invisible and fade in/out smoothly */
+  opacity: 0;
+  animation: swirl 1.8s linear forwards;
+
+  transform: translate3d(0, 0, 0);
   will-change: transform, opacity;
 }
 
+/* ============================================================
+   ✨ SWIRL REDEFINED – SMOOTH OUTWARD MOTION
+   ============================================================ */
 @keyframes swirl {
-  0% { opacity: 1; transform: translate3d(0,0,0) scale(1); }
-  30% { transform: translate3d(calc(20px * var(--dir-x)), calc(-20px * var(--dir-y)), 0) rotate(90deg) scale(1.3); }
-  60% { transform: translate3d(calc(60px * var(--dir-x)), calc(-60px * var(--dir-y)), 0) rotate(180deg) scale(0.8); opacity: 0.8; }
-  100% { transform: translate3d(calc(100px * var(--dir-x)), calc(-100px * var(--dir-y)), 0) rotate(360deg) scale(0); opacity: 0; }
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  60% {
+    opacity: 0.9;
+    transform: translate(
+      calc(80px * var(--dir-x) * var(--speed-multiplier)),
+      calc(80px * var(--dir-y) * var(--speed-multiplier))
+    ) scale(0.8);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(
+      calc(120px * var(--dir-x) * var(--speed-multiplier)),
+      calc(120px * var(--dir-y) * var(--speed-multiplier))
+    ) scale(0.3);
+  }
 }
+
+
+
+/* ============================================================
+   ✨ FAIRY SPARK – QUICK BRIGHT FLICKERS
+   ============================================================ */
+
+.fairy-spark {
+  position: fixed;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0%, #ffd700 70%, transparent 100%);
+  box-shadow: 0 0 6px #fff, 0 0 10px #ffd700;
+  pointer-events: none;
+  z-index: 10000;
+  opacity: 0;
+  animation: sparkFly 0.8s linear forwards;
+  transform: translate3d(0, 0, 0);
+  will-change: transform, opacity;
+}
+
+@keyframes sparkFly {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  60% {
+    opacity: 0.8;
+    transform: translate(
+      calc(50px * var(--dir-x)),
+      calc(50px * var(--dir-y))
+    ) scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(
+      calc(80px * var(--dir-x)),
+      calc(80px * var(--dir-y))
+    ) scale(0);
+  }
+}
+
+
+/* ============================================================
+   💥 FAIRY BURST – CENTRAL COLOR FLASH ON CLICK
+   ============================================================ */
+.fairy-burst {
+  position: fixed;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10006;
+  opacity: 0;
+  background: var(--burst-color, #ff69b4);
+  box-shadow: 0 0 40px var(--burst-color, #ff69b4), 0 0 80px #fff;
+  transform: translate(-50%, -50%) scale(0.2);
+  animation: burstExpand 0.5s linear forwards;
+}
+
+@keyframes burstExpand {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+  60% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.6);
+  }
+}
+
+
 
 /* ==============================
    RESPONSIVE  // The media functions help add additional commands after the rest of the script has run to change our screen to fit smaller sizes

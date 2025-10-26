@@ -1,35 +1,71 @@
-
-
-
-
-// ==========================
-//       FAIRY DUST & AUDIO
-// ==========================
-
-// ------------------ Universal Fairy Dust Effect ------------------
 document.addEventListener('click', (e) => {
-  const numParticles = 100;
+  // 💥 Center burst at click
+  const burst = document.createElement('div');
+  burst.classList.add('fairy-burst');
 
-  for (let i = 0; i < numParticles; i++) {
+  // Random bright pastel colour
+  const hue = Math.floor(Math.random() * 360);
+  burst.style.setProperty('--burst-color', `hsl(${hue}, 100%, 75%)`);
+
+  burst.style.left = `${e.clientX}px`;
+  burst.style.top = `${e.clientY}px`;
+
+  document.body.appendChild(burst);
+  setTimeout(() => burst.remove(), 800);
+
+  // 🌈 Main fairy dust particles
+  const numDust = 35;
+  for (let i = 0; i < numDust; i++) {
     const particle = document.createElement('div');
     particle.classList.add('fairy-dust');
 
-    // Random swirl direction
-    const dirX = Math.random() * 2 - 1;
-    const dirY = Math.random() * 2 - 1;
+    const angle = Math.random() * Math.PI * 2;
+    const dirX = Math.cos(angle);
+    const dirY = Math.sin(angle);
     particle.style.setProperty('--dir-x', dirX);
     particle.style.setProperty('--dir-y', dirY);
 
-    // Position at click
+    const hueDust = Math.floor(Math.random() * 360);
+    particle.style.setProperty('--dust-color', `hsl(${hueDust}, 100%, 80%)`);
+
+    const speed = 0.6 + Math.random() * 0.8;
+    particle.style.setProperty('--speed-multiplier', speed);
+
+    const size = 4 + Math.random() * 4;
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+    particle.style.animationDuration = `${1.2 + Math.random() * 0.8}s`;
+
     particle.style.left = `${e.clientX}px`;
     particle.style.top = `${e.clientY}px`;
 
     document.body.appendChild(particle);
+    setTimeout(() => particle.remove(), 2200);
+  }
 
-    // Remove after animation
-    setTimeout(() => particle.remove(), 1500);
+  // ✨ Extra quick sparks
+  const numSparks = 10;
+  for (let i = 0; i < numSparks; i++) {
+    const spark = document.createElement('div');
+    spark.classList.add('fairy-spark');
+
+    const angle = Math.random() * Math.PI * 2;
+    const dirX = Math.cos(angle);
+    const dirY = Math.sin(angle);
+    spark.style.setProperty('--dir-x', dirX);
+    spark.style.setProperty('--dir-y', dirY);
+    spark.style.animationDuration = `${0.6 + Math.random() * 0.5}s`;
+
+    spark.style.left = `${e.clientX}px`;
+    spark.style.top = `${e.clientY}px`;
+
+    document.body.appendChild(spark);
+    setTimeout(() => spark.remove(), 1000);
   }
 });
+
+
+
 
 // ------------------ Background Music ------------------
 const bgMusic = document.getElementById('bg-music');
