@@ -282,6 +282,13 @@ button:focus,
   background: linear-gradient(135deg, #ff69b4, #ba55d3, #00bfff);
 }
 
+/* ==============================
+   HIDE MUTE BUTTON ON EXPLORE PAGE
+============================== */
+body:has(#explore-page.active) #mute-btn {
+  display: none !important;
+}
+
 /* ============================================================
    🌈 FAIRY DUST – SMOOTH RANDOM BURST MOTION
    ============================================================ */

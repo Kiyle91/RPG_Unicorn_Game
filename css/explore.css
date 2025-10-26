@@ -26,8 +26,8 @@
    ============================================================ */
 #explore-canvas {
   aspect-ratio: 16 / 9;          /* ✅ maintain 16:9 ratio always */
-  width: 70vw;                   /* fill 90% of screen width */
-  height: 70vh;                  /* adjusts automatically */
+  width: 90vw;                   /* fill 90% of screen width */
+  height: 80vh;                  /* adjusts automatically */
   max-height: 90vh;              /* safety limit */
   border: 8px solid #ff69b4;
   border-radius: 20px;
@@ -90,10 +90,10 @@
 
 #player-hp-container {
   position: absolute;
-  bottom: 3.5%;                    /* just beneath nav bar */
+  top: 1.5%;                    /* just beneath nav bar */
   left: 50%;
   transform: translateX(-50%);
-  width: 25vw;                        /* nice compact width */
+  width: 80vw;                        /* nice compact width */
   height: 25px;
   background: rgba(255, 255, 255, 0.15);
   border: 2px solid rgba(255, 105, 180, 0.7);

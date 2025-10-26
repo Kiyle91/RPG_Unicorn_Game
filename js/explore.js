@@ -68,6 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
     bar.style.width = `${hpPercent}%`;
     text.textContent = `HP: ${player.hp} / ${player.maxHp}`;
   }
+  window.updateHPBar = updateHPBar;
 
   /* ============================================================
      MAIN LOOP
