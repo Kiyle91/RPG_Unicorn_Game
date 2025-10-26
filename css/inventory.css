@@ -1,217 +1,58 @@
 /* ============================================================
-   INVENTORY OVERLAY SCREEN – FULL FIXED LAYER
+   INVENTORY WRAPPER (Inside Explore)
    ============================================================ */
-
-#inventory-page.overlay-screen {
-  position: fixed;
-  inset: 0; /* top:0; right:0; bottom:0; left:0 */
-  width: 100vw;
-  height: 100vh;
-
-  /* Center content */
+#inventory-wrapper {
+  position: absolute;
+  inset: 0; /* full coverage inside explore page */
   display: flex;
   justify-content: center;
   align-items: center;
-
-  /* Themed overlay background */
   background: rgba(255, 182, 193, 0.25);
-  backdrop-filter: blur(10px);
-
-  /* Start hidden */
+  backdrop-filter: blur(8px);
   opacity: 0;
-  visibility: hidden;
   pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 10;
 
-  /* Smooth fade transition */
-  transition: opacity 0.4s ease, visibility 0.4s ease;
-
-  /* Sit above every other element */
-  z-index: 99999;
+  /* ⚡ GPU hint */
+  will-change: opacity, transform;
+  transform: translateZ(0);
 }
 
-/* When active: visible and interactive */
-#inventory-page.overlay-screen.active {
-  display: flex !important;
+#inventory-wrapper.active {
   opacity: 1;
-  visibility: visible;
   pointer-events: auto;
 }
 
-/* ============================================================
-   INVENTORY WRAPPER BOX
-   ============================================================ */
-
-.inventory-wrapper {
-  display: flex;
-  font-family: 'Comic Sans MS';
-  flex-direction: column;
-  align-items: center;
-  gap: 40px;
-  max-height: 80%;
-
-  background: rgba(255, 255, 255, 0.25);
+/* Inner panel */
+.inventory-panel {
+  background: rgba(255, 255, 255, 0.3);
   border-radius: 30px;
-  padding: 40px 70px;
-  box-shadow: 0 0 40px rgba(255, 182, 193, 0.7);
-  backdrop-filter: blur(8px);
+  padding: 40px 60px;
+  box-shadow: 0 0 40px rgba(255, 182, 193, 0.8);
   text-align: center;
-
-  transform: scale(0.9);
-  transition: transform 0.4s ease;
+  color: #fff;
+  font-family: 'Comic Sans MS', cursive;
+  transform: scale(0.95);
+  transition: transform 0.3s ease;
 }
 
-/* Smooth scale-up on activation */
-#inventory-page.active .inventory-wrapper {
+#inventory-wrapper.active .inventory-panel {
   transform: scale(1);
 }
 
-/* Page title */
-.inventory-wrapper .page-title {
-  font-family: 'Comic Sans MS', cursive;
-  font-size: 2.4rem;
-  color: #fff;
-  text-shadow: 2px 2px 8px #ff69b4;
-  margin-bottom: 10px;
-}
-
-#stats-list {
-  list-style: none;
-  padding: 0;
-  margin: 0 auto;          /* center within parent */
-  font-size: 1.4rem;
-  color: #fff;
-  text-align: center;      /* center text */
-  display: inline-block;   /* shrink to content width for nicer centering */
-}
-
-#stats-list li {
-  display: flex;
-  justify-content: space-between;        /* pushes name/value apart */
-  gap: 100px;                             /* nice gap between text and value */
-  width: 100%;
-  white-space: nowrap;
-}
-
-/* optional: make values pop slightly */
-#stats-list span {
-  color: #fff;
-  font-weight: bold;
-  text-shadow: 0 0 6px rgba(255,255,255,0.6);
-}
-.stats-panel {
-  text-align: center;      /* make title + list centered together */
-
-}
-
-/* ============================================================
-   PLAYER STATS PANEL
-   ============================================================ */
-
-.stats-panel {
-  background: rgba(255, 255, 255, 0.2);
-  padding: 25px 40px;
-  border-radius: 20px;
-  box-shadow: 0 0 15px rgba(255, 182, 193, 0.4);
-  width: 320px;
-}
-
-.stats-panel h3 {
-  font-size: 1.8rem;
-  color: #fff;
-  margin-bottom: 10px;
-  text-shadow: 0 0 8px #ffb6c1;
-}
-
-#stats-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  font-size: 1.4rem;
-  color: #fff;
-  text-align: left;
-}
-
-#stats-list li {
-  margin: 6px 0;
-}
-
-/* ============================================================
-   INVENTORY GRID (ITEM SLOTS)
-   ============================================================ */
-
-.inventory-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 160px);
-  gap: 20px;
-  justify-content: center;
-}
-
-.inventory-grid h3 {
-  grid-column: span 2;
-  font-size: 1.8rem;
-  color: #fff;
-  text-shadow: 0 0 8px #ffb6c1;
-  margin-bottom: 10px;
-}
-
-.item-slot {
-  background: rgba(255, 255, 255, 0.3);
-  border: 2px solid #fff;
-  border-radius: 20px;
-  padding: 25px;
-  font-size: 1.3rem;
-  color: #fff;
-  cursor: pointer;
-  transition: transform 0.3s ease, background 0.3s ease;
-}
-
-.item-slot:hover {
-  transform: scale(1.1);
-  background: rgba(255, 255, 255, 0.5);
-}
-
-.item-slot.empty {
-  opacity: 0.5;
-  border-style: dashed;
-}
-
-/* ============================================================
-   NAV BUTTON (BACK TO EXPLORE)
-   ============================================================ */
-
+/* Back button consistency */
 #back-to-explore.nav-btn {
-  font-family: 'Comic Sans MS', cursive;
-  font-size: 1.6rem;
+  margin-top: 25px;
   background: linear-gradient(135deg, #ff69b4, #ffb6c1, #dda0dd);
   border: 3px solid #fff;
-  color: #fff;
   border-radius: 30px;
-  padding: 15px 40px;
+  padding: 12px 35px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 0 20px rgba(255, 182, 193, 0.7);
 }
 
 #back-to-explore.nav-btn:hover {
   transform: scale(1.1);
   background: linear-gradient(135deg, #ffa6c9, #dda0dd, #87cefa);
-}
-
-/* ============================================================
-   ANIMATION ON OPEN
-   ============================================================ */
-
-@keyframes inventoryFadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-#inventory-page.active .inventory-wrapper {
-  animation: inventoryFadeIn 0.5s ease forwards;
 }

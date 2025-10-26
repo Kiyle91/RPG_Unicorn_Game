@@ -143,59 +143,64 @@
   <!-- ========================== -->
   <!-- EXPLORE / TOP-DOWN GAME -->
   <!-- ========================== -->
-  <section id="explore-page" class="screen">
-    <div id="explore-wrapper">
-      <canvas id="explore-canvas"></canvas>
+  <!-- ========================== -->
+<!-- EXPLORE / TOP-DOWN GAME -->
+<!-- ========================== -->
+<section id="explore-page" class="screen">
+  <div id="explore-wrapper">
+    <!-- 🎮 Explore Canvas -->
+    <canvas id="explore-canvas"></canvas>
 
-      <!-- 🌸 Navigation Bar -->
-      <div id="explore-nav">
-        <button id ="return-home" class="nav-btn" data-action="home">🏰 Home</button>
-        <button class="nav-btn" data-action="quest">📜 Quest</button>
-        <button class="nav-btn" data-action="battle">⚔️ Battle</button>
+    <!-- 🌸 Navigation Bar -->
+    <div id="explore-nav">
+      <button id="return-home" class="nav-btn" data-action="home">🏰 Home</button>
+      <button class="nav-btn" data-action="quest">📜 Quest</button>
+      <button class="nav-btn" data-action="battle">⚔️ Battle</button>
+      <button id="open-inventory" class="nav-btn" data-action="inventory">🎒 Inventory</button>
+      <button class="nav-btn" data-action="settings">⚙️ Settings</button>
+    </div>
 
-        <!-- ✅ Fixed: give this one an ID -->
-        <button id="open-inventory" class="nav-btn" data-action="inventory">🎒 Inventory</button>
+    <!-- 💖 Dynamic Player HP Bar -->
+    <div id="player-hp-container">
+      <div id="player-hp-bar"></div>
+      <span id="player-hp-text">HP: 100 / 100</span>
+    </div>
 
-        <button class="nav-btn" data-action="settings">⚙️ Settings</button>
-      </div>
+    <!-- 👜 INVENTORY WRAPPER (Now inside Explore) -->
+    <div id="inventory-wrapper">
+      <div class="inventory-panel">
+        <!-- Stats Panel -->
+        <div class="stats-panel">
+          <h3>📊 Player Stats</h3>
+          <ul id="stats-list">
+            <li>Health: <span id="stat-health">120</span></li>
+            <li>Mana: <span id="stat-mana">80</span></li>
+            <li>Attack: <span id="stat-attack">20</span></li>
+            <li>Armor: <span id="stat-armor">10</span></li>
+            <li>Speed: <span id="stat-speed">15</span></li>
+          </ul>
+        </div>
 
-      <!-- 💖 Dynamic Player HP Bar -->
-      <div id="player-hp-container">
-        <div id="player-hp-bar"></div>
-        <span id="player-hp-text">HP: 100 / 100</span>
+        <!-- Inventory Grid -->
+        <div class="inventory-grid">
+          <div class="item-slot">Health Potion</div>
+          <div class="item-slot">Mana Crystal</div>
+          <div class="item-slot">Golden Key</div>
+          <div class="item-slot empty">Empty Slot</div>
+        </div>
+
+        <!-- Back Button -->
+        <button id="back-to-explore" class="nav-btn">⬅️ Back to Explore</button>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
   <!-- ========================== -->
   <!-- INVENTORY PAGE (Overlay) -->
   <!-- ========================== -->
   <section id="inventory-page" class="screen overlay-screen">
-    <div class="inventory-wrapper">
-
-      <!-- Stats Panel -->
-      <div class="stats-panel">
-        <h3>📊 Player Stats</h3>
-        <ul id="stats-list">
-          <li>Health: <span id="stat-health">120</span></li>
-          <li>Mana: <span id="stat-mana">80</span></li>
-          <li>Attack: <span id="stat-attack">20</span></li>
-          <li>Armor: <span id="stat-armor">10</span></li>
-          <li>Speed: <span id="stat-speed">15</span></li>
-        </ul>
-      </div>
-
-      <!-- Inventory Grid -->
-      <div class="inventory-grid">
-        <div class="item-slot">Health Potion</div>
-        <div class="item-slot">Mana Crystal</div>
-        <div class="item-slot">Golden Key</div>
-        <div class="item-slot empty">Empty Slot</div>
-      </div>
-
-      <button id="back-to-explore" class="nav-btn">⬅️ Back to Explore</button>
-    </div>
-  </section>
+    
 
   <!-- ========================== -->
   <!-- SCRIPTS -->
