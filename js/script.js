@@ -1,92 +1,87 @@
+/* ============================================================
+   🌸 OLIVIA’S WORLD – MAIN SCRIPT.JS
+   Handles: visual effects, music, navigation, saving, loading,
+   start/continue logic, alerts, and debug tools.
+============================================================ */
+
+
+/* ============================================================
+   🌈 FAIRY CLICK EFFECTS
+============================================================ */
 document.addEventListener('click', (e) => {
-  // 💥 Center burst at click
+  // 💥 Center burst
   const burst = document.createElement('div');
   burst.classList.add('fairy-burst');
-
-  // Random bright pastel colour
   const hue = Math.floor(Math.random() * 360);
   burst.style.setProperty('--burst-color', `hsl(${hue}, 100%, 75%)`);
-
   burst.style.left = `${e.clientX}px`;
   burst.style.top = `${e.clientY}px`;
-
   document.body.appendChild(burst);
   setTimeout(() => burst.remove(), 800);
 
-  // 🌈 Main fairy dust particles
+  // 🌈 Fairy dust
   const numDust = 35;
   for (let i = 0; i < numDust; i++) {
     const particle = document.createElement('div');
     particle.classList.add('fairy-dust');
-
     const angle = Math.random() * Math.PI * 2;
     const dirX = Math.cos(angle);
     const dirY = Math.sin(angle);
     particle.style.setProperty('--dir-x', dirX);
     particle.style.setProperty('--dir-y', dirY);
-
     const hueDust = Math.floor(Math.random() * 360);
     particle.style.setProperty('--dust-color', `hsl(${hueDust}, 100%, 80%)`);
-
     const speed = 0.6 + Math.random() * 0.8;
     particle.style.setProperty('--speed-multiplier', speed);
-
     const size = 4 + Math.random() * 4;
     particle.style.width = `${size}px`;
     particle.style.height = `${size}px`;
     particle.style.animationDuration = `${1.2 + Math.random() * 0.8}s`;
-
     particle.style.left = `${e.clientX}px`;
     particle.style.top = `${e.clientY}px`;
-
     document.body.appendChild(particle);
     setTimeout(() => particle.remove(), 2200);
   }
 
-  // ✨ Extra quick sparks
+  // ✨ Fairy sparks
   const numSparks = 10;
   for (let i = 0; i < numSparks; i++) {
     const spark = document.createElement('div');
     spark.classList.add('fairy-spark');
-
     const angle = Math.random() * Math.PI * 2;
     const dirX = Math.cos(angle);
     const dirY = Math.sin(angle);
     spark.style.setProperty('--dir-x', dirX);
     spark.style.setProperty('--dir-y', dirY);
     spark.style.animationDuration = `${0.6 + Math.random() * 0.5}s`;
-
     spark.style.left = `${e.clientX}px`;
     spark.style.top = `${e.clientY}px`;
-
     document.body.appendChild(spark);
     setTimeout(() => spark.remove(), 1000);
   }
 });
 
 
-
-
-// ------------------ Background Music ------------------
+/* ============================================================
+   🎵 BACKGROUND MUSIC + MUTE BUTTON
+============================================================ */
 const bgMusic = document.getElementById('bg-music');
 let musicStarted = true;
 
+// 🔈 Autoplay handling
 document.addEventListener('click', () => {
   if (!musicStarted) {
-    bgMusic.play().catch(() => {
-      console.log("Autoplay blocked, waiting for user interaction.");
-    });
+    bgMusic.play().catch(() => console.log("Autoplay blocked, waiting for user interaction."));
     musicStarted = true;
   }
 });
 
-// ------------------ Mute / Unmute Button ------------------
+// 🔇 Mute toggle
 const muteBtn = document.getElementById('mute-btn');
 if (muteBtn) {
   muteBtn.addEventListener('click', () => {
     if (bgMusic.paused) {
       bgMusic.play();
-      
       muteBtn.textContent = "🔊";
     } else {
       bgMusic.pause();
@@ -96,27 +91,25 @@ if (muteBtn) {
 }
 
 
-// ------------------ Start Button Listener ------------------
-// ------------------ Start + Continue Button Logic ------------------
-const startBtn = document.getElementById('start-btn');// 🌸 new continue button
-const continueBtn =document.getElementById('continue-btn');
+/* ============================================================
+   🚀 START + CONTINUE BUTTON LOGIC
+============================================================ */
+const startBtn = document.getElementById('start-btn');
+const continueBtn = document.getElementById('continue-btn');
 
-// ------------------ START BUTTON ------------------
+// 🩷 START BUTTON
 if (startBtn) {
   startBtn.addEventListener('click', () => {
     const landingScreen = document.querySelector('#landing-page');
     const nextScreen = document.querySelector('#naming-page');
 
     if (landingScreen && nextScreen) {
-      console.log("🌸 Start button clicked! Transitioning in 1s...");
+      console.log("🌸 Start button clicked! Transitioning...");
 
-      // 🕐 small transition pause before switching screens
       setTimeout(() => {
-        // toggle visibility via classes (keeps CSS in charge)
         landingScreen.classList.remove('active');
         nextScreen.classList.add('active');
 
-        // move keyboard focus to first focusable element in the next screen
         const focusable = nextScreen.querySelector('input, button, [tabindex]:not([tabindex=\"-1\"])');
         if (focusable) focusable.focus();
 
@@ -126,29 +119,24 @@ if (startBtn) {
   });
 }
 
-// ------------------ CONTINUE BUTTON ------------------
+// 💾 CONTINUE BUTTON
 if (continueBtn) {
-  // 💾 Check if a save exists in browser localStorage
   const hasSave = localStorage.getItem('olivia_save');
   if (hasSave) {
-    continueBtn.style.display = 'inline-block'; // Show button only if save exists
+    continueBtn.style.display = 'inline-block';
     console.log("💾 Save found — showing Continue button.");
   } else {
     console.log("⚠️ No save found — hiding Continue button.");
   }
 
-  // ▶️ Continue button click handler
   continueBtn.addEventListener('click', () => {
     console.log("🔄 Continue button clicked!");
-
-    // Try to load saved data
     const save = loadGame?.();
     if (!save) {
       showAlert?.("No saved game found!");
       return;
     }
 
-    // Jump straight into Explore mode
     showScreen("explore-page");
     setTimeout(() => {
       startExploreGame?.();
@@ -157,65 +145,91 @@ if (continueBtn) {
   });
 }
 
+
 /* ============================================================
-   💾 LOAD GAME BUTTON
+   💾 LOAD GAME MENU LOGIC
 ============================================================ */
 const loadBtn = document.getElementById("load-btn");
 const loadWrapper = document.getElementById("load-wrapper");
 const saveSlotList = document.getElementById("save-slot-list");
 const closeLoadBtn = document.getElementById("close-load");
 
-// Show the load overlay
-loadBtn.addEventListener("click", () => {
-  populateSaveSlots();
-  loadWrapper.classList.add("active");
-});
+// ✅ Show overlay
+if (loadBtn) {
+  loadBtn.addEventListener("click", () => {
+    populateSaveSlots();
+    loadWrapper.classList.add("active");
+  });
+}
 
-// Hide overlay
-closeLoadBtn.addEventListener("click", () => {
-  loadWrapper.classList.remove("active");
-});
+// ✅ Hide overlay
+if (closeLoadBtn) {
+  closeLoadBtn.addEventListener("click", () => {
+    loadWrapper.classList.remove("active");
+  });
+}
 
-// 🗂️ List all saves
+// 🗂️ Populate list of saves
 function populateSaveSlots() {
   saveSlotList.innerHTML = "";
 
   const saves = Object.keys(localStorage)
-    .filter(k => k.startsWith("olivia_save_"))
-    .map(k => ({
-      key: k,
-      data: JSON.parse(localStorage.getItem(k))
+    .filter(key => key.startsWith("olivia_save_"))
+    .map(key => ({
+      key,
+      data: JSON.parse(localStorage.getItem(key))
     }));
 
   if (saves.length === 0) {
-    saveSlotList.innerHTML = "<p>No saved characters found!</p>";
+    const msg = document.createElement("p");
+    msg.textContent = "No saved characters found!";
+    msg.style.color = "#fff";
+    msg.style.fontFamily = "'Comic Sans MS', cursive";
+    msg.style.fontSize = "1.3rem";
+    saveSlotList.appendChild(msg);
     return;
   }
 
   saves.forEach(save => {
     const btn = document.createElement("button");
     btn.className = "slot-btn";
-    btn.textContent = `${save.data.name || "Unknown"} – Lv.${save.data.level || 1}`;
+    btn.textContent = `${save.data.name || "Unknown"} — Lv.${save.data.level || 1}`;
+    
     btn.addEventListener("click", () => {
       const confirmLoad = confirm(`Load ${save.data.name}?`);
       if (!confirmLoad) return;
-      window.player = loadSpecificSave(save.key);
-      loadWrapper.classList.remove("active");
-      document.getElementById("landing-page").classList.remove("active");
-      document.getElementById("explore-page").classList.add("active");
-      startExploreGame?.();
-      alert(`🌸 Welcome back, ${save.data.name}!`);
+
+      const loadedPlayer = loadSpecificSave(save.key);
+      if (loadedPlayer) {
+        loadWrapper.classList.remove("active");
+        const landing = document.getElementById("landing-page");
+        const explore = document.getElementById("explore-page");
+        if (landing && explore) {
+          landing.classList.remove("active");
+          explore.classList.add("active");
+        }
+        cancelAnimationFrame(window.exploreFrameId);
+        startExploreGame?.();
+        (window.showAlert || alert)(`🌸 Welcome back, ${loadedPlayer.name}!`);
+      }
     });
+
     saveSlotList.appendChild(btn);
   });
 }
 
-// Helper for loading specific saves
+// 🎯 Load specific save
 function loadSpecificSave(key) {
   const data = localStorage.getItem(key);
   if (!data) return null;
+
   const save = JSON.parse(data);
   window.player = {
+    name: save.name,
+    classKey: save.classKey,
+    currentStats: save.currentStats,
+    level: save.level,
+    experience: save.experience,
     ...save,
     x: save.position?.x ?? 100,
     y: save.position?.y ?? 100,
@@ -225,39 +239,33 @@ function loadSpecificSave(key) {
     hp: save.currentStats?.hp || 100,
     maxHp: save.currentStats?.hp || 100,
   };
+
   window.difficulty = save.difficulty;
+  console.log(`🎮 Loaded save for ${window.player.name} (${window.player.classKey})`);
   return window.player;
 }
 
 
-
-
-
+/* ============================================================
+   🧭 SCREEN SWITCHER
+============================================================ */
 function showScreen(nextId) {
-  // Hide all screens
   document.querySelectorAll('.screen').forEach(screen => {
     screen.classList.remove('active');
     screen.style.display = 'none';
   });
 
-  // Show the requested screen
   const nextScreen = document.getElementById(nextId);
   if (nextScreen) {
     nextScreen.classList.add('active');
     nextScreen.style.display = 'flex';
   }
-
-  
 }
 
 
 /* ============================================================
-   🌟 GLOBAL DEBUG & PLAYER CONSOLE TOOLS
-   ============================================================ */
-
-/* ============================================================
-   🌟 GLOBAL DEBUG: SHOW PLAYER STATS (VISIBLE + SAFE)
-   ============================================================ */
+   🧪 DEBUG / PLAYER CONSOLE TOOLS
+============================================================ */
 window.showStats = function () {
   try {
     if (!window.player) {
@@ -266,7 +274,6 @@ window.showStats = function () {
     }
 
     const p = window.player;
-
     const stats = {
       Name: p.name || "Unknown",
       Class: p.classKey || "Unassigned",
@@ -277,10 +284,9 @@ window.showStats = function () {
       Y: (p.y ?? 0).toFixed ? p.y.toFixed(1) : 0,
     };
 
-    // ✅ Clear space and print clearly (no auto-hide)
     console.log("\n🧭 %cPLAYER STATUS", "color: hotpink; font-weight: bold;");
     console.table(stats);
-    console.log("🎯 Tip: You can run `damage(10)`, `heal(10)`, `setHP(50)`, or `boost('speed', 8)` next.");
+    console.log("🎯 Tip: You can run `damage(10)`, `heal(10)`, or `setHP(50)` next.");
 
     return "✅ Player stats printed to console.";
   } catch (err) {
@@ -289,7 +295,7 @@ window.showStats = function () {
   }
 };
 
-
+// 🎯 Console helpers
 window.setHP = (value) => {
   if (!window.player) return console.warn("⚠️ Player not initialized yet!");
   player.hp = Math.max(0, Math.min(player.maxHp, value));
@@ -333,26 +339,21 @@ function updateStatsDisplay(stats) {
 
 
 /* ============================================================
-   🌸 Custom Alert Function
-   ============================================================ */
+   ⚠️ CUSTOM ALERT BOX
+============================================================ */
 function showAlert(message, onConfirm = null, onCancel = null) {
   const alertBox = document.getElementById("custom-alert");
   const alertMessage = document.getElementById("alert-message");
   const btnContainer = alertBox?.querySelector(".alert-btns");
-
   if (!alertBox || !alertMessage || !btnContainer) {
     console.warn("⚠️ Custom alert elements missing from DOM.");
     return;
   }
 
-  // Set message text
   alertMessage.textContent = message;
-
-  // Clear previous buttons
   btnContainer.innerHTML = "";
 
   if (onConfirm || onCancel) {
-    // Create Yes / No buttons
     const yesBtn = document.createElement("button");
     yesBtn.textContent = "Yes";
     yesBtn.className = "alert-yes";
@@ -371,7 +372,6 @@ function showAlert(message, onConfirm = null, onCancel = null) {
 
     btnContainer.append(yesBtn, noBtn);
   } else {
-    // Default OK button
     const okBtn = document.createElement("button");
     okBtn.textContent = "OK";
     okBtn.className = "alert-yes";
@@ -382,35 +382,26 @@ function showAlert(message, onConfirm = null, onCancel = null) {
     btnContainer.append(okBtn);
   }
 
-  // Show the alert
   alertBox.classList.remove("alert-hidden");
 }
 
 
 /* ============================================================
-   🌸 ENTER KEY ACTIVATION FOR BUTTONS + INPUTS
-   ============================================================ */
+   ⌨️ ENTER KEY = PRIMARY BUTTON CLICK
+============================================================ */
 document.addEventListener("keydown", (e) => {
-  // Ignore if user is typing in a textarea or pressing modifier keys
   if (e.key !== "Enter" || e.shiftKey || e.ctrlKey || e.altKey || e.metaKey) return;
 
-  // Find the currently visible screen
   const activeScreen = document.querySelector(".screen.active");
   if (!activeScreen) return;
 
-  // Try to find the primary button in that screen
   const primaryButton =
     activeScreen.querySelector("button:enabled:not([disabled])") ||
     document.querySelector("button:enabled:not([disabled])");
 
-  // If found, simulate click
   if (primaryButton) {
-    e.preventDefault(); // prevent accidental form submissions
+    e.preventDefault();
     primaryButton.click();
     console.log(`✨ Enter key triggered button: #${primaryButton.id || "unnamed button"}`);
   }
 });
-
-
-// ------------------ Continue Button ------------------
-

@@ -303,6 +303,9 @@ document.addEventListener("DOMContentLoaded", () => {
 /* ============================================================
    💾 SAVE / LOAD SYSTEM
 ============================================================ */
+/* ============================================================
+   💾 SAVE / LOAD SYSTEM (Unified for Continue + Load Menu + Settings)
+============================================================ */
 function saveGame() {
   const p = window.player;
   if (!p) return console.warn("⚠️ No player to save!");
@@ -318,13 +321,26 @@ function saveGame() {
     timestamp: new Date().toISOString(),
   };
 
+  // ✅ 1️⃣ Primary save (used for “Continue” button)
   localStorage.setItem("olivia_save", JSON.stringify(saveData));
-  console.log("💾 Game saved:", saveData);
+
+  // ✅ 2️⃣ Character-named slot save (used for Load Game menu)
+  const key = `olivia_save_${p.name || "Unknown"}`;
+  localStorage.setItem(key, JSON.stringify(saveData));
+
+  console.log(`💾 Game saved for ${p.name} (${p.classKey}) → Slots: "olivia_save" + "${key}"`);
 }
 
-function loadGame() {
-  const data = localStorage.getItem("olivia_save");
-  if (!data) return null;
+
+/* ============================================================
+   📂 LOAD GAME (Continue, Load Menu, and Settings Panel)
+============================================================ */
+function loadGame(slotKey = "olivia_save") {
+  const data = localStorage.getItem(slotKey);
+  if (!data) {
+    console.warn(`⚠️ No save data found for key: ${slotKey}`);
+    return null;
+  }
 
   const save = JSON.parse(data);
   window.player = {
@@ -344,12 +360,31 @@ function loadGame() {
   };
 
   window.difficulty = save.difficulty;
-  console.log(`🎮 Game loaded for ${window.player.name} (${window.player.classKey})`);
+  console.log(`🎮 Loaded save for ${window.player.name} (${window.player.classKey}) from "${slotKey}"`);
   return window.player;
 }
 
+
+/* ============================================================
+   🧭 LOAD SPECIFIC SLOT (for Load Game Menu)
+============================================================ */
+function loadSpecificSave(key) {
+  return loadGame(key); // direct alias for menu use
+}
+
+
+/* ============================================================
+   💾 GLOBAL HOOKS (so all scripts can call these)
+============================================================ */
 window.saveGame = saveGame;
 window.loadGame = loadGame;
+window.loadSpecificSave = loadSpecificSave;
+
+
+/* ============================================================
+   💾 AUTO-SAVE ON EXIT
+============================================================ */
 window.addEventListener("beforeunload", () => {
   if (window.player) saveGame();
 });
+
