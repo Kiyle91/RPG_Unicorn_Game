@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
       terminateGame(() => window.location.reload());
     });
   }
-});
+})
 
 /* ============================================================
    TERMINATE GAME
