@@ -348,19 +348,6 @@ window.reloadPlayerPosition = reloadPlayerPosition;
   }
 });
 
-// 🎮 CONTROLS OVERLAY
-const controlsBtn = document.querySelector('.nav-btn[data-action="controls"]');
-const controlsWrapper = document.getElementById("controls-wrapper");
-const closeControlsBtn = document.getElementById("close-controls");
-
-function toggleControls(show) {
-  uiState = show ? "controls" : "explore";
-  controlsWrapper.classList.toggle("active", show);
-}
-
-if (controlsBtn) controlsBtn.addEventListener("click", () => toggleControls(true));
-if (closeControlsBtn) closeControlsBtn.addEventListener("click", () => toggleControls(false));
-
 
 /* ============================================================
    💾 SAVE / LOAD SYSTEMg
