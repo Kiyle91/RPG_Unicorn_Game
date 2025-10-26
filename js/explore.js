@@ -1,6 +1,9 @@
 /* ============================================================
-   🦄 EXPLORE.JS – GRID MAP + MOVEMENT + INVENTORY + SETTINGS
+   🦄 EXPLORE.JS – GRID MAP + MOVEMENT + INVENTORY + SETTINGS + CONTROLS
    ============================================================ */
+
+// 🌍 Global UI State (so all overlays share the same state)
+let uiState = "explore";
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -47,17 +50,17 @@ document.addEventListener("DOMContentLoaded", () => {
   let player = null;
   const keys = {};
   let exploreRunning = false;
-  let uiState = "explore"; // Current UI context (explore / inventory / settings)
 
+  // Keyboard tracking
   window.addEventListener("keydown", (e) => {
-  keys[e.key.toLowerCase()] = true;
-  if (e.key === "Shift") keys.shift = true; // explicit tracking
+    keys[e.key.toLowerCase()] = true;
+    if (e.key === "Shift") keys.shift = true;
   });
 
   window.addEventListener("keyup", (e) => {
-  keys[e.key.toLowerCase()] = false;
-  if (e.key === "Shift") keys.shift = false;
-});
+    keys[e.key.toLowerCase()] = false;
+    if (e.key === "Shift") keys.shift = false;
+  });
 
   /* ============================================================
      🎨 DRAW FUNCTIONS
@@ -98,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!exploreRunning || !player) return;
 
     // Pause movement when overlays are open
-    if (uiState === "inventory" || uiState === "settings") {
+    if (uiState !== "explore") {
       draw();
       window.exploreFrameId = requestAnimationFrame(update);
       return;
@@ -109,7 +112,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (keys["s"]) player.y += player.speed;
     if (keys["a"]) player.x -= player.speed;
     if (keys["d"]) player.x += player.speed;
-
 
     // Keep player within map bounds
     player.x = Math.max(player.size / 2, Math.min(canvas.width - player.size / 2, player.x));
@@ -130,10 +132,14 @@ document.addEventListener("DOMContentLoaded", () => {
      🚀 START EXPLORE MODE
   ============================================================ */
   function startExploreGame() {
+
+    if (window.exploreFrameId) cancelAnimationFrame(window.exploreFrameId);
+    exploreRunning = false;
+
+
     if (exploreRunning) return;
 
     if (window.player) {
-      // ✅ Use existing player data directly (keep saved coords)
       player = window.player;
 
       // Only center if no saved position
@@ -142,7 +148,6 @@ document.addEventListener("DOMContentLoaded", () => {
         player.y = canvas.height / 2;
       }
 
-      // Normalise other essentials
       player.size  = player.size  ?? 15;
       player.color = player.color ?? "#ff69b4";
       player.speed = player.currentStats?.speed || 3;
@@ -150,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
       player.maxHp = player.currentStats?.hp    || 100;
 
     } else {
-      // 🩷 Fallback player (new game)
+      // 🩷 Fallback player
       player = {
         name: "Fallback Hero",
         currentStats: { hp: 100, speed: 3 },
@@ -173,56 +178,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   window.startExploreGame = startExploreGame;
 
-
-
   /* ============================================================
-   🔄 RELOAD PLAYER POSITION (USED FOR LOAD GAME)
-============================================================ */
-  function reloadPlayerPosition() {
-    if (!window.player) return;
-    player = window.player;
-
-  // Only center if no saved coords
-    if (player.x == null || player.y == null) {
-    player.x = canvas.width / 2;
-    player.y = canvas.height / 2;
-  }
-
-    player.size  = player.size  ?? 15;
-    player.color = player.color ?? "#ff69b4";
-    player.speed = player.currentStats?.speed || 3;
-    player.hp    = player.currentStats?.hp    || 100;
-    player.maxHp = player.currentStats?.hp    || 100;
-
-    drawMap();
-    drawPlayer();
-    updateHPBar();
-    console.log(`🎯 Player reloaded at X:${player.x}, Y:${player.y}`);
-  }
-window.reloadPlayerPosition = reloadPlayerPosition;
-
-  /* ============================================================
-     🎒 INVENTORY OVERLAY
-  ============================================================ */
-  const inventoryBtn = document.getElementById("open-inventory");
-  const inventoryWrapper = document.getElementById("inventory-wrapper");
-  const backBtn = document.getElementById("back-to-explore");
-
-  function toggleInventory(show) {
-    if (!inventoryWrapper) return;
-    uiState = show ? "inventory" : "explore";
-    inventoryWrapper.classList.toggle("active", show);
-  }
-
-  if (inventoryBtn) inventoryBtn.addEventListener("click", () => toggleInventory(true));
-  if (backBtn) backBtn.addEventListener("click", () => toggleInventory(false));
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && uiState === "inventory") toggleInventory(false);
-  });
-
-  /* ============================================================
-     🏰 RETURN HOME HANDLER
+     🏰 RETURN HOME HANDLER – restored
   ============================================================ */
   const returnHomeBtn = document.getElementById("return-home");
 
@@ -251,9 +208,6 @@ window.reloadPlayerPosition = reloadPlayerPosition;
     });
   }
 
-  /* ============================================================
-     ☠️ TERMINATE GAME
-  ============================================================ */
   function terminateGame(callback) {
     console.log("💀 Terminating game...");
     exploreRunning = false;
@@ -271,6 +225,26 @@ window.reloadPlayerPosition = reloadPlayerPosition;
   window.terminateGame = terminateGame;
 
   /* ============================================================
+     🎒 INVENTORY OVERLAY
+  ============================================================ */
+  const inventoryBtn = document.getElementById("open-inventory");
+  const inventoryWrapper = document.getElementById("inventory-wrapper");
+  const backBtn = document.getElementById("back-to-explore");
+
+  function toggleInventory(show) {
+    if (!inventoryWrapper) return;
+    uiState = show ? "inventory" : "explore";
+    inventoryWrapper.classList.toggle("active", show);
+  }
+
+  if (inventoryBtn) inventoryBtn.addEventListener("click", () => toggleInventory(true));
+  if (backBtn) backBtn.addEventListener("click", () => toggleInventory(false));
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && uiState === "inventory") toggleInventory(false);
+  });
+
+  /* ============================================================
      ⚙️ SETTINGS OVERLAY
   ============================================================ */
   const settingsBtn = document.querySelector('.nav-btn[data-action="settings"]');
@@ -286,7 +260,6 @@ window.reloadPlayerPosition = reloadPlayerPosition;
     settingsWrapper.classList.toggle("active", show);
   }
 
-  // Open / Close
   if (settingsBtn) settingsBtn.addEventListener("click", () => toggleSettings(true));
   if (closeSettingsBtn) closeSettingsBtn.addEventListener("click", () => toggleSettings(false));
 
@@ -304,14 +277,14 @@ window.reloadPlayerPosition = reloadPlayerPosition;
     });
   }
 
-  // 🔊 Sound Effects Toggle (placeholder)
+  // 🔊 SFX Toggle
   if (toggleSfxBtn) {
     toggleSfxBtn.addEventListener("click", () => {
       toggleSfxBtn.textContent = toggleSfxBtn.textContent === "On" ? "Off" : "On";
     });
   }
 
-  // 💾 Save Game
+  // 💾 Save
   if (saveGameBtn) {
     saveGameBtn.addEventListener("click", () => {
       saveGame();
@@ -319,45 +292,52 @@ window.reloadPlayerPosition = reloadPlayerPosition;
     });
   }
 
-  // 📂 Load Game
+  // 📂 Load
   if (loadGameBtn) {
     loadGameBtn.addEventListener("click", () => {
-      console.log("📂 Load Game button clicked!");
-
       const save = loadGame?.();
       if (!save) {
         showAlert("⚠️ No saved game found!");
         return;
       }
 
-      // ✅ Close overlays and resume game
       settingsWrapper?.classList.remove("active");
       inventoryWrapper?.classList.remove("active");
       uiState = "explore";
+      cancelAnimationFrame(window.exploreFrameId);
 
       startExploreGame?.();
-      drawMap();
-      drawPlayer();
-      reloadPlayerPosition?.();
-
       showAlert("📂 Game loaded successfully!");
-      console.log(
-        `🔄 Loaded game for ${window.player?.name || "Unknown Hero"} (${window.player?.classKey || "Unknown Class"})`
-      );
     });
   }
+
+  /* ============================================================
+     🎮 CONTROLS OVERLAY
+  ============================================================ */
+  const controlsBtn = document.querySelector('.nav-btn[data-action="battle"]'); // Matches your HTML
+  const controlsWrapper = document.getElementById("controls-wrapper");
+  const closeControlsBtn = document.getElementById("close-controls");
+
+  function toggleControls(show) {
+    uiState = show ? "controls" : "explore";
+    controlsWrapper.classList.toggle("active", show);
+  }
+
+  if (controlsBtn) controlsBtn.addEventListener("click", () => toggleControls(true));
+  if (closeControlsBtn) closeControlsBtn.addEventListener("click", () => toggleControls(false));
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && uiState === "controls") toggleControls(false);
+  });
 });
 
 
 /* ============================================================
-   💾 SAVE / LOAD SYSTEMg
+   💾 SAVE / LOAD SYSTEM
 ============================================================ */
 function saveGame() {
   const p = window.player;
-  if (!p) {
-    console.warn("⚠️ No player to save!");
-    return;
-  }
+  if (!p) return console.warn("⚠️ No player to save!");
 
   const saveData = {
     name: p.name,
@@ -366,7 +346,7 @@ function saveGame() {
     level: p.level,
     experience: p.experience,
     difficulty: window.difficulty,
-    position: { x: p.x, y: p.y }, // ✅ save current position
+    position: { x: p.x, y: p.y },
     timestamp: new Date().toISOString(),
   };
 
@@ -376,10 +356,7 @@ function saveGame() {
 
 function loadGame() {
   const data = localStorage.getItem("olivia_save");
-  if (!data) {
-    console.warn("⚠️ No saved game found!");
-    return null;
-  }
+  if (!data) return null;
 
   const save = JSON.parse(data);
   console.log("📂 Loaded save:", save);
@@ -412,6 +389,3 @@ window.loadGame = loadGame;
 window.addEventListener("beforeunload", () => {
   if (window.player) saveGame();
 });
-
-
-
