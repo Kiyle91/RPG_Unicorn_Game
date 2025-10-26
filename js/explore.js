@@ -258,25 +258,44 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* ============================================================
-   🏰 RETURN HOME BUTTON – TERMINATE GAME & GO TO LANDING
+   🏰 RETURN HOME BUTTON – FULL GAME RESET + REFRESH FIX
    ============================================================ */
 
 document.addEventListener("DOMContentLoaded", () => {
   const returnHomeBtn = document.getElementById("return-home");
   const landingPage = document.getElementById("landing-page");
-  if (!returnHomeBtn || !landingPage) return;
+
+  if (!returnHomeBtn || !landingPage) {
+    console.warn("⚠️ Return home button or landing page missing.");
+    return;
+  }
 
   returnHomeBtn.addEventListener("click", () => {
-    console.log("🏰 Returning to landing page...");
+    console.log("🏰 Returning home — resetting game...");
+
+    // Stop explore safely
     terminateGame(() => {
+      // Ensure landing page is visible before reload
+      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
       landingPage.classList.add("active");
-      window.scrollTo({ top: 0, behavior: "auto" });
-      console.log("🌸 Landing page now visible after full termination.");
+      landingPage.style.opacity = "1";
+      landingPage.style.visibility = "visible";
+
+      console.log("✨ Landing page preloaded — now refreshing...");
+      
+      // Force full reload after short delay to avoid GPU freeze
+      setTimeout(() => {
+        window.location.href = window.location.href.split('#')[0];
+      }, 250);
     });
   });
 
-  // ESC also terminates and returns home
+  // Optional: ESC key also resets game
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") returnHomeBtn.click();
+    if (e.key === "Escape") {
+      console.log("🔁 ESC pressed — reloading game safely.");
+      window.location.href = window.location.href.split('#')[0];
+    }
   });
 });
+
