@@ -26,7 +26,7 @@ confirmBtn.addEventListener('click', () => {
   const playerName = playerInput.value.trim();
 
   if (!playerName) {
-    alert("Please enter your name!");
+    showAlert("Please enter your name!");
     return;
   }
 

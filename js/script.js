@@ -222,3 +222,25 @@ function updateStatsDisplay(stats) {
 }
 
 
+/* ============================================================
+   🌸 Custom Alert Function
+   ============================================================ */
+function showAlert(message, callback = null) {
+  const alertBox = document.getElementById("custom-alert");
+  const alertMessage = document.getElementById("alert-message");
+  const alertOk = document.getElementById("alert-ok");
+
+  if (!alertBox || !alertMessage || !alertOk) {
+    console.warn("⚠️ Custom alert elements missing from DOM.");
+    return;
+  }
+
+  alertMessage.textContent = message;
+  alertBox.classList.remove("alert-hidden");
+
+  // Dismiss + optional callback
+  alertOk.onclick = () => {
+    alertBox.classList.add("alert-hidden");
+    if (callback) callback();
+  };
+}

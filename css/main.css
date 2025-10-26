@@ -484,3 +484,64 @@ we use as much scalability and accesibility as possible*/
   inset: 0;
   z-index: 99999;
 }
+
+
+/* ============================================================
+   🌸 CUSTOM ALERT BOX – Olivia’s World Style
+   ============================================================ */
+
+#custom-alert {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 182, 193, 0.4);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100000;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+#custom-alert.alert-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.alert-box {
+  background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
+  border: 3px solid #fff;
+  border-radius: 25px;
+  padding: 30px 50px;
+  color: #fff;
+  font-family: 'Comic Sans MS', cursive;
+  font-size: 2.5rem;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(255, 182, 193, 0.8);
+  animation: popIn 0.4s ease forwards;
+}
+
+.alert-box p {
+  margin-bottom: 20px;
+}
+
+#alert-ok {
+  background: linear-gradient(135deg, #ff69b4, #dda0dd, #87cefa);
+  border: none;
+  border-radius: 30px;
+  padding: 10px 30px;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  box-shadow: 0 0 15px rgba(255, 182, 193, 0.6);
+}
+
+#alert-ok:hover {
+  transform: scale(1.1);
+}
+
+@keyframes popIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
