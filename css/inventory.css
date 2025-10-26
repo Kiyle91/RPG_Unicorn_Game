@@ -87,7 +87,7 @@
 #stats-list li {
   display: flex;
   justify-content: space-between;        /* pushes name/value apart */
-  gap: 75px;                             /* nice gap between text and value */
+  gap: 100px;                             /* nice gap between text and value */
   width: 100%;
   white-space: nowrap;
 }

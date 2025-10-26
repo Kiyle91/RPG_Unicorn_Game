@@ -1,3 +1,7 @@
+
+
+
+
 // ==========================
 //       FAIRY DUST & AUDIO
 // ==========================
@@ -174,3 +178,5 @@ function updateStatsDisplay(stats) {
   document.getElementById('stat-armor').textContent = stats.armor;
   document.getElementById('stat-speed').textContent = stats.speed;
 }
+
+
