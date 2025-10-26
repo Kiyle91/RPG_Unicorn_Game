@@ -1,7 +1,12 @@
 /* ============================================================
-   EXPLORE.JS – GRID MAP + MOVEMENT + INVENTORY OVERLAY
+   🦄 EXPLORE.JS – GRID MAP + MOVEMENT + INVENTORY + SETTINGS
    ============================================================ */
+
 document.addEventListener("DOMContentLoaded", () => {
+
+  /* ============================================================
+     🎮 CANVAS SETUP
+  ============================================================ */
   const canvas = document.getElementById("explore-canvas");
   if (!canvas) return;
 
@@ -10,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   canvas.style.transform = "translateZ(0)";
 
   /* ============================================================
-     RESIZE HANDLER
+     📏 CANVAS RESIZING
   ============================================================ */
   function resizeCanvas() {
     const rect = canvas.getBoundingClientRect();
@@ -21,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("resize", resizeCanvas);
 
   /* ============================================================
-     MAP + PLAYER
+     🧭 MAP + PLAYER VARIABLES
   ============================================================ */
   const tileSize = 20;
   function getMapSize() {
@@ -34,13 +39,13 @@ document.addEventListener("DOMContentLoaded", () => {
   let player = null;
   const keys = {};
   let exploreRunning = false;
-  let uiState = "explore"; // 🧭 Manage overlay (explore/inventory)
+  let uiState = "explore"; // Current UI context (explore / inventory / settings)
 
   window.addEventListener("keydown", (e) => (keys[e.key] = true));
   window.addEventListener("keyup", (e) => (keys[e.key] = false));
 
   /* ============================================================
-     DRAW FUNCTIONS
+     🎨 DRAW FUNCTIONS
   ============================================================ */
   function drawMap() {
     const { cols, rows } = getMapSize();
@@ -72,13 +77,13 @@ document.addEventListener("DOMContentLoaded", () => {
   window.updateHPBar = updateHPBar;
 
   /* ============================================================
-     MAIN LOOP
+     🔁 MAIN LOOP
   ============================================================ */
   function update() {
     if (!exploreRunning || !player) return;
 
     // Pause movement when inventory is open
-    if (uiState === "inventory") {
+    if (uiState === "inventory" || uiState === "settings") {
       draw();
       window.exploreFrameId = requestAnimationFrame(update);
       return;
@@ -90,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (keys["a"]) player.x -= player.speed;
     if (keys["d"]) player.x += player.speed;
 
-    // Keep inside map bounds
+    // Keep player within map bounds
     player.x = Math.max(player.size / 2, Math.min(canvas.width - player.size / 2, player.x));
     player.y = Math.max(player.size / 2, Math.min(canvas.height - player.size / 2, player.y));
 
@@ -106,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ============================================================
-     START EXPLORE
+     🚀 START EXPLORE MODE
   ============================================================ */
   function startExploreGame() {
     if (exploreRunning) return;
@@ -122,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
       player.hp = player.currentStats?.hp || 100;
       player.maxHp = player.currentStats?.hp || 100;
     } else {
-      // Fallback player (if none defined)
+      // Fallback player (no save or new game)
       player = {
         name: "Fallback Hero",
         currentStats: { hp: 100, speed: 3 },
@@ -137,7 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
       window.player = player;
     }
 
-    drawMap(); // Prewarm GPU
+    drawMap();
     updateHPBar();
     exploreRunning = true;
     update();
@@ -145,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.startExploreGame = startExploreGame;
 
   /* ============================================================
-     INVENTORY TOGGLE (In-Explore Overlay)
+     🎒 INVENTORY OVERLAY
   ============================================================ */
   const inventoryBtn = document.getElementById("open-inventory");
   const inventoryWrapper = document.getElementById("inventory-wrapper");
@@ -165,7 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ============================================================
-     RETURN HOME HANDLER (With Confirmation Prompt)
+     🏰 RETURN HOME HANDLER
   ============================================================ */
   const returnHomeBtn = document.getElementById("return-home");
 
@@ -173,7 +178,6 @@ document.addEventListener("DOMContentLoaded", () => {
     returnHomeBtn.addEventListener("click", () => {
       console.log("🏰 Return Home button clicked.");
 
-      // 🩷 Use your custom alert box if available
       if (typeof showAlert === "function") {
         showAlert(
           "Are you sure you want to return home? Your current progress will be lost.",
@@ -185,10 +189,7 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         );
       } else {
-        // 🧩 Fallback native confirm if custom alert missing
-        const confirmExit = confirm(
-          "Are you sure you want to return home? Your progress will be lost."
-        );
+        const confirmExit = confirm("Are you sure you want to return home? Your progress will be lost.");
         if (confirmExit) {
           terminateGame(() => {
             window.location.reload();
@@ -199,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ============================================================
-     TERMINATE GAME
+     ☠️ TERMINATE GAME
   ============================================================ */
   function terminateGame(callback) {
     console.log("💀 Terminating game...");
@@ -216,10 +217,84 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => callback?.(), 200);
   }
 
-  // Expose for debugging
   window.terminateGame = terminateGame;
-});
 
+  /* ============================================================
+     ⚙️ SETTINGS OVERLAY
+  ============================================================ */
+  const settingsBtn = document.querySelector('.nav-btn[data-action="settings"]');
+  const settingsWrapper = document.getElementById("settings-wrapper");
+  const closeSettingsBtn = document.getElementById("close-settings");
+  const toggleMusicBtn = document.getElementById("toggle-music");
+  const toggleSfxBtn = document.getElementById("toggle-sfx");
+  const saveGameBtn = document.getElementById("save-game-btn");
+  const loadGameBtn = document.getElementById("load-game-btn");
+
+  function toggleSettings(show) {
+    uiState = show ? "settings" : "explore";
+    settingsWrapper.classList.toggle("active", show);
+  }
+
+  // Open / Close
+  if (settingsBtn) settingsBtn.addEventListener("click", () => toggleSettings(true));
+  if (closeSettingsBtn) closeSettingsBtn.addEventListener("click", () => toggleSettings(false));
+
+  // 🎵 Music Toggle
+  if (toggleMusicBtn) {
+    toggleMusicBtn.addEventListener("click", () => {
+      const music = document.getElementById("bg-music");
+      if (music.paused) {
+        music.play();
+        toggleMusicBtn.textContent = "On";
+      } else {
+        music.pause();
+        toggleMusicBtn.textContent = "Off";
+      }
+    });
+  }
+
+  // 🔊 Sound Effects Toggle (placeholder)
+  if (toggleSfxBtn) {
+    toggleSfxBtn.addEventListener("click", () => {
+      toggleSfxBtn.textContent = toggleSfxBtn.textContent === "On" ? "Off" : "On";
+    });
+  }
+
+  // 💾 Save Game
+  if (saveGameBtn) {
+    saveGameBtn.addEventListener("click", () => {
+      saveGame();
+      showAlert("💾 Game saved successfully!");
+    });
+  }
+
+  // 📂 Load Game
+  if (loadGameBtn) {
+    loadGameBtn.addEventListener("click", () => {
+      console.log("📂 Load Game button clicked!");
+
+      const save = loadGame?.();
+      if (!save) {
+        showAlert("⚠️ No saved game found!");
+        return;
+      }
+
+      showAlert("📂 Game loaded successfully!");
+      startExploreGame?.();
+
+      console.log(
+        `🔄 Loaded game for ${window.player?.name || "Unknown Hero"} (${window.player?.classKey || "Unknown Class"})`
+      );
+
+      settingsWrapper?.classList.remove("active");
+      inventoryWrapper?.classList.remove("active");
+      uiState = "explore";
+
+      // ✅ Resume explore mode
+      startExploreGame?.();
+    });
+  }
+});
 
 /* ============================================================
    💾 SAVE / LOAD SYSTEM
@@ -238,7 +313,7 @@ function saveGame() {
     experience: player.experience,
     difficulty: window.difficulty,
     position: { x: player.x, y: player.y },
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   };
 
   localStorage.setItem("olivia_save", JSON.stringify(saveData));
@@ -268,7 +343,7 @@ function loadGame() {
     color: "#ff69b4",
     speed: save.currentStats?.speed || 3,
     hp: save.currentStats?.hp || 100,
-    maxHp: save.currentStats?.hp || 100
+    maxHp: save.currentStats?.hp || 100,
   };
 
   window.difficulty = save.difficulty;
@@ -279,54 +354,7 @@ function loadGame() {
 window.saveGame = saveGame;
 window.loadGame = loadGame;
 
-// ✅ Auto-save on unload (so progress isn't lost)
+// 💾 Auto-save before unload
 window.addEventListener("beforeunload", () => {
   if (window.player) saveGame();
 });
-
-
-// SETTINGS OVERLAY
-const settingsBtn = document.querySelector('.nav-btn[data-action="settings"]');
-const settingsWrapper = document.getElementById("settings-wrapper");
-const closeSettingsBtn = document.getElementById("close-settings");
-const toggleMusicBtn = document.getElementById("toggle-music");
-const toggleSfxBtn = document.getElementById("toggle-sfx");
-const saveGameBtn = document.getElementById("save-game-btn");
-
-function toggleSettings(show) {
-  uiState = show ? "settings" : "explore";
-  settingsWrapper.classList.toggle("active", show);
-}
-
-// Open / Close
-if (settingsBtn) settingsBtn.addEventListener("click", () => toggleSettings(true));
-if (closeSettingsBtn) closeSettingsBtn.addEventListener("click", () => toggleSettings(false));
-
-// Music toggle
-if (toggleMusicBtn) {
-  toggleMusicBtn.addEventListener("click", () => {
-    const music = document.getElementById("bg-music");
-    if (music.paused) {
-      music.play();
-      toggleMusicBtn.textContent = "On";
-    } else {
-      music.pause();
-      toggleMusicBtn.textContent = "Off";
-    }
-  });
-}
-
-// SFX toggle (placeholder for future)
-if (toggleSfxBtn) {
-  toggleSfxBtn.addEventListener("click", () => {
-    toggleSfxBtn.textContent = toggleSfxBtn.textContent === "On" ? "Off" : "On";
-  });
-}
-
-// Save Game
-if (saveGameBtn) {
-  saveGameBtn.addEventListener("click", () => {
-    saveGame();
-    showAlert("💾 Game saved successfully!");
-  });
-}

@@ -1,5 +1,5 @@
 /* ============================================================
-   ⚙️ SETTINGS PANEL – THEMED TO MATCH INVENTORY
+   ⚙️ SETTINGS OVERLAY – OLIVIA’S WORLD RPG
    ============================================================ */
 #settings-wrapper {
   position: absolute;
@@ -45,21 +45,17 @@
     0 0 100px rgba(138, 43, 226, 0.4);
 }
 
-/* ------------------------------
-   Title
------------------------------- */
 .settings-panel h3 {
   text-align: center;
   font-size: 2rem;
-  font-family: "Comic Sans MS";
   color: #ff69b4;
   text-shadow: 0 0 10px #fff, 0 0 20px #ffb6c1;
   margin-bottom: 30px;
 }
 
-/* ------------------------------
+/* ===========================
    Options Layout
------------------------------- */
+=========================== */
 .setting-option {
   display: flex;
   justify-content: space-between;
@@ -78,10 +74,12 @@
   gap: 10px;
 }
 
-/* ------------------------------
+/* ===========================
    Buttons
------------------------------- */
-.setting-option button {
+=========================== */
+.setting-option button,
+#save-game-btn,
+#load-game-btn {
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
   border: 2px solid #fff;
   border-radius: 25px;
@@ -94,39 +92,17 @@
   transition: all 0.3s ease;
 }
 
-.setting-option button:hover {
+.setting-option button:hover,
+#save-game-btn:hover,
+#load-game-btn:hover {
   transform: scale(1.1);
   background: linear-gradient(135deg, #ff69b4, #ba55d3, #87cefa);
   box-shadow: 0 0 25px rgba(255, 182, 193, 0.9);
 }
 
-/* ------------------------------
-   Save Game Button
------------------------------- */
-#save-game-btn {
-  display: block;
-  margin: 25px auto 10px auto;
-  background: linear-gradient(135deg, #ff69b4, #ffb6c1, #87cefa);
-  border: 3px solid #fff;
-  border-radius: 40px;
-  padding: 12px 45px;
-  cursor: pointer;
-  font-size: 1.2rem;
-  color: #fff;
-  font-family: 'Comic Sans MS', cursive;
-  box-shadow: 0 0 20px rgba(255, 182, 193, 0.6);
-  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
-}
-
-#save-game-btn:hover {
-  transform: scale(1.1);
-  background: linear-gradient(135deg, #ffa6c9, #dda0dd, #87cefa);
-  box-shadow: 0 0 35px rgba(255, 182, 193, 1);
-}
-
-/* ------------------------------
+/* ===========================
    Back Button
------------------------------- */
+=========================== */
 #close-settings.nav-btn {
   display: block;
   margin: 35px auto 0 auto;
@@ -148,12 +124,12 @@
   box-shadow: 0 0 35px rgba(255, 182, 193, 1);
 }
 
-/* ------------------------------
+/* ===========================
    Responsive Centering
------------------------------- */
+=========================== */
 @media (max-width: 768px) {
   .settings-panel {
-    padding: 40px 40px;
+    padding: 40px;
     width: 85%;
   }
   .setting-option {

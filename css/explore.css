@@ -70,7 +70,6 @@
 
 /* Hover Glow */
 #explore-nav .nav-btn:hover {
-  transform: scale(1.1);
   background: linear-gradient(135deg, #ff69b4, #ba55d3, #87cefa);
   box-shadow: 0 0 25px rgba(255, 182, 193, 0.8);
 }
@@ -81,7 +80,6 @@
   outline: none;
   background: linear-gradient(135deg, #ff69b4, #dda0dd);
   box-shadow: 0 0 25px rgba(255, 182, 193, 0.9);
-  transform: scale(1.05);
 }
 
 /* ============================================================
