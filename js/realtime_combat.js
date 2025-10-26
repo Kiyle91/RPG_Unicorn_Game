@@ -147,11 +147,26 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function flashPlayerHit() {
-    const p = window.player;
-    const oldColor = p.color;
-    p.color = "#fff"; // flash white
-    setTimeout(() => (p.color = oldColor), 150);
-  }
+  const canvas = document.getElementById("explore-canvas");
+  if (!canvas) return;
+
+  // Create a quick white overlay flash
+  const flash = document.createElement("div");
+  Object.assign(flash.style, {
+    position: "absolute",
+    left: `${canvas.offsetLeft}px`,
+    top: `${canvas.offsetTop}px`,
+    width: `${canvas.clientWidth}px`,
+    height: `${canvas.clientHeight}px`,
+    background: "rgba(255,255,255,0.6)",
+    pointerEvents: "none",
+    zIndex: 9999,
+    transition: "opacity 0.25s ease-out",
+  });
+  document.body.appendChild(flash);
+  setTimeout(() => (flash.style.opacity = 0), 50);
+  setTimeout(() => flash.remove(), 250);
+}
 
   /* ============================================================
      🧭 EXTEND EXPLORE LOOP (SHARED CANVAS, NO BACKGROUND CLEAR)

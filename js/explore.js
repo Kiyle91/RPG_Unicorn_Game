@@ -182,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (now - this.lastAttack > this.attackCooldown) {
           damagePlayer(10);
           this.lastAttack = now;
-          showDamageText("-10", playerRef.x, playerRef.y, "#ff4d4f");
+          
         }
       }
 
@@ -231,7 +231,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const dist = Math.hypot(enemy.x - player.x, enemy.y - player.y);
       if (dist <= player.attackRange) {
         enemy.hp = Math.max(0, enemy.hp - player.attackDamage);
-        showDamageText(`-${player.attackDamage}`, enemy.x, enemy.y, "#ff69b4");
+        
         hits++;
       }
     }
@@ -270,10 +270,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function flashPlayerHit() {
     if (!player) return;
-    const old = player.color;
-    player.color = "#ffffff";
-    setTimeout(() => (player.color = old), 120);
-  }
+
+  // Always remember the base/original color
+    if (!player.baseColor) player.baseColor = player.color || "#ff69b4";
+
+  // Avoid overlapping flashes
+    if (player.__isFlashing) return;
+    player.__isFlashing = true;
+
+    player.color = "#ffffff"; // flash white
+    setTimeout(() => {
+      player.color = player.baseColor; // restore base color safely
+      player.__isFlashing = false;
+    }, 120);
+}
 
   /* ==========================================================
      🔁 Main Loop

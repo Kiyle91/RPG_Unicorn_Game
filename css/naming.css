@@ -9,7 +9,7 @@
    LAYOUT & BACKGROUND
 ============================================================ */
 #naming-page {
-  display: flex;
+  display: fixed;
   flex-direction: column;
   justify-content: center;
   align-items: center;
