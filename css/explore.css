@@ -88,7 +88,7 @@
 #player-hp-container {
   position: absolute;
   bottom: 10%;
-  left: 50;
+  left: 50%;
   transform: translateX(-50%);
   width: 20vw;
   height: 15px;
@@ -127,8 +127,8 @@
 
 #player-mana-container {
   position: fixed;
-  bottom: 13%;                  /* just beneath HP bar */
-  left: 15%;
+  bottom: 10%;                  /* just beneath HP bar */
+  left: 20%;
   transform: translateX(-50%);
   width: 20vw;
   height: 15px;
