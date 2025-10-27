@@ -286,42 +286,83 @@ body:has(.screen.active) {
   backdrop-filter: blur(5px);
 }
 
-#landing-buttons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 25px;                /* spacing between buttons */        /* 🪄 pushes them lower visually */
-}
 
 /* ============================================================
-   START BUTTON
+   🌸 LANDING BUTTONS – Start / Continue / Load
+   ============================================================
+   Matches Explore + Load Panel theme:
+   ✨ Pastel gradients • White borders • Soft pink-blue glow
+   💫 Smooth transitions and consistent hover behavior
 ============================================================ */
-#start-btn {
+
+#landing-buttons {
+  display: flex;
+  justify-content: center;     /* ✅ centers horizontally */
+  align-items: center;
+  gap: 25px;                   /* spacing between buttons */
+  width: 100%;
+  margin-top: 40px;
+  flex-wrap: wrap;             /* wrap nicely on small screens */
+}
+
+/* 🎀 Shared button style */
+#landing-buttons button {
+  font-family: 'Comic Sans MS', cursive;
   font-size: var(--btn-font-size);
   padding: var(--btn-padding);
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
   color: #fff;
-  border:none;
+  border: 2px solid #fff;
   border-radius: 30px;
   cursor: pointer;
-  box-shadow: 0 0 20px rgba(255, 182, 193, 0.6);
+  box-shadow:
+    0 0 20px rgba(255, 182, 193, 0.6),
+    inset 0 0 8px rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(8px);
   transition: all 0.3s ease-in-out;
+  min-width: 180px;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
 }
 
-#start-btn:hover {
+/* 🌈 Hover effect — stronger glow, deeper color */
+#landing-buttons button:hover {
+  transform: scale(1.08);
   background: linear-gradient(135deg, #ff69b4, #ba55d3, #87cefa);
-  box-shadow: 0 0 35px rgba(255, 182, 193, 1);
+  box-shadow:
+    0 0 35px rgba(255, 182, 193, 1),
+    inset 0 0 12px rgba(255, 255, 255, 0.6);
+  text-shadow: 0 0 12px #fff;
 }
 
-#start-btn:active {
-  transform: scale(1.05);
-  filter: brightness(1.2);
+/* ✨ Active click press */
+#landing-buttons button:active {
+  transform: scale(0.96);
+  filter: brightness(1.15);
 }
 
-button:focus {
+/* 🎯 Focus ring for accessibility */
+#landing-buttons button:focus {
   outline: none;
-  box-shadow: 0 0 0 4px rgba(255, 182, 193, 0.6);
+  box-shadow:
+    0 0 0 4px rgba(255, 182, 193, 0.7),
+    0 0 25px rgba(255, 182, 193, 0.8);
 }
+
+/* ============================================================
+   📱 Responsive – stack buttons vertically on smaller screens
+============================================================ */
+@media (max-width: 768px) {
+  #landing-buttons {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  #landing-buttons button {
+    width: 70%;
+    font-size: 1.6rem;
+  }
+}
+
 
 /* ============================================================
    FLOATING UNICORNS + CROWN
@@ -370,8 +411,8 @@ button:focus {
 ============================================================ */
 #mute-btn {
   position: fixed;
-  top: 5%;
-  right: 5%;
+  top: 10%;
+  right: 7%;
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
   color: #fff;
   font-size: clamp(1rem, 2vw, 1.5rem);
@@ -492,28 +533,7 @@ body:has(#explore-page.active) #mute-btn {
   box-shadow: 0 0 25px rgba(255, 182, 193, 1);
 }
 
-/* ============================================================
-   CONTINUE + LOAD BUTTONS
-============================================================ */
-#continue-btn,
-#load-btn {
-  font-size: var(--btn-font-size);
-  padding: var(--btn-padding);
-  background: linear-gradient(135deg, #87cefa, #dda0dd, #ffb6c1);
-  color: #fff;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  box-shadow: 0 0 25px rgba(255, 182, 193, 0.7);
-  transition: all 0.3s ease-in-out;
-}
 
-#continue-btn:hover,
-#load-btn:hover {
-  background: linear-gradient(135deg, #ff69b4, #ba55d3, #87cefa);
-  box-shadow: 0 0 35px rgba(255, 182, 193, 0.9);
-  transform: scale(1.05);
-}
 
 /* ============================================================
    LOAD GAME OVERLAY BUTTONS

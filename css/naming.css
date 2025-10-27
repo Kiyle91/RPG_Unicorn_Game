@@ -169,12 +169,13 @@
   justify-content: center;
   padding: 2vh 3vw;
   font-family: 'Comic Sans MS', cursive;
-  color: #8a2be2;
+  color: #2b2a2c;
   text-align: center;
   z-index: 10;
   opacity: 0;
   pointer-events: none;
-  animation: bubbleAppear 8s linear forwards 1s, fadeOutBubble 6s forwards linear 2s;
+  /* 🌸 smoother appear/fade sequence */
+  animation: bubbleSmooth 5s ease-in-out forwards 0.5s;
 }
 
 #speech-bubble::before {
@@ -190,7 +191,7 @@
 }
 
 #speech-bubble p {
-  font-size: 1.4vw;
+  font-size: 1.2vw;
   margin: 0;
   line-height: 1.4;
   text-shadow: 0 0 8px #ff69b4;
@@ -200,15 +201,58 @@
 /* ============================================================
    ANIMATIONS
 ============================================================ */
-@keyframes fadeOutBubble {
-  0%, 90% { opacity: 1; visibility: visible; }
-  100% { opacity: 0; visibility: hidden; }
+@keyframes bubbleSmooth {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -52%) scale(0.7);
+  }
+  15% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  85% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.9);
+  }
 }
 
 @keyframes textPulse {
   0% { text-shadow: 0 0 6px rgba(255, 182, 193, 0.5); }
   100% { text-shadow: 0 0 16px rgba(255, 182, 193, 1); }
 }
+
+
+/* ============================================================
+   ANIMATIONS
+============================================================ */
+@keyframes bubbleSmooth {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -52%) scale(0.7);
+  }
+  15% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  85% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.9);
+  }
+}
+
+@keyframes textPulse {
+  0% { text-shadow: 0 0 6px rgba(255, 182, 193, 0.5); }
+  100% { text-shadow: 0 0 16px rgba(255, 182, 193, 1); }
+}
+
 
 /* ============================================================
    RESPONSIVE ADJUSTMENTS
