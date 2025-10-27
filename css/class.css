@@ -253,7 +253,7 @@
     0 0 30px rgba(255, 140, 0, 0.8),
     0 0 60px rgba(255, 255, 255, 0.3);
   pointer-events: none;
-  z-index: -1;
+  z-index: -3;
   opacity: 0;
   mix-blend-mode: screen;
 }

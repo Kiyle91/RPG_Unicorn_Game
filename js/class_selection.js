@@ -135,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // 💬 Use custom showAlert if available
       if (typeof window.showAlert === "function") {
         window.showAlert(
-          `Let's go ${playerName}, the Unicorns need your help!`,
+          `Let's go ${playerName}, the Queen and our Castle await you!`,
           () => {
             showScreen("difficulty-screen");
             console.log("🌸 Transitioned to difficulty screen after OK.");
