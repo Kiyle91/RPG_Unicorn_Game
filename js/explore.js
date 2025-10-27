@@ -532,7 +532,7 @@ window.addEventListener("load", () => {
       console.log("📂 Load button clicked — attempting load...");
       const loaded = window.loadGame();
       if (loaded) {
-        (window.showAlert || alert)(`🌸 Welcome back, ${loaded.name}!`);
+        (window.showAlert || alert)(`🔄${loaded.name} restarted the game!`);
         cancelAnimationFrame?.(window.exploreFrameId);
         showScreen?.("explore-page");
         setTimeout(() => startExploreGame?.(), 250);
