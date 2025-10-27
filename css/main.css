@@ -49,8 +49,8 @@ html, body {
 
 
 html, body {
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width: 100%vw;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -90,6 +90,7 @@ html, body {
 ============================================================ */
 .screen {
   display: none;
+  background: none !important;
   text-align: center;
   font-family: 'Comic Sans MS', cursive, sans-serif;
   color: #fff;
@@ -106,6 +107,8 @@ html, body {
 
 .screen.active {
   display: flex;
+  height: 100vh;
+  width: 100vw;
   justify-content: center;
   align-items: center;
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa, #fffacd);
@@ -124,11 +127,11 @@ html, body {
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
-
+/*
 body:has(.screen.active) {
   overflow: hidden !important;
   height: 100vh;
-}
+} */
 
 /* ============================================================
    INTRO BOX
@@ -140,19 +143,18 @@ body:has(.screen.active) {
   justify-content: center;
   text-align: center;
   border-radius: 30px;
-  width: 80%;
-  max-height: 80%;
+  min-height: 90vh;
+  min-width: 90vw;
   padding: 50px 40px 80px 40px;
   box-shadow: 0 0 40px rgba(255, 182, 193, 0.8);
   animation: sparkle 2s infinite alternate;
-  position: relative;
   z-index: 5;
 
   overflow: hidden;  /* 🌸 keeps background inside rounded border */
 }
 
 #grassy_background {
-  position: absolute;
+  position: fixed;
   inset: 0;
   width: 110%;                     /* slightly oversized for subtle motion */
   height: 110%;
@@ -185,7 +187,6 @@ body:has(.screen.active) {
   color: #ffffff;
   font-family: 'Comic Sans MS', cursive;
   padding: 12px 25px;
-  margin-bottom: 20px;
   border-radius: 20px;
 
   background: linear-gradient(135deg,
