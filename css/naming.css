@@ -60,142 +60,205 @@
   100% { transform: translateY(0) rotate(0deg); }
 }
 
+#naming-unicorn2 {
+  position: absolute;
+  top: 10%;
+  left: 75%;
+  width: 15vw;
+  height: auto;
+  object-fit: contain;
+  opacity: 1;
+  pointer-events: none;
+  z-index: 5;
+  animation: floatUnicorn 8s ease-in-out infinite;
+  filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.9));
+}
+
+@keyframes floatUnicorn {
+  0% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-25px) rotate(2deg); }
+  50% { transform: translateY(0) rotate(0deg); }
+  75% { transform: translateY(25px) rotate(-2deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
 /* ============================================================
-   PRINCESS IMAGE – CENTER
+   PRINCESS IMAGE – BACKGROUND LAYER CENTER
 ============================================================ */
 #naming-page #princess {
-  display: block;
-  margin: 0 auto 2vh auto;
-  width: 50vw;
+  position: absolute;        /* 💫 remove from layout flow */
+  top: 50%;                  /* center vertically */
+  left: 50%;                 /* center horizontally */
+  transform: translate(-50%, -50%); /* perfect center */
+  width: 60vw;               /* make her nice and big */
   height: auto;
-  max-height: 60vh;
+  max-height: 60vw;
   object-fit: contain;
-  z-index: 1;
-  pointer-events: none;
+  z-index: 1;                /* put her *behind* the speech bubble + input box */
+  opacity: 1;
+  pointer-events: none;      /* so she doesn’t block buttons or text */
 }
+
 
 /* ============================================================
-   INPUT BOX AREA
+   INPUT BOX AREA – Compact & Anchored Low
 ============================================================ */
 #intro-box {
-  display: absolute;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 2vh;
-  background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
-  background-size: 400% 400%;
-  animation: rainbowBG 8s ease infinite;
-  backdrop-filter: blur(8px);
-  border-radius: 30px;
-  padding: 25px 40px;
-  border: 3px solid #fff;
-  box-shadow: 0 0 35px rgba(255, 182, 193, 0.8);
-  z-index: 3;
-  transition: transform 0.3s ease;
+  position: absolute;
+  bottom: 3vh;                   /* lower on the screen */
+  left: 50%;
+  transform: translateX(-50%);
   
-}
-
-#intro-box:hover {
-
-  box-shadow: 0 0 45px rgba(255, 182, 193, 1);
-}
-
-#naming-page .input-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2vh;
-  width: 100%;
+  justify-content: center;
+
+  width: 45vw;                   /* 🌸 smaller width */
+  height: auto;                  /* shrink-wrap content */
+  padding: 18px 25px;            /* smaller internal space */
+  background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
+  background-size: 400% 400%;
+  animation: rainbowBG 8s ease infinite;
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 2px solid #fff;
+  box-shadow: 0 0 20px rgba(255, 182, 193, 0.7);
+  z-index: 3;
+  transition: all 0.3s ease;
+}
+
+#intro-box:hover {
+  box-shadow: 0 0 30px rgba(255, 182, 193, 1);
 }
 
 /* ============================================================
-   INPUT FIELD
+   INPUT FIELD – Smaller & centered
 ============================================================ */
 #naming-page input {
-  font-size: 2.5vw;
-  padding: 1.5vh 2vw;
-  border-radius: 20px;
+  font-size: 3vw;              /* smaller text */
+  padding: 1vh 1.5vw;
+  border-radius: 15px;
   border: 2px solid #fff;
-  width: 60%;
+  width: 65%;
+  margin-right: 3%;
   text-align: center;
   outline: none;
-  background: rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.85);
   color: #8a2be2;
-  box-shadow: 0 0 20px rgba(255, 182, 193, 0.6);
+  box-shadow: 0 0 15px rgba(255, 182, 193, 0.5);
   transition: all 0.3s ease;
 }
 
 #naming-page input:focus {
-  box-shadow: 0 0 35px rgba(255, 182, 193, 1);
+  box-shadow: 0 0 25px rgba(255, 182, 193, 1);
   border-color: #ff69b4;
 }
 
 /* ============================================================
-   CONFIRM / NEXT BUTTON
+   BUTTON – Scaled down to match box size
 ============================================================ */
 #naming-page button {
   font-size: 2.5vw;
-  padding: 1.5vh 2vw;
-  border-radius: 30px;
+  padding: 1vh 1.5vw;
+  border-radius: 20px;
   border: none;
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
   color: #fff;
   cursor: pointer;
-  box-shadow: 0 0 20px rgba(255, 182, 193, 0.6);
+  box-shadow: 0 0 15px rgba(255, 182, 193, 0.6);
   transition: all 0.3s ease-in-out;
-  margin: 0 auto;
+  margin-top: 1.5vh;
 }
 
 #naming-page button:hover {
   background: linear-gradient(135deg, #ff69b4, #ba55d3, #87cefa);
-  box-shadow: 0 0 35px rgba(255, 182, 193, 0.9);
+  box-shadow: 0 0 25px rgba(255, 182, 193, 0.9);
 }
 
 /* ============================================================
-   SPEECH BUBBLES
+   SPEECH BUBBLE – Centered near necklace with upward tail
 ============================================================ */
-#speech-bubble,
-#speech-bubble-2 {
+#speech-bubble {
   position: absolute;
-  top: 10%;
-  left: 55%;
-  max-width: 30vw;
-  min-height: 12vh;
-  background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
+  top: 50%;                  /* 🌸 roughly where the necklace is */
+  left: 50%;                 /* center horizontally */
+  transform: translate(-50%, -50%) scale(0.8); /* keeps it centered */
+  width: 18vw;               /* responsive size */
+  min-height: 2vh;
+  background: linear-gradient(135deg, #ffffff, #ffffff, #ffffff);
   border: 3px solid #fff;
   border-radius: 30px;
-  box-shadow: 0 0 25px rgba(255, 182, 193, 0.8);
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 2vh 3vw;
   font-family: 'Comic Sans MS', cursive;
-  color: #fff;
+  color: #ffffff;
   text-shadow: 0 0 8px #ff69b4;
   text-align: center;
   z-index: 20;
   opacity: 0;
-  transform: scale(0.8);
   pointer-events: none;
 }
 
+/* ✨ Animations */
 #speech-bubble {
-  animation: bubbleAppear 8s linear forwards 2s, fadeOutBubble 8s forwards linear 2s;
+  animation: bubbleAppear 8s linear forwards 1s, fadeOutBubble 6s forwards linear 2s;
 }
 
-#speech-bubble-2 {
-  animation: bubbleAppear 1.2s ease forwards 11s, fadeOutBubble 10s forwards ease-in-out 21s;
+/* 💬 Speech bubble tail pointing upward */
+#speech-bubble::before {
+  content: "";
+  position: absolute;
+  top: -15px;                /* just above the bubble */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 15px solid #ffffff; /* matches main gradient start */
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+  z-index: 1;
 }
 
-#speech-bubble p,
-#speech-bubble-2 p {
+#speech-bubble::after {
+  content: "";
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 14px solid transparent;
+  border-right: 14px solid transparent;
+  border-bottom: 14px solid rgba(255, 255, 255, 0.9); /* lilac inner tone */
+  filter: blur(0.3px);
+}
+
+/* ✨ Text inside the bubble */
+#speech-bubble p {
+  color: #8a2be2;
   margin: 0;
-  max-width: 20vh;
-  font-size: 1.3vw;
+  font-size: 1.4vw;
   line-height: 1.4;
   animation: textPulse 1.5s ease-in-out infinite alternate;
 }
+
+/* 🎀 Responsive tweak for smaller screens */
+@media (max-width: 768px) {
+  #speech-bubble {
+    width: 70vw;
+    top: 62%;
+  }
+  #speech-bubble p {
+    font-size: 3.5vw;
+  }
+}
+
+
 
 /* ============================================================
    ANIMATIONS
@@ -225,7 +288,7 @@
   }
   #naming-page #princess {
     width: 70vw;
-    max-height: 40vh;
+    max-height: 50vh;
   }
   #speech-bubble p,
   #speech-bubble-2 p {
