@@ -9,7 +9,7 @@
    LAYOUT & BACKGROUND
 ============================================================ */
 #naming-page {
-  display: fixed;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -103,19 +103,17 @@
 /* ============================================================
    INPUT BOX AREA – Compact & Anchored Low
 ============================================================ */
-#intro-box {
+#intro-box-name {
   position: absolute;
   bottom: 3vh;                   /* lower on the screen */
   left: 50%;
   transform: translateX(-50%);
-  
-  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
   width: 45vw;                   /* 🌸 smaller width */
-  height: auto;                  /* shrink-wrap content */
+  max-height: 20%;                /* shrink-wrap content */
   padding: 18px 25px;            /* smaller internal space */
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
   background-size: 400% 400%;
