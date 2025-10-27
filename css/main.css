@@ -244,7 +244,7 @@ body:has(.screen.active) {
 }
 
 #intro-box h1 {
-  font-size: 2.2rem;
+  font-size: 2.6rem;
   color: #ffffff;
   font-family: 'Comic Sans MS', cursive;
   padding: 12px 25px;
@@ -258,7 +258,6 @@ body:has(.screen.active) {
   border: 2px solid rgba(255, 255, 255, 0.6);
   box-shadow: 0 0 20px rgba(255, 182, 193, 0.6);
   backdrop-filter: blur(6px);
-  margin-bottom: 100px;
 }
 
 /* Paragraph box */
@@ -273,8 +272,6 @@ body:has(.screen.active) {
   align-items: center;       /* ✅ horizontally center everything */
   justify-content: center;
   text-align: center;              /* ✅ center text inside */
-  margin: 0 auto 65px0 auto;
-  transform: translateY(-20%);         /* centers horizontally, adds space below */
 
   background: linear-gradient(135deg,
     rgba(255, 182, 193, 0.25),
@@ -308,7 +305,7 @@ body:has(.screen.active) {
 /* 🎀 Shared button style */
 #landing-buttons button {
   font-family: 'Comic Sans MS', cursive;
-  font-size: var(--btn-font-size);
+  font-size: 1.2rem;
   padding: var(--btn-padding);
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
   color: #fff;
@@ -326,7 +323,6 @@ body:has(.screen.active) {
 
 /* 🌈 Hover effect — stronger glow, deeper color */
 #landing-buttons button:hover {
-  transform: scale(1.08);
   background: linear-gradient(135deg, #ff69b4, #ba55d3, #87cefa);
   box-shadow:
     0 0 35px rgba(255, 182, 193, 1),
@@ -336,7 +332,6 @@ body:has(.screen.active) {
 
 /* ✨ Active click press */
 #landing-buttons button:active {
-  transform: scale(0.96);
   filter: brightness(1.15);
 }
 

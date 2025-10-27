@@ -232,7 +232,7 @@ function showScreen(nextId) {
 
 
 /* ============================================================
-   ⚠️ CUSTOM ALERT BOX
+   ⚠️ CUSTOM ALERT BOX — Smooth OK / YES-NO Handling
 ============================================================ */
 function showAlert(message, onConfirm = null, onCancel = null) {
   const box = document.getElementById("custom-alert");
@@ -243,6 +243,7 @@ function showAlert(message, onConfirm = null, onCancel = null) {
   msg.textContent = message;
   btns.innerHTML = "";
 
+  // Helper to build buttons
   const makeBtn = (text, cls, action) => {
     const b = document.createElement("button");
     b.textContent = text;
@@ -254,12 +255,24 @@ function showAlert(message, onConfirm = null, onCancel = null) {
     return b;
   };
 
-  if (onConfirm || onCancel)
-    btns.append(makeBtn("Yes", "alert-yes", onConfirm), makeBtn("No", "alert-no", onCancel));
-  else btns.append(makeBtn("OK", "alert-yes", onConfirm));
+  // ✅ Determine button type
+  const hasBoth = typeof onConfirm === "function" && typeof onCancel === "function";
 
+  if (hasBoth) {
+    // Confirmation dialog (Yes / No)
+    btns.append(
+      makeBtn("Yes", "alert-yes", onConfirm),
+      makeBtn("No", "alert-no", onCancel)
+    );
+  } else {
+    // Informational dialog (OK)
+    btns.append(makeBtn("OK", "alert-ok", onConfirm));
+  }
+
+  // Show the alert box
   box.classList.remove("alert-hidden");
 }
+
 
 
 /* ============================================================
