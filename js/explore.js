@@ -496,19 +496,23 @@ document.addEventListener("DOMContentLoaded", () => {
   closeQuestsBtn?.addEventListener("click", () => toggleQuests(false));
 }); // DOMContentLoaded
 
-/* ============================================================
-   💾 SETTINGS PANEL – SAVE + LOAD BUTTONS (Guaranteed Binding)
-============================================================ */
+/* ==========================================================
+   💾 SETTINGS: SAVE + RESTART BUTTONS 
+   (Auto-close Settings + Resume Game on OK)
+========================================================== */
 window.addEventListener("load", () => {
   const saveGameBtn = document.getElementById("save-game-btn");
-  const loadGameBtn = document.getElementById("load-game-btn");
+  const restartGameBtn = document.getElementById("load-game-btn"); // button still called 'load' in HTML
+  const settingsWrapper = document.getElementById("settings-wrapper");
 
-  if (!saveGameBtn && !loadGameBtn) {
+  if (!saveGameBtn && !restartGameBtn) {
     console.warn("⚠️ Settings buttons not found in DOM. Check IDs in HTML.");
     return;
   }
 
-  // 💾 SAVE BUTTON
+  /* ----------------------------------------------------------
+     💾 SAVE BUTTON
+  ---------------------------------------------------------- */
   if (saveGameBtn) {
     saveGameBtn.addEventListener("click", () => {
       if (typeof window.saveGame !== "function") {
@@ -516,31 +520,57 @@ window.addEventListener("load", () => {
         (window.showAlert || alert)("⚠️ Save function missing!");
         return;
       }
+
       console.log("💾 Save button clicked — attempting save...");
       window.saveGame();
+
+      // ✅ Confirmation → Close Settings → Unpause game
+      (window.showAlert || alert)(
+        "🌸 Game saved successfully!",
+        () => {
+          settingsWrapper?.classList.remove("active");
+          uiState = "explore";
+          exploreRunning = true;
+          step?.(); // resume main loop
+          console.log("▶️ Game resumed after save.");
+        }
+      );
     });
   }
 
-  // 📂 LOAD BUTTON
-  if (loadGameBtn) {
-    loadGameBtn.addEventListener("click", () => {
+  /* ----------------------------------------------------------
+     🔁 RESTART BUTTON (uses loadGame logic)
+  ---------------------------------------------------------- */
+  if (restartGameBtn) {
+    restartGameBtn.addEventListener("click", () => {
       if (typeof window.loadGame !== "function") {
         console.error("❌ loadGame() not defined globally.");
         (window.showAlert || alert)("⚠️ Load function missing!");
         return;
       }
-      console.log("📂 Load button clicked — attempting load...");
-      const loaded = window.loadGame();
-      if (loaded) {
-        (window.showAlert || alert)(`🔄${loaded.name} restarted the game!`);
-        cancelAnimationFrame?.(window.exploreFrameId);
-        showScreen?.("explore-page");
-        setTimeout(() => startExploreGame?.(), 250);
-      } else {
-        (window.showAlert || alert)("⚠️ No saved game found!");
+
+      console.log("🔁 Restart button clicked — attempting reload...");
+      const loaded = window.loadGame?.();
+      if (!loaded) {
+        (window.showAlert || alert)("⚠️ No save data found!");
+        return;
       }
+
+      // ✅ Confirmation → Close Settings → Resume Explore mode
+      (window.showAlert || alert)(
+        `🌸 Welcome back, ${loaded.name}!`,
+        () => {
+          settingsWrapper?.classList.remove("active");
+          uiState = "explore";
+          exploreRunning = true;
+          cancelAnimationFrame?.(window.exploreFrameId);
+          showScreen?.("explore-page");
+          setTimeout(() => startExploreGame?.(), 250);
+          console.log("🔄 Restart complete — game resumed.");
+        }
+      );
     });
   }
 
-  console.log("✅ Save/Load buttons initialized and active.");
+  console.log("✅ Save/Restart buttons initialized (auto-close + resume).");
 });
