@@ -15,6 +15,74 @@ let keys = {};
 let player = null;
 let enemies = [];
 
+/* ============================================================
+   💾 GLOBAL SAVE / LOAD SYSTEM — Always Available
+============================================================ */
+window.saveGame = () => {
+  const p = window.player;
+  if (!p) {
+    console.warn("⚠️ No player found to save!");
+    (window.showAlert || alert)("⚠️ No player data to save!");
+    return;
+  }
+
+  const saveData = {
+    name: p.name,
+    classKey: p.classKey,
+    currentStats: p.currentStats,
+    level: p.level,
+    experience: p.experience,
+    difficulty: window.difficulty,
+    position: { x: p.x, y: p.y },
+    timestamp: new Date().toISOString(),
+  };
+
+  localStorage.setItem("olivia_save", JSON.stringify(saveData));
+  const key = `olivia_save_${p.name || "Unknown"}`;
+  localStorage.setItem(key, JSON.stringify(saveData));
+
+  console.log(`💾 Game saved successfully → ${key}`);
+  (window.showAlert || alert)(`💾 Game saved as "${p.name}"!`);
+};
+
+window.loadGame = (slotKey = "olivia_save") => {
+  const data = localStorage.getItem(slotKey);
+  if (!data) {
+    console.warn(`⚠️ No save data found for key: ${slotKey}`);
+    (window.showAlert || alert)("⚠️ No save data found!");
+    return null;
+  }
+
+  const save = JSON.parse(data);
+  window.player = {
+    ...save,
+    x: save.position?.x ?? 100,
+    y: save.position?.y ?? 100,
+    size: 15,
+    color: "#ff69b4",
+    speed: save.currentStats?.speed || 3,
+    hp: save.currentStats?.hp || 100,
+    maxHp: save.currentStats?.hp || 100,
+    mana: 80,
+    maxMana: 80,
+    attackRange: 40,
+    attackDamage: 15,
+    attackCooldown: 550,
+    lastAttack: 0,
+  };
+
+  window.difficulty = save.difficulty;
+  console.log(`🎮 Loaded save for ${window.player.name} (${window.player.classKey})`);
+  return window.player;
+};
+
+window.loadSpecificSave = (key) => window.loadGame(key);
+
+// Auto-save before unload
+window.addEventListener("beforeunload", () => {
+  if (window.player) window.saveGame();
+});
+
 /* ------------------------------------------------------------
    📎 Utility: Floating damage text (uses realtime_combat.css)
 ------------------------------------------------------------ */
@@ -23,7 +91,6 @@ function showDamageText(text, x, y, color = "#ff69b4") {
   div.className = "damage-text";
   div.textContent = text;
   div.style.color = color;
-  // position relative to canvas viewport
   const canvas = document.getElementById("explore-canvas");
   const rect = canvas.getBoundingClientRect();
   div.style.left = `${rect.left + x}px`;
@@ -44,13 +111,12 @@ document.addEventListener("DOMContentLoaded", () => {
   canvas.style.transform = "translateZ(0)";
 
   /* ----------------------------------------------------------
-     📐 Canvas Resize (keeps player in-bounds)
+     📐 Canvas Resize
   ---------------------------------------------------------- */
   function resizeCanvas() {
     const rect = canvas.getBoundingClientRect();
     canvas.width = rect.width;
     canvas.height = rect.height;
-
     if (player) {
       const r = player.size / 2;
       player.x = Math.max(r, Math.min(canvas.width - r, player.x));
@@ -67,7 +133,6 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("keydown", (e) => {
     keys[e.key.toLowerCase()] = true;
     if (e.key === "Shift") keys.shift = true;
-    // Space → melee
     if (e.code === "Space" && uiState === "explore") {
       e.preventDefault();
       playerAttack();
@@ -82,7 +147,6 @@ document.addEventListener("DOMContentLoaded", () => {
      🧭 Player + Map
   ========================================================== */
   const tileSize = 20;
-
   function getMapSize() {
     return {
       cols: Math.ceil(canvas.width / tileSize),
@@ -90,11 +154,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-  /* ----------------------------------------------------------
-     🎨 Draw helpers (exposed globally for future modules)
-  ---------------------------------------------------------- */
   function drawBackground() {
-    // Could be a gradient or sky – keep simple for perf
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
@@ -117,7 +177,6 @@ document.addEventListener("DOMContentLoaded", () => {
     ctx.fill();
   }
 
-  // Expose for compatibility/extensibility
   window.drawBackground = drawBackground;
   window.drawMap = drawMap;
   window.drawPlayer = drawPlayer;
@@ -131,7 +190,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!bar || !text || !player) return;
     const pct = (player.hp / player.maxHp) * 100;
     bar.style.width = `${Math.max(0, pct)}%`;
-    // health color shift
     const color =
       pct > 60 ? "linear-gradient(90deg,#00ff00,#32cd32)" :
       pct > 30 ? "linear-gradient(90deg,#ffd700,#ffa500)" :
@@ -171,33 +229,24 @@ document.addEventListener("DOMContentLoaded", () => {
       const dx = playerRef.x - this.x;
       const dy = playerRef.y - this.y;
       const dist = Math.hypot(dx, dy) || 0.0001;
-
-      // Move towards player if not in range
       if (dist > this.attackRange) {
         this.x += (dx / dist) * this.speed;
         this.y += (dy / dist) * this.speed;
       } else {
-        // Attack
         const now = performance.now();
         if (now - this.lastAttack > this.attackCooldown) {
           damagePlayer(10);
           this.lastAttack = now;
-          
         }
       }
-
-      // Keep inside bounds
       this.x = Math.max(this.radius, Math.min(canvas.width - this.radius, this.x));
       this.y = Math.max(this.radius, Math.min(canvas.height - this.radius, this.y));
     }
     draw(ctx) {
-      // body
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
       ctx.fillStyle = this.color;
       ctx.fill();
-
-      // HP bar
       const barW = 22, barH = 4;
       const ratio = this.hp / this.maxHp;
       ctx.fillStyle = "#000";
@@ -214,32 +263,26 @@ document.addEventListener("DOMContentLoaded", () => {
       const ey = Math.random() * (canvas.height - 60) + 30;
       enemies.push(new Enemy(ex, ey));
     }
-    window.enemies = enemies; // for console debug
+    window.enemies = enemies;
   }
 
   /* ----------------------------------------------------------
-     🗡️ Player Attack (Spacebar)
+     🗡️ Player Attack
   ---------------------------------------------------------- */
   function playerAttack() {
     if (!player) return;
     const now = performance.now();
     if (now - player.lastAttack < player.attackCooldown) return;
     player.lastAttack = now;
-
     let hits = 0;
     for (const enemy of enemies) {
       const dist = Math.hypot(enemy.x - player.x, enemy.y - player.y);
       if (dist <= player.attackRange) {
         enemy.hp = Math.max(0, enemy.hp - player.attackDamage);
-        
         hits++;
       }
     }
-    // Remove dead enemies
     enemies = enemies.filter(e => e.hp > 0);
-    window.enemies = enemies;
-
-    // Small mana gain on hit (optional)
     if (hits > 0) {
       player.mana = Math.min(player.maxMana, player.mana + 2 * hits);
       updateManaBar();
@@ -248,7 +291,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.playerAttack = playerAttack;
 
   /* ----------------------------------------------------------
-     💥 Damage Player (safe)
+     💥 Damage Player
   ---------------------------------------------------------- */
   function damagePlayer(amount = 10) {
     if (!player) return;
@@ -257,9 +300,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateHPBar();
     if (player.hp <= 0 && !window.__gameOverTriggered) {
       window.__gameOverTriggered = true;
-      // If you have a gameover.js trigger, call it here:
       window.triggerGameOver?.();
-      // Fallback: alert then reload
       if (!window.triggerGameOver) {
         (window.showAlert || alert)("💀 You were defeated!");
         setTimeout(() => window.location.reload(), 650);
@@ -270,20 +311,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function flashPlayerHit() {
     if (!player) return;
-
-  // Always remember the base/original color
     if (!player.baseColor) player.baseColor = player.color || "#ff69b4";
-
-  // Avoid overlapping flashes
     if (player.__isFlashing) return;
     player.__isFlashing = true;
-
-    player.color = "#ffffff"; // flash white
+    player.color = "#ffffff";
     setTimeout(() => {
-      player.color = player.baseColor; // restore base color safely
+      player.color = player.baseColor;
       player.__isFlashing = false;
     }, 120);
-}
+  }
 
   /* ==========================================================
      🔁 Main Loop
@@ -293,24 +329,16 @@ document.addEventListener("DOMContentLoaded", () => {
       window.exploreFrameId = requestAnimationFrame(step);
       return;
     }
-
-    // Pause movement if overlay is open
     if (uiState === "explore") {
       const spd = (player.currentStats?.speed ?? player.speed) * (keys.shift ? 1.6 : 1);
       if (keys["w"]) player.y -= spd;
       if (keys["s"]) player.y += spd;
       if (keys["a"]) player.x -= spd;
       if (keys["d"]) player.x += spd;
-
-      // Bounds
       player.x = Math.max(player.size / 2, Math.min(canvas.width - player.size / 2, player.x));
       player.y = Math.max(player.size / 2, Math.min(canvas.height - player.size / 2, player.y));
-
-      // Update enemies
       for (const e of enemies) e.update(player);
     }
-
-    // Draw
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBackground();
     drawMap();
@@ -318,26 +346,21 @@ document.addEventListener("DOMContentLoaded", () => {
     drawPlayer();
     updateHPBar();
     updateManaBar();
-
     window.exploreFrameId = requestAnimationFrame(step);
   }
 
   /* ==========================================================
-     🚀 Start Explore Mode (exposed globally)
+     🚀 Start Explore Mode
   ========================================================== */
   function startExploreGame() {
     if (window.exploreFrameId) cancelAnimationFrame(window.exploreFrameId);
     exploreRunning = false;
-
-    // Build or adopt player
     if (window.player) {
       player = window.player;
-      // Position defaults
       if (player.x == null || player.y == null) {
         player.x = canvas.width / 2;
         player.y = canvas.height / 2;
       }
-      // Base visuals / stats
       player.size = player.size ?? 15;
       player.color = player.color ?? "#ff69b4";
       player.speed = player.currentStats?.speed ?? player.speed ?? 3;
@@ -345,8 +368,6 @@ document.addEventListener("DOMContentLoaded", () => {
       player.maxHp = player.currentStats?.hp ?? player.maxHp ?? 100;
       player.mana = player.mana ?? 80;
       player.maxMana = player.maxMana ?? 80;
-
-      // Combat fields
       player.attackRange = player.attackRange ?? 40;
       player.attackDamage = player.attackDamage ?? 15;
       player.attackCooldown = player.attackCooldown ?? 550;
@@ -360,8 +381,10 @@ document.addEventListener("DOMContentLoaded", () => {
         size: 15,
         color: "#ff69b4",
         speed: 3,
-        hp: 100, maxHp: 100,
-        mana: 80, maxMana: 80,
+        hp: 100,
+        maxHp: 100,
+        mana: 80,
+        maxMana: 80,
         attackRange: 40,
         attackDamage: 15,
         attackCooldown: 550,
@@ -369,24 +392,19 @@ document.addEventListener("DOMContentLoaded", () => {
       };
       window.player = player;
     }
-
-    // Spawn enemies if none exist
     if (!enemies || enemies.length === 0) spawnEnemies(4);
-
-    // First draw + run
     drawBackground();
     drawMap();
     drawPlayer();
     updateHPBar();
     updateManaBar();
-
     exploreRunning = true;
     step();
   }
   window.startExploreGame = startExploreGame;
 
   /* ==========================================================
-     🏰 Return Home (confirm)
+     🏰 Return Home
   ========================================================== */
   const returnHomeBtn = document.getElementById("return-home");
   if (returnHomeBtn) {
@@ -412,7 +430,6 @@ document.addEventListener("DOMContentLoaded", () => {
     uiState = "explore";
   }
 
-  // Inventory
   const inventoryBtn = document.getElementById("open-inventory");
   const inventoryWrapper = document.getElementById("inventory-wrapper");
   const backToExploreBtn = document.getElementById("back-to-explore");
@@ -424,7 +441,6 @@ document.addEventListener("DOMContentLoaded", () => {
   inventoryBtn?.addEventListener("click", () => toggleInventory(true));
   backToExploreBtn?.addEventListener("click", () => toggleInventory(false));
 
-  // Settings
   const settingsBtn = document.querySelector('.nav-btn[data-action="settings"]');
   const settingsWrapper = document.getElementById("settings-wrapper");
   const closeSettingsBtn = document.getElementById("close-settings");
@@ -438,20 +454,25 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   closeSettingsBtn?.addEventListener("click", () => toggleSettings(false));
 
-  // SFX/Music toggles
   const toggleMusicBtn = document.getElementById("toggle-music");
   toggleMusicBtn?.addEventListener("click", () => {
     const music = document.getElementById("bg-music");
     if (!music) return;
-    if (music.paused) { music.play(); toggleMusicBtn.textContent = "On"; }
-    else { music.pause(); toggleMusicBtn.textContent = "Off"; }
-  });
-  const toggleSfxBtn = document.getElementById("toggle-sfx");
-  toggleSfxBtn?.addEventListener("click", () => {
-    toggleSfxBtn.textContent = toggleSfxBtn.textContent === "On" ? "Off" : "On";
+    if (music.paused) {
+      music.play();
+      toggleMusicBtn.textContent = "On";
+    } else {
+      music.pause();
+      toggleMusicBtn.textContent = "Off";
+    }
   });
 
-  // Controls (using battle button per your UI)
+  const toggleSfxBtn = document.getElementById("toggle-sfx");
+  toggleSfxBtn?.addEventListener("click", () => {
+    toggleSfxBtn.textContent =
+      toggleSfxBtn.textContent === "On" ? "Off" : "On";
+  });
+
   const controlsBtn = document.querySelector('.nav-btn[data-action="battle"]');
   const controlsWrapper = document.getElementById("controls-wrapper");
   const closeControlsBtn = document.getElementById("close-controls");
@@ -463,7 +484,6 @@ document.addEventListener("DOMContentLoaded", () => {
   controlsBtn?.addEventListener("click", () => toggleControls(true));
   closeControlsBtn?.addEventListener("click", () => toggleControls(false));
 
-  // Quests
   const questBtn = document.querySelector('.nav-btn[data-action="quest"]');
   const questsWrapper = document.getElementById("quests-wrapper");
   const closeQuestsBtn = document.getElementById("close-quests");
@@ -474,71 +494,53 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   questBtn?.addEventListener("click", () => toggleQuests(true));
   closeQuestsBtn?.addEventListener("click", () => toggleQuests(false));
-
 }); // DOMContentLoaded
 
-
-
 /* ============================================================
-   💾 SAVE / LOAD SYSTEM (Global)
+   💾 SETTINGS PANEL – SAVE + LOAD BUTTONS (Guaranteed Binding)
 ============================================================ */
-function saveGame() {
-  const p = window.player;
-  if (!p) return console.warn("⚠️ No player to save!");
+window.addEventListener("load", () => {
+  const saveGameBtn = document.getElementById("save-game-btn");
+  const loadGameBtn = document.getElementById("load-game-btn");
 
-  const saveData = {
-    name: p.name,
-    classKey: p.classKey,
-    currentStats: p.currentStats,
-    level: p.level,
-    experience: p.experience,
-    difficulty: window.difficulty,
-    position: { x: p.x, y: p.y },
-    timestamp: new Date().toISOString(),
-  };
-
-  localStorage.setItem("olivia_save", JSON.stringify(saveData));
-  const key = `olivia_save_${p.name || "Unknown"}`;
-  localStorage.setItem(key, JSON.stringify(saveData));
-
-  console.log(`💾 Game saved → "olivia_save" + "${key}"`);
-}
-window.saveGame = saveGame;
-
-function loadGame(slotKey = "olivia_save") {
-  const data = localStorage.getItem(slotKey);
-  if (!data) {
-    console.warn(`⚠️ No save data found for key: ${slotKey}`);
-    return null;
+  if (!saveGameBtn && !loadGameBtn) {
+    console.warn("⚠️ Settings buttons not found in DOM. Check IDs in HTML.");
+    return;
   }
-  const save = JSON.parse(data);
-  window.player = {
-    ...save,
-    x: save.position?.x ?? 100,
-    y: save.position?.y ?? 100,
-    size: 15,
-    color: "#ff69b4",
-    speed: save.currentStats?.speed || 3,
-    hp: save.currentStats?.hp || 100,
-    maxHp: save.currentStats?.hp || 100,
-    mana: 80,
-    maxMana: 80,
-    attackRange: 40,
-    attackDamage: 15,
-    attackCooldown: 550,
-    lastAttack: 0,
-  };
-  window.difficulty = save.difficulty;
-  console.log(`🎮 Loaded save for ${window.player.name} (${window.player.classKey}) from "${slotKey}"`);
-  return window.player;
-}
-window.loadGame = loadGame;
 
-// Alias
-function loadSpecificSave(key) { return loadGame(key); }
-window.loadSpecificSave = loadSpecificSave;
+  // 💾 SAVE BUTTON
+  if (saveGameBtn) {
+    saveGameBtn.addEventListener("click", () => {
+      if (typeof window.saveGame !== "function") {
+        console.error("❌ saveGame() not defined globally.");
+        (window.showAlert || alert)("⚠️ Save function missing!");
+        return;
+      }
+      console.log("💾 Save button clicked — attempting save...");
+      window.saveGame();
+    });
+  }
 
-// Auto-save before exit
-window.addEventListener("beforeunload", () => {
-  if (window.player) saveGame();
+  // 📂 LOAD BUTTON
+  if (loadGameBtn) {
+    loadGameBtn.addEventListener("click", () => {
+      if (typeof window.loadGame !== "function") {
+        console.error("❌ loadGame() not defined globally.");
+        (window.showAlert || alert)("⚠️ Load function missing!");
+        return;
+      }
+      console.log("📂 Load button clicked — attempting load...");
+      const loaded = window.loadGame();
+      if (loaded) {
+        (window.showAlert || alert)(`🌸 Welcome back, ${loaded.name}!`);
+        cancelAnimationFrame?.(window.exploreFrameId);
+        showScreen?.("explore-page");
+        setTimeout(() => startExploreGame?.(), 250);
+      } else {
+        (window.showAlert || alert)("⚠️ No saved game found!");
+      }
+    });
+  }
+
+  console.log("✅ Save/Load buttons initialized and active.");
 });
