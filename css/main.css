@@ -280,62 +280,45 @@ body:has(#explore-page.active) #mute-btn {
 }
 
 /* ============================================================
-   FAIRY EFFECTS (Dust, Spark, Burst)
-============================================================ */
-.fairy-dust,
-.fairy-spark,
-.fairy-burst {
+   🌈 FAIRY AURA CLICK ANIMATION STYLES
+   ============================================================ */
+
+/* 💖 Central glow */
+.fairy-aura {
   position: fixed;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   pointer-events: none;
-  z-index: 10000;
-  will-change: transform, opacity;
+  background: radial-gradient(circle, var(--aura-color, #ffb6c1) 0%, transparent 80%);
+  box-shadow:
+    0 0 20px var(--aura-color, #ffb6c1),
+    0 0 50px var(--aura-color, #dda0dd),
+    0 0 90px rgba(255, 255, 255, 0.8);
+  transform: translate(-50%, -50%) scale(0.3);
+  filter: blur(0.6px);
+  z-index: 99999;
 }
 
-/* Dust */
-.fairy-dust {
+/* ✨ Sparkles */
+.fairy-sparkle {
+  position: fixed;
   width: 6px;
   height: 6px;
-  background: radial-gradient(circle, #fff 0%, var(--dust-color, #ffb6c1) 70%, transparent 100%);
-  box-shadow: 0 0 8px var(--dust-color, #ffb6c1), 0 0 12px #fff;
-  animation: swirl 1.8s linear forwards;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0%, var(--sparkle-color, #ffb6c1) 70%, transparent 100%);
+  box-shadow:
+    0 0 6px var(--sparkle-color, #ffb6c1),
+    0 0 12px var(--sparkle-color, #dda0dd),
+    0 0 20px rgba(255, 255, 255, 0.6);
+  filter: blur(0.4px);
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(1);
+  z-index: 99998;
 }
 
-@keyframes swirl {
-  0% { opacity: 1; transform: translate(0, 0) scale(1); }
-  60% { opacity: 0.9; transform: translate(60px, -30px) scale(0.8); }
-  100% { opacity: 0; transform: translate(120px, -60px) scale(0.3); }
-}
 
-/* Spark */
-.fairy-spark {
-  width: 3px;
-  height: 3px;
-  background: radial-gradient(circle, #fff 0%, #ffd700 70%, transparent 100%);
-  box-shadow: 0 0 8px #fff, 0 0 10px #ffd700;
-  animation: sparkFly 0.8s linear forwards;
-}
 
-@keyframes sparkFly {
-  0% { opacity: 1; transform: scale(1); }
-  100% { opacity: 0; transform: translate(80px, -50px) scale(0); }
-}
-
-/* Burst */
-.fairy-burst {
-  width: 30px;
-  height: 30px;
-  background: var(--burst-color, #ff69b4);
-  box-shadow: 0 0 40px var(--burst-color, #ff69b4), 0 0 80px #fff;
-  transform: translate(-50%, -50%) scale(0.2);
-  animation: burstExpand 0.5s linear forwards;
-}
-
-@keyframes burstExpand {
-  0% { opacity: 1; transform: scale(0.2); }
-  60% { opacity: 0.8; transform: scale(1.1); }
-  100% { opacity: 0; transform: scale(1.6); }
-}
 
 /* ============================================================
    CUSTOM ALERT BOX
@@ -464,3 +447,4 @@ body:has(#explore-page.active) #mute-btn {
 /* ============================================================
    🌸 END OF MAIN STYLES CSS
 ============================================================ */
+

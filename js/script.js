@@ -27,53 +27,64 @@ function enterExploreMode() {
 
 
 /* ============================================================
-   🪄 CUSTOM FAIRY CURSOR
-============================================================ */
-document.addEventListener("DOMContentLoaded", () => {
-  const cursor = document.createElement("div");
-  cursor.classList.add("custom-cursor");
-  document.body.appendChild(cursor);
+   🌸 FAIRY AURA CLICK EFFECT — Simple, Elegant, Magical
+   ============================================================ */
+document.addEventListener("click", (e) => {
+  const clickX = e.clientX;
+  const clickY = e.clientY;
+  const hue = Math.floor(Math.random() * 360); // 🌈 different hue every click
 
-  document.addEventListener("mousemove", (e) => {
-    cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-  });
+  /* 💖 MAIN GLOW CIRCLE */
+  const aura = document.createElement("div");
+  aura.classList.add("fairy-aura");
+  aura.style.setProperty("--aura-color", `hsl(${hue}, 100%, 75%)`);
+  aura.style.left = `${clickX}px`;
+  aura.style.top = `${clickY}px`;
+  document.body.appendChild(aura);
 
-  document.addEventListener("click", () => {
-    cursor.animate(
+  // Animate smooth expansion + fade
+  aura.animate(
+    [
+      { transform: "translate(-50%, -50%) scale(0.3)", opacity: 1 },
+      { transform: "translate(-50%, -50%) scale(1.4)", opacity: 0.6 },
+      { transform: "translate(-50%, -50%) scale(1.8)", opacity: 0 },
+    ],
+    { duration: 700, easing: "ease-out", fill: "forwards" }
+  );
+  setTimeout(() => aura.remove(), 650);
+
+  /* ✨ SMALL SPARKLES */
+  const sparkleCount = 60;
+  for (let i = 0; i < sparkleCount; i++) {
+    const sparkle = document.createElement("div");
+    sparkle.classList.add("fairy-sparkle");
+    sparkle.style.setProperty("--sparkle-color", `hsl(${hue + Math.random() * 40 - 20}, 100%, 80%)`);
+    sparkle.style.left = `${clickX}px`;
+    sparkle.style.top = `${clickY}px`;
+    document.body.appendChild(sparkle);
+
+    const angle = (Math.PI * 2 * i) / sparkleCount;
+    const distance = 50 + Math.random() * 25;
+    const xMove = Math.cos(angle) * distance;
+    const yMove = Math.sin(angle) * distance;
+
+    sparkle.animate(
       [
         { transform: "translate(-50%, -50%) scale(1)", opacity: 1 },
-        { transform: "translate(-50%, -50%) scale(1.8)", opacity: 0.6 },
-        { transform: "translate(-50%, -50%) scale(1)", opacity: 1 },
+        { transform: `translate(${xMove}px, ${yMove}px) scale(0.2)`, opacity: 0 },
       ],
-      { duration: 400, easing: "ease-out" }
+      { duration: 600 + Math.random() * 200, easing: "ease-out", fill: "forwards" }
     );
-  });
+
+    setTimeout(() => sparkle.remove(), 800);
+  }
 });
 
 
-/* ============================================================
-   🌈 FAIRY CLICK EFFECTS
-============================================================ */
-document.addEventListener("click", (e) => {
-  const clickX = e.clientX, clickY = e.clientY;
-  const burst = document.createElement("div");
-  burst.classList.add("fairy-burst");
-  const hue = Math.floor(Math.random() * 360);
-  burst.style.background = `radial-gradient(circle, hsl(${hue},100%,70%) 30%, hsl(${hue},100%,60%) 60%, transparent 100%)`;
-  Object.assign(burst.style, {
-    left: `${clickX}px`, top: `${clickY}px`,
-    position: "fixed", transform: "translate(-50%, -50%)",
-    width: "25px", height: "25px", borderRadius: "50%",
-    pointerEvents: "none", zIndex: 9998, filter: "blur(1px)"
-  });
-  document.body.appendChild(burst);
-  burst.animate([
-    { transform: "translate(-50%, -50%) scale(0.6)", opacity: 1 },
-    { transform: "translate(-50%, -50%) scale(1.6)", opacity: 0.8 },
-    { transform: "translate(-50%, -50%) scale(1.8)", opacity: 0 }
-  ], { duration: 600, easing: "linear" });
-  setTimeout(() => burst.remove(), 550);
-});
+
+
+
+
 
 
 /* ============================================================
