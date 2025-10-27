@@ -31,7 +31,6 @@ function enterExploreMode() {
    ============================================================ */
 document.addEventListener("click", (e) => {
   const canvas = document.getElementById('explore-canvas');
-  if (canvas && canvas.contains(e.target)) return
   const clickX = e.clientX;
   const clickY = e.clientY;
   const hue = Math.floor(Math.random() * 360); // 🌈 different hue every click

@@ -12,9 +12,7 @@
 /* ============================================================
    🧭 HIDE CURSOR ON EXPLORE CANVAS
 ============================================================ */
-#explore-canvas {
-  cursor: none !important;  /* 🔒 Hides mouse pointer inside canvas */
-}
+
 
 #explore-page {
   display: flex;

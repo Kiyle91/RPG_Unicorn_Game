@@ -192,22 +192,256 @@ document.addEventListener("DOMContentLoaded", () => {
   resizeCanvas();
   window.addEventListener("resize", resizeCanvas);
 
-  /* ----------------------------------------------------------
-     ⌨️ Input
-  ---------------------------------------------------------- */
-  keys = {};
-  window.addEventListener("keydown", (e) => {
-    keys[e.key.toLowerCase()] = true;
-    if (e.key === "Shift") keys.shift = true;
-    if (e.code === "Space" && uiState === "explore") {
-      e.preventDefault();
-      playerAttack();
+/* ----------------------------------------------------------
+   ⌨️ Input (Keyboard + Mouse)
+---------------------------------------------------------- */
+keys = {};
+
+// 🎹 Keyboard Controls
+window.addEventListener("keydown", (e) => {
+  keys[e.key.toLowerCase()] = true;
+
+  if (e.key === "Shift") keys.shift = true;
+
+  // 🗡️ Spacebar = Melee Attack
+  if (e.code === "Space" && uiState === "explore") {
+    e.preventDefault();
+    playerAttack(); // uses melee logic already in your game
+  }
+});
+
+window.addEventListener("keyup", (e) => {
+  keys[e.key.toLowerCase()] = false;
+  if (e.key === "Shift") keys.shift = false;
+});
+
+/* ----------------------------------------------------------
+   🖱️ Mouse Click = Ranged Magic Attack
+---------------------------------------------------------- */
+canvas.addEventListener("click", (e) => {
+  if (uiState !== "explore" || !exploreRunning || !player) return;
+
+  const rect = canvas.getBoundingClientRect();
+  const clickX = e.clientX - rect.left;
+  const clickY = e.clientY - rect.top;
+
+  // 🌈 Unique ranged effect (lighter, more magical)
+  const aura = document.createElement("div");
+  aura.classList.add("fairy-aura");
+  const hue = Math.floor(Math.random() * 360);
+  aura.style.setProperty("--aura-color", `hsl(${hue}, 100%, 80%)`);
+  aura.style.left = `${e.clientX}px`;
+  aura.style.top = `${e.clientY}px`;
+  document.body.appendChild(aura);
+
+  aura.animate(
+    [
+      { transform: "translate(-50%, -50%) scale(0.3)", opacity: 1 },
+      { transform: "translate(-50%, -50%) scale(1.2)", opacity: 0.8 },
+      { transform: "translate(-50%, -50%) scale(2.5)", opacity: 0 },
+    ],
+    { duration: 800, easing: "ease-out", fill: "forwards" }
+  );
+  setTimeout(() => aura.remove(), 700);
+
+  // 🌟 Small sparkles that scatter outward
+  for (let i = 0; i < 15; i++) {
+    const sparkle = document.createElement("div");
+    sparkle.classList.add("fairy-sparkle");
+    sparkle.style.setProperty("--sparkle-color", `hsl(${hue + Math.random() * 30 - 15}, 100%, 85%)`);
+    sparkle.style.left = `${e.clientX}px`;
+    sparkle.style.top = `${e.clientY}px`;
+    document.body.appendChild(sparkle);
+
+    const angle = Math.random() * Math.PI * 2;
+    const dist = 50 + Math.random() * 30;
+    const tx = Math.cos(angle) * dist;
+    const ty = Math.sin(angle) * dist;
+
+    sparkle.animate(
+      [
+        { transform: `translate(-50%, -50%) scale(1)`, opacity: 1 },
+        { transform: `translate(${tx}px, ${ty}px) scale(0.1)`, opacity: 0 },
+      ],
+      { duration: 700 + Math.random() * 200, easing: "ease-out", fill: "forwards" }
+    );
+
+    setTimeout(() => sparkle.remove(), 800);
+  }
+
+  /* 🎯 Ranged Attack Logic */
+  const rangedDamage = player.ranged ?? 10; // fallback in case stat missing
+  const range = player.attackRange * 2; // longer range for magic
+  let hitEnemy = false;
+
+  enemies.forEach((enemy) => {
+    const dist = Math.hypot(enemy.x - clickX, enemy.y - clickY);
+    if (dist <= range) {
+      enemy.hp = Math.max(0, enemy.hp - rangedDamage);
+      showDamageText(`-${rangedDamage}`, enemy.x, enemy.y, "#87cefa"); // blue damage text for ranged
+      hitEnemy = true;
     }
   });
-  window.addEventListener("keyup", (e) => {
-    keys[e.key.toLowerCase()] = false;
-    if (e.key === "Shift") keys.shift = false;
+
+  // 💀 Remove dead enemies
+  enemies = enemies.filter((e) => e.hp > 0);
+
+  // 🔵 Use mana when casting
+  if (player.mana > 0) player.mana = Math.max(0, player.mana - 5);
+  updateManaBar();
+
+  // 🔮 Refund small mana if hit
+  if (hitEnemy) {
+    player.mana = Math.min(player.maxMana, player.mana + 1);
+    updateManaBar();
+  }
+});
+
+
+/* ----------------------------------------------------------
+   ⌨️ Input (Keyboard + Mouse)
+---------------------------------------------------------- */
+keys = {};
+
+// 🎹 Keyboard Controls — Melee Attack
+window.addEventListener("keydown", (e) => {
+  keys[e.key.toLowerCase()] = true;
+
+  if (e.key === "Shift") keys.shift = true;
+
+  // 🗡️ Spacebar = Melee Attack (uses attackDamage + mana)
+  if (e.code === "Space" && uiState === "explore") {
+    e.preventDefault();
+
+    const manaCost = 8;
+    if (!player || player.mana < manaCost) {
+      showNoManaEffect();
+      return;
+    }
+
+    player.mana = Math.max(0, player.mana - manaCost);
+    updateManaBar();
+
+    playerAttack(); // melee attack logic
+  }
+});
+
+window.addEventListener("keyup", (e) => {
+  keys[e.key.toLowerCase()] = false;
+  if (e.key === "Shift") keys.shift = false;
+});
+
+/* ----------------------------------------------------------
+   🖱️ Mouse Click = Ranged Magic Attack (uses ranged stat)
+---------------------------------------------------------- */
+canvas.addEventListener("click", (e) => {
+  if (uiState !== "explore" || !exploreRunning || !player) return;
+
+  const manaCost = 10;
+  if (player.mana < manaCost) {
+    showNoManaEffect(e.clientX, e.clientY);
+    return;
+  }
+
+  // 💫 Spend mana for ranged attack
+  player.mana = Math.max(0, player.mana - manaCost);
+  updateManaBar();
+
+  const rect = canvas.getBoundingClientRect();
+  const clickX = e.clientX - rect.left;
+  const clickY = e.clientY - rect.top;
+
+  // 🌈 Unique blue/purple effect for ranged attacks
+  showRangedEffect(e.clientX, e.clientY);
+
+  // 🎯 Deal ranged damage
+  const rangedDamage = player.ranged ?? 12;
+  const range = player.attackRange * 2.2;
+  let hitEnemy = false;
+
+  enemies.forEach((enemy) => {
+    const dist = Math.hypot(enemy.x - clickX, enemy.y - clickY);
+    if (dist <= range) {
+      enemy.hp = Math.max(0, enemy.hp - rangedDamage);
+      showDamageText(`-${rangedDamage}`, enemy.x, enemy.y, "#87cefa");
+      hitEnemy = true;
+    }
   });
+
+  enemies = enemies.filter((e) => e.hp > 0);
+
+  if (hitEnemy) {
+    player.mana = Math.min(player.maxMana, player.mana + 3);
+    updateManaBar();
+  }
+});
+
+/* ----------------------------------------------------------
+   ✨ Magic Effects Helpers
+---------------------------------------------------------- */
+
+// 🩵 Out of Mana Puff
+function showNoManaEffect(x = window.innerWidth / 2, y = window.innerHeight / 2) {
+  const puff = document.createElement("div");
+  puff.classList.add("fairy-aura");
+  puff.style.setProperty("--aura-color", "rgba(180, 200, 255, 0.6)");
+  puff.style.left = `${x}px`;
+  puff.style.top = `${y}px`;
+  document.body.appendChild(puff);
+  puff.animate(
+    [
+      { transform: "translate(-50%, -50%) scale(0.6)", opacity: 1 },
+      { transform: "translate(-50%, -50%) scale(1.4)", opacity: 0 },
+    ],
+    { duration: 600, easing: "ease-out", fill: "forwards" }
+  );
+  setTimeout(() => puff.remove(), 600);
+}
+
+// 💫 Blue/Purple Ranged Magic Effect
+function showRangedEffect(x, y) {
+  const aura = document.createElement("div");
+  aura.classList.add("fairy-aura");
+  const hue = 220 + Math.floor(Math.random() * 60); // blue/purple range
+  aura.style.setProperty("--aura-color", `hsl(${hue}, 100%, 70%)`);
+  aura.style.left = `${x}px`;
+  aura.style.top = `${y}px`;
+  document.body.appendChild(aura);
+
+  aura.animate(
+    [
+      { transform: "translate(-50%, -50%) scale(0.5)", opacity: 1 },
+      { transform: "translate(-50%, -50%) scale(2)", opacity: 0 },
+    ],
+    { duration: 800, easing: "ease-out", fill: "forwards" }
+  );
+  setTimeout(() => aura.remove(), 700);
+
+  // Scatter sparkles
+  for (let i = 0; i < 16; i++) {
+    const sparkle = document.createElement("div");
+    sparkle.classList.add("fairy-sparkle");
+    sparkle.style.setProperty("--sparkle-color", `hsl(${hue + Math.random() * 30 - 15}, 100%, 80%)`);
+    sparkle.style.left = `${x}px`;
+    sparkle.style.top = `${y}px`;
+    document.body.appendChild(sparkle);
+
+    const angle = Math.random() * Math.PI * 2;
+    const dist = 50 + Math.random() * 40;
+    const tx = Math.cos(angle) * dist;
+    const ty = Math.sin(angle) * dist;
+
+    sparkle.animate(
+      [
+        { transform: "translate(-50%, -50%) scale(1)", opacity: 1 },
+        { transform: `translate(${tx}px, ${ty}px) scale(0.1)`, opacity: 0 },
+      ],
+      { duration: 700 + Math.random() * 200, easing: "ease-out", fill: "forwards" }
+    );
+    setTimeout(() => sparkle.remove(), 800);
+  }
+}
+
 
   /* ==========================================================
      🧭 Player + Map
