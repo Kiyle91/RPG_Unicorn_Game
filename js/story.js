@@ -1,92 +1,63 @@
 /* ============================================================
-   📖 STORY.JS – Olivia’s World RPG
+   📖 STORY.JS – Olivia’s World RPG (2-Page Version)
    ------------------------------------------------------------
    Handles:
-   ✦ Story progression through multiple narrative pages
+   ✦ Short two-page intro sequence
    ✦ Smooth fade transitions
-   ✦ Transition into Explore mode after final story page
+   ✦ Transition into Explore / courtyard scene
 ============================================================ */
 
 document.addEventListener("DOMContentLoaded", () => {
-  /* ============================================================
-     🌸 ELEMENT REFERENCES
-  ============================================================ */
   const storySection = document.getElementById("story-section");
   const storyText    = document.getElementById("story-text");
   const continueBtn  = document.getElementById("story-continue-btn");
 
-  // 🧩 Safety check
   if (!storySection || !continueBtn) {
-    console.error("❌ Story section or Continue button not found in the DOM!");
+    console.error("❌ Story section or Continue button not found!");
     return;
   }
 
   /* ============================================================
-     🌈 STORY PAGES – EXTENDABLE NARRATIVE SYSTEM
+     🌸 TWO-PAGE STORY
   ============================================================ */
   const storyPages = [
     {
-      text: "Long ago, in the sparkling kingdom of Luminara, unicorns roamed freely under pastel skies. The gentle magic of the land kept everything in harmony — but tonight, the stars whisper of change...",
+      text: "The gates of Queen Nebaya’s castle shimmer under a lavender sky as you arrive beside Princess Ariana. Her smile glows like moonlight on water. “You made it!” she says warmly. “Mother will be thrilled. Come, there’s so much to see.” She guides you through halls of crystal and song — portraits of queens watching as chandeliers sparkle above. The air hums with soft enchantment, and every step feels like a welcome home.",
     },
     {
-      text: "A brave princess awakens, sensing a calling far greater than any ordinary morning. The unicorns, once playful, now seem restless. Something stirs in the enchanted forest beyond the palace walls...",
-    },
-    {
-      text: "⚠️ Scalability stops here so we can focus on other more advanced HTML mechanics.⚠️",
+      text: "“This way,” Ariana says, leading you through tall doors that open onto the training courtyard. Laughter and the ring of steel fill the air. “These are the Queen’s recruits — brave, if a little clumsy.” She winks. “How about showing them what real courage looks like?” The soldiers grin nervously as sunlight flares across their wooden blades. Ariana steps back, eyes bright. “The courtyard is yours, Princess.” The next chapter of your story begins here.",
     },
   ];
 
   let currentPage = 0;
   storyText.textContent = storyPages[0].text;
 
-
   /* ============================================================
      ✨ CONTINUE BUTTON HANDLER
   ============================================================ */
   continueBtn.addEventListener("click", () => {
-    console.log("✨ Continue button clicked!");
-
-    // 💫 Prevent button spamming
     continueBtn.disabled = true;
-    continueBtn.classList.add("fade-out-btn");
+    storyText.classList.add("fade-out");
 
-    setTimeout(() => {
-      continueBtn.disabled = false;
-      continueBtn.classList.remove("fade-out-btn");
-    }, 500);
-
-    // ➡️ Advance story after a short delay
     setTimeout(() => {
       currentPage++;
 
       if (currentPage < storyPages.length) {
-        // Smooth fade between pages
-        storyText.classList.add("fade-out");
-
-        setTimeout(() => {
-          storyText.textContent = storyPages[currentPage].text;
-          storyText.classList.remove("fade-out");
-        }, 300);
-
+        storyText.textContent = storyPages[currentPage].text;
+        storyText.classList.remove("fade-out");
+        continueBtn.disabled = false;
       } else {
-        // 🌸 End of story → Move to Explore Page
-        console.log("✅ Story finished — moving to Explore mode...");
-
-        // Fade-out current section before switching
+        // ✅ End of story → Move to Explore / courtyard
         storySection.classList.remove("active");
         storySection.style.display = "none";
-
-        // 🎮 Show Explore Page
         showScreen("explore-page");
 
-        // 🚀 Start Explore mode safely
         if (typeof startExploreGame === "function") {
-          console.log("🌷 Starting Explore mode via Story transition...");
           startExploreGame();
         } else {
           console.warn("⚠️ startExploreGame() not found — check script load order.");
         }
       }
-    }, 500); // ⏳ Delay before transitioning
+    }, 600);
   });
 });

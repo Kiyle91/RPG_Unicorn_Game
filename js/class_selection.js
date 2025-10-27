@@ -142,7 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         );
       } else {
-        alert(`Let's go ${playerName}, the Unicorns need your help!`);
+        alert(`Let's go Princess ${playerName}, the castle awaits us!`);
         showScreen("difficulty-screen");
       }
 
