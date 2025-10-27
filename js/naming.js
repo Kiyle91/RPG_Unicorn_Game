@@ -34,6 +34,11 @@ function showScreen(nextId) {
   }
 }
 
+// 🎀 Return button on Naming Page
+document.getElementById("return-name")?.addEventListener("click", () => {
+  showScreen("landing-page"); // 🔙 Return to start screen
+});
+
 
 /* ============================================================
    💖 NAME CONFIRMATION & TRANSITION
@@ -62,4 +67,10 @@ confirmBtn.addEventListener("click", () => {
 
     console.log("🌸 Transitioned to class selection after 500ms delay.");
   }, 500);
+});
+
+
+// 🎀 Return button on Naming Page
+document.getElementById("return-btn")?.addEventListener("click", () => {
+  showScreen("landing-page"); // 🔙 Return to start screen
 });

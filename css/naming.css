@@ -79,9 +79,7 @@
 /* ============================================================
    INPUT BOX AREA – Centered at Bottom
 ============================================================ */
-
 #intro-name-box {
-  
   position: absolute;
   bottom: 5vh;                      /* anchored near bottom */
   left: 50%;
@@ -90,13 +88,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 45vw;
-  padding: 18px 25px;
+  padding: 15px 25px;
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
   background-size: 400% 400%;
   animation: rainbowBG 8s ease infinite;
   backdrop-filter: blur(10px);
-  border-radius: 20px;
+  border-radius: 15px;
   border: 2px solid #fff;
   box-shadow: 0 0 20px rgba(255, 182, 193, 0.7);
   z-index: 5;
@@ -108,46 +105,46 @@
 }
 
 /* ============================================================
-   INPUT FIELD – Smaller & centered
+   INPUT FIELD & BUTTONS – Aligned and Themed
 ============================================================ */
-#naming-page input {
-  font-size: 3vw;
-  padding: 1vh 1.5vw;
-  border-radius: 15px;
-  border: 2px solid #fff;
-  width: 65%;
-  text-align: center;
-  outline: none;
-  background: rgba(255,255,255,0.85);
-  color: #8a2be2;
-  box-shadow: 0 0 15px rgba(255, 182, 193, 0.5);
-  transition: all 0.3s ease;
-}
-
-#naming-page input:focus {
-  box-shadow: 0 0 25px rgba(255, 182, 193, 1);
-  border-color: #ff69b4;
-}
-
-/* ============================================================
-   BUTTON – Below input, matching theme
-============================================================ */
-#naming-page button {
-  font-size: 2.5vw;
-  padding: 1vh 1.5vw;
+#intro-name-box input,
+#intro-name-box button {
+  font-size: 2vw;
+  padding: 1.2vh 2vw;
   border-radius: 20px;
-  border: none;
+  border: 2px solid #fff;
+  outline: none;
+  background: rgba(255, 255, 255, 0.85);
+  color: #8a2be2;
+  box-shadow:
+    0 0 15px rgba(255, 182, 193, 0.5),
+    inset 0 0 5px rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+/* Adjust widths so they line up */
+#intro-name-box input {
+  margin-top: 2%;
+  width: 50%;
+  margin-right: 2%;
+  margin-bottom: 1.5vh;
+}
+
+#intro-name-box button {
+  text-align: center;
+  font-size: 1.2rem;
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
   color: #fff;
   cursor: pointer;
-  box-shadow: 0 0 15px rgba(255, 182, 193, 0.6);
-  transition: all 0.3s ease-in-out;
-  margin-top: 1.5vh;
+  
 }
 
-#naming-page button:hover {
+#intro-name-box button:hover {
   background: linear-gradient(135deg, #ff69b4, #ba55d3, #87cefa);
-  box-shadow: 0 0 25px rgba(255, 182, 193, 0.9);
+  box-shadow:
+    0 0 25px rgba(255, 182, 193, 0.9),
+    inset 0 0 8px rgba(255, 255, 255, 0.4);
 }
 
 /* ============================================================
@@ -225,48 +222,16 @@
   100% { text-shadow: 0 0 16px rgba(255, 182, 193, 1); }
 }
 
-
-/* ============================================================
-   ANIMATIONS
-============================================================ */
-@keyframes bubbleSmooth {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -52%) scale(0.7);
-  }
-  15% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-  85% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -48%) scale(0.9);
-  }
-}
-
-@keyframes textPulse {
-  0% { text-shadow: 0 0 6px rgba(255, 182, 193, 0.5); }
-  100% { text-shadow: 0 0 16px rgba(255, 182, 193, 1); }
-}
-
-
 /* ============================================================
    RESPONSIVE ADJUSTMENTS
 ============================================================ */
 @media (max-width: 912px) {
-  #naming-page input {
-    width: 60vw;
+  #intro-name-box input,
+  #intro-name-box button {
+    width: 70%;
     font-size: 4vw;
   }
-  #naming-page button {
-    font-size: 4vw;
-    padding: 2vh 5vw;
-  }
-  #naming-page #princess {
+  #princess {
     width: 70vw;
     max-height: 50vh;
   }
@@ -277,15 +242,12 @@
 }
 
 @media (max-width: 480px) {
-  #naming-page input {
-    width: 60vw;
+  #intro-name-box input,
+  #intro-name-box button {
+    width: 75%;
     font-size: 5vw;
   }
-  #naming-page button {
-    font-size: 5vw;
-    padding: 2vh 6vw;
-  }
-  #naming-page #princess {
+  #princess {
     width: 80vw;
     max-height: 35vh;
   }
