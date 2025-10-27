@@ -1,29 +1,29 @@
 /* ============================================================
-   🌸 CLASS SELECTION PAGE – OLIVIA’S WORLD RPG (HARMONIZED)
+   🌸 CLASS SELECTION PAGE – OLIVIA’S WORLD RPG (HARMONIZED THEME)
    ============================================================
-   Unified with Explore Page theme: pastel gradients, glowing
-   borders, hover transitions, and consistent text effects.
+   Unified with Explore Page theme:
+   pastel gradients, glowing borders, hover transitions,
+   and consistent text effects.
 ============================================================ */
 
 /* ============================================================
    LAYOUT & BACKGROUND
 ============================================================ */
-#class-selection-page {
+#class-wrapper {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  justify-content: flex-start;
   height: 100vh;
   width: 100vw;
-  padding: 5vh 4vw;
+  margin: 0;
+  padding: 0;
   font-family: 'Comic Sans MS', cursive;
-  color: #fff;
-  text-align: center;
   box-sizing: border-box;
-  position: relative;
   overflow: hidden;
+  position: relative;
 
-  /* Pastel animated background */
+  /* Pastel animated background (Explore theme) */
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa, #fffacd);
   background-size: 400% 400%;
   animation: rainbowBG 8s ease infinite;
@@ -64,67 +64,72 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: stretch; /* ✅ Equal height buttons */
+  align-items: stretch;
   gap: 4vh 3vw;
   width: 100%;
-  max-width: 1200px;
   margin-top: 2vh;
   margin-bottom: 8vh;
 }
 
 /* ============================================================
-   CLASS BUTTONS
+   CLASS BUTTONS – Unified
 ============================================================ */
 .class-btn {
   flex: 1 1 20%;
   max-width: 250px;
-  height: 220px; /* ✅ Fixed height for consistency */
-  position: relative;
+  height: 220px;
   border: 3px solid #fff;
   border-radius: 25px;
   cursor: pointer;
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
   box-shadow: 0 0 25px rgba(255, 182, 193, 0.7);
   transition: all 0.3s ease-in-out;
+
+  /* ✨ Center text vertically and horizontally */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
+
   color: #fff;
   font-weight: 900;
-  text-align: center;
-  overflow: visible;
-  margin-bottom: 6vh;
   letter-spacing: 0.5px;
+  padding: 1.5vh 1vw;
+  gap: 0.8vh;
+  overflow: hidden;
+  margin-bottom: 6vh;
 }
 
-/* Hover Glow */
 .class-btn:hover {
   transform: scale(1.1) rotate(-2deg);
   background: linear-gradient(135deg, #ff69b4, #ba55d3, #87cefa);
   box-shadow: 0 0 40px rgba(255, 182, 193, 1);
 }
 
-/* ============================================================
-   CLASS DESCRIPTIONS
-============================================================ */
+/* Paragraph text inside buttons */
+.class-btn p,
 .class-btn .class-desc {
-  font-size: 1rem;
-  margin-top: 1vh;
-  line-height: 1.4;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
   color: #fff;
+  width: 85%;
+  font-size: 1rem;
+  line-height: 1.4;
   font-weight: 600;
   text-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+  display: flex;
+  flex-direction: column;
 }
 
 /* ============================================================
    HOVER ICON EFFECTS
 ============================================================ */
 .class-btn .hover-icon {
-  position: absolute;
-  bottom: -7vh; /* ✅ Normalized across all classes */
-  left: 50%;
-  transform: translateX(-50%) scale(0.5);
+  position: relative;
+  bottom: -2vh;
   opacity: 0;
   width: 9vh;
   height: 9vh;
@@ -137,96 +142,19 @@
 .class-btn:hover .hover-icon,
 .class-btn:focus .hover-icon {
   opacity: 1;
-  transform: translateX(-50%) translateY(-1.5vh) scale(1);
+  transform: translateY(-1.5vh) scale(1);
   filter: drop-shadow(0 0 2.5vh rgba(255, 255, 255, 1));
   animation: hoverPop 0.6s ease;
 }
 
 @keyframes hoverPop {
-  0% { transform: translateX(-50%) translateY(2vh) scale(0.3); opacity: 0; }
-  60% { transform: translateX(-50%) translateY(-1vh) scale(1.15); opacity: 1; }
-  100% { transform: translateX(-50%) translateY(-1.5vh) scale(1); opacity: 1; }
+  0% { transform: translateY(2vh) scale(0.3); opacity: 0; }
+  60% { transform: translateY(-1vh) scale(1.15); opacity: 1; }
+  100% { transform: translateY(-1.5vh) scale(1); opacity: 1; }
 }
 
 /* ============================================================
-   RESPONSIVE ADJUSTMENTS
-============================================================ */
-@media (max-width: 912px) {
-  #class-selection-page { padding: 4vh 5vw; }
-  .class-options { gap: 3vh 2vw; margin-top: 4vh; }
-  .class-btn {
-    width: 38vw;
-    height: 200px;
-    margin-bottom: 4vh;
-  }
-  .class-btn .hover-icon { bottom: -5vh; width: 7vh; height: 7vh; }
-  .class-btn .class-desc { font-size: 2.2vw; }
-}
-
-@media (max-width: 768px) {
-  #class-selection-page {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 0 6vw;
-  }
-
-  .class-options {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 3vh 4vw;
-    width: 85%;
-    max-width: 550px;
-  }
-
-  .class-btn {
-    width: 36vw;
-    height: 180px;
-  }
-
-  .class-btn .hover-icon { bottom: -4vh; width: 6vh; height: 6vh; }
-  .class-btn .class-desc { font-size: 2.5vw; }
-}
-
-@media (max-width: 480px) {
-  #class-selection-page { padding: 0 8vw; justify-content: center; }
-
-  .class-options {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2.5vh 3vw;
-    width: 80%;
-    max-width: 450px;
-  }
-
-  .class-btn {
-    width: 38vw;
-    height: 150px;
-  }
-
-  .class-btn .hover-icon { bottom: -3vh; width: 5vh; height: 5vh; }
-  .class-btn .class-desc { font-size: 2.9vw; }
-}
-
-@media (min-width: 1025px) {
-  .class-options {
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 3vw;
-    margin-top: 6vh;
-  }
-
-  .class-btn {
-    width: 18vw;
-    height: 230px;
-    margin-bottom: 0;
-  }
-
-  .class-btn .hover-icon { bottom: -6vh; width: 10vh; height: 10vh; }
-}
-
-/* ============================================================
-   ✨ CLASS COLOR THEMES
+   CLASS COLOR THEMES (clean & non-repeating)
 ============================================================ */
 .class-btn[data-class="glitterGuardian"] {
   background: linear-gradient(135deg, #ffd700, #ff4500, #ffb347);
@@ -255,59 +183,217 @@
   box-shadow: 0 0 45px rgba(0, 191, 255, 1);
 }
 
-/* 🎯 Silver Arrow — pink & light blue elegance (with hover rotation) */
 .class-btn[data-class="silverArrow"] {
   background: linear-gradient(135deg, #b0e0e6, #ff69b4, #ffffff);
   box-shadow: 0 0 25px rgba(255, 182, 193, 0.8);
-  margin-bottom: 6vh !important;
-  transform: translateY(1vh); /* ✅ Lowered alignment */
+  transform: translateY(1vh);
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
-
 .class-btn[data-class="silverArrow"]:hover {
   background: linear-gradient(135deg, #ff69b4, #b0e0e6);
   box-shadow: 0 0 45px rgba(255, 182, 193, 1);
-  transform: translateY(1vh) scale(1.1) rotate(-2deg); /* ✅ Combined motion */
-}
-
-.class-btn[data-class="silverArrow"] .hover-icon {
-  bottom: -7vh !important;
+  transform: translateY(1vh) scale(1.1) rotate(-2deg);
 }
 
 /* ============================================================
-   🦄 FLOATING UNICORN (Unicorn 2) ON CLASS PAGE
+   🦄 FLOATING UNICORN
 ============================================================ */
 #class-unicorn2 {
   position: absolute;
   top: 12%;
   right: 8%;
-  width: 10vw;             /* scales with screen */
+  width: 10vw;
   height: auto;
   object-fit: contain;
-  pointer-events: none;    /* don't block clicks */
-  z-index: 6;              /* behind buttons/title if needed */
+  pointer-events: none;
+  z-index: 2;
   filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.9));
-  animation: float2 15s linear infinite;  /* reuse existing float2 keyframes */
+  animation: float2 15s linear infinite;
 }
 
-/* keep the UI above the unicorn if needed */
-#class-selection-page .page-title,
-#class-selection-page .class-options {
-  position: relative;
-  z-index: 3;
+/* ============================================================
+   🔥 FIREBALL ANIMATION EFFECT – BACKGROUND LOOP
+============================================================ */
+.fireball {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffb347 0%, #ff4500 60%, transparent 100%);
+  box-shadow:
+    0 0 15px rgba(255, 69, 0, 0.9),
+    0 0 30px rgba(255, 140, 0, 0.8),
+    0 0 60px rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0;
+  mix-blend-mode: screen;
 }
 
-/* Responsive: ease off on smaller screens */
-@media (max-width: 912px) {
-  #class-unicorn2 { width: 26vw; top: 8%; right: 4%; }
-}
-@media (max-width: 768px) {
-  #class-unicorn2 { width: 32vw; top: 6%; right: 3%; }
-}
-@media (max-width: 480px) {
-  #class-unicorn2 { display: none; } /* optional: hide on very small phones */
+.fireball::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -130%;
+  width: 120px;
+  height: 10px;
+  background: linear-gradient(90deg, rgba(255,140,0,0.8), transparent);
+  border-radius: 10px;
+  transform: translateY(-50%) rotate(5deg);
+  filter: blur(5px);
+  opacity: 0.8;
 }
 
+.fireball1 { top: 20%; left: -10%; animation: fireballFly1 7s ease-in-out infinite; }
+.fireball2 { top: 35%; left: -20%; animation: fireballFly2 8s ease-in-out infinite 1.5s; }
+.fireball3 { top: 50%; left: -15%; animation: fireballFly3 6s ease-in-out infinite 0.8s; }
+.fireball4 { top: 65%; left: -25%; animation: fireballFly4 9s ease-in-out infinite 2.3s; }
+.fireball5 { top: 80%; left: -18%; animation: fireballFly5 10s ease-in-out infinite 3s; }
+.fireball6 { top: 10%; left: -15%; animation: fireballFly6 7.5s ease-in-out infinite 1s; }
+
+/* Fireball motion */
+@keyframes fireballFly1 {
+  0% { transform: translate(0, 0) scale(0.7); opacity: 0; }
+  10% { opacity: 1; }
+  50% { transform: translate(120vw, -40px) scale(1.2); opacity: 1; }
+  100% { transform: translate(140vw, -60px) scale(0.9); opacity: 0; }
+}
+@keyframes fireballFly2 {
+  0% { transform: translate(0, 0) scale(0.8); opacity: 0; }
+  15% { opacity: 1; }
+  60% { transform: translate(130vw, 60px) scale(1.1); opacity: 1; }
+  100% { transform: translate(160vw, 80px) scale(0.8); opacity: 0; }
+}
+@keyframes fireballFly3 {
+  0% { transform: translate(0, 0) scale(0.9); opacity: 0; }
+  20% { opacity: 1; }
+  55% { transform: translate(125vw, -50px) scale(1.3); opacity: 1; }
+  100% { transform: translate(150vw, -90px) scale(0.8); opacity: 0; }
+}
+@keyframes fireballFly4 {
+  0% { transform: translate(0, 0) scale(0.8); opacity: 0; }
+  25% { opacity: 1; }
+  65% { transform: translate(135vw, 40px) scale(1.1); opacity: 1; }
+  100% { transform: translate(160vw, 70px) scale(0.9); opacity: 0; }
+}
+@keyframes fireballFly5 {
+  0% { transform: translate(0, 0) scale(0.7); opacity: 0; }
+  20% { opacity: 1; }
+  70% { transform: translate(150vw, -80px) scale(1.2); opacity: 1; }
+  100% { transform: translate(170vw, -100px) scale(0.8); opacity: 0; }
+}
+@keyframes fireballFly6 {
+  0% { transform: translate(0, 0) scale(0.8); opacity: 0; }
+  10% { opacity: 1; }
+  60% { transform: translate(120vw, 30px) scale(1.2); opacity: 1; }
+  100% { transform: translate(140vw, 50px) scale(0.8); opacity: 0; }
+}
+
+
+/* ============================================================
+   🌸 CLASS SELECTION BUBBLES – Sequential Dialogue Animation
+============================================================ */
+.classbubble {
+  align-items: center;
+  position: fixed;
+  top: 99%;
+  left: 50%;
+  transform: translateX(-50%) scale(0.8);
+  width: 20vw;
+  min-height: 3vh;
+  background: #fff;
+  border: 3px solid #fff;
+  border-radius: 25px;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2vh 3vw;
+  font-family: 'Comic Sans MS', cursive;
+  color: #2b2a2c;
+  text-align: center;
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  animation: classBubbleSmooth 4s ease-in-out forwards;
+}
+
+.classbubble p {
+  font-size: 1vw;
+  margin: 0;
+  line-height: 1.4;
+  text-shadow: 0 0 8px #ff69b4;
+  animation: classTextPulse 1.5s ease-in-out infinite alternate;
+}
+
+#class-bubble        { animation-delay: 1s; }
+#class-bubble-two    { animation-delay: 6s; }
+#class-bubble-three  { animation-delay: 11s; }
+#class-bubble-four   { animation-delay: 16s; }
+
+@keyframes classBubbleSmooth {
+  0%   { opacity: 0; transform: translate(-50%, 10%) scale(0.7); }
+  15%  { opacity: 1; transform: translate(-50%, 0%) scale(1); }
+  85%  { opacity: 1; transform: translate(-50%, 0%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, 10%) scale(0.9); }
+}
+
+@keyframes classTextPulse {
+  0%   { text-shadow: 0 0 6px rgba(255,182,193,0.5); }
+  100% { text-shadow: 0 0 16px rgba(255,182,193,1); }
+}
+
+
+/* ============================================================
+   🌸 RETURN BUTTON — Full-Size Match to Class Buttons
+============================================================ */
+#return-class {
+  flex: 1 1 20%;
+  max-width: 250px;
+  height: 220px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  font-family: 'Comic Sans MS', cursive;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  font-size: 1.2rem;
+  color: #fff;
+
+  border: 3px solid #fff;
+  border-radius: 25px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
+  box-shadow: 0 0 25px rgba(255, 182, 193, 0.7);
+
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+  transition: all 0.3s ease-in-out;
+  margin-bottom: 6vh;
+}
+
+/* Hover and focus effects identical to class buttons */
+#return-class:hover {
+  transform: scale(1.1) rotate(-2deg);
+  background: linear-gradient(135deg, #ff69b4, #ba55d3, #87cefa);
+  box-shadow: 0 0 40px rgba(255, 182, 193, 1);
+  text-shadow: 0 0 12px #fff;
+}
+
+#return-class:active {
+  transform: scale(1.05);
+  filter: brightness(1.15);
+}
+
+#return-class:focus {
+  outline: none;
+  box-shadow:
+    0 0 0 4px rgba(255, 182, 193, 0.7),
+    0 0 25px rgba(255, 182, 193, 0.8);
+}
 
 /* ============================================================
    🌈 END OF CLASS SELECTION PAGE STYLES

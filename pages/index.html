@@ -60,7 +60,7 @@
         </p>
       
 
-        <div id="landing-buttons">
+        <div id="landing-buttons" class="ret-but">
         <button id="start-btn">New Game</button>
         <button id="continue-btn" style="display:none;">Continue</button>
         <button id="load-btn">Players</button>
@@ -91,7 +91,11 @@
       <img src="../images/float_two.png" id="naming-unicorn2" />
       <img src="../images/princess.png" id="princess" />
 
-      <div id="speech-bubble"><p>"Every Princess needs a strong name!"</p></div>
+      <div id="speech-bubble" class="namebubble"><p>"Nice to meet you!"</p></div>
+      <div id="speech-bubble-two" class="namebubble"><p>My name is Ariana!</p></div>
+      <!-- <div id="speech-bubble-three" class="namebubble"><p>"Welcome to The Unicorn Isles!</p></div> -->
+      <div id="speech-bubble-four" class="namebubble"><p>"Im going to show you around today!"</p></div>
+      <div id="speech-bubble-five" class="namebubble"><p>"What is your name?"</p></div>
 
       <div id="intro-name-box">
         <div class="input-container">
@@ -109,33 +113,56 @@
        🌙 CLASS SELECTION
   ============================================================ -->
   <section id="class-selection-page" class="screen">
-    <img src="../images/float_three.png" id="class-unicorn2" alt="Floating unicorn" />
-    <h2 class="page-title">✨ What Kind of Princess Are You? ✨</h2>
-    <div class="class-options">
-      <button class="class-btn" data-class="glitterGuardian">
-        GLITTER GUARDIAN <br><br>
-        <p class="class-desc">Protect unicorns with courage and magical strength.</p>
-        <img src="../images/guardian_icon.png" class="hover-icon" />
-      </button>
+    <div id="class-wrapper" class = "screen_wrapper">
+    
+      <img src="../images/float_three.png" id="class-unicorn2" alt="Floating unicorn" />
+    
+      <div class="fireball fireball1"></div>
+      <div class="fireball fireball2"></div>
+      <div class="fireball fireball3"></div>
+      <div class="fireball fireball4"></div>
+      <div class="fireball fireball5"></div>
+      <div class="fireball fireball6"></div>
+    
+      <h2 class="page-title">✨ What Kind of Princess Are You? ✨</h2>
+    
+      <div class="class-options">
+        <button class="class-btn" data-class="glitterGuardian">
+          GLITTER GUARDIAN
+          <p class="class-desc">Protect unicorns with courage and magical strength.</p>
+          <img src="../images/guardian_icon.png" class="hover-icon" />
+        </button>
 
-      <button class="class-btn" data-class="starSage">
-        STAR SAGE <br><br>
-        <p class="class-desc">Outsmart mysterious creatures with magical knowledge.</p>
-        <img src="../images/starsage_icon.png" class="hover-icon" />
-      </button>
+        <button class="class-btn" data-class="starSage">
+          STAR SAGE
+          <p class="class-desc">Outsmart mysterious creatures with magical knowledge.</p>
+          <img src="../images/starsage_icon.png" class="hover-icon" />
+        </button>
 
-      <button class="class-btn" data-class="moonflower">
-        MOONFLOWER MYSTIC <br><br>
-        <p class="class-desc">Heal and protect with the gentle light of moonflowers.</p>
-        <img src="../images/moonflower_icon.png" class="hover-icon" />
-      </button>
+        <button class="class-btn" data-class="moonflower">
+          MOONFLOWER MYSTIC
+          <p class="class-desc">Heal and protect with the gentle light of moonflowers.</p>
+          <img src="../images/moonflower_icon.png" class="hover-icon" />
+        </button>
 
-      <button class="class-btn" data-class="silverArrow">
-        SILVER ARROW <br><br>
-        <p class="class-desc">Guide sparkling arrows to defend your unicorn allies.</p>
-        <img src="../images/silver_icon.png" class="hover-icon" />
-      </button>
-    </div>
+        <button class="class-btn" data-class="silverArrow">
+          SILVER ARROW
+          <p class="class-desc">Guide sparkling arrows to defend your unicorn allies.</p>
+          <img src="../images/silver_icon.png" class="hover-icon" />
+          
+        </button>
+
+        <button id="return-class" class = "ret-but">Return</button>
+
+        <div id="class-bubble"  class="classbubble"><p>"Every Princess in The Unicorn Isles has special training"</p></div>
+        <div id="class-bubble-two" class="classbubble"><p>"Some are feirce fighters, and some know magic spells!"</p></div>
+        <div id="class-bubble-three" class="classbubble"><p>"Mystics have healing powers, and Silver Arrows are deadly from far!"</p></div>
+        <div id="class-bubble-four" class="classbubble"><p>"Which kind of Princess are you?"</p></div>
+
+        
+      </div>
+      </div>
+   </div> 
   </section>
 
 

@@ -5,6 +5,7 @@
    ✦ Class definitions & base stats
    ✦ Player creation logic
    ✦ Screen transitions to difficulty select
+   ✦ Return button navigation
    ✦ Initial save creation
 ============================================================ */
 
@@ -66,23 +67,6 @@ const classes = {
 
 
 /* ============================================================
-   🧭 UNIVERSAL SCREEN SWITCHER
-============================================================ */
-function showScreen(nextId) {
-  document.querySelectorAll(".screen").forEach((screen) => {
-    screen.classList.remove("active");
-    screen.style.display = "none";
-  });
-
-  const nextScreen = document.getElementById(nextId);
-  if (nextScreen) {
-    nextScreen.classList.add("active");
-    nextScreen.style.display = "flex";
-  }
-}
-
-
-/* ============================================================
    👑 PLAYER CREATION LOGIC
 ============================================================ */
 function createPlayer(selectedClass) {
@@ -106,22 +90,19 @@ function createPlayer(selectedClass) {
     armorUpgrades: [],
   };
 
-  // Sync global state
-  player.name = window.playerName;
   window.player = player;
 
-  // 💾 Initial save
+  // 💾 Save initial state
   if (typeof saveGame === "function") {
     saveGame();
-    console.log("💾 Initial player save created after class selection.");
+    console.log("💾 Player saved after class selection.");
   }
 
   // 🧩 Debug summary
   console.group("🎀 Player Created");
   console.log("Name:", player.name);
   console.log("Class:", player.classKey);
-  console.log("Base Stats:", player.baseStats);
-  console.log("Current Stats:", player.currentStats);
+  console.log("Stats:", player.currentStats);
   console.log("Attacks:", player.classAttacks);
   console.groupEnd();
 
@@ -130,44 +111,53 @@ function createPlayer(selectedClass) {
 
 
 /* ============================================================
-   ✨ CLASS SELECTION HANDLER (Single OK + Smooth Flow)
+   ✨ CLASS SELECTION HANDLER
 ============================================================ */
-const classButtons = document.querySelectorAll(".class-btn");
+document.addEventListener("DOMContentLoaded", () => {
+  const classButtons = document.querySelectorAll(".class-btn");
+  const returnButton = document.getElementById("return-class");
 
-classButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const selectedClass = button.dataset.class;
-    window.player = createPlayer(selectedClass);
-    if (!window.player) return;
+  // 🧩 Attach class button listeners
+  classButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const selectedClass = button.dataset.class;
+      const player = createPlayer(selectedClass);
+      if (!player) return;
 
-    // 💾 Silent save (no internal alert)
-    if (typeof window.saveGame === "function") {
-      window.saveGame(false);
-    }
-
-    // 🎯 Debug info
-    console.group("=== PLAYER SELECTED ===");
-    console.log("Name:", window.player.name);
-    console.log("Class Key:", window.player.classKey);
-    console.log("Level:", window.player.level);
-    console.log("Stats:", window.player.currentStats);
-    console.log("Attacks:", window.player.classAttacks);
-    console.groupEnd();
-
-    // 🌸 Show one clean alert, then move on
-    (window.showAlert || alert)(
-      `🌸 Are you ready to begin your adventure? 🌸`,
-      () => {
-        showScreen("difficulty-screen");
-        console.log("🌸 Transitioned to difficulty screen after OK.");
+      // 💾 Optional silent save
+      if (typeof window.saveGame === "function") {
+        window.saveGame(false);
       }
-    );
 
-    console.log(`✨ Class selected: ${selectedClass} — waiting for OK to continue.`);
+      // 🌸 Personalized message
+      const playerName = window.playerName || "Adventurer";
+
+      // 💬 Use custom showAlert if available
+      if (typeof window.showAlert === "function") {
+        window.showAlert(
+          `Let's go ${playerName}, the Unicorns need your help!`,
+          () => {
+            showScreen("difficulty-screen");
+            console.log("🌸 Transitioned to difficulty screen after OK.");
+          }
+        );
+      } else {
+        alert(`Let's go ${playerName}, the Unicorns need your help!`);
+        showScreen("difficulty-screen");
+      }
+
+      console.log(`✨ Class selected: ${selectedClass}`);
+    });
   });
+
+  // 🔙 Return button logic
+  if (returnButton) {
+    returnButton.addEventListener("click", () => {
+      console.log("🔙 Return button clicked — going back to landing page.");
+      showScreen("landing-page");
+    });
+  }
 });
-
-
 
 
 /* ============================================================

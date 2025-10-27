@@ -98,6 +98,18 @@
   box-shadow: 0 0 20px rgba(255, 182, 193, 0.7);
   z-index: 5;
   transition: all 0.3s ease;
+  opacity: 0;
+  animation: showNameBox 1.5s ease-out forwards;
+  animation-delay: 21s; 
+}
+
+@keyframes showNameBox {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 #intro-name-box:hover {
@@ -148,9 +160,9 @@
 }
 
 /* ============================================================
-   SPEECH BUBBLE – Centered near Princess Necklace
+   🌸 NAME BUBBLES – Sequential Dialogue Animation
 ============================================================ */
-#speech-bubble {
+.namebubble {
   position: absolute;
   top: 73%;
   left: 50%;
@@ -168,14 +180,14 @@
   font-family: 'Comic Sans MS', cursive;
   color: #2b2a2c;
   text-align: center;
-  z-index: 10;
+  z-index: 5;
   opacity: 0;
   pointer-events: none;
-  /* 🌸 smoother appear/fade sequence */
-  animation: bubbleSmooth 5s ease-in-out forwards 0.5s;
+  animation: bubbleSmooth 4s ease-in-out forwards;
 }
 
-#speech-bubble::before {
+/* Bubble tail */
+.namebubble::before {
   content: "";
   position: absolute;
   top: -15px;
@@ -187,8 +199,9 @@
   filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
 }
 
-#speech-bubble p {
-  font-size: 1.2vw;
+/* Text inside bubble */
+.namebubble p {
+  font-size: 1vw;
   margin: 0;
   line-height: 1.4;
   text-shadow: 0 0 8px #ff69b4;
@@ -196,7 +209,17 @@
 }
 
 /* ============================================================
-   ANIMATIONS
+   ✨ SEQUENTIAL TIMING
+   (Each bubble fades in/out one after another)
+============================================================ */
+#speech-bubble       { animation-delay: 1s; }
+#speech-bubble-two   { animation-delay: 6s; }
+#speech-bubble-three { animation-delay: 11s; }
+#speech-bubble-four  { animation-delay: 11s; }
+#speech-bubble-five  { animation-delay: 16s; }
+
+/* ============================================================
+   ✨ ANIMATIONS
 ============================================================ */
 @keyframes bubbleSmooth {
   0% {
@@ -218,9 +241,26 @@
 }
 
 @keyframes textPulse {
-  0% { text-shadow: 0 0 6px rgba(255, 182, 193, 0.5); }
-  100% { text-shadow: 0 0 16px rgba(255, 182, 193, 1); }
+  0%   { text-shadow: 0 0 6px rgba(255,182,193,0.5); }
+  100% { text-shadow: 0 0 16px rgba(255,182,193,1); }
 }
+
+/* ============================================================
+   ✨ NAME BOX DELAYED FADE-IN (after bubbles)
+============================================================ */
+#intro-name-box {
+  opacity: 0;
+  animation: showNameBox 1.5s ease-out forwards;
+  animation-delay:16s; /* waits until all bubbles finish */
+}
+
+@keyframes showNameBox {
+  0%   { opacity: 0; }
+  80%  { opacity: 1; }
+  100% { opacity: 1;}
+}
+
+
 
 /* ============================================================
    RESPONSIVE ADJUSTMENTS
