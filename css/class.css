@@ -285,6 +285,71 @@
   }
 }
 
+
 /* ============================================================
    🌸 END OF CLASS SELECTION PAGE STYLES
 ============================================================ */
+
+
+/* ============================================================
+   ✨ FINAL CLASS BUTTON COLOR THEMES (Refined + Accurate)
+============================================================ */
+
+/* 🛡️ Glitter Guardian — gold & crimson */
+.class-btn[data-class="glitterGuardian"] {
+  background: linear-gradient(135deg, #ffd700, #ff4500, #ffb347);
+  box-shadow: 0 0 25px rgba(255, 140, 0, 0.9);
+}
+.class-btn[data-class="glitterGuardian"]:hover {
+  background: linear-gradient(135deg, #ff4500, #ffd700, #ff6347);
+  box-shadow: 0 0 45px rgba(255, 99, 71, 1);
+}
+
+/* 🔮 Star Sage — deep purple & celestial white */
+.class-btn[data-class="starSage"] {
+  background: linear-gradient(135deg, #4b0082, #8a2be2, #ffffff);
+  box-shadow: 0 0 25px rgba(180, 160, 255, 0.9);
+}
+.class-btn[data-class="starSage"]:hover {
+  background: linear-gradient(135deg, #8a2be2, #b19cd9, #ffffff);
+  box-shadow: 0 0 45px rgba(200, 180, 255, 1);
+}
+
+/* 🌿 Moonflower — healing blue & green */
+.class-btn[data-class="moonflower"] {
+  background: linear-gradient(135deg, #00bfff, #32cd32, #7fffd4);
+  box-shadow: 0 0 25px rgba(50, 205, 50, 0.8);
+}
+.class-btn[data-class="moonflower"]:hover {
+  background: linear-gradient(135deg, #32cd32, #00bfff, #adff2f);
+  box-shadow: 0 0 45px rgba(0, 191, 255, 1);
+}
+
+/* 🎯 Silver Arrow — white & rose-pink elegance */
+.class-btn[data-class="silverArrow"] {
+  background: linear-gradient(135deg, #ffffff, #ffc0cb, #ffe4e1);
+  box-shadow: 0 0 25px rgba(255, 182, 193, 0.8);
+}
+.class-btn[data-class="silverArrow"]:hover {
+  background: linear-gradient(135deg, #ffc0cb, #ffffff, #ffb6c1);
+  box-shadow: 0 0 45px rgba(255, 182, 193, 1);
+}
+
+
+/* ============================================================
+   💥 CLASS BUTTON TITLE ENHANCEMENTS (Sharper, Bolder Titles)
+============================================================ */
+.class-btn {
+  font-size: 1.4vw;               /* 🔹 Slightly larger title */
+  font-weight: 900;               /* 🔹 Strong boldness */
+  letter-spacing: 0.5px;          /* 🔹 Subtle spacing for clarity */
+  text-shadow: none !important;   /* ❌ Removes glow for sharper text */
+  color: #fff;                    /* ✅ Keep clean white text for contrast */
+  text-transform: uppercase;      /* ✨ Optional: Makes class names stand out more */
+}
+
+/* Ensure descriptions still glow softly below */
+.class-btn .class-desc {
+  font-weight: 600;
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+}

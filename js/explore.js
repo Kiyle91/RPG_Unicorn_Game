@@ -114,6 +114,57 @@ function showDamageText(text, x, y, color = "#ff69b4") {
   setTimeout(() => div.remove(), 1000);
 }
 
+/* ------------------------------------------------------------
+   🌈 Fairy Attack Burst (visual feedback when player attacks)
+------------------------------------------------------------ */
+function showAttackEffect(x, y) {
+  // 💖 Central aura
+  const aura = document.createElement("div");
+  aura.classList.add("fairy-aura");
+  const hue = Math.floor(Math.random() * 360);
+  aura.style.setProperty("--aura-color", `hsl(${hue}, 100%, 75%)`);
+  aura.style.left = `${x}px`;
+  aura.style.top = `${y}px`;
+  document.body.appendChild(aura);
+
+  // 🌟 Sparkles around it
+  const sparkleCount = 20;
+  for (let i = 0; i < sparkleCount; i++) {
+    const s = document.createElement("div");
+    s.classList.add("fairy-sparkle");
+    s.style.setProperty("--sparkle-color", `hsl(${hue}, 100%, 85%)`);
+    s.style.left = `${x}px`;
+    s.style.top = `${y}px`;
+    document.body.appendChild(s);
+
+    const angle = Math.random() * 2 * Math.PI;
+    const dist = Math.random() * 60 + 20;
+    const tx = Math.cos(angle) * dist;
+    const ty = Math.sin(angle) * dist;
+
+    s.animate(
+      [
+        { transform: `translate(${tx}px, ${ty}px) scale(1)`, opacity: 1 },
+        { transform: `translate(${tx * 1.2}px, ${ty * 1.2}px) scale(0.2)`, opacity: 0 },
+      ],
+      { duration: 600 + Math.random() * 300, easing: "linear", fill: "forwards" }
+    );
+
+    setTimeout(() => s.remove(), 800);
+  }
+
+  // remove aura after burst
+  aura.animate(
+    [
+      { transform: "translate(-50%, -50%) scale(0.8)", opacity: 1 },
+      { transform: "translate(-50%, -50%) scale(1.6)", opacity: 0 }
+    ],
+    { duration: 700, easing: "ease-out", fill: "forwards" }
+  );
+  setTimeout(() => aura.remove(), 700);
+}
+
+
 /* ============================================================
    🎮 BOOTSTRAP
 ============================================================ */
@@ -250,7 +301,7 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         const now = performance.now();
         if (now - this.lastAttack > this.attackCooldown) {
-          damagePlayer(10);
+          damagePlayer(3);
           this.lastAttack = now;
         }
       }
@@ -289,6 +340,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const now = performance.now();
     if (now - player.lastAttack < player.attackCooldown) return;
     player.lastAttack = now;
+    const canvas = document.getElementById("explore-canvas");
+    const rect = canvas.getBoundingClientRect();
+    showAttackEffect(rect.left + player.x, rect.top + player.y);
+
+    player.mana = Math.max(0, player.mana - 3);
+    updateManaBar();
+
     let hits = 0;
     for (const enemy of enemies) {
       const dist = Math.hypot(enemy.x - player.x, enemy.y - player.y);
@@ -303,6 +361,7 @@ document.addEventListener("DOMContentLoaded", () => {
       updateManaBar();
     }
   }
+  
   window.playerAttack = playerAttack;
 
   /* ----------------------------------------------------------
@@ -339,6 +398,24 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ==========================================================
      🔁 Main Loop
   ========================================================== */
+  /* ============================================================
+   🔵 Passive Mana Regeneration
+  ============================================================ */
+  function startManaRegen() {
+    if (!player) return;
+    // Clear old regen loop if any (avoid stacking)
+    if (window.__manaRegenLoop) clearInterval(window.__manaRegenLoop);
+
+    window.__manaRegenLoop = setInterval(() => {
+      if (!exploreRunning || uiState !== "explore" || !player) return;
+      if (player.mana < player.maxMana) {
+        player.mana = Math.min(player.maxMana, player.mana + 1); // 💧 +1 per second
+        updateManaBar();
+      }
+    }, 2000); // every second
+  }
+
+  
   function step() {
     if (!exploreRunning || !player) {
       window.exploreFrameId = requestAnimationFrame(step);
@@ -407,7 +484,8 @@ document.addEventListener("DOMContentLoaded", () => {
       };
       window.player = player;
     }
-    if (!enemies || enemies.length === 0) spawnEnemies(4);
+    setInterval(() => {
+      if (!enemies || enemies.length === 0) {spawnEnemies(1);}}, 6000);
     drawBackground();
     drawMap();
     drawPlayer();
@@ -415,6 +493,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateManaBar();
     exploreRunning = true;
     step();
+    startManaRegen();
   }
   window.startExploreGame = startExploreGame;
 
