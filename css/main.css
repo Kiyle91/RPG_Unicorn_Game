@@ -172,8 +172,8 @@ body:has(.screen.active) {
   text-align: center;
 
   /* 📏 Size & spacing */
-  min-height: 90vh;
-  min-width: 90vw;
+  max-height: 90vh;
+  max: 90vw;
   padding: 50px 40px 80px 40px;
   border-radius: 30px;
 
