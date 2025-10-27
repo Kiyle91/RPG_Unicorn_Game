@@ -88,7 +88,7 @@
 #player-hp-container {
   position: absolute;
   bottom: 10%;
-  left: 15%;
+  left: 50;
   transform: translateX(-50%);
   width: 20vw;
   height: 15px;

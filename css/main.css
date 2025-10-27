@@ -125,6 +125,11 @@ html, body {
   100% { background-position: 0% 50%; }
 }
 
+body:has(.screen.active) {
+  overflow: hidden !important;
+  height: 100vh;
+}
+
 /* ============================================================
    INTRO BOX
 ============================================================ */
