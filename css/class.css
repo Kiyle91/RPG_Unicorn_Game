@@ -10,7 +10,7 @@
    LAYOUT & BACKGROUND
 ============================================================ */
 #class-wrapper {
-  display: flex;
+  display: absolute;
   flex-direction: column;
   justify-content: center;
   align-items: center;

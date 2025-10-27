@@ -251,7 +251,7 @@
 #intro-name-box {
   opacity: 0;
   animation: showNameBox 1.5s ease-out forwards;
-  animation-delay:16s; /* waits until all bubbles finish */
+  animation-delay: 16s; /* waits until all bubbles finish */
 }
 
 @keyframes showNameBox {

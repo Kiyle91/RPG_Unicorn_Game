@@ -140,11 +140,7 @@ html, body {
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
-/*
-body:has(.screen.active) {
-  overflow: hidden !important;
-  height: 100vh;
-} */
+
 
 /* ============================================================
    INTRO BOX
@@ -230,10 +226,10 @@ body:has(.screen.active) {
 
 @keyframes panGrass {
   0%   { transform: translate(0%, 0%) scale(1); }
-  25%  { transform: translate(-2%, -1%) scale(1.02); }
-  50%  { transform: translate(2%, -2%) scale(1.03); }
-  75%  { transform: translate(-1%, 1%) scale(1.02); }
-  100% { transform: translate(0%, 0%) scale(1); }
+  25%  { transform: translate(-10%, -10%) scale(1.02); }
+  50%  { transform: translate(5%, -5%) scale(1.03); }
+  75%  { transform: translate(-5%, 5%) scale(1.02); }
+  100% { transform: translate(-5%, 5%) scale(1); }
 }
 
 
