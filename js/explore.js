@@ -19,10 +19,24 @@ let enemies = [];
    💾 GLOBAL SAVE / LOAD SYSTEM — Always Available
 ============================================================ */
 window.saveGame = (showAlert = true) => {
+  const MAX_SAVES = 5; // 🔒 Limit number of individual character saves
   const p = window.player;
   if (!p) {
     console.warn("⚠️ No player found to save!");
     if (showAlert) (window.showAlert || alert)("⚠️ No player data to save!");
+    return;
+  }
+
+  // 🧩 Check existing save slots (character saves only)
+  const saves = Object.keys(localStorage).filter(
+    (k) => k.startsWith("olivia_save_") && k !== "olivia_save"
+  );
+
+  // 🛑 Stop new save creation if limit reached (unless overwriting same character)
+  if (saves.length >= MAX_SAVES && !localStorage.getItem(`olivia_save_${p.name}`)) {
+    const msg = `⚠️ You have reached the maximum of ${MAX_SAVES} save slots.\nPlease delete an old save before creating a new one.`;
+    if (showAlert) (window.showAlert || alert)(msg);
+    console.warn(msg);
     return;
   }
 
@@ -82,6 +96,7 @@ window.loadSpecificSave = (key) => window.loadGame(key);
 window.addEventListener("beforeunload", () => {
   if (window.player) window.saveGame(false);
 });
+
 
 /* ------------------------------------------------------------
    📎 Utility: Floating damage text (uses realtime_combat.css)
@@ -403,22 +418,38 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   window.startExploreGame = startExploreGame;
 
-  /* ==========================================================
-     🏰 Return Home
-  ========================================================== */
-  const returnHomeBtn = document.getElementById("return-home");
-  if (returnHomeBtn) {
-    returnHomeBtn.addEventListener("click", () => {
-      (window.showAlert || window.alert)(
-        "Are you sure you want to return home? Your current progress will be lost.",
-        () => {
-          exploreRunning = false;
-          cancelAnimationFrame(window.exploreFrameId);
-          window.location.reload();
-        }
-      );
-    });
-  }
+/* ==========================================================
+   🏰 Return Home (Pause + Confirmation + Safe Resume)
+========================================================== */
+const returnHomeBtn = document.getElementById("return-home");
+if (returnHomeBtn) {
+  returnHomeBtn.addEventListener("click", () => {
+    // 🧩 Pause game while confirming
+    exploreRunning = false;
+    uiState = "paused";
+    console.log("⏸️ Game paused — waiting for home confirmation.");
+
+    (window.showAlert || window.alert)(
+      "Are you sure you want to return home? Your current progress will be lost.",
+      // ✅ On Confirm → end game and reload
+      () => {
+        cancelAnimationFrame(window.exploreFrameId);
+        console.log("🏰 Returning home — reloading game.");
+        window.location.reload();
+      },
+      // ❌ On Cancel → resume game safely
+      () => {
+        if (window.exploreFrameId) cancelAnimationFrame(window.exploreFrameId);
+        exploreRunning = true;
+        uiState = "explore";
+        window.exploreFrameId = requestAnimationFrame(step);
+        console.log("▶️ Return home cancelled — game resumed safely.");
+      }
+    );
+  });
+}
+
+
 
   /* ==========================================================
      🧩 Overlay Controls (Inventory / Settings / Controls / Quests)
