@@ -18,11 +18,11 @@ let enemies = [];
 /* ============================================================
    💾 GLOBAL SAVE / LOAD SYSTEM — Always Available
 ============================================================ */
-window.saveGame = () => {
+window.saveGame = (showAlert = true) => {
   const p = window.player;
   if (!p) {
     console.warn("⚠️ No player found to save!");
-    (window.showAlert || alert)("⚠️ No player data to save!");
+    if (showAlert) (window.showAlert || alert)("⚠️ No player data to save!");
     return;
   }
 
@@ -42,7 +42,7 @@ window.saveGame = () => {
   localStorage.setItem(key, JSON.stringify(saveData));
 
   console.log(`💾 Game saved successfully → ${key}`);
-  (window.showAlert || alert)(`💾 Game saved as "${p.name}"!`);
+  if (showAlert) (window.showAlert || alert)(`💾 Game saved as "${p.name}"!`);
 };
 
 window.loadGame = (slotKey = "olivia_save") => {
@@ -80,7 +80,7 @@ window.loadSpecificSave = (key) => window.loadGame(key);
 
 // Auto-save before unload
 window.addEventListener("beforeunload", () => {
-  if (window.player) window.saveGame();
+  if (window.player) window.saveGame(false);
 });
 
 /* ------------------------------------------------------------

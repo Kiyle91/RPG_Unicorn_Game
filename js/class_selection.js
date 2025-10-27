@@ -130,7 +130,7 @@ function createPlayer(selectedClass) {
 
 
 /* ============================================================
-   ✨ CLASS SELECTION HANDLER
+   ✨ CLASS SELECTION HANDLER (Single OK + Smooth Flow)
 ============================================================ */
 const classButtons = document.querySelectorAll(".class-btn");
 
@@ -140,7 +140,12 @@ classButtons.forEach((button) => {
     window.player = createPlayer(selectedClass);
     if (!window.player) return;
 
-    // 🎯 Debug
+    // 💾 Silent save (no internal alert)
+    if (typeof window.saveGame === "function") {
+      window.saveGame(false);
+    }
+
+    // 🎯 Debug info
     console.group("=== PLAYER SELECTED ===");
     console.log("Name:", window.player.name);
     console.log("Class Key:", window.player.classKey);
@@ -149,14 +154,20 @@ classButtons.forEach((button) => {
     console.log("Attacks:", window.player.classAttacks);
     console.groupEnd();
 
-    // Smooth transition
-    console.log(`✨ Class selected: ${selectedClass} — transitioning in 500ms...`);
-    setTimeout(() => {
-      showScreen("difficulty-screen");
-      console.log("🌸 Transitioned to difficulty screen.");
-    }, 500);
+    // 🌸 Show one clean alert, then move on
+    (window.showAlert || alert)(
+      `🌸 Game saved! Welcome, ${window.player.name}!`,
+      () => {
+        showScreen("difficulty-screen");
+        console.log("🌸 Transitioned to difficulty screen after OK.");
+      }
+    );
+
+    console.log(`✨ Class selected: ${selectedClass} — waiting for OK to continue.`);
   });
 });
+
+
 
 
 /* ============================================================
