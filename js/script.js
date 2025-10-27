@@ -47,14 +47,14 @@ document.addEventListener("click", (e) => {
     [
       { transform: "translate(-50%, -50%) scale(0.3)", opacity: 1 },
       { transform: "translate(-50%, -50%) scale(1.4)", opacity: 0.6 },
-      { transform: "translate(-50%, -50%) scale(1.8)", opacity: 0 },
+      { transform: "translate(-50%, -50%) scale(5.0)", opacity: 0 },
     ],
     { duration: 700, easing: "ease-out", fill: "forwards" }
   );
   setTimeout(() => aura.remove(), 650);
 
   /* ✨ SMALL SPARKLES */
-  const sparkleCount = 60;
+  const sparkleCount = 25;
   for (let i = 0; i < sparkleCount; i++) {
     const sparkle = document.createElement("div");
     sparkle.classList.add("fairy-sparkle");
