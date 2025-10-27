@@ -156,7 +156,7 @@ classButtons.forEach((button) => {
 
     // 🌸 Show one clean alert, then move on
     (window.showAlert || alert)(
-      `🌸 Game saved! Welcome, ${window.player.name}!`,
+      `🌸 So your name is ${window.player.name}?  -  That is such a nice name! 🌸`,
       () => {
         showScreen("difficulty-screen");
         console.log("🌸 Transitioned to difficulty screen after OK.");

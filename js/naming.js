@@ -43,7 +43,7 @@ confirmBtn.addEventListener("click", () => {
 
   // 🚫 Prevent blank input
   if (!playerName) {
-    showAlert("Please enter your name!");
+    showAlert("Every princess has a name!  -   What is yours?");
     return;
   }
 

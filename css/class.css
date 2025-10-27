@@ -9,7 +9,7 @@
    LAYOUT & BACKGROUND
 ============================================================ */
 #class-selection-page {
-  display: fixed;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
@@ -64,6 +64,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: stretch; /* ✅ Equal height buttons */
   gap: 4vh 3vw;
   width: 100%;
   max-width: 1200px;
@@ -72,16 +73,15 @@
 }
 
 /* ============================================================
-   CLASS BUTTONS (Unified Explore Gradient)
+   CLASS BUTTONS
 ============================================================ */
 .class-btn {
+  flex: 1 1 20%;
+  max-width: 250px;
+  height: 220px; /* ✅ Fixed height for consistency */
   position: relative;
   border: 3px solid #fff;
   border-radius: 25px;
-  width: 22vw;
-  min-width: 180px;
-  min-height: 25vh;
-  padding: 3vh 2vw;
   cursor: pointer;
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
   box-shadow: 0 0 25px rgba(255, 182, 193, 0.7);
@@ -91,10 +91,11 @@
   justify-content: center;
   align-items: center;
   color: #fff;
-  font-weight: bold;
+  font-weight: 900;
   text-align: center;
   overflow: visible;
-  margin-bottom: 10vh;
+  margin-bottom: 6vh;
+  letter-spacing: 0.5px;
 }
 
 /* Hover Glow */
@@ -108,11 +109,12 @@
    CLASS DESCRIPTIONS
 ============================================================ */
 .class-btn .class-desc {
-  font-size: 1.2vw;
+  font-size: 1rem;
   margin-top: 1vh;
   line-height: 1.4;
   color: #fff;
-  text-shadow: 0 0 8px #ffb6c1, 0 0 12px #fff;
+  font-weight: 600;
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
 }
 
 /* ============================================================
@@ -120,12 +122,12 @@
 ============================================================ */
 .class-btn .hover-icon {
   position: absolute;
-  bottom: -9vh;
+  bottom: -7vh; /* ✅ Normalized across all classes */
   left: 50%;
   transform: translateX(-50%) scale(0.5);
   opacity: 0;
-  width: 10vh;
-  height: 10vh;
+  width: 9vh;
+  height: 9vh;
   pointer-events: none;
   transition: opacity 0.4s ease, transform 0.4s ease, filter 0.4s ease;
   filter: drop-shadow(0 0 2vh rgba(255, 255, 255, 0.7));
@@ -149,91 +151,62 @@
 /* ============================================================
    RESPONSIVE ADJUSTMENTS
 ============================================================ */
-
-/* Tablets */
 @media (max-width: 912px) {
   #class-selection-page { padding: 4vh 5vw; }
   .class-options { gap: 3vh 2vw; margin-top: 4vh; }
   .class-btn {
     width: 38vw;
-    min-height: 20vh;
+    height: 200px;
     margin-bottom: 4vh;
   }
-  .class-btn .hover-icon { bottom: -4vh; width: 7vh; height: 7vh; }
+  .class-btn .hover-icon { bottom: -5vh; width: 7vh; height: 7vh; }
   .class-btn .class-desc { font-size: 2.2vw; }
 }
 
-/* Phones (2x2 Grid) */
 @media (max-width: 768px) {
   #class-selection-page {
-    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 0 6vw;
   }
 
-  #class-selection-page .page-title {
-    font-size: 5.5vw;
-    margin-bottom: 5vh;
-    margin-top: -5vh;
-  }
-
   .class-options {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 3vh 4vw;
-    justify-items: center;
-    align-items: center;
     width: 85%;
     max-width: 550px;
   }
 
   .class-btn {
     width: 36vw;
-    min-height: 14vh;
-    padding: 1.5vh 2vw;
+    height: 180px;
   }
 
   .class-btn .hover-icon { bottom: -4vh; width: 6vh; height: 6vh; }
   .class-btn .class-desc { font-size: 2.5vw; }
 }
 
-/* Small Phones */
 @media (max-width: 480px) {
-  #class-selection-page {
-    padding: 0 8vw;
-    justify-content: center;
-  }
-
-  #class-selection-page .page-title {
-    font-size: 6vw;
-    margin-bottom: 5vh;
-    margin-top: -4vh;
-  }
+  #class-selection-page { padding: 0 8vw; justify-content: center; }
 
   .class-options {
-    display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 2.5vh 3vw;
-    justify-items: center;
     width: 80%;
     max-width: 450px;
   }
 
   .class-btn {
     width: 38vw;
-    min-height: 13vh;
-    padding: 1vh 2vw;
+    height: 150px;
   }
 
   .class-btn .hover-icon { bottom: -3vh; width: 5vh; height: 5vh; }
   .class-btn .class-desc { font-size: 2.9vw; }
 }
 
-/* ============================================================
-   DESKTOP (16:9 / Full Width)
-============================================================ */
 @media (min-width: 1025px) {
   .class-options {
     flex-wrap: nowrap;
@@ -245,57 +218,16 @@
 
   .class-btn {
     width: 18vw;
-    min-height: 28vh;
+    height: 230px;
     margin-bottom: 0;
-    padding: 2.5vh 2vw;
   }
 
-  .class-btn .class-desc { font-size: 1vw; }
-  .class-btn .hover-icon { bottom: -6vh; width: 12vh; height: 12vh; }
+  .class-btn .hover-icon { bottom: -6vh; width: 10vh; height: 10vh; }
 }
 
 /* ============================================================
-   MOBILE WIDTH FIX
+   ✨ CLASS COLOR THEMES
 ============================================================ */
-@media (max-width: 375px) {
-  .class-options {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    justify-items: center !important;
-    align-items: center !important;
-    width: 80% !important;
-    max-width: 350px !important;
-    margin: 0 auto !important;
-    gap: 2.5vh 3vw !important;
-  }
-
-  .class-btn {
-    width: 36vw !important;
-    max-width: 150px !important;
-    min-height: 9vh !important;
-    padding: 1vh 1.5vw !important;
-    border-radius: 1.8vh !important;
-    font-size: 3.6vw !important;
-    box-sizing: border-box;
-  }
-
-  .class-btn .class-desc {
-    font-size: 2.5vw !important;
-    line-height: 1.2 !important;
-  }
-}
-
-
-/* ============================================================
-   🌸 END OF CLASS SELECTION PAGE STYLES
-============================================================ */
-
-
-/* ============================================================
-   ✨ FINAL CLASS BUTTON COLOR THEMES (Refined + Accurate)
-============================================================ */
-
-/* 🛡️ Glitter Guardian — gold & crimson */
 .class-btn[data-class="glitterGuardian"] {
   background: linear-gradient(135deg, #ffd700, #ff4500, #ffb347);
   box-shadow: 0 0 25px rgba(255, 140, 0, 0.9);
@@ -305,7 +237,6 @@
   box-shadow: 0 0 45px rgba(255, 99, 71, 1);
 }
 
-/* 🔮 Star Sage — deep purple & celestial white */
 .class-btn[data-class="starSage"] {
   background: linear-gradient(135deg, #4b0082, #8a2be2, #ffffff);
   box-shadow: 0 0 25px rgba(180, 160, 255, 0.9);
@@ -315,7 +246,6 @@
   box-shadow: 0 0 45px rgba(200, 180, 255, 1);
 }
 
-/* 🌿 Moonflower — healing blue & green */
 .class-btn[data-class="moonflower"] {
   background: linear-gradient(135deg, #00bfff, #32cd32, #7fffd4);
   box-shadow: 0 0 25px rgba(50, 205, 50, 0.8);
@@ -325,31 +255,27 @@
   box-shadow: 0 0 45px rgba(0, 191, 255, 1);
 }
 
-/* 🎯 Silver Arrow — white & rose-pink elegance */
+/* 🎯 Silver Arrow — pink & light blue elegance (with hover rotation) */
 .class-btn[data-class="silverArrow"] {
-  background: linear-gradient(135deg, #ffffff, #ffc0cb, #ffe4e1);
+  background: linear-gradient(135deg, #b0e0e6, #ff69b4, #ffffff);
   box-shadow: 0 0 25px rgba(255, 182, 193, 0.8);
+  margin-bottom: 6vh !important;
+  transform: translateY(1vh); /* ✅ Lowered alignment */
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
+
 .class-btn[data-class="silverArrow"]:hover {
-  background: linear-gradient(135deg, #ffc0cb, #ffffff, #ffb6c1);
+  background: linear-gradient(135deg, #ff69b4, #b0e0e6);
   box-shadow: 0 0 45px rgba(255, 182, 193, 1);
+  transform: translateY(1vh) scale(1.1) rotate(-2deg); /* ✅ Combined motion */
 }
+
+.class-btn[data-class="silverArrow"] .hover-icon {
+  bottom: -7vh !important;
+}
+
 
 
 /* ============================================================
-   💥 CLASS BUTTON TITLE ENHANCEMENTS (Sharper, Bolder Titles)
+   🌈 END OF CLASS SELECTION PAGE STYLES
 ============================================================ */
-.class-btn {
-  font-size: 1.4vw;               /* 🔹 Slightly larger title */
-  font-weight: 900;               /* 🔹 Strong boldness */
-  letter-spacing: 0.5px;          /* 🔹 Subtle spacing for clarity */
-  text-shadow: none !important;   /* ❌ Removes glow for sharper text */
-  color: #fff;                    /* ✅ Keep clean white text for contrast */
-  text-transform: uppercase;      /* ✨ Optional: Makes class names stand out more */
-}
-
-/* Ensure descriptions still glow softly below */
-.class-btn .class-desc {
-  font-weight: 600;
-  text-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
-}
