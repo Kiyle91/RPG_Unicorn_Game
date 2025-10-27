@@ -48,13 +48,12 @@
     <img src="../images/float_one.png" class="unicorn" id="unicorn1" />
     <img src="../images/float_two.png" class="unicorn" id="unicorn2" />
     <img src="../images/float_three.png" class="unicorn" id="unicorn3" />
-    <img src="../images/crown.png" id="crown" />
 
     <div id="intro-box">
       <h1>The Brave Princess and the Unicorn</h1>
       <p>
         Welcome, brave adventurer, to a land of sparkling forests, rainbow rivers, and skies alive with unicorns!
-        Solve clever puzzles, uncover treasures, and let your story unfold.
+        Solve clever puzzles, uncover treasures, and let your story unfold.<br><br>
       </p>
 
       <div id="landing-buttons">
@@ -102,6 +101,7 @@
        🌙 CLASS SELECTION
   ============================================================ -->
   <section id="class-selection-page" class="screen">
+    <img src="../images/float_three.png" id="class-unicorn2" alt="Floating unicorn" />
     <h2 class="page-title">✨ What Kind of Princess Are You? ✨</h2>
     <div class="class-options">
       <button class="class-btn" data-class="glitterGuardian">
@@ -135,15 +135,35 @@
        ⚔️ DIFFICULTY SELECTION
   ============================================================ -->
   <section id="difficulty-screen" class="screen">
-    <div id="difficulty-box">
-      <h1>Choose Your Adventure’s Difficulty</h1>
-      <div id="difficulty-buttons">
-        <button class="difficulty-btn" data-difficulty="easy">Easy</button>
-        <button class="difficulty-btn" data-difficulty="medium">Medium</button>
-        <button class="difficulty-btn" data-difficulty="hard">Hard</button>
+  <div id="difficulty-box">
+    <h1>⚔️ Select Difficulty ⚔️</h1>
+    <p>You will face many tough enemies and challenges during your adventure!<br><br>Harder difficulties will increase enemies health and make puzzles tougher! <br><br><br></p>
+
+    <button class="difficulty-btn" data-difficulty="easy">
+      <div class="diff-icon-group">
+        <img src="../images/gem_heart.png" class="diff-icon" alt="Easy Icon" />
       </div>
-    </div>
-  </section>
+      Easy
+    </button>
+
+    <button class="difficulty-btn" data-difficulty="medium">
+      <div class="diff-icon-group">
+        <img src="../images/gem_heart.png" class="diff-icon" alt="Medium Icon" />
+        <img src="../images/gem_heart.png" class="diff-icon" alt="Medium Icon" />
+      </div>
+      Normal
+    </button>
+
+    <button class="difficulty-btn" data-difficulty="hard">
+      <div class="diff-icon-group">
+        <img src="../images/gem_heart.png" class="diff-icon" alt="Hard Icon" />
+        <img src="../images/gem_heart.png" class="diff-icon" alt="Hard Icon" />
+        <img src="../images/gem_heart.png" class="diff-icon" alt="Hard Icon" />
+      </div>
+      Hard
+    </button>
+  </div>
+</section>
 
 
   <!-- ============================================================

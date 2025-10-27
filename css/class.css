@@ -238,11 +238,11 @@
 }
 
 .class-btn[data-class="starSage"] {
-  background: linear-gradient(135deg, #4b0082, #8a2be2, #ffffff);
+  background: linear-gradient(135deg, #4b0082, #8a2be2, #00ffdd);
   box-shadow: 0 0 25px rgba(180, 160, 255, 0.9);
 }
 .class-btn[data-class="starSage"]:hover {
-  background: linear-gradient(135deg, #8a2be2, #b19cd9, #ffffff);
+  background: linear-gradient(135deg, #8a2be2, #b19cd9, #00f7ff);
   box-shadow: 0 0 45px rgba(200, 180, 255, 1);
 }
 
@@ -274,6 +274,39 @@
   bottom: -7vh !important;
 }
 
+/* ============================================================
+   🦄 FLOATING UNICORN (Unicorn 2) ON CLASS PAGE
+============================================================ */
+#class-unicorn2 {
+  position: absolute;
+  top: 12%;
+  right: 8%;
+  width: 10vw;             /* scales with screen */
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;    /* don't block clicks */
+  z-index: 6;              /* behind buttons/title if needed */
+  filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.9));
+  animation: float2 15s linear infinite;  /* reuse existing float2 keyframes */
+}
+
+/* keep the UI above the unicorn if needed */
+#class-selection-page .page-title,
+#class-selection-page .class-options {
+  position: relative;
+  z-index: 3;
+}
+
+/* Responsive: ease off on smaller screens */
+@media (max-width: 912px) {
+  #class-unicorn2 { width: 26vw; top: 8%; right: 4%; }
+}
+@media (max-width: 768px) {
+  #class-unicorn2 { width: 32vw; top: 6%; right: 3%; }
+}
+@media (max-width: 480px) {
+  #class-unicorn2 { display: none; } /* optional: hide on very small phones */
+}
 
 
 /* ============================================================

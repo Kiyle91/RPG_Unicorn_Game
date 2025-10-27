@@ -151,14 +151,13 @@ body:has(.screen.active) {
 
 #intro-box h1 {
   font-size: var(--h1-size);
-  color: #ff69b4;
+  color: #ffffff;
   font-family: 'Comic Sans MS', cursive;
-  text-shadow: 2px 2px 8px #fff;
 }
 
 #intro-box p {
   font-size: var(--intro-font-size);
-  color: #8a2be2;
+  color: #ffffff;
   line-height: 1.6;
 }
 
@@ -235,16 +234,7 @@ button:focus {
   75% { transform: translate(50px,-40px) rotate(15deg); }
 }
 
-#crown {
-  position: absolute;
-  max-height: 50vh;
-  max-width: 40vw;
-  animation: flash 3s infinite ease-in-out;
-}
 
-@keyframes flash {
-  50% { opacity: 1; transform: scale(1.05); }
-}
 
 /* ============================================================
    MUTE BUTTON
@@ -439,7 +429,6 @@ body:has(#explore-page.active) #mute-btn {
 @media (max-width: 1280px) {
   #unicorn2 { display: none; }
   .unicorn { max-height: 20vh; max-width: 20vw; }
-  #crown { max-height: 50vh; max-width: 50vw; }
   #intro-box h1 { font-size: 2rem; }
   #intro-box p { font-size: 1rem; }
   #start-btn { font-size: 1.5rem; padding: 15px 30px; }
