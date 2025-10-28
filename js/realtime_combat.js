@@ -240,31 +240,39 @@ window.showNoManaEffect = function () {
 
 
 // 🩸 Floating damage text
-window.showDamageText = function (text, x, y, color = '#ff69b4') {
+window.showDamageText = function (text, x, y, style = 'damage') {
   const rect = canvas?.getBoundingClientRect?.() ?? { left: 0, top: 0 };
   const screenX = rect.left + x;
   const screenY = rect.top + y - 20;
 
   const div = document.createElement('div');
-  div.className = 'damage-text';
+
+  // If they passed a hex or rgb color, apply inline; otherwise use CSS class
+  if (typeof style === 'string' && style.match(/^#|rgb|hsl/)) {
+    div.classList.add('damage-text');
+    div.style.color = style;
+  } else {
+    div.classList.add(`${style}-text`);
+  }
+
   div.textContent = (typeof text === 'number') ? Math.round(text) : text;
-  div.style.color = color;
+  div.style.fontSize = '30px';
+  div.style.fontWeight = '900';
   div.style.position = 'absolute';
   div.style.left = `${screenX}px`;
   div.style.top = `${screenY}px`;
-  div.style.zIndex = '100000';
-  document.body.appendChild(div);
+  div.style.transform = 'translate(-50%, -50%)';
+  div.style.pointerEvents = 'none';
 
-  div.animate(
-    [
-      { transform: 'translateY(0)', opacity: 1 },
-      { transform: 'translateY(-40px)', opacity: 0 }
-    ],
-    { duration: 1000, easing: 'ease-out', fill: 'forwards' }
-  );
+  const layer = document.getElementById('combat-text-layer') || document.body;
+  layer.appendChild(div);
 
-  setTimeout(() => div.remove(), 1100);
+  setTimeout(() => div.remove(), 1200);
 };
+
+
+
+
 
 window.showAttackEffect = function () {
   const p = getPlayer?.();

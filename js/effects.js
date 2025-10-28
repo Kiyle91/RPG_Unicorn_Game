@@ -103,3 +103,33 @@ function showHealEffect(x, y) {
 // Export helpers globally
 window.playClickEffect = playClickEffect;
 window.showHealEffect = showHealEffect;
+
+
+// 💫 Create the magical cursor element
+const cursor = document.createElement('div');
+cursor.id = 'magic-cursor';
+document.body.appendChild(cursor);
+
+// Move cursor with mouse
+window.addEventListener('mousemove', (e) => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+
+  // Randomly create small sparkles (10% chance per frame)
+  if (Math.random() < 0.1) {
+    const sparkle = document.createElement('div');
+    sparkle.className = 'sparkle';
+    sparkle.style.left = e.clientX + 'px';
+    sparkle.style.top = e.clientY + 'px';
+    document.body.appendChild(sparkle);
+    setTimeout(() => sparkle.remove(), 700);
+  }
+});
+
+// Optional: click pulse
+window.addEventListener('mousedown', () => {
+  cursor.style.transform = 'translate(-50%, -50%) scale(1.4)';
+});
+window.addEventListener('mouseup', () => {
+  cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+});

@@ -12,30 +12,29 @@
 
 
 function updateManaBar() {
-    const bar = document.getElementById('player-mana-bar');
-    const text = document.getElementById('player-mana-text');
-    if (!bar || !text || !player) return;
-    const pct = (player.mana / player.maxMana) * 100;
-    bar.style.width = `${Math.max(0, pct)}%`;
-    text.textContent = `MP: ${player.mana} / ${player.maxMana}`;
-  }
-  window.updateManaBar = updateManaBar;
+  const bar = document.getElementById('player-mana-bar');
+  const text = document.getElementById('player-mana-text');
+  if (!bar || !text || !player) return;
+  const pct = (player.mana / player.maxMana) * 100;
+  bar.style.width = `${Math.max(0, pct)}%`;
+  text.textContent = `MP: ${player.mana} / ${player.maxMana}`;
+}
+window.updateManaBar = updateManaBar;
 
 function updateHPBar() {
-    const bar = document.getElementById('player-hp-bar');
-    const text = document.getElementById('player-hp-text');
-    if (!bar || !text || !player) return;
-    const pct = (player.hp / player.maxHp) * 100;
-    bar.style.width = `${Math.max(0, pct)}%`;
-    const color =
-      pct > 60 ? 'linear-gradient(90deg,#00ff00,#32cd32)' :
-      pct > 30 ? 'linear-gradient(90deg,#ffd700,#ffa500)' :
-                 'linear-gradient(90deg,#ff4d4f,#d9363e)';
-    bar.style.background = color;
-    text.textContent = `HP: ${player.hp} / ${player.maxHp}`;
-  }
-  window.updateHPBar = updateHPBar;
-
+  const bar = document.getElementById('player-hp-bar');
+  const text = document.getElementById('player-hp-text');
+  if (!bar || !text || !player) return;
+  const pct = (player.hp / player.maxHp) * 100;
+  bar.style.width = `${Math.max(0, pct)}%`;
+  const color =
+    pct > 60 ? 'linear-gradient(90deg,#00ff00,#32cd32)' :
+    pct > 30 ? 'linear-gradient(90deg,#ffd700,#ffa500)' :
+               'linear-gradient(90deg,#ff4d4f,#d9363e)';
+  bar.style.background = color;
+  text.textContent = `HP: ${player.hp} / ${player.maxHp}`;
+}
+window.updateHPBar = updateHPBar;
 
 
 /* ------------------------------------------------------------
@@ -45,7 +44,32 @@ window.uiState         = window.uiState ?? 'explore';   // "explore", "inventory
 window.exploreRunning  = window.exploreRunning === true; // boolean
 window.player          = window.player ?? null;          // set by player_data.js or class selection
 window.enemies         = window.enemies ?? [];           // owned by realtime_combat.js
-let keys               = {};                             // input state (local to this file)
+window.keys            = {};                             // input state (global for other systems too)
+
+/* ------------------------------------------------------------
+   ⌨️ Keyboard Input (WASD + Shift, Diagonal, Safe)
+------------------------------------------------------------ */
+const ignoredKeys = ['meta', 'alt', 'control', 'capslock', 'tab'];
+
+window.addEventListener('keydown', (e) => {
+  if (!e.key) return;
+  const key = e.key.toLowerCase();
+  if (ignoredKeys.includes(key)) return;
+  keys[key] = true;
+});
+
+window.addEventListener('keyup', (e) => {
+  if (!e.key) return;
+  const key = e.key.toLowerCase();
+  if (ignoredKeys.includes(key)) return;
+  keys[key] = false;
+});
+
+// Prevent “stuck keys” when the window loses focus
+window.addEventListener('blur', () => {
+  for (let k in keys) keys[k] = false;
+});
+
 
 /* ------------------------------------------------------------
    🎨 Canvas + Context (shared to other systems via event)
@@ -54,35 +78,15 @@ let canvas = null;
 let ctx    = null;
 
 
-const testImg = new Image();
-testImg.src = '../images/canvasbg.png';  // or whatever relative path you think
-testImg.onload = () => {
-  console.log('✅ Background image loaded correctly');
-  ctx.drawImage(testImg, 0, 0, canvas.width, canvas.height);
-};
-testImg.onerror = () => console.error('❌ Could not load background image');
-
-/* ------------------------------------------------------------
-   ⌨️ Keyboard Input (WASD + Shift)
------------------------------------------------------------- */
-window.addEventListener('keydown', (e) => {
-  keys[e.key.toLowerCase()] = true;
-});
-window.addEventListener('keyup', (e) => {
-  keys[e.key.toLowerCase()] = false;
-});
-
 /* ------------------------------------------------------------
    📐 Canvas Sizing
 ------------------------------------------------------------ */
 function resizeCanvas() {
   if (!canvas) return;
   const rect = canvas.getBoundingClientRect();
-  // Set pixel size to CSS size to keep drawing crisp
   canvas.width  = Math.max(1, Math.floor(rect.width));
   canvas.height = Math.max(1, Math.floor(rect.height));
 
-  // Keep player inside bounds after resize
   const p = window.player;
   if (p) {
     const r = (p.size ?? 15) / 2;
@@ -90,6 +94,7 @@ function resizeCanvas() {
     p.y = Math.max(r, Math.min(canvas.height - r, p.y ?? canvas.height / 2));
   }
 }
+
 
 /* ------------------------------------------------------------
    🗺️ Simple Map + Draw Helpers (used by combat renderer too)
@@ -107,7 +112,7 @@ const bgImage = new Image();
 bgImage.src = '../images/canvasbg.png';
 bgImage.onload = () => {
   console.log('🖼️ Background image loaded!');
-  drawBackground(); // draw once loaded
+  drawBackground();
 };
 
 function drawBackground() {
@@ -115,7 +120,7 @@ function drawBackground() {
   if (bgImage.complete && bgImage.naturalWidth > 0) {
     ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
   } else {
-    ctx.fillStyle = '#ffeef6'; // fallback pastel
+    ctx.fillStyle = '#ffeef6';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
 }
@@ -140,31 +145,30 @@ function drawPlayer() {
   ctx.fill();
 }
 
-// Expose for realtime_combat.js
 window.drawBackground = drawBackground;
 window.drawMap        = drawMap;
 window.drawPlayer     = drawPlayer;
 
+
 /* ------------------------------------------------------------
-   💧 Passive Mana Regen (gated by uiState/exploreRunning)
+   💧 Passive Mana Regen
 ------------------------------------------------------------ */
 function startManaRegen() {
   if (window.__manaRegenLoop) clearInterval(window.__manaRegenLoop);
   window.__manaRegenLoop = setInterval(() => {
     if (!window.exploreRunning || window.uiState !== 'explore') return;
-      const p = window.player;
-      if (!p || p.maxMana === null || p.maxMana === undefined) return;
-    if ((p.mana ?? 0) < p.maxMana) {
-      p.mana = Math.min(p.maxMana, (p.mana ?? 0) + 1);
-      // Call only if present to avoid load-order errors
+    const p = window.player;
+    if (!p || p.maxMana == null) return;
+    if (p.mana < p.maxMana) {
+      p.mana = Math.min(p.maxMana, p.mana + 1);
       window.updateManaBar?.();
     }
   }, 500);
 }
 
+
 /* ------------------------------------------------------------
    🔁 Main Explore Loop (movement + clamping)
-   Rendering is handled by realtime_combat.js to avoid double-draw.
 ------------------------------------------------------------ */
 function step() {
   if (!window.exploreRunning) {
@@ -174,14 +178,27 @@ function step() {
 
   const p = window.player;
   if (window.uiState === 'explore' && p && canvas) {
-    // ✅ Fixed-speed movement (no Shift modifier)
     const spd = p.currentStats?.speed ?? p.speed ?? 3;
 
-    // Movement keys
-    if (keys['w']) p.y -= spd;
-    if (keys['s']) p.y += spd;
-    if (keys['a']) p.x -= spd;
-    if (keys['d']) p.x += spd;
+    let dx = 0;
+    let dy = 0;
+    if (keys['w'] || keys['arrowup']) dy -= 1;
+    if (keys['s'] || keys['arrowdown']) dy += 1;
+    if (keys['a'] || keys['arrowleft']) dx -= 1;
+    if (keys['d'] || keys['arrowright']) dx += 1;
+
+    // Normalize diagonal movement
+    if (dx !== 0 && dy !== 0) {
+      dx *= Math.SQRT1_2;
+      dy *= Math.SQRT1_2;
+    }
+
+    // Sprint modifier
+    const isSprinting = keys['shift'];
+    const moveSpeed = isSprinting ? spd * 1.5 : spd;
+
+    p.x += dx * moveSpeed;
+    p.y += dy * moveSpeed;
 
     // Clamp to canvas
     const r = (p.size ?? 15) / 2;
@@ -189,11 +206,9 @@ function step() {
     p.y = Math.max(r, Math.min(canvas.height - r, p.y));
   }
 
-  // Update bars (safe even if handled by combat)
   window.updateHPBar?.();
   window.updateManaBar?.();
 
-  // Continue loop
   window.exploreFrameId = requestAnimationFrame(step);
 }
 
@@ -207,11 +222,9 @@ function startExploreGame() {
     return;
   }
 
-  // Cancel previous loop (if any)
   if (window.exploreFrameId) cancelAnimationFrame(window.exploreFrameId);
   window.exploreRunning = false;
 
-  // Ensure player exists and has sane defaults
   const p = window.player ?? {};
   window.player = {
     name: p.name ?? 'Fallback Hero',
@@ -233,35 +246,31 @@ function startExploreGame() {
     experience: p.experience ?? 0,
   };
 
-  // First draw (so the canvas isn't blank for a frame)
   drawBackground();
   drawMap();
   drawPlayer();
   window.updateHPBar?.();
   window.updateManaBar?.();
 
-  // Run systems
   window.exploreRunning = true;
   step();
   startManaRegen();
 
-  // 🔔 Tell realtime_combat.js to attach (bind input, spawn, render)
   window.dispatchEvent(new CustomEvent('explore:start', { detail: { canvas, ctx } }));
 
   console.log('✅ Explore started.');
 }
 window.startExploreGame = startExploreGame;
 
+
 /* ------------------------------------------------------------
    🚪 Enter Explore Screen Helper (optional UX)
 ------------------------------------------------------------ */
 function enterExploreMode() {
-  // If you have a screen switcher, use it:
   window.showScreen?.('explore-page');
 
-  // Defer one frame to allow layout to settle, then start
   requestAnimationFrame(() => {
-    window.dispatchEvent(new Event('resize')); // triggers resizeCanvas via listener below
+    window.dispatchEvent(new Event('resize'));
     setTimeout(() => {
       if (window.exploreFrameId) cancelAnimationFrame(window.exploreFrameId);
       startExploreGame();
@@ -269,6 +278,7 @@ function enterExploreMode() {
   });
 }
 window.enterExploreMode = enterExploreMode;
+
 
 /* ------------------------------------------------------------
    🧰 DOM Bootstrapping
@@ -286,7 +296,6 @@ document.addEventListener('DOMContentLoaded', () => {
   resizeCanvas();
   window.addEventListener('resize', resizeCanvas);
 
-  // If your flow lands directly on explore, auto-start
   const page = document.getElementById('explore-page');
   if (page?.classList.contains('active')) {
     startExploreGame();

@@ -25,3 +25,70 @@
   filter: brightness(1.15);
   transform: scale(1.0);
 }
+
+
+/* Hide system cursor */
+body {
+  cursor: none;
+}
+
+/* ============================================================
+   🩷 Olivia’s World – Magical Cursor
+   ------------------------------------------------------------
+   Soft pastel gradient + glow + gentle pulse
+============================================================ */
+#magic-cursor {
+  position: fixed;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 99999;
+
+  background: radial-gradient(circle at center,
+    rgba(255, 182, 193, 0.95),
+    rgba(221, 160, 221, 0.4),
+    rgba(173, 216, 230, 0.2)
+  );
+
+  box-shadow:
+    0 0 10px rgba(255, 192, 203, 0.9),
+    0 0 25px rgba(221, 160, 221, 0.6),
+    0 0 45px rgba(255, 255, 255, 0.4);
+
+  animation: pulseGlow 2s ease-in-out infinite alternate;
+  transition: transform 0.1s ease-out, opacity 0.2s;
+}
+
+@keyframes pulseGlow {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 1;
+  }
+}
+
+/* ✨ Small shimmer trail particles */
+.sparkle {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(255,255,255,1), rgba(255,105,180,0));
+  box-shadow: 0 0 8px #ffb6c1, 0 0 15px #fff0f5;
+  transform: translate(-50%, -50%);
+  animation: sparkleFade 0.7s ease-out forwards;
+  z-index: 99998;
+}
+
+@keyframes sparkleFade {
+  to {
+    opacity: 0;
+    transform: translate(-50%, -80%) scale(1.5);
+  }
+}
