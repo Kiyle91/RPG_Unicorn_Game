@@ -2,6 +2,7 @@
    🌸 CLASS_SELECTION.JS – Olivia’s World RPG
    ------------------------------------------------------------
    Handles:
+   ✦ Player name entry and validation
    ✦ Class definitions & base stats
    ✦ Player creation logic
    ✦ Screen transitions to difficulty select
