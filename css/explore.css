@@ -9,11 +9,6 @@
 /* ============================================================
    MAIN EXPLORE PAGE WRAPPER
 ============================================================ */
-/* ============================================================
-   🧭 HIDE CURSOR ON EXPLORE CANVAS
-============================================================ */
-
-
 #explore-page {
   display: flex;
   align-items: center;
@@ -43,37 +38,50 @@
 }
 
 /* ============================================================
-   FIXED 16:9 CANVAS AREA
+   FULLSCREEN CANVAS AREA
 ============================================================ */
 #explore-canvas {
-  display: absolute;
-  width: 70vw;
-  background-color: #fff;
+  position: flex;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   border: 4px solid #fff;
   border-radius: 20px;
+  background-color: #fff;
+
+  /* optional glow to match theme */
+  box-shadow:
+    0 0 40px rgba(255, 182, 193, 0.8),
+    inset 0 0 40px rgba(255, 182, 193, 0.6);
+  z-index: 2;
 }
-
-
 
 /* ============================================================
    🌸 NAVIGATION BUTTONS
 ============================================================ */
-#explore-nav .nav-btn {
+#explore-nav {
+  position: absolute;
   top: 25px;
-  display: inline-block;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  display: flex;
+  gap: 12px;
+}
+
+#explore-nav .nav-btn {
   font-family: 'Comic Sans MS', cursive;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   text-align: center;
   color: #fff;
   cursor: pointer;
-  padding: 12px 30px;
-  margin: 0 8px;
-  border-radius: 25px;
+  padding: 14px 36px;
+  border-radius: 30px;
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
   border: 2px solid #fff;
   box-shadow: 0 0 25px rgba(255, 182, 193, 0.6);
   transition: all 0.3s ease-in-out;
-  position: relative;
 }
 
 #explore-nav .nav-btn:hover {
@@ -87,25 +95,21 @@
 }
 
 /* ============================================================
-   💚 PLAYER HP BAR – DYNAMIC HEALTH COLOR
-   ============================================================ */
-
+   💚 PLAYER HP BAR – RESIZED AND CENTERED
+============================================================ */
 #player-hp-container {
   position: absolute;
-  bottom: 10%;
+  bottom: 8%;
   left: 50%;
   transform: translateX(-50%);
-  width: 20vw;
-  height: 15px;
+  width: 30vw;
+  height: 20px;
   background: rgba(255, 255, 255, 0.15);
   border: 2px solid rgba(255, 255, 255, 0.7);
   border-radius: 15px;
   box-shadow: 0 0 15px rgba(255, 182, 193, 0.6);
   overflow: hidden;
   z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   backdrop-filter: blur(5px);
 }
 
@@ -119,31 +123,32 @@
 
 #player-hp-text {
   position: absolute;
+  width: 100%;
+  text-align: center;
   color: #fff;
   font-family: 'Comic Sans MS', cursive;
-  font-size: 0rem;
+  font-size: 1rem;
   text-shadow: 0 0 8px #ff69b4;
   pointer-events: none;
 }
 
 /* ============================================================
-   💙 PLAYER MANA BAR – FLOATING BELOW HP BAR
-   ============================================================ */
-
+   💙 PLAYER MANA BAR – MATCHED SIZE BELOW HP BAR
+============================================================ */
 #player-mana-container {
-  position: fixed;
-  bottom: 10%;                  /* just beneath HP bar */
-  left: 20%;
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
   transform: translateX(-50%);
-  width: 20vw;
-  height: 15px;
+  width: 30vw;
+  height: 18px;
   background: rgba(255, 255, 255, 0.15);
   border: 2px solid rgba(255, 255, 255, 0.7);
   border-radius: 15px;
-  box-shadow: 0 0 15px rgba(255, 182, 193, 0.6);
+  box-shadow: 0 0 15px rgba(173, 216, 230, 0.6);
   overflow: hidden;
   z-index: 9999;
-  backdrop-filter: blur(5px)
+  backdrop-filter: blur(5px);
 }
 
 #player-mana-bar {
@@ -155,14 +160,15 @@
 }
 
 #player-mana-text {
-  position: fixed;
+  position: absolute;
+  width: 100%;
+  text-align: center;
   color: #fff;
   font-family: 'Comic Sans MS', cursive;
-  font-size: 0rem;
+  font-size: 1rem;
   text-shadow: 0 0 8px #1e90ff;
   pointer-events: none;
 }
-
 
 /* ============================================================
    🌸 GLOBAL TRANSITION KEYFRAMES
@@ -171,8 +177,3 @@
   from { opacity: 0; transform: translateY(40px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-
-
-/* ============================================================
-   🌈 END OF EXPLORE SCREEN STYLES
-============================================================ */

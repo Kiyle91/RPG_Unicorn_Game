@@ -53,6 +53,15 @@ let keys               = {};                             // input state (local t
 let canvas = null;
 let ctx    = null;
 
+
+const testImg = new Image();
+testImg.src = "../images/canvasbg.png";  // or whatever relative path you think
+testImg.onload = () => {
+  console.log("✅ Background image loaded correctly");
+  ctx.drawImage(testImg, 0, 0, canvas.width, canvas.height);
+};
+testImg.onerror = () => console.error("❌ Could not load background image");
+
 /* ------------------------------------------------------------
    ⌨️ Keyboard Input (WASD + Shift)
 ------------------------------------------------------------ */
