@@ -165,6 +165,63 @@ window.showCritEffect = function (x, y) {
    ✨ VISUAL FX HELPERS – Always globally available
 ============================================================ */
 
+/* 💧 Out-of-Mana puff — always spawns on the player */
+window.showNoManaEffect = function () {
+  const p = getPlayer?.() ?? window.player;
+  if (!p || !canvas) return;
+
+  const rect = canvas.getBoundingClientRect();
+  const px = rect.left + p.x;
+  const py = rect.top + p.y;
+
+  // 💧 central glow
+  const aura = document.createElement("div");
+  aura.classList.add("fairy-aura");
+  aura.style.setProperty("--aura-color", "rgba(120,180,255,0.8)");
+  aura.style.left = `${px}px`;
+  aura.style.top = `${py}px`;
+  aura.style.filter = "blur(1px)";
+  document.body.appendChild(aura);
+
+  // inward collapse animation
+  aura.animate(
+    [
+      { transform: "translate(-50%, -50%) scale(1.4)", opacity: 0.8 },
+      { transform: "translate(-50%, -50%) scale(0.2)", opacity: 0 }
+    ],
+    { duration: 500, easing: "ease-in", fill: "forwards" }
+  );
+
+  // 💫 inward sparkles
+  for (let i = 0; i < 15; i++) {
+    const s = document.createElement("div");
+    s.classList.add("fairy-sparkle");
+    s.style.setProperty("--sparkle-color", "hsl(210,100%,80%)");
+    s.style.left = `${px}px`;
+    s.style.top = `${py}px`;
+    document.body.appendChild(s);
+
+    const angle = Math.random() * Math.PI * 2;
+    const dist = 40 + Math.random() * 30;
+    const tx = Math.cos(angle) * dist;
+    const ty = Math.sin(angle) * dist;
+
+    // sparkles move inward
+    s.animate(
+      [
+        { transform: `translate(${tx}px, ${ty}px) scale(1)`, opacity: 1 },
+        { transform: "translate(0,0) scale(0)", opacity: 0 }
+      ],
+      { duration: 500 + Math.random() * 100, easing: "ease-in", fill: "forwards" }
+    );
+    setTimeout(() => s.remove(), 600);
+  }
+
+  setTimeout(() => aura.remove(), 550);
+};
+
+
+
 // 🩸 Floating damage text
 window.showDamageText = function (text, x, y, color = "#ff69b4") {
   const rect = canvas?.getBoundingClientRect?.() ?? { left: 0, top: 0 };
