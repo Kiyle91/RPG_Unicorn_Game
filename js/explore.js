@@ -9,6 +9,32 @@
    ✦ Mana regen while exploring
    ✦ Emits "explore:start" so realtime_combat.js can attach
 ============================================================ */
+function updateManaBar() {
+    const bar = document.getElementById("player-mana-bar");
+    const text = document.getElementById("player-mana-text");
+    if (!bar || !text || !player) return;
+    const pct = (player.mana / player.maxMana) * 100;
+    bar.style.width = `${Math.max(0, pct)}%`;
+    text.textContent = `MP: ${player.mana} / ${player.maxMana}`;
+  }
+  window.updateManaBar = updateManaBar;
+
+function updateHPBar() {
+    const bar = document.getElementById("player-hp-bar");
+    const text = document.getElementById("player-hp-text");
+    if (!bar || !text || !player) return;
+    const pct = (player.hp / player.maxHp) * 100;
+    bar.style.width = `${Math.max(0, pct)}%`;
+    const color =
+      pct > 60 ? "linear-gradient(90deg,#00ff00,#32cd32)" :
+      pct > 30 ? "linear-gradient(90deg,#ffd700,#ffa500)" :
+                 "linear-gradient(90deg,#ff4d4f,#d9363e)";
+    bar.style.background = color;
+    text.textContent = `HP: ${player.hp} / ${player.maxHp}`;
+  }
+  window.updateHPBar = updateHPBar;
+
+
 
 /* ------------------------------------------------------------
    🌐 Shared State (kept on window for other modules)
