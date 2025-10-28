@@ -103,6 +103,64 @@
   }
   window.spawnEnemies = spawnEnemies;
 
+
+
+/* === CRIT HELPERS (must be defined before use) ================= */
+
+// % chance from player.currentStats.critChance (defaults to 10)
+function isCritical(p) {
+  const chance = p?.currentStats?.critChance ?? 10;
+  return Math.random() * 100 < chance;
+}
+
+// Gold burst at a canvas-relative position (x, y)
+window.showCritEffect = function (x, y) {
+  if (!canvas) return;
+  const rect = canvas.getBoundingClientRect();
+  const px = rect.left + x;
+  const py = rect.top + y;
+
+  const aura = document.createElement("div");
+  aura.classList.add("fairy-aura");
+  aura.style.setProperty("--aura-color", "rgba(255, 215, 0, 0.9)");
+  aura.style.left = `${px}px`;
+  aura.style.top  = `${py}px`;
+  document.body.appendChild(aura);
+
+  aura.animate(
+    [
+      { transform: "translate(-50%, -50%) scale(0.6)", opacity: 1 },
+      { transform: "translate(-50%, -50%) scale(2.4)", opacity: 0 }
+    ],
+    { duration: 400, easing: "ease-out", fill: "forwards" }
+  );
+  setTimeout(() => aura.remove(), 450);
+
+  // quick sparkles
+  for (let i = 0; i < 22; i++) {
+    const s = document.createElement("div");
+    s.classList.add("fairy-sparkle");
+    s.style.setProperty("--sparkle-color", "hsl(50,100%,70%)");
+    s.style.left = `${px}px`;
+    s.style.top  = `${py}px`;
+    document.body.appendChild(s);
+
+    const a = Math.random() * Math.PI * 2;
+    const d = 24 + Math.random() * 36;
+    const tx = Math.cos(a) * d;
+    const ty = Math.sin(a) * d;
+
+    s.animate(
+      [
+        { transform: "translate(-50%, -50%) scale(1)", opacity: 1 },
+        { transform: `translate(${tx}px, ${ty}px) scale(0.2)`, opacity: 0 }
+      ],
+      { duration: 420 + Math.random() * 180, easing: "ease-out", fill: "forwards" }
+    );
+    setTimeout(() => s.remove(), 650);
+  }
+};
+
   /* ============================================================
    ✨ VISUAL FX HELPERS – Always globally available
 ============================================================ */
@@ -268,10 +326,25 @@ window.showAttackEffect = function () {
       const dist = Math.hypot(e.x - p.x, e.y - p.y);
       if (dist <= (p.attackRange ?? 80)) {
         let dmg = p.attackDamage ?? 15;
-        if (p.classKey === "glitterGuardian") dmg *= 1.5; // 🛡️ Melee bonus
+
+                  // roll crit
+        const crit = isCritical(p);
+        if (crit) {
+          dmg *= 1.8;
+          window.showCritEffect?.(p.x, p.y); // flash at player position
+        }
+
+        // class melee bonus (if you already use this)
+        if (p.classKey === "glitterGuardian") dmg *= 1.5;
+
         e.hp = Math.max(0, e.hp - dmg);
-        showDamageText(`-${Math.floor(dmg)}`, e.x, e.y, "#ff69b4");
-        showDamageText(`-${p.attackDamage ?? 15}`, e.x, e.y, "#ff69b4");
+
+        // floating text (gold if crit, pink otherwise)
+        window.showDamageText?.(
+          crit ? `CRIT! -${Math.floor(dmg)}` : `-${Math.floor(dmg)}`,
+          e.x, e.y,
+          crit ? "#ffd700" : "#ff69b4"
+        );
         hits++;
       }
     }
@@ -590,9 +663,23 @@ function updateProjectiles(ctx) {
     for (const e of enemies) {
       const dist = Math.hypot(e.x - proj.x, e.y - proj.y);
       if (dist < e.radius + proj.radius) {
-        e.hp = Math.max(0, e.hp - proj.damage);
-        showDamageText(`-${Math.round(proj.damage)}`, e.x, e.y, "#87cefa");
+        const crit = isCritical(p);
+        let dmg = proj.damage;
+        if (crit) {
+          dmg *= 1.8;
+          window.showCritEffect?.(e.x, e.y);
+        }
+
+        e.hp = Math.max(0, e.hp - dmg);
+
+        window.showDamageText?.(
+          crit ? `CRIT! -${Math.round(dmg)}` : `-${Math.round(dmg)}`,
+          e.x, e.y,
+          crit ? "#ffd700" : "#87cefa"
+        );
+
         proj.remove = true;
+
         if (e.hp <= 0) {
           enemies = enemies.filter(en => en.hp > 0);
           window.enemies = enemies;
