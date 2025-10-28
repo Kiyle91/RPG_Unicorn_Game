@@ -387,26 +387,50 @@
   /* ==========================================================
      🔁 Combat Render Loop (draws on the shared canvas)
   ========================================================== */
-  let combatFrameId = null;
-  function combatLoop() {
-    if (!canvas || !ctx) return;
-    const p = getPlayer();
+  /* ============================================================
+   ⚔️ COMBAT LOOP – Shared Canvas Renderer
+   ------------------------------------------------------------
+   Draws the full explore scene (background, map, enemies, player)
+   each frame while explore mode is active.
+============================================================ */
+let combatFrameId = null;
 
-    // Only update/draw when actually exploring
-    if (isRunning() && p) {
-      // Update enemies
-      for (const e of enemies) e.update(p);
+function combatLoop() {
+  // 🎨 Ensure we have a valid canvas and context
+  if (!canvas || !ctx) return;
 
-      // Draw using explore helpers for background/player
-      window.drawBackground?.();
-      window.drawMap?.();
-      for (const e of enemies) e.draw(ctx);
-      window.drawPlayer?.();
-      updateHPBar();
-      updateManaBar();
+  // 🧍 Get the current player reference
+  const p = typeof getPlayer === "function" ? getPlayer() : window.player;
+
+  // ✅ Only update/draw when the game is running and in explore state
+  if (window.exploreRunning && window.uiState === "explore" && p) {
+    // 1️⃣ Update enemies
+    for (const e of window.enemies ?? []) {
+      if (typeof e.update === "function") e.update(p);
     }
-    combatFrameId = requestAnimationFrame(combatLoop);
+
+    // 2️⃣ Clear + Draw Background + Map
+    // (Background drawn every frame to prevent flicker)
+    if (typeof window.drawBackground === "function") window.drawBackground();
+
+    // 3️⃣ Draw all enemies
+    for (const e of window.enemies ?? []) {
+      if (typeof e.draw === "function") e.draw(ctx);
+    }
+
+    // 4️⃣ Draw player
+    if (typeof window.drawPlayer === "function") window.drawPlayer();
+
+    // 5️⃣ Update UI bars
+    window.updateHPBar?.();
+    window.updateManaBar?.();
   }
+
+  // 🔁 Continue animation loop
+  combatFrameId = requestAnimationFrame(combatLoop);
+}
+window.combatLoop = combatLoop;
+
 
   /* ==========================================================
      🔄 Respawn Controller (auto while exploring)

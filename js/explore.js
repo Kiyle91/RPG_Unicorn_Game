@@ -9,6 +9,8 @@
    ✦ Mana regen while exploring
    ✦ Emits "explore:start" so realtime_combat.js can attach
 ============================================================ */
+
+
 function updateManaBar() {
     const bar = document.getElementById("player-mana-bar");
     const text = document.getElementById("player-mana-text");
@@ -92,10 +94,21 @@ function getMapSize() {
   };
 }
 
+const bgImage = new Image();
+bgImage.src = "../images/canvasbg.png";
+bgImage.onload = () => {
+  console.log("🖼️ Background image loaded!");
+  drawBackground(); // draw once loaded
+};
+
 function drawBackground() {
   if (!ctx || !canvas) return;
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  if (bgImage.complete && bgImage.naturalWidth > 0) {
+    ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
+  } else {
+    ctx.fillStyle = "#ffeef6"; // fallback pastel
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
 }
 
 function drawMap() {
@@ -257,7 +270,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.warn("⚠️ Explore: #explore-canvas not found.");
     return;
   }
-  ctx = canvas.getContext("2d", { alpha: false, desynchronized: true });
+  ctx = canvas.getContext("2d", { alpha: true, desynchronized: true });
   canvas.style.willChange = "transform, contents";
   canvas.style.transform  = "translateZ(0)";
 
