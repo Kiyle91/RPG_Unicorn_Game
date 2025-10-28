@@ -264,7 +264,7 @@ window.showNoManaEffect = function () {
     let hits = 0;
     for (const e of enemies) {
       const dist = Math.hypot(e.x - p.x, e.y - p.y);
-      if (dist <= (p.attackRange ?? 40)) {
+      if (dist <= (p.attackRange ?? 80)) {
         let dmg = p.attackDamage ?? 15;
         if (p.classKey === "glitterGuardian") dmg *= 1.5; // 🛡️ Melee bonus
         e.hp = Math.max(0, e.hp - dmg);
@@ -390,7 +390,7 @@ function castSpell() {
     if (dist <= radius) {
       const dmg = Math.floor(baseDamage * (0.9 + Math.random() * 0.2));
       e.hp = Math.max(0, e.hp - dmg);
-      showDamageText(`-${dmg}`, e.x, e.y, "#dda0dd");
+      showDamageText(`-${Math.round(dmg)}`, e.x, e.y, "#dda0dd");
       if (e.hp <= 0) {
         enemies = enemies.filter(en => en.hp > 0);
         window.enemies = enemies;
@@ -487,7 +487,7 @@ function castHeal() {
   const py = rect.top + p.y;
 
   // 💖 Floating +HP text
-  window.showDamageText?.(`+${healAmount} HP`, p.x, p.y, "#00ff99");
+  window.showDamageText?.(`+${Math.round(healAmount)} HP`, p.x, p.y, "#00ff99");
 
   // 🌈 Healing Visual Effect
   const aura = document.createElement("div");
@@ -589,7 +589,7 @@ function updateProjectiles(ctx) {
       const dist = Math.hypot(e.x - proj.x, e.y - proj.y);
       if (dist < e.radius + proj.radius) {
         e.hp = Math.max(0, e.hp - proj.damage);
-        showDamageText(`-${proj.damage}`, e.x, e.y, "#87cefa");
+        showDamageText(`-${Math.round(proj.damage)}`, e.x, e.y, "#87cefa");
         proj.remove = true;
         if (e.hp <= 0) {
           enemies = enemies.filter(en => en.hp > 0);

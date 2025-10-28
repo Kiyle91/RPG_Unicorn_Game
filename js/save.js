@@ -45,7 +45,7 @@ if (!window.__saveMenuBound) {
      📂 LOAD MENU (Multi-Save)
   ============================================================ */
   loadBtn?.addEventListener("click", () => {
-    console.log("📂 Load button clicked!");www
+    console.log("📂 Load button clicked!");
     window.populateSaveSlots?.();
     loadWrapper?.classList.add("active");
   });
