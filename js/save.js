@@ -223,7 +223,14 @@ window.addEventListener("load", () => {
         settingsWrapper?.classList.remove("active");
         uiState = "explore";
         exploreRunning = true;
-        window.exploreFrameId = requestAnimationFrame(window.step || (()=>{}));
+        
+        
+        
+        
+        
+        
+        
+        
         console.log("▶️ Game resumed after save.");
       }
     );
@@ -279,4 +286,3 @@ window.addEventListener("load", () => {
 
   console.log("✅ In-game Save/Load buttons initialized (instant reload + unpause).");
 });
-

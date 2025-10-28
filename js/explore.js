@@ -126,11 +126,10 @@ function step() {
 
   const p = window.player;
   if (window.uiState === "explore" && p && canvas) {
-    // Speed with Shift boost
-    const baseSpeed = p.currentStats?.speed ?? p.speed ?? 3;
-    const spd = keys["shift"] ? baseSpeed * 1.6 : baseSpeed;
+    // ✅ Fixed-speed movement (no Shift modifier)
+    const spd = p.currentStats?.speed ?? p.speed ?? 3;
 
-    // Movement
+    // Movement keys
     if (keys["w"]) p.y -= spd;
     if (keys["s"]) p.y += spd;
     if (keys["a"]) p.x -= spd;
@@ -142,12 +141,14 @@ function step() {
     p.y = Math.max(r, Math.min(canvas.height - r, p.y));
   }
 
-  // Bars may also be updated by combat; this is harmless if duplicated
+  // Update bars (safe even if handled by combat)
   window.updateHPBar?.();
   window.updateManaBar?.();
 
+  // Continue loop
   window.exploreFrameId = requestAnimationFrame(step);
 }
+
 
 /* ------------------------------------------------------------
    🚀 Start Explore Mode (public)
@@ -172,7 +173,6 @@ function startExploreGame() {
     y: p.y ?? canvas.height / 2,
     size: p.size ?? 15,
     color: p.color ?? "#ff69b4",
-    speed: p.speed ?? 3,
     hp: p.hp ?? p.currentStats?.hp ?? 100,
     maxHp: p.maxHp ?? p.currentStats?.hp ?? 100,
     mana: p.mana ?? p.currentStats?.mana ?? 80,
