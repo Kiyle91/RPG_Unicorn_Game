@@ -141,7 +141,7 @@ function drawPlayer() {
   const p = window.player;
   ctx.fillStyle = p.color ?? '#ff69b4';
   ctx.beginPath();
-  ctx.arc(p.x ?? 0, p.y ?? 0, (p.size ?? 15) / 2, 0, Math.PI * 2);
+  ctx.arc(p.x ?? 0, p.y ?? 0, p.size ?? 15, 0, Math.PI * 2);
   ctx.fill();
 }
 
@@ -232,7 +232,7 @@ function startExploreGame() {
     currentStats: p.currentStats ?? { hp: 100, speed: 3, mana: 80 },
     x: p.x ?? canvas.width / 2,
     y: p.y ?? canvas.height / 2,
-    size: p.size ?? 15,
+    size: p.size ?? 35,
     color: p.color ?? '#ff69b4',
     hp: p.hp ?? p.currentStats?.hp ?? 100,
     maxHp: p.maxHp ?? p.currentStats?.hp ?? 100,
