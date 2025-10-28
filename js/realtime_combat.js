@@ -23,6 +23,9 @@
 
   let canvas = null;
   let ctx = null;
+  let lastSpellCast = 0; // cooldown tracker
+  const SPELL_COOLDOWN = 3000; // 3 seconds
+  const SPELL_COST = 40; // mana cost per cast
 
   /* ==========================================================
      👹 Enemy Class + Collection
@@ -162,65 +165,32 @@
   }
   if (!window.showAttackEffect) window.showAttackEffect = showAttackEffect;
 
-  function showNoManaEffect(x = window.innerWidth / 2, y = window.innerHeight / 2) {
-    const puff = document.createElement("div");
-    puff.classList.add("fairy-aura");
-    puff.style.setProperty("--aura-color", "rgba(180, 200, 255, 0.6)");
-    puff.style.left = `${x}px`;
-    puff.style.top  = `${y}px`;
-    document.body.appendChild(puff);
-    puff.animate(
-      [
-        { transform: "translate(-50%, -50%) scale(0.6)", opacity: 1 },
-        { transform: "translate(-50%, -50%) scale(1.4)", opacity: 0 },
-      ],
-      { duration: 600, easing: "ease-out", fill: "forwards" }
-    );
-    setTimeout(() => puff.remove(), 600);
-  }
-  if (!window.showNoManaEffect) window.showNoManaEffect = showNoManaEffect;
+  function showNoManaEffect() {
+  const p = getPlayer();
+  if (!p || !canvas) return;
 
-  function showRangedEffect(x, y) {
-    const aura = document.createElement("div");
-    aura.classList.add("fairy-aura");
-    const hue = 220 + Math.floor(Math.random() * 60);
-    aura.style.setProperty("--aura-color", `hsl(${hue}, 100%, 70%)`);
-    aura.style.left = `${x}px`;
-    aura.style.top  = `${y}px`;
-    document.body.appendChild(aura);
+  const rect = canvas.getBoundingClientRect();
+  const px = rect.left + p.x;
+  const py = rect.top + p.y;
 
-    aura.animate(
-      [
-        { transform: "translate(-50%, -50%) scale(0.5)", opacity: 1 },
-        { transform: "translate(-50%, -50%) scale(2)", opacity: 0 },
-      ],
-      { duration: 800, easing: "ease-out", fill: "forwards" }
-    );
-    setTimeout(() => aura.remove(), 700);
+  const puff = document.createElement("div");
+  puff.classList.add("fairy-aura");
+  puff.style.setProperty("--aura-color", "rgba(180, 200, 255, 0.6)");
+  puff.style.left = `${px}px`;
+  puff.style.top  = `${py}px`;
+  document.body.appendChild(puff);
 
-    for (let i = 0; i < 16; i++) {
-      const sparkle = document.createElement("div");
-      sparkle.classList.add("fairy-sparkle");
-      sparkle.style.setProperty("--sparkle-color", `hsl(${hue + Math.random() * 30 - 15}, 100%, 80%)`);
-      sparkle.style.left = `${x}px`;
-      sparkle.style.top  = `${y}px`;
-      document.body.appendChild(sparkle);
+  puff.animate(
+    [
+      { transform: "translate(-50%, -50%) scale(0.6)", opacity: 1 },
+      { transform: "translate(-50%, -50%) scale(1.6)", opacity: 0 },
+    ],
+    { duration: 700, easing: "ease-out", fill: "forwards" }
+  );
 
-      const angle = Math.random() * Math.PI * 2;
-      const dist = 50 + Math.random() * 40;
-      const tx = Math.cos(angle) * dist;
-      const ty = Math.sin(angle) * dist;
+  setTimeout(() => puff.remove(), 650);
+}
 
-      sparkle.animate(
-        [
-          { transform: "translate(-50%, -50%) scale(1)", opacity: 1 },
-          { transform: `translate(${tx}px, ${ty}px) scale(0.1)`, opacity: 0 },
-        ],
-        { duration: 700 + Math.random() * 200, easing: "ease-out", fill: "forwards" }
-      );
-      setTimeout(() => sparkle.remove(), 800);
-    }
-  }
 
   /* ==========================================================
      ❤️ HP / 🔵 Mana helpers (use existing if defined)
@@ -333,6 +303,12 @@
       // Optionally require mana; currently light cost handled in playerAttack()
       playerAttack();
     }
+
+    // 🔮 Spell cast – Shift key
+    if (e.key === "f" && isRunning()) {
+      e.preventDefault();
+      castSpell();
+    }
   }
   function onKeyUp(_e) {
     // reserved if needed later
@@ -356,6 +332,98 @@ function onCanvasClick(e) {
 
   // 🚀 Launch projectile
   spawnProjectile(p, clickX, clickY);
+}
+
+/* ============================================================
+   🔮 CAST SPELL – Epic burst of magical energy
+============================================================ */
+function castSpell() {
+  const p = getPlayer();
+  if (!p || !canvas || !isRunning()) return;
+
+  const now = performance.now();
+  if (now - lastSpellCast < SPELL_COOLDOWN) return; // still recharging
+
+  if ((p.mana ?? 0) < SPELL_COST) {
+    showNoManaEffect(p.x, p.y);
+    return;
+  }
+
+  // 💫 Deduct Mana
+  p.mana = Math.max(0, (p.mana ?? 0) - SPELL_COST);
+  updateManaBar();
+  lastSpellCast = now;
+
+  const radius = 180; // large AoE radius
+  const baseDamage = p.spellDamage ?? 40;
+
+  // 💥 Damage all enemies in range
+  for (const e of enemies) {
+    const dist = Math.hypot(e.x - p.x, e.y - p.y);
+    if (dist <= radius) {
+      const dmg = Math.floor(baseDamage * (0.9 + Math.random() * 0.2));
+      e.hp = Math.max(0, e.hp - dmg);
+      showDamageText(`-${dmg}`, e.x, e.y, "#dda0dd");
+      if (e.hp <= 0) {
+        enemies = enemies.filter(en => en.hp > 0);
+        window.enemies = enemies;
+      }
+    }
+  }
+
+  // 🌈 VISUAL EFFECT
+  const rect = canvas.getBoundingClientRect();
+  const px = rect.left + p.x;
+  const py = rect.top + p.y;
+
+  // Glowing aura pulse
+  const aura = document.createElement("div");
+  aura.classList.add("fairy-aura");
+  aura.style.setProperty("--aura-color", "rgba(180, 120, 255, 0.8)");
+  aura.style.left = `${px}px`;
+  aura.style.top = `${py}px`;
+  aura.style.width = "0px";
+  aura.style.height = "0px";
+  document.body.appendChild(aura);
+
+  aura.animate(
+    [
+      { transform: "translate(-50%, -50%) scale(0.2)", opacity: 1 },
+      { transform: "translate(-50%, -50%) scale(3.5)", opacity: 0.8 },
+      { transform: "translate(-50%, -50%) scale(5.5)", opacity: 0 },
+    ],
+    { duration: 800, easing: "ease-out", fill: "forwards" }
+  );
+  setTimeout(() => aura.remove(), 800);
+
+  // Burst sparkles
+  for (let i = 0; i < 60; i++) {
+    const sparkle = document.createElement("div");
+    sparkle.classList.add("fairy-sparkle");
+    sparkle.style.setProperty(
+      "--sparkle-color",
+      `hsl(${260 + Math.random() * 40}, 100%, 80%)`
+    );
+    sparkle.style.left = `${px}px`;
+    sparkle.style.top = `${py}px`;
+    document.body.appendChild(sparkle);
+
+    const angle = Math.random() * Math.PI * 2;
+    const distance = 60 + Math.random() * 140;
+    const tx = Math.cos(angle) * distance;
+    const ty = Math.sin(angle) * distance;
+
+    sparkle.animate(
+      [
+        { transform: "translate(-50%, -50%) scale(1)", opacity: 1 },
+        { transform: `translate(${tx}px, ${ty}px) scale(0.2)`, opacity: 0 },
+      ],
+      { duration: 900 + Math.random() * 300, easing: "ease-out", fill: "forwards" }
+    );
+    setTimeout(() => sparkle.remove(), 1000);
+  }
+
+  console.log("💥 Spell Cast!");
 }
 
 /* ============================================================
