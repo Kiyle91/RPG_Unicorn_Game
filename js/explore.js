@@ -225,26 +225,20 @@ function startExploreGame() {
   if (window.exploreFrameId) cancelAnimationFrame(window.exploreFrameId);
   window.exploreRunning = false;
 
-  const p = window.player ?? {};
-  window.player = {
-    name: p.name ?? 'Fallback Hero',
-    classKey: p.classKey ?? p.classKey,
-    currentStats: p.currentStats ?? { hp: 100, speed: 3, mana: 80 },
-    x: p.x ?? canvas.width / 2,
-    y: p.y ?? canvas.height / 2,
-    size: p.size ?? 35,
-    color: p.color ?? '#ff69b4',
-    hp: p.hp ?? p.currentStats?.hp ?? 100,
-    maxHp: p.maxHp ?? p.currentStats?.hp ?? 100,
-    mana: p.mana ?? p.currentStats?.mana ?? 80,
-    maxMana: p.maxMana ?? p.currentStats?.mana ?? 80,
-    attackRange: p.attackRange ?? 40,
-    attackDamage: p.attackDamage ?? 15,
-    attackCooldown: p.attackCooldown ?? 550,
-    lastAttack: 0,
-    level: p.level ?? 1,
-    experience: p.experience ?? 0,
-  };
+  const p = window.player;
+  if (!p) {
+    console.error('❌ No Player Found')
+    return;
+  }
+
+  p.x = p.x ?? canvas.width / 2;
+  p.y = p.y ?? canvas.height / 2;
+  p.hp = p.hp ?? p.currentStats?.hp ?? 100;
+  p.maxHp = p.maxHp ?? p.currentStats?.hp ?? 100;
+  p.mana = p.mana ?? p.currentStats?.mana ?? 80;
+  p.maxMana = p.maxMana ?? p.currentStats?.mana ?? 80;
+  p.lastAttack = p.lastAttack ?? 0;
+
 
   drawBackground();
   drawMap();
