@@ -26,7 +26,7 @@ const classes = {
   glitterGuardian: {
     name: "Glitter Guardian",
     baseStats: {
-      hp: 120, mana: 40, speed: 1.5, armor: 5,
+      hp: 120, mana: 40, speed: 0.8, armor: 5,
       healing: 5, attack: 15, ranged: 5, critChance: 10,
     },
     preferredStats: ["hp", "attack"],
@@ -38,7 +38,7 @@ const classes = {
   starSage: {
     name: "Star Sage",
     baseStats: {
-      hp: 80, mana: 120, speed: 2, armor: 3,
+      hp: 80, mana: 120, speed: 1.0, armor: 3,
       healing: 5, attack: 5, ranged: 5, critChance: 15,
     },
     preferredStats: ["mana", "spell"],
@@ -51,7 +51,7 @@ const classes = {
   moonflower: {
     name: "Moonflower",
     baseStats: {
-      hp: 100, mana: 100, speed: 2, armor: 4,
+      hp: 100, mana: 100, speed: 1.0, armor: 4,
       healing: 15, attack: 10, ranged: 5, critChance: 10,
     },
     preferredStats: ["healing", "mana"],
@@ -64,7 +64,7 @@ const classes = {
   silverArrow: {
     name: "Silver Arrow",
     baseStats: {
-      hp: 90, mana: 50, speed: 2.5, armor: 3,
+      hp: 90, mana: 50, speed: 1.2, armor: 3,
       healing: 5, attack: 10, ranged: 20, critChance: 15,
     },
     preferredStats: ["ranged", "attack"],
