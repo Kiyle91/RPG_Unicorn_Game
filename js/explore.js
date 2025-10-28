@@ -301,3 +301,74 @@ document.addEventListener('DOMContentLoaded', () => {
     startExploreGame();
   }
 });
+
+
+/* ============================================================
+   💀 GAME OVER SCREEN – Olivia’s World RPG
+============================================================ */
+window.showGameOverScreen = function () {
+  // Prevent duplicate screens
+  if (document.getElementById('game-over-screen')) return;
+
+  const overlay = document.createElement('div');
+  overlay.id = 'game-over-screen';
+  overlay.innerHTML = `
+    <div class="game-over-content">
+      <h1>💀 You Were Defeated 💀</h1>
+      <p>Your adventure ends here... for now.</p>
+      <button id="game-over-btn">OK</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  // Center and style the overlay
+  overlay.style.position = 'fixed';
+  overlay.style.top = 0;
+  overlay.style.left = 0;
+  overlay.style.width = '100vw';
+  overlay.style.height = '100vh';
+  overlay.style.background = 'rgba(0, 0, 0, 0.8)';
+  overlay.style.display = 'flex';
+  overlay.style.justifyContent = 'center';
+  overlay.style.alignItems = 'center';
+  overlay.style.zIndex = '100000';
+  overlay.style.cursor = 'url("../images/ui/cursor.png"), auto';
+
+  const content = overlay.querySelector('.game-over-content');
+  content.style.textAlign = 'center';
+  content.style.color = '#fff';
+  content.style.fontFamily = "'Comic Sans MS', cursive";
+  content.style.padding = '40px';
+  content.style.border = '4px solid #ff69b4';
+  content.style.borderRadius = '20px';
+  content.style.background = 'rgba(255, 192, 203, 0.2)';
+  content.style.boxShadow = '0 0 20px #ff69b4';
+  content.style.animation = 'fadeIn 0.6s ease';
+
+  const btn = content.querySelector('button');
+  btn.style.marginTop = '20px';
+  btn.style.padding = '10px 30px';
+  btn.style.fontSize = '20px';
+  btn.style.borderRadius = '12px';
+  btn.style.border = 'none';
+  btn.style.cursor = 'pointer';
+  btn.style.background = '#ff69b4';
+  btn.style.color = '#fff';
+  btn.style.fontWeight = 'bold';
+  btn.style.boxShadow = '0 0 10px #fff';
+  btn.onmouseenter = () => (btn.style.background = '#ff1493');
+  btn.onmouseleave = () => (btn.style.background = '#ff69b4');
+  btn.onclick = () => {
+    overlay.remove();
+    window.location.reload(); // restart game
+  };
+};
+
+// ✨ Optional fade-in animation
+const style = document.createElement('style');
+style.textContent = `
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}`;
+document.head.appendChild(style);

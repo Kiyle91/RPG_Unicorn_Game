@@ -381,8 +381,7 @@ window.showAttackEffect = function () {
       window.__gameOverTriggered = true;
       window.triggerGameOver?.();
       if (!window.triggerGameOver) {
-        (window.showAlert || alert)('💀 You were defeated!');
-        setTimeout(() => window.location.reload(), 650);
+        window.showGameOverScreen?.();
       }
     }
   }
