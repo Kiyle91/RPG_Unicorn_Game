@@ -29,7 +29,7 @@
   let lastHealCast = 0;
   const HEAL_COOLDOWN = 3000; // 3 seconds
   const HEAL_COST = 30; 
-  const ENEMY_SEPARATION_RADIUS = 30;  // how close before pushing away
+  const ENEMY_SEPARATION_RADIUS = 50;  // how close before pushing away
   const ENEMY_SEPARATION_FORCE  = 0.4;
 
   /* ==========================================================
@@ -42,10 +42,10 @@
       this.hp = hp;
       this.maxHp = hp;
       this.speed = speed;
-      this.attackRange = 30;
+      this.attackRange = 50;
       this.attackCooldown = 900;
       this.lastAttack = 0;
-      this.radius = 10;
+      this.radius = 15;
       this.color = '#9b59b6';
     }
 
