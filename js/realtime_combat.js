@@ -265,20 +265,16 @@
      🗡️ Melee + 🔮 Ranged Attacks (exported melee)
   ========================================================== */
   function playerAttack() {
-    const p = getPlayer();
-    if (!p || !canvas) return;
-    const now = performance.now();
-    const cd = p.attackCooldown ?? 550;
-    if (p.lastAttack && now - p.lastAttack < cd) return;
-    p.lastAttack = now;
+  const p = getPlayer();
+  if (!p || !canvas) return;
+  const now = performance.now();
+  const cd = p.attackCooldown ?? 550;
+  if (p.lastAttack && now - p.lastAttack < cd) return;
+  p.lastAttack = now;
 
-    // page coords for effect
-    const rect = canvas.getBoundingClientRect();
-    showAttackEffect(rect.left + p.x, rect.top + p.y);
-
-    // small mana spend/refund loop (keeps synergy with ranged)
-    p.mana = Math.max(0, (p.mana ?? 80) - 3);
-    updateManaBar();
+  // 🗡️ Melee attack — no mana cost now
+  const rect = canvas.getBoundingClientRect();
+  showAttackEffect(rect.left + p.x, rect.top + p.y);
 
     let hits = 0;
     for (const e of enemies) {
@@ -342,51 +338,126 @@
     // reserved if needed later
   }
 
-  function onCanvasClick(e) {
-    if (!isRunning()) return;
-    const p = getPlayer();
-    if (!p || !canvas) return;
+function onCanvasClick(e) {
+  if (!isRunning()) return;
+  const p = getPlayer();
+  if (!p || !canvas) return;
 
-    const manaCost = 10;
-    if ((p.mana ?? 0) < manaCost) {
-      showNoManaEffect(e.clientX, e.clientY);
-      return;
+  const now = performance.now();
+  const reloadDelay = 600;
+
+  if (now - lastRangedAttack < reloadDelay) return;
+  lastRangedAttack = now;
+
+  // Determine canvas-relative click coordinates
+  const rect = canvas.getBoundingClientRect();
+  const clickX = e.clientX - rect.left;
+  const clickY = e.clientY - rect.top;
+
+  // 🚀 Launch projectile
+  spawnProjectile(p, clickX, clickY);
+}
+
+/* ============================================================
+   🎯 PROJECTILE SYSTEM – Canvas-based ranged attacks
+============================================================ */
+let projectiles = [];
+let lastRangedAttack = 0; 
+
+function spawnProjectile(p, targetX, targetY) {
+  const dx = targetX - p.x;
+  const dy = targetY - p.y;
+  const dist = Math.hypot(dx, dy);
+  const speed = 8;
+
+  projectiles.push({
+    x: p.x,
+    y: p.y,
+    dx: (dx / dist) * speed,
+    dy: (dy / dist) * speed,
+    radius: 4,
+    color: "#87cefa",
+    damage: p.ranged ?? 12,
+    life: 100, // frames before despawn
+  });
+}
+
+/* ------------------------------------------------------------
+   Update + Draw Projectiles (called inside combatLoop)
+------------------------------------------------------------ */
+function updateProjectiles(ctx) {
+  const p = getPlayer();
+  for (const proj of projectiles) {
+    proj.x += proj.dx;
+    proj.y += proj.dy;
+    proj.life--;
+
+    // 🧱 Remove if off-screen
+    if (
+      proj.x < 0 ||
+      proj.x > canvas.width ||
+      proj.y < 0 ||
+      proj.y > canvas.height ||
+      proj.life <= 0
+    ) {
+      proj.remove = true;
+      continue;
     }
 
-    p.mana = Math.max(0, (p.mana ?? 0) - manaCost);
-    updateManaBar();
-
-    const rect = canvas.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const clickY = e.clientY - rect.top;
-
-    showRangedEffect(e.clientX, e.clientY);
-
-    const rangedDamage = p.ranged ?? 12;
-    const range = (p.attackRange ?? 40) * 2.2;
-    let hit = 0;
-
-    for (const en of enemies) {
-      const dist = Math.hypot(en.x - clickX, en.y - clickY);
-      if (dist <= range) {
-        en.hp = Math.max(0, en.hp - rangedDamage);
-        showDamageText(`-${rangedDamage}`, en.x, en.y, "#87cefa");
-        hit++;
+    // 👹 Collision check with enemies
+    for (const e of enemies) {
+      const dist = Math.hypot(e.x - proj.x, e.y - proj.y);
+      if (dist < e.radius + proj.radius) {
+        e.hp = Math.max(0, e.hp - proj.damage);
+        showDamageText(`-${proj.damage}`, e.x, e.y, "#87cefa");
+        proj.remove = true;
+        if (e.hp <= 0) {
+          enemies = enemies.filter(en => en.hp > 0);
+          window.enemies = enemies;
+        }
+        break;
       }
     }
 
-    enemies = enemies.filter(en => en.hp > 0);
-    window.enemies = enemies;
+    // ✨ Draw projectile
+    const angle = Math.atan2(proj.dy, proj.dx); // direction of travel
+    const length = 24; // arrow length
+    const width = 4;   // shaft thickness
 
-    if (hit > 0) {
-      p.mana = Math.min(p.maxMana ?? 80, (p.mana ?? 0) + 3);
-      updateManaBar();
-    }
+    ctx.save();
+    ctx.translate(proj.x, proj.y);
+    ctx.rotate(angle);
+
+    // 🌈 Silver gradient
+    const gradient = ctx.createLinearGradient(0, 0, length, 0);
+    gradient.addColorStop(0, "#f0f0f0"); // bright silver tip
+    gradient.addColorStop(0.5, "#b0b0b0");
+    gradient.addColorStop(1, "#e0e0e0");
+    ctx.fillStyle = gradient;
+
+    // 🩶 Arrow shaft
+    ctx.beginPath();  
+    ctx.rect(0, -width / 2, length, width);
+    ctx.fill();
+
+    
+
+    // Optional glow
+    ctx.shadowBlur = 6;
+    ctx.shadowColor = "#d9d9d9";
+    ctx.fill();
+
+    // Restore context
+    ctx.restore();
   }
 
-  /* ==========================================================
-     🔁 Combat Render Loop (draws on the shared canvas)
-  ========================================================== */
+  // Clean up
+  projectiles = projectiles.filter(p => !p.remove);
+}
+
+
+
+
   /* ============================================================
    ⚔️ COMBAT LOOP – Shared Canvas Renderer
    ------------------------------------------------------------
@@ -417,6 +488,8 @@ function combatLoop() {
     for (const e of window.enemies ?? []) {
       if (typeof e.draw === "function") e.draw(ctx);
     }
+
+    updateProjectiles(ctx);
 
     // 4️⃣ Draw player
     if (typeof window.drawPlayer === "function") window.drawPlayer();

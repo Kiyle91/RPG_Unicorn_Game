@@ -29,7 +29,7 @@ ROOT DIRECTORY
 │   ├── landing.js               ← Start screen interactions  
 │   ├── naming.js                ← Player naming input and save functions  
 │   ├── script.js                ← Main controller script (manages page flow)  
-│   └── story.js                 ← Story progression and dialogue transitions  
+│   └──                ← Story progression and dialogue transitions  
 │
 ├── /pages                       ← HTML structure & content pages  
 │   └── index.html               ← Main entry point (loads and routes game flow)  
