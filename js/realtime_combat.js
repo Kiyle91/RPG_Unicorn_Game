@@ -134,76 +134,78 @@ window.showDamageText = function (text, x, y, color = "#ff69b4") {
   setTimeout(() => div.remove(), 1100);
 };
 
-// 💥 Attack sparkle burst
-window.showAttackEffect = function (pageX, pageY) {
+window.showAttackEffect = function () {
+  const p = getPlayer?.();
+  if (!p || !canvas) return;
+
+  const rect = canvas.getBoundingClientRect();
+
+  // 💥 Create aura container
   const aura = document.createElement("div");
   aura.classList.add("fairy-aura");
+
+  // 🎨 Color tint (can adjust by class)
   const hue = Math.floor(Math.random() * 360);
   aura.style.setProperty("--aura-color", `hsl(${hue}, 100%, 75%)`);
-  aura.style.left = `${pageX}px`;
-  aura.style.top = `${pageY}px`;
+
+  // Initial placement
+  aura.style.left = `${rect.left + p.x}px`;
+  aura.style.top  = `${rect.top + p.y}px`;
   document.body.appendChild(aura);
 
-  // burst sparkles
-  for (let i = 0; i < 20; i++) {
+  // Track position so it follows player as they move
+  let active = true;
+  const updatePosition = () => {
+    if (!active) return;
+    const r = canvas.getBoundingClientRect();
+    aura.style.left = `${r.left + p.x}px`;
+    aura.style.top  = `${r.top + p.y}px`;
+    requestAnimationFrame(updatePosition);
+  };
+  updatePosition();
+
+  // 🗡️ Aura animation (smaller melee flash)
+  aura.animate(
+    [
+      { transform: "translate(-50%, -50%) scale(0.5)", opacity: 1 },
+      { transform: "translate(-50%, -50%) scale(1.0)", opacity: 0.9 },
+      { transform: "translate(-50%, -50%) scale(1.3)", opacity: 0 }
+    ],
+    { duration: 450, easing: "ease-out", fill: "forwards" }
+  );
+
+  // ✨ Compact sparkles that stay near player
+  for (let i = 0; i < 8; i++) {
     const s = document.createElement("div");
     s.classList.add("fairy-sparkle");
     s.style.setProperty("--sparkle-color", `hsl(${hue}, 100%, 85%)`);
-    s.style.left = `${pageX}px`;
-    s.style.top = `${pageY}px`;
+    s.style.left = `${rect.left + p.x}px`;
+    s.style.top  = `${rect.top + p.y}px`;
     document.body.appendChild(s);
 
     const angle = Math.random() * Math.PI * 2;
-    const dist = Math.random() * 60 + 20;
+    const dist = Math.random() * 20 + 10;
     const tx = Math.cos(angle) * dist;
     const ty = Math.sin(angle) * dist;
 
     s.animate(
       [
-        { transform: `translate(${tx}px, ${ty}px) scale(1)`, opacity: 1 },
-        { transform: `translate(${tx * 1.2}px, ${ty * 1.2}px) scale(0.2)`, opacity: 0 }
+        { transform: "translate(-50%, -50%) scale(1)", opacity: 1 },
+        { transform: `translate(${tx}px, ${ty}px) scale(0.3)`, opacity: 0 }
       ],
-      { duration: 600 + Math.random() * 300, easing: "linear", fill: "forwards" }
+      { duration: 400 + Math.random() * 150, easing: "ease-out", fill: "forwards" }
     );
-    setTimeout(() => s.remove(), 800);
+    setTimeout(() => s.remove(), 500);
   }
 
-  aura.animate(
-    [
-      { transform: "translate(-50%, -50%) scale(0.8)", opacity: 1 },
-      { transform: "translate(-50%, -50%) scale(1.6)", opacity: 0 }
-    ],
-    { duration: 700, easing: "ease-out", fill: "forwards" }
-  );
-  setTimeout(() => aura.remove(), 700);
+  // 🕓 Cleanup after animation ends
+  setTimeout(() => {
+    active = false;
+    aura.remove();
+  }, 500);
 };
 
-// 💧 “Out of Mana” puff at player
-window.showNoManaEffect = function () {
-  const p = getPlayer?.();
-  if (!p || !canvas) return;
 
-  const rect = canvas.getBoundingClientRect();
-  const px = rect.left + p.x;
-  const py = rect.top + p.y;
-
-  const puff = document.createElement("div");
-  puff.classList.add("fairy-aura");
-  puff.style.setProperty("--aura-color", "rgba(180, 200, 255, 0.6)");
-  puff.style.left = `${px}px`;
-  puff.style.top = `${py}px`;
-  document.body.appendChild(puff);
-
-  puff.animate(
-    [
-      { transform: "translate(-50%, -50%) scale(0.6)", opacity: 1 },
-      { transform: "translate(-50%, -50%) scale(1.6)", opacity: 0 }
-    ],
-    { duration: 700, easing: "ease-out", fill: "forwards" }
-  );
-
-  setTimeout(() => puff.remove(), 650);
-};
 
 
 
