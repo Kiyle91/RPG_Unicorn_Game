@@ -1,3 +1,4 @@
+/* ...existing code... */
 /* ============================================================
    🌸 CLASS SELECTION PAGE – OLIVIA’S WORLD RPG (HARMONIZED THEME)
    ============================================================
@@ -9,18 +10,27 @@
 /* ============================================================
    LAYOUT & BACKGROUND
 ============================================================ */
+/* Ensure page wrapper uses valid display and doesn't clip hover icons */
+#class-selection-page {
+  /* allow hover icons outside the button bounds while keeping vertical scroll */
+  overflow: visible;
+  overflow-y: auto;
+}
+
+/* wrapper inside the page: use flex (not invalid 'absolute') */
 #class-wrapper {
-  display: absolute;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  width: 100vw;
+  min-height: 100vh;
+  width: 100%;
   margin: 0;
   padding: 0;
   font-family: 'Comic Sans MS', cursive;
   box-sizing: border-box;
-  overflow: hidden;
+  /* allow visible overflow for icons/animations (previously hidden) */
+  overflow: visible;
   position: relative;
 
   /* Pastel animated background (Explore theme) */
@@ -29,15 +39,10 @@
   animation: rainbowBG 8s ease infinite;
 }
 
-@keyframes rainbowBG {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
 
 /* ============================================================
    PAGE TITLE
-============================================================ */
+=========================================================== */
 #class-selection-page .page-title {
   font-size: 4vw;
   font-weight: 900;
@@ -59,7 +64,7 @@
 
 /* ============================================================
    CLASS BUTTON CONTAINER
-============================================================ */
+=========================================================== */
 .class-options {
   display: flex;
   flex-wrap: wrap;
@@ -73,7 +78,7 @@
 
 /* ============================================================
    CLASS BUTTONS – Unified
-============================================================ */
+=========================================================== */
 .class-btn {
   flex: 1 1 20%;
   max-width: 250px;
@@ -97,7 +102,8 @@
   letter-spacing: 0.5px;
   padding: 1.5vh 1vw;
   gap: 0.8vh;
-  overflow: hidden;
+  /* allow hover icons to move outside the button bounds */
+  overflow: visible;
   margin-bottom: 6vh;
 }
 
@@ -126,6 +132,7 @@
 
 /* ============================================================
    HOVER ICON EFFECTS
+   - increased z-index and visible overflow so icons show on desktop
 ============================================================ */
 .class-btn .hover-icon {
   position: relative;
@@ -136,7 +143,7 @@
   pointer-events: none;
   transition: opacity 0.4s ease, transform 0.4s ease, filter 0.4s ease;
   filter: drop-shadow(0 0 2vh rgba(255, 255, 255, 0.7));
-  z-index: 5;
+  z-index: 9999; /* raised so it sits above other UI */
 }
 
 .class-btn:hover .hover-icon,
@@ -155,7 +162,7 @@
 
 /* ============================================================
    CLASS COLOR THEMES (clean & non-repeating)
-============================================================ */
+=========================================================== */
 .class-btn[data-class="glitterGuardian"] {
   background: linear-gradient(135deg, #ffd700, #ff4500, #ffb347);
   box-shadow: 0 0 25px rgba(255, 140, 0, 0.9);
@@ -198,10 +205,6 @@
 /* ============================================================
    🦄 FLOATING UNICORN
 ============================================================ */
-
-
-
-
 #class-unicorn-2 {
   position: fixed;
   top: 70%;
@@ -236,8 +239,6 @@
   50% { transform: scaleX(-1) translate(200px, 20px) rotate(-10deg); }
   75% { transform: scaleX(-1) translate(100px, 50px) rotate(15deg); }
 }
-
-
 
 /* ============================================================
    🔥 FIREBALL ANIMATION EFFECT – BACKGROUND LOOP
@@ -317,14 +318,13 @@
   100% { transform: translate(140vw, 50px) scale(0.8); opacity: 0; }
 }
 
-
 /* ============================================================
    🌸 CLASS SELECTION BUBBLES – Sequential Dialogue Animation
 ============================================================ */
 .classbubble {
   align-items: center;
   position: fixed;
-  top: 99%;
+  top: 85%;
   left: 50%;
   transform: translateX(-50%) scale(0.8);
   width: 50vw;
@@ -370,7 +370,6 @@
   0%   { text-shadow: 0 0 6px rgba(255,182,193,0.5); }
   100% { text-shadow: 0 0 16px rgba(255,182,193,1); }
 }
-
 
 /* ============================================================
    🌸 RETURN BUTTON — Full-Size Match to Class Buttons
@@ -443,3 +442,4 @@
   z-index: -1;                /* 🩷 stays behind input & bubble */
   pointer-events: none;
 }
+/* ...existing code... */

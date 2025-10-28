@@ -11,32 +11,32 @@ if (!window.__saveMenuBound) {
   window.__saveMenuBound = true;
 
   // DOM References
-  const startBtn       = document.getElementById("start-btn");
-  const continueBtn    = document.getElementById("continue-btn");
-  const loadBtn        = document.getElementById("load-btn");
-  const loadWrapper    = document.getElementById("load-wrapper");
-  const saveSlotList   = document.getElementById("save-slot-list");
-  const closeLoadBtn   = document.getElementById("close-load");
+  const startBtn       = document.getElementById('start-btn');
+  const continueBtn    = document.getElementById('continue-btn');
+  const loadBtn        = document.getElementById('load-btn');
+  const loadWrapper    = document.getElementById('load-wrapper');
+  const saveSlotList   = document.getElementById('save-slot-list');
+  const closeLoadBtn   = document.getElementById('close-load');
 
   /* ============================================================
      🩷 START NEW GAME
   ============================================================ */
-  startBtn?.addEventListener("click", () => {
-    showScreen("naming-page");
+  startBtn?.addEventListener('click', () => {
+    showScreen('naming-page');
   });
 
   /* ============================================================
      💾 CONTINUE (Latest Autosave)
   ============================================================ */
   if (continueBtn) {
-    const hasSave = localStorage.getItem("olivia_save");
-    continueBtn.style.display = hasSave ? "inline-block" : "none";
-    console.log(hasSave ? "💾 Save found — showing Continue button." : "⚠️ No save found.");
+    const hasSave = localStorage.getItem('olivia_save');
+    continueBtn.style.display = hasSave ? 'inline-block' : 'none';
+    console.log(hasSave ? '💾 Save found — showing Continue button.' : '⚠️ No save found.');
 
-    continueBtn.addEventListener("click", async () => {
+    continueBtn.addEventListener('click', async () => {
       const save = window.loadGame?.();
-      if (!save) return showAlert?.("⚠️ No saved game found!");
-      showScreen("explore-page");
+      if (!save) return showAlert?.('⚠️ No saved game found!');
+      showScreen('explore-page');
       setTimeout(() => startExploreGame?.(), 300);
     });
   }
@@ -44,24 +44,24 @@ if (!window.__saveMenuBound) {
   /* ============================================================
      📂 LOAD MENU (Multi-Save)
   ============================================================ */
-  loadBtn?.addEventListener("click", () => {
-    console.log("📂 Load button clicked!");
+  loadBtn?.addEventListener('click', () => {
+    console.log('📂 Load button clicked!');
     window.populateSaveSlots?.();
-    loadWrapper?.classList.add("active");
+    loadWrapper?.classList.add('active');
   });
 
-  closeLoadBtn?.addEventListener("click", () => {
-    loadWrapper?.classList.remove("active");
+  closeLoadBtn?.addEventListener('click', () => {
+    loadWrapper?.classList.remove('active');
   });
 
-    loadBtn?.addEventListener("click", () => {
+    loadBtn?.addEventListener('click', () => {
     
     window.populateSaveSlots?.();
-    loadWrapper?.classList.add("active");
+    loadWrapper?.classList.add('active');
   });
 
-  closeLoadBtn?.addEventListener("click", () => {
-    loadWrapper?.classList.remove("active");
+  closeLoadBtn?.addEventListener('click', () => {
+    loadWrapper?.classList.remove('active');
   });
 }
 
@@ -72,15 +72,15 @@ if (!window.__saveMenuBound) {
    🧩 POPULATE SAVE SLOTS (Globalized)
 ============================================================ */
 window.populateSaveSlots = function populateSaveSlots() {
-  const saveSlotList = document.getElementById("save-slot-list");
-  const loadWrapper  = document.getElementById("load-wrapper");
-  const settingsWrapper = document.getElementById("settings-wrapper");
+  const saveSlotList = document.getElementById('save-slot-list');
+  const loadWrapper  = document.getElementById('load-wrapper');
+  const settingsWrapper = document.getElementById('settings-wrapper');
 
   if (!saveSlotList) return;
-  saveSlotList.innerHTML = "";
+  saveSlotList.innerHTML = '';
 
   const saves = Object.keys(localStorage)
-    .filter((k) => k.startsWith("olivia_save_") && k !== "olivia_save")
+    .filter((k) => k.startsWith('olivia_save_') && k !== 'olivia_save')
     .map((k) => {
       try {
         const data = JSON.parse(localStorage.getItem(k));
@@ -92,27 +92,27 @@ window.populateSaveSlots = function populateSaveSlots() {
     .slice(0, 5);
 
   if (saves.length === 0) {
-    saveSlotList.innerHTML = "<p class='no-saves'>No saved games found.</p>";
+    saveSlotList.innerHTML = '<p class=\'no-saves\'>No saved games found.</p>';
     return;
   }
 
   saves.forEach((save) => {
-    const btn = document.createElement("button");
+    const btn = document.createElement('button');
     btn.textContent = `${save.name} (${new Date(save.timestamp).toLocaleString()})`;
-    btn.classList.add("save-slot-btn");
+    btn.classList.add('save-slot-btn');
     btn.onclick = async () => {
       console.log(`📖 Loading save: ${save.key}`);
       window.loadGame(save.key);
-      loadWrapper?.classList.remove("active");
-      settingsWrapper?.classList.remove("active");
+      loadWrapper?.classList.remove('active');
+      settingsWrapper?.classList.remove('active');
 
       // Use custom alert if available
       (window.showAlert || alert)(
         `🌸 Loaded save for ${window.player.name}!`,
         () => {
-          showScreen("explore-page");
+          showScreen('explore-page');
           setTimeout(() => startExploreGame?.(), 300);
-          console.log("▶️ Game resumed after loading save.");
+          console.log('▶️ Game resumed after loading save.');
         }
       );
     };
@@ -127,8 +127,8 @@ window.saveGame = (showAlertBox = true) => {
   const MAX_SAVES = 5;
   const p = window.player;
   if (!p) {
-    console.warn("⚠️ No player data to save!");
-    if (showAlertBox) (window.showAlert || alert)("⚠️ No player data to save!");
+    console.warn('⚠️ No player data to save!');
+    if (showAlertBox) (window.showAlert || alert)('⚠️ No player data to save!');
     return;
   }
 
@@ -150,7 +150,7 @@ window.saveGame = (showAlertBox = true) => {
   };
 
   const key = `olivia_save_${p.name}_${saveData.timestamp}`;
-  localStorage.setItem("olivia_save", JSON.stringify(saveData)); // overwrite autosave
+  localStorage.setItem('olivia_save', JSON.stringify(saveData)); // overwrite autosave
   localStorage.setItem(key, JSON.stringify(saveData));
 
   const playerSaves = Object.keys(localStorage)
@@ -178,11 +178,11 @@ window.saveGame = (showAlertBox = true) => {
 /* ============================================================
    🔁 LOAD GAME (Helper)
 ============================================================ */
-window.loadGame = (slotKey = "olivia_save") => {
+window.loadGame = (slotKey = 'olivia_save') => {
   const data = localStorage.getItem(slotKey);
   if (!data) {
     console.warn(`⚠️ No save data found for key: ${slotKey}`);
-    (window.showAlert || alert)("⚠️ No save data found!");
+    (window.showAlert || alert)('⚠️ No save data found!');
     return null;
   }
 
@@ -192,7 +192,7 @@ window.loadGame = (slotKey = "olivia_save") => {
     x: save.position?.x ?? 100,
     y: save.position?.y ?? 100,
     size: 15,
-    color: "#ff69b4",
+    color: '#ff69b4',
     speed: save.currentStats?.speed || 3,
     hp: save.currentStats?.currentHp ?? save.currentStats?.hp ?? 100,
     maxHp: save.currentStats?.maxHp ?? save.currentStats?.hp ?? 100,
@@ -212,22 +212,22 @@ window.loadGame = (slotKey = "olivia_save") => {
 /* ============================================================
    💾 IN-GAME SAVE / LOAD (Settings Menu – Instant Reload + Unpause)
 ============================================================ */
-window.addEventListener("load", () => {
-  const saveGameBtn     = document.getElementById("save-game-btn");
-  const loadGameBtn     = document.getElementById("load-game-btn");
-  const settingsWrapper = document.getElementById("settings-wrapper");
+window.addEventListener('load', () => {
+  const saveGameBtn     = document.getElementById('save-game-btn');
+  const loadGameBtn     = document.getElementById('load-game-btn');
+  const settingsWrapper = document.getElementById('settings-wrapper');
 
   if (!saveGameBtn && !loadGameBtn) return;
 
   /* 💾 SAVE BUTTON */
-  saveGameBtn?.addEventListener("click", () => {
-    console.log("💾 Save button clicked — saving...");
+  saveGameBtn?.addEventListener('click', () => {
+    console.log('💾 Save button clicked — saving...');
     window.saveGame();
     (window.showAlert || alert)(
-      "🌸 Game saved successfully!",
+      '🌸 Game saved successfully!',
       () => {
-        settingsWrapper?.classList.remove("active");
-        uiState = "explore";
+        settingsWrapper?.classList.remove('active');
+        uiState = 'explore';
         exploreRunning = true;
         
         
@@ -237,18 +237,18 @@ window.addEventListener("load", () => {
         
         
         
-        console.log("▶️ Game resumed after save.");
+        console.log('▶️ Game resumed after save.');
       }
     );
   });
 
   /* 🔁 LOAD BUTTON — Instant reload latest save + resume gameplay */
-  loadGameBtn?.addEventListener("click", () => {
-    console.log("🔁 Load Game (instant reload) clicked!");
+  loadGameBtn?.addEventListener('click', () => {
+    console.log('🔁 Load Game (instant reload) clicked!');
 
     // Find the latest save key
     const saves = Object.keys(localStorage)
-      .filter(k => k.startsWith("olivia_save_") && k !== "olivia_save")
+      .filter(k => k.startsWith('olivia_save_') && k !== 'olivia_save')
       .map(k => {
         try {
           const data = JSON.parse(localStorage.getItem(k));
@@ -260,11 +260,11 @@ window.addEventListener("load", () => {
       .filter(Boolean)
       .sort((a, b) => b.timestamp - a.timestamp);
 
-    const latestSave = saves[0]?.key || "olivia_save";
+    const latestSave = saves[0]?.key || 'olivia_save';
     const saveData = localStorage.getItem(latestSave);
 
     if (!saveData) {
-      (window.showAlert || alert)("⚠️ No saved game found!");
+      (window.showAlert || alert)('⚠️ No saved game found!');
       return;
     }
 
@@ -272,23 +272,23 @@ window.addEventListener("load", () => {
     window.loadGame(latestSave);
 
     // ✅ Unpause and resume game
-    settingsWrapper?.classList.remove("active");
-    uiState = "explore";
+    settingsWrapper?.classList.remove('active');
+    uiState = 'explore';
     exploreRunning = true;
-    showScreen("explore-page");
+    showScreen('explore-page');
 
     // restart loop safely
     cancelAnimationFrame(window.exploreFrameId);
     setTimeout(() => {
-      if (typeof window.startExploreGame === "function") {
+      if (typeof window.startExploreGame === 'function') {
         window.startExploreGame();
       } else {
-        console.warn("⚠️ startExploreGame() not defined.");
+        console.warn('⚠️ startExploreGame() not defined.');
       }
     }, 300);
 
-    console.log("▶️ Game resumed from last save.");
+    console.log('▶️ Game resumed from last save.');
   });
 
-  console.log("✅ In-game Save/Load buttons initialized (instant reload + unpause).");
+  console.log('✅ In-game Save/Load buttons initialized (instant reload + unpause).');
 });

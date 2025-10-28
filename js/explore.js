@@ -12,8 +12,8 @@
 
 
 function updateManaBar() {
-    const bar = document.getElementById("player-mana-bar");
-    const text = document.getElementById("player-mana-text");
+    const bar = document.getElementById('player-mana-bar');
+    const text = document.getElementById('player-mana-text');
     if (!bar || !text || !player) return;
     const pct = (player.mana / player.maxMana) * 100;
     bar.style.width = `${Math.max(0, pct)}%`;
@@ -22,15 +22,15 @@ function updateManaBar() {
   window.updateManaBar = updateManaBar;
 
 function updateHPBar() {
-    const bar = document.getElementById("player-hp-bar");
-    const text = document.getElementById("player-hp-text");
+    const bar = document.getElementById('player-hp-bar');
+    const text = document.getElementById('player-hp-text');
     if (!bar || !text || !player) return;
     const pct = (player.hp / player.maxHp) * 100;
     bar.style.width = `${Math.max(0, pct)}%`;
     const color =
-      pct > 60 ? "linear-gradient(90deg,#00ff00,#32cd32)" :
-      pct > 30 ? "linear-gradient(90deg,#ffd700,#ffa500)" :
-                 "linear-gradient(90deg,#ff4d4f,#d9363e)";
+      pct > 60 ? 'linear-gradient(90deg,#00ff00,#32cd32)' :
+      pct > 30 ? 'linear-gradient(90deg,#ffd700,#ffa500)' :
+                 'linear-gradient(90deg,#ff4d4f,#d9363e)';
     bar.style.background = color;
     text.textContent = `HP: ${player.hp} / ${player.maxHp}`;
   }
@@ -41,7 +41,7 @@ function updateHPBar() {
 /* ------------------------------------------------------------
    🌐 Shared State (kept on window for other modules)
 ------------------------------------------------------------ */
-window.uiState         = window.uiState ?? "explore";   // "explore", "inventory", "settings", etc.
+window.uiState         = window.uiState ?? 'explore';   // "explore", "inventory", "settings", etc.
 window.exploreRunning  = window.exploreRunning === true; // boolean
 window.player          = window.player ?? null;          // set by player_data.js or class selection
 window.enemies         = window.enemies ?? [];           // owned by realtime_combat.js
@@ -55,20 +55,20 @@ let ctx    = null;
 
 
 const testImg = new Image();
-testImg.src = "../images/canvasbg.png";  // or whatever relative path you think
+testImg.src = '../images/canvasbg.png';  // or whatever relative path you think
 testImg.onload = () => {
-  console.log("✅ Background image loaded correctly");
+  console.log('✅ Background image loaded correctly');
   ctx.drawImage(testImg, 0, 0, canvas.width, canvas.height);
 };
-testImg.onerror = () => console.error("❌ Could not load background image");
+testImg.onerror = () => console.error('❌ Could not load background image');
 
 /* ------------------------------------------------------------
    ⌨️ Keyboard Input (WASD + Shift)
 ------------------------------------------------------------ */
-window.addEventListener("keydown", (e) => {
+window.addEventListener('keydown', (e) => {
   keys[e.key.toLowerCase()] = true;
 });
-window.addEventListener("keyup", (e) => {
+window.addEventListener('keyup', (e) => {
   keys[e.key.toLowerCase()] = false;
 });
 
@@ -104,9 +104,9 @@ function getMapSize() {
 }
 
 const bgImage = new Image();
-bgImage.src = "../images/canvasbg.png";
+bgImage.src = '../images/canvasbg.png';
 bgImage.onload = () => {
-  console.log("🖼️ Background image loaded!");
+  console.log('🖼️ Background image loaded!');
   drawBackground(); // draw once loaded
 };
 
@@ -115,7 +115,7 @@ function drawBackground() {
   if (bgImage.complete && bgImage.naturalWidth > 0) {
     ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
   } else {
-    ctx.fillStyle = "#ffeef6"; // fallback pastel
+    ctx.fillStyle = '#ffeef6'; // fallback pastel
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
 }
@@ -125,7 +125,7 @@ function drawMap() {
   const { cols, rows } = getMapSize();
   for (let y = 0; y < rows; y++) {
     for (let x = 0; x < cols; x++) {
-      ctx.fillStyle = (x + y) % 2 ? "#fff7da" : "#faf0e6";
+      ctx.fillStyle = (x + y) % 2 ? '#fff7da' : '#faf0e6';
       ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
     }
   }
@@ -134,7 +134,7 @@ function drawMap() {
 function drawPlayer() {
   if (!ctx || !window.player) return;
   const p = window.player;
-  ctx.fillStyle = p.color ?? "#ff69b4";
+  ctx.fillStyle = p.color ?? '#ff69b4';
   ctx.beginPath();
   ctx.arc(p.x ?? 0, p.y ?? 0, (p.size ?? 15) / 2, 0, Math.PI * 2);
   ctx.fill();
@@ -151,9 +151,9 @@ window.drawPlayer     = drawPlayer;
 function startManaRegen() {
   if (window.__manaRegenLoop) clearInterval(window.__manaRegenLoop);
   window.__manaRegenLoop = setInterval(() => {
-    if (!window.exploreRunning || window.uiState !== "explore") return;
-    const p = window.player;
-    if (!p || p.maxMana == null) return;
+    if (!window.exploreRunning || window.uiState !== 'explore') return;
+      const p = window.player;
+      if (!p || p.maxMana === null || p.maxMana === undefined) return;
     if ((p.mana ?? 0) < p.maxMana) {
       p.mana = Math.min(p.maxMana, (p.mana ?? 0) + 1);
       // Call only if present to avoid load-order errors
@@ -173,15 +173,15 @@ function step() {
   }
 
   const p = window.player;
-  if (window.uiState === "explore" && p && canvas) {
+  if (window.uiState === 'explore' && p && canvas) {
     // ✅ Fixed-speed movement (no Shift modifier)
     const spd = p.currentStats?.speed ?? p.speed ?? 3;
 
     // Movement keys
-    if (keys["w"]) p.y -= spd;
-    if (keys["s"]) p.y += spd;
-    if (keys["a"]) p.x -= spd;
-    if (keys["d"]) p.x += spd;
+    if (keys['w']) p.y -= spd;
+    if (keys['s']) p.y += spd;
+    if (keys['a']) p.x -= spd;
+    if (keys['d']) p.x += spd;
 
     // Clamp to canvas
     const r = (p.size ?? 15) / 2;
@@ -203,7 +203,7 @@ function step() {
 ------------------------------------------------------------ */
 function startExploreGame() {
   if (!canvas || !ctx) {
-    console.warn("⚠️ Explore: canvas not ready yet.");
+    console.warn('⚠️ Explore: canvas not ready yet.');
     return;
   }
 
@@ -214,13 +214,13 @@ function startExploreGame() {
   // Ensure player exists and has sane defaults
   const p = window.player ?? {};
   window.player = {
-    name: p.name ?? "Fallback Hero",
+    name: p.name ?? 'Fallback Hero',
     classKey: p.classKey ?? p.classKey,
     currentStats: p.currentStats ?? { hp: 100, speed: 3, mana: 80 },
     x: p.x ?? canvas.width / 2,
     y: p.y ?? canvas.height / 2,
     size: p.size ?? 15,
-    color: p.color ?? "#ff69b4",
+    color: p.color ?? '#ff69b4',
     hp: p.hp ?? p.currentStats?.hp ?? 100,
     maxHp: p.maxHp ?? p.currentStats?.hp ?? 100,
     mana: p.mana ?? p.currentStats?.mana ?? 80,
@@ -246,9 +246,9 @@ function startExploreGame() {
   startManaRegen();
 
   // 🔔 Tell realtime_combat.js to attach (bind input, spawn, render)
-  window.dispatchEvent(new CustomEvent("explore:start", { detail: { canvas, ctx } }));
+  window.dispatchEvent(new CustomEvent('explore:start', { detail: { canvas, ctx } }));
 
-  console.log("✅ Explore started.");
+  console.log('✅ Explore started.');
 }
 window.startExploreGame = startExploreGame;
 
@@ -257,11 +257,11 @@ window.startExploreGame = startExploreGame;
 ------------------------------------------------------------ */
 function enterExploreMode() {
   // If you have a screen switcher, use it:
-  window.showScreen?.("explore-page");
+  window.showScreen?.('explore-page');
 
   // Defer one frame to allow layout to settle, then start
   requestAnimationFrame(() => {
-    window.dispatchEvent(new Event("resize")); // triggers resizeCanvas via listener below
+    window.dispatchEvent(new Event('resize')); // triggers resizeCanvas via listener below
     setTimeout(() => {
       if (window.exploreFrameId) cancelAnimationFrame(window.exploreFrameId);
       startExploreGame();
@@ -273,22 +273,22 @@ window.enterExploreMode = enterExploreMode;
 /* ------------------------------------------------------------
    🧰 DOM Bootstrapping
 ------------------------------------------------------------ */
-document.addEventListener("DOMContentLoaded", () => {
-  canvas = document.getElementById("explore-canvas");
+document.addEventListener('DOMContentLoaded', () => {
+  canvas = document.getElementById('explore-canvas');
   if (!canvas) {
-    console.warn("⚠️ Explore: #explore-canvas not found.");
+    console.warn('⚠️ Explore: #explore-canvas not found.');
     return;
   }
-  ctx = canvas.getContext("2d", { alpha: true, desynchronized: true });
-  canvas.style.willChange = "transform, contents";
-  canvas.style.transform  = "translateZ(0)";
+  ctx = canvas.getContext('2d', { alpha: true, desynchronized: true });
+  canvas.style.willChange = 'transform, contents';
+  canvas.style.transform  = 'translateZ(0)';
 
   resizeCanvas();
-  window.addEventListener("resize", resizeCanvas);
+  window.addEventListener('resize', resizeCanvas);
 
   // If your flow lands directly on explore, auto-start
-  const page = document.getElementById("explore-page");
-  if (page?.classList.contains("active")) {
+  const page = document.getElementById('explore-page');
+  if (page?.classList.contains('active')) {
     startExploreGame();
   }
 });

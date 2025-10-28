@@ -10,7 +10,7 @@
 ============================================================ */
 (() => {
   if (window.__combatLoaded) {
-    console.warn("⚠️ realtime_combat.js already loaded. Skipping re-init.");
+    console.warn('⚠️ realtime_combat.js already loaded. Skipping re-init.');
     return;
   }
   window.__combatLoaded = true;
@@ -19,7 +19,7 @@
    Shared state references provided by explore.js / overlays
   ---------------------------------------------------------- */
   const getPlayer = () => window.player;
-  const isRunning = () => window.exploreRunning === true && window.uiState === "explore";
+  const isRunning = () => window.exploreRunning === true && window.uiState === 'explore';
 
   let canvas = null;
   let ctx = null;
@@ -46,7 +46,7 @@
       this.attackCooldown = 900;
       this.lastAttack = 0;
       this.radius = 10;
-      this.color = "#9b59b6";
+      this.color = '#9b59b6';
     }
 
     update(p) {
@@ -98,9 +98,9 @@
       // HP bar
       const barW = 22, barH = 4;
       const ratio = Math.max(0, this.hp / this.maxHp);
-      ctx.fillStyle = "#000";
+      ctx.fillStyle = '#000';
       ctx.fillRect(this.x - barW / 2, this.y - this.radius - 12, barW, barH);
-      ctx.fillStyle = "#ff69b4";
+      ctx.fillStyle = '#ff69b4';
       ctx.fillRect(this.x - barW / 2, this.y - this.radius - 12, barW * ratio, barH);
     }
   }
@@ -137,27 +137,27 @@ window.showCritEffect = function (x, y) {
   const px = rect.left + x;
   const py = rect.top + y;
 
-  const aura = document.createElement("div");
-  aura.classList.add("fairy-aura");
-  aura.style.setProperty("--aura-color", "rgba(255, 215, 0, 0.9)");
+  const aura = document.createElement('div');
+  aura.classList.add('fairy-aura');
+  aura.style.setProperty('--aura-color', 'rgba(255, 215, 0, 0.9)');
   aura.style.left = `${px}px`;
   aura.style.top  = `${py}px`;
   document.body.appendChild(aura);
 
   aura.animate(
     [
-      { transform: "translate(-50%, -50%) scale(0.6)", opacity: 1 },
-      { transform: "translate(-50%, -50%) scale(2.4)", opacity: 0 }
+      { transform: 'translate(-50%, -50%) scale(0.6)', opacity: 1 },
+      { transform: 'translate(-50%, -50%) scale(2.4)', opacity: 0 }
     ],
-    { duration: 400, easing: "ease-out", fill: "forwards" }
+    { duration: 400, easing: 'ease-out', fill: 'forwards' }
   );
   setTimeout(() => aura.remove(), 450);
 
   // quick sparkles
   for (let i = 0; i < 22; i++) {
-    const s = document.createElement("div");
-    s.classList.add("fairy-sparkle");
-    s.style.setProperty("--sparkle-color", "hsl(50,100%,70%)");
+    const s = document.createElement('div');
+    s.classList.add('fairy-sparkle');
+    s.style.setProperty('--sparkle-color', 'hsl(50,100%,70%)');
     s.style.left = `${px}px`;
     s.style.top  = `${py}px`;
     document.body.appendChild(s);
@@ -169,10 +169,10 @@ window.showCritEffect = function (x, y) {
 
     s.animate(
       [
-        { transform: "translate(-50%, -50%) scale(1)", opacity: 1 },
+        { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
         { transform: `translate(${tx}px, ${ty}px) scale(0.2)`, opacity: 0 }
       ],
-      { duration: 420 + Math.random() * 180, easing: "ease-out", fill: "forwards" }
+      { duration: 420 + Math.random() * 180, easing: 'ease-out', fill: 'forwards' }
     );
     setTimeout(() => s.remove(), 650);
   }
@@ -192,28 +192,28 @@ window.showNoManaEffect = function () {
   const py = rect.top + p.y;
 
   // 💧 central glow
-  const aura = document.createElement("div");
-  aura.classList.add("fairy-aura");
-  aura.style.setProperty("--aura-color", "rgba(120,180,255,0.8)");
+  const aura = document.createElement('div');
+  aura.classList.add('fairy-aura');
+  aura.style.setProperty('--aura-color', 'rgba(120,180,255,0.8)');
   aura.style.left = `${px}px`;
   aura.style.top = `${py}px`;
-  aura.style.filter = "blur(1px)";
+  aura.style.filter = 'blur(1px)';
   document.body.appendChild(aura);
 
   // inward collapse animation
   aura.animate(
     [
-      { transform: "translate(-50%, -50%) scale(1.4)", opacity: 0.8 },
-      { transform: "translate(-50%, -50%) scale(0.2)", opacity: 0 }
+      { transform: 'translate(-50%, -50%) scale(1.4)', opacity: 0.8 },
+      { transform: 'translate(-50%, -50%) scale(0.2)', opacity: 0 }
     ],
-    { duration: 500, easing: "ease-in", fill: "forwards" }
+    { duration: 500, easing: 'ease-in', fill: 'forwards' }
   );
 
   // 💫 inward sparkles
   for (let i = 0; i < 15; i++) {
-    const s = document.createElement("div");
-    s.classList.add("fairy-sparkle");
-    s.style.setProperty("--sparkle-color", "hsl(210,100%,80%)");
+    const s = document.createElement('div');
+    s.classList.add('fairy-sparkle');
+    s.style.setProperty('--sparkle-color', 'hsl(210,100%,80%)');
     s.style.left = `${px}px`;
     s.style.top = `${py}px`;
     document.body.appendChild(s);
@@ -227,9 +227,9 @@ window.showNoManaEffect = function () {
     s.animate(
       [
         { transform: `translate(${tx}px, ${ty}px) scale(1)`, opacity: 1 },
-        { transform: "translate(0,0) scale(0)", opacity: 0 }
+        { transform: 'translate(0,0) scale(0)', opacity: 0 }
       ],
-      { duration: 500 + Math.random() * 100, easing: "ease-in", fill: "forwards" }
+      { duration: 500 + Math.random() * 100, easing: 'ease-in', fill: 'forwards' }
     );
     setTimeout(() => s.remove(), 600);
   }
@@ -240,27 +240,27 @@ window.showNoManaEffect = function () {
 
 
 // 🩸 Floating damage text
-window.showDamageText = function (text, x, y, color = "#ff69b4") {
+window.showDamageText = function (text, x, y, color = '#ff69b4') {
   const rect = canvas?.getBoundingClientRect?.() ?? { left: 0, top: 0 };
   const screenX = rect.left + x;
   const screenY = rect.top + y - 20;
 
-  const div = document.createElement("div");
-  div.className = "damage-text";
-  div.textContent = (typeof text === "number") ? Math.round(text) : text;
+  const div = document.createElement('div');
+  div.className = 'damage-text';
+  div.textContent = (typeof text === 'number') ? Math.round(text) : text;
   div.style.color = color;
-  div.style.position = "absolute";
+  div.style.position = 'absolute';
   div.style.left = `${screenX}px`;
   div.style.top = `${screenY}px`;
-  div.style.zIndex = "100000";
+  div.style.zIndex = '100000';
   document.body.appendChild(div);
 
   div.animate(
     [
-      { transform: "translateY(0)", opacity: 1 },
-      { transform: "translateY(-40px)", opacity: 0 }
+      { transform: 'translateY(0)', opacity: 1 },
+      { transform: 'translateY(-40px)', opacity: 0 }
     ],
-    { duration: 1000, easing: "ease-out", fill: "forwards" }
+    { duration: 1000, easing: 'ease-out', fill: 'forwards' }
   );
 
   setTimeout(() => div.remove(), 1100);
@@ -273,12 +273,12 @@ window.showAttackEffect = function () {
   const rect = canvas.getBoundingClientRect();
 
   // 💥 Create aura container
-  const aura = document.createElement("div");
-  aura.classList.add("fairy-aura");
+  const aura = document.createElement('div');
+  aura.classList.add('fairy-aura');
 
   // 🎨 Color tint (can adjust by class)
   const hue = Math.floor(Math.random() * 360);
-  aura.style.setProperty("--aura-color", `hsl(${hue}, 100%, 75%)`);
+  aura.style.setProperty('--aura-color', `hsl(${hue}, 100%, 75%)`);
 
   // Initial placement
   aura.style.left = `${rect.left + p.x}px`;
@@ -299,18 +299,18 @@ window.showAttackEffect = function () {
   // 🗡️ Aura animation (smaller melee flash)
   aura.animate(
     [
-      { transform: "translate(-50%, -50%) scale(0.5)", opacity: 1 },
-      { transform: "translate(-50%, -50%) scale(1.0)", opacity: 0.9 },
-      { transform: "translate(-50%, -50%) scale(1.3)", opacity: 0 }
+      { transform: 'translate(-50%, -50%) scale(0.5)', opacity: 1 },
+      { transform: 'translate(-50%, -50%) scale(1.0)', opacity: 0.9 },
+      { transform: 'translate(-50%, -50%) scale(1.3)', opacity: 0 }
     ],
-    { duration: 450, easing: "ease-out", fill: "forwards" }
+    { duration: 450, easing: 'ease-out', fill: 'forwards' }
   );
 
   // ✨ Compact sparkles that stay near player
   for (let i = 0; i < 8; i++) {
-    const s = document.createElement("div");
-    s.classList.add("fairy-sparkle");
-    s.style.setProperty("--sparkle-color", `hsl(${hue}, 100%, 85%)`);
+    const s = document.createElement('div');
+    s.classList.add('fairy-sparkle');
+    s.style.setProperty('--sparkle-color', `hsl(${hue}, 100%, 85%)`);
     s.style.left = `${rect.left + p.x}px`;
     s.style.top  = `${rect.top + p.y}px`;
     document.body.appendChild(s);
@@ -322,10 +322,10 @@ window.showAttackEffect = function () {
 
     s.animate(
       [
-        { transform: "translate(-50%, -50%) scale(1)", opacity: 1 },
+        { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
         { transform: `translate(${tx}px, ${ty}px) scale(0.3)`, opacity: 0 }
       ],
-      { duration: 400 + Math.random() * 150, easing: "ease-out", fill: "forwards" }
+      { duration: 400 + Math.random() * 150, easing: 'ease-out', fill: 'forwards' }
     );
     setTimeout(() => s.remove(), 500);
   }
@@ -353,10 +353,10 @@ window.showAttackEffect = function () {
   function flashPlayerHit() {
     const p = getPlayer();
     if (!p) return;
-    if (!p.baseColor) p.baseColor = p.color || "#ff69b4";
+    if (!p.baseColor) p.baseColor = p.color || '#ff69b4';
     if (p.__isFlashing) return;
     p.__isFlashing = true;
-    p.color = "#ffffff";
+    p.color = '#ffffff';
     setTimeout(() => {
       p.color = p.baseColor;
       p.__isFlashing = false;
@@ -373,7 +373,7 @@ window.showAttackEffect = function () {
       window.__gameOverTriggered = true;
       window.triggerGameOver?.();
       if (!window.triggerGameOver) {
-        (window.showAlert || alert)("💀 You were defeated!");
+        (window.showAlert || alert)('💀 You were defeated!');
         setTimeout(() => window.location.reload(), 650);
       }
     }
@@ -446,7 +446,7 @@ window.showAttackEffect = function () {
         }
 
         // class melee bonus (if you already use this)
-        if (p.classKey === "glitterGuardian") dmg *= 1.5;
+        if (p.classKey === 'glitterGuardian') dmg *= 1.5;
 
         e.hp = Math.max(0, e.hp - dmg);
 
@@ -454,7 +454,7 @@ window.showAttackEffect = function () {
         window.showDamageText?.(
           crit ? `CRIT! -${Math.floor(dmg)}` : `-${Math.floor(dmg)}`,
           e.x, e.y,
-          crit ? "#ffd700" : "#ff69b4"
+          crit ? '#ffd700' : '#ff69b4'
         );
         hits++;
       }
@@ -477,30 +477,30 @@ window.showAttackEffect = function () {
 
   function bindInput() {
     if (!keydownBound) {
-      window.addEventListener("keydown", onKeyDown);
-      window.addEventListener("keyup", onKeyUp);
+      window.addEventListener('keydown', onKeyDown);
+      window.addEventListener('keyup', onKeyUp);
       keydownBound = true;
     }
     if (!clickBound && canvas) {
-      canvas.addEventListener("click", onCanvasClick);
+      canvas.addEventListener('click', onCanvasClick);
       clickBound = true;
     }
   }
   function unbindInput() {
     if (keydownBound) {
-      window.removeEventListener("keydown", onKeyDown);
-      window.removeEventListener("keyup", onKeyUp);
+      window.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener('keyup', onKeyUp);
       keydownBound = false;
     }
     if (clickBound && canvas) {
-      canvas.removeEventListener("click", onCanvasClick);
+      canvas.removeEventListener('click', onCanvasClick);
       clickBound = false;
     }
   }
 
   function onKeyDown(e) {
     // Melee – Space
-    if (e.code === "Space" && isRunning()) {
+    if (e.code === 'Space' && isRunning()) {
       e.preventDefault();
       const p = getPlayer();
       if (!p) return;
@@ -509,13 +509,13 @@ window.showAttackEffect = function () {
     }
 
     // 🔮 Spell cast – Shift key
-    if (e.key === "f" && isRunning()) {
+    if (e.key === 'f' && isRunning()) {
       e.preventDefault();
       castSpell();
     }
 
     // 🌿 Heal – E key
-    if (e.key.toLowerCase() === "e" && isRunning()) {
+    if (e.key.toLowerCase() === 'e' && isRunning()) {
       e.preventDefault();
       castHeal();
     }
@@ -568,7 +568,7 @@ function castSpell() {
 
   const radius = 180; // large AoE radius
   let baseDamage = p.spellDamage ?? 40;
-  if (p.classKey === "starSage") baseDamage *= 1.6; // 🔮 Spell bonus
+  if (p.classKey === 'starSage') baseDamage *= 1.6; // 🔮 Spell bonus
 
   // 💥 Damage all enemies in range
   for (const e of enemies) {
@@ -576,7 +576,7 @@ function castSpell() {
     if (dist <= radius) {
       const dmg = Math.floor(baseDamage * (0.9 + Math.random() * 0.2));
       e.hp = Math.max(0, e.hp - dmg);
-      showDamageText(`-${Math.round(dmg)}`, e.x, e.y, "#dda0dd");
+      showDamageText(`-${Math.round(dmg)}`, e.x, e.y, '#dda0dd');
       if (e.hp <= 0) {
         enemies = enemies.filter(en => en.hp > 0);
         window.enemies = enemies;
@@ -590,31 +590,31 @@ function castSpell() {
   const py = rect.top + p.y;
 
   // Glowing aura pulse
-  const aura = document.createElement("div");
-  aura.classList.add("fairy-aura");
-  aura.style.setProperty("--aura-color", "rgba(180, 120, 255, 0.8)");
+  const aura = document.createElement('div');
+  aura.classList.add('fairy-aura');
+  aura.style.setProperty('--aura-color', 'rgba(180, 120, 255, 0.8)');
   aura.style.left = `${px}px`;
   aura.style.top = `${py}px`;
-  aura.style.width = "0px";
-  aura.style.height = "0px";
+  aura.style.width = '0px';
+  aura.style.height = '0px';
   document.body.appendChild(aura);
 
   aura.animate(
     [
-      { transform: "translate(-50%, -50%) scale(0.2)", opacity: 1 },
-      { transform: "translate(-50%, -50%) scale(3.5)", opacity: 0.8 },
-      { transform: "translate(-50%, -50%) scale(5.5)", opacity: 0 },
+      { transform: 'translate(-50%, -50%) scale(0.2)', opacity: 1 },
+      { transform: 'translate(-50%, -50%) scale(3.5)', opacity: 0.8 },
+      { transform: 'translate(-50%, -50%) scale(5.5)', opacity: 0 },
     ],
-    { duration: 800, easing: "ease-out", fill: "forwards" }
+    { duration: 800, easing: 'ease-out', fill: 'forwards' }
   );
   setTimeout(() => aura.remove(), 800);
 
   // Burst sparkles
   for (let i = 0; i < 60; i++) {
-    const sparkle = document.createElement("div");
-    sparkle.classList.add("fairy-sparkle");
+    const sparkle = document.createElement('div');
+    sparkle.classList.add('fairy-sparkle');
     sparkle.style.setProperty(
-      "--sparkle-color",
+      '--sparkle-color',
       `hsl(${260 + Math.random() * 40}, 100%, 80%)`
     );
     sparkle.style.left = `${px}px`;
@@ -628,15 +628,15 @@ function castSpell() {
 
     sparkle.animate(
       [
-        { transform: "translate(-50%, -50%) scale(1)", opacity: 1 },
+        { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
         { transform: `translate(${tx}px, ${ty}px) scale(0.2)`, opacity: 0 },
       ],
-      { duration: 900 + Math.random() * 300, easing: "ease-out", fill: "forwards" }
+      { duration: 900 + Math.random() * 300, easing: 'ease-out', fill: 'forwards' }
     );
     setTimeout(() => sparkle.remove(), 1000);
   }
 
-  console.log("💥 Spell Cast!");
+  console.log('💥 Spell Cast!');
 }
 
 /* ============================================================
@@ -662,7 +662,7 @@ function castHeal() {
 
   // 🌿 Restore HP
   const baseHeal = p.healing ?? 25;
-  const healAmount = Math.round(baseHeal * (p.classKey === "moonflowerHealer" ? 1.8 : 1));
+  const healAmount = Math.round(baseHeal * (p.classKey === 'moonflowerHealer' ? 1.8 : 1));
   const oldHP = p.hp;
   p.hp = Math.min(p.maxHp, (p.hp ?? 0) + healAmount);
   updateHPBar();
@@ -673,31 +673,31 @@ function castHeal() {
   const py = rect.top + p.y;
 
   // 💖 Floating +HP text
-  window.showDamageText?.(`+${Math.round(healAmount)} HP`, p.x, p.y, "#00ff99");
+  window.showDamageText?.(`+${Math.round(healAmount)} HP`, p.x, p.y, '#00ff99');
 
   // 🌈 Healing Visual Effect
-  const aura = document.createElement("div");
-  aura.classList.add("fairy-aura");
-  aura.style.setProperty("--aura-color", "rgba(100, 255, 150, 0.8)");
+  const aura = document.createElement('div');
+  aura.classList.add('fairy-aura');
+  aura.style.setProperty('--aura-color', 'rgba(100, 255, 150, 0.8)');
   aura.style.left = `${px}px`;
   aura.style.top = `${py}px`;
   document.body.appendChild(aura);
 
   aura.animate(
     [
-      { transform: "translate(-50%, -50%) scale(0.5)", opacity: 1 },
-      { transform: "translate(-50%, -50%) scale(2.8)", opacity: 0.8 },
-      { transform: "translate(-50%, -50%) scale(4)", opacity: 0 },
+      { transform: 'translate(-50%, -50%) scale(0.5)', opacity: 1 },
+      { transform: 'translate(-50%, -50%) scale(2.8)', opacity: 0.8 },
+      { transform: 'translate(-50%, -50%) scale(4)', opacity: 0 },
     ],
-    { duration: 800, easing: "ease-out", fill: "forwards" }
+    { duration: 800, easing: 'ease-out', fill: 'forwards' }
   );
   setTimeout(() => aura.remove(), 800);
 
   // ✨ Sparkle burst
   for (let i = 0; i < 30; i++) {
-    const sparkle = document.createElement("div");
-    sparkle.classList.add("fairy-sparkle");
-    sparkle.style.setProperty("--sparkle-color", "hsl(140, 100%, 75%)");
+    const sparkle = document.createElement('div');
+    sparkle.classList.add('fairy-sparkle');
+    sparkle.style.setProperty('--sparkle-color', 'hsl(140, 100%, 75%)');
     sparkle.style.left = `${px}px`;
     sparkle.style.top = `${py}px`;
     document.body.appendChild(sparkle);
@@ -709,10 +709,10 @@ function castHeal() {
 
     sparkle.animate(
       [
-        { transform: "translate(-50%, -50%) scale(1)", opacity: 1 },
+        { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
         { transform: `translate(${tx}px, ${ty}px) scale(0.2)`, opacity: 0 },
       ],
-      { duration: 700 + Math.random() * 200, easing: "ease-out", fill: "forwards" }
+      { duration: 700 + Math.random() * 200, easing: 'ease-out', fill: 'forwards' }
     );
     setTimeout(() => sparkle.remove(), 900);
   }
@@ -740,8 +740,8 @@ function spawnProjectile(p, targetX, targetY) {
     dx: (dx / dist) * speed,
     dy: (dy / dist) * speed,
     radius: 4,
-    color: "#87cefa",
-    damage: (p.classKey === "silverArrow")
+    color: '#87cefa',
+    damage: (p.classKey === 'silverArrow')
   ?   (p.ranged ?? 12) * 1.4   // 🏹 Ranged bonus
   :   (p.ranged ?? 12),
     life: 100, // frames before despawn
@@ -786,7 +786,7 @@ function updateProjectiles(ctx) {
         window.showDamageText?.(
           crit ? `CRIT! -${Math.round(dmg)}` : `-${Math.round(dmg)}`,
           e.x, e.y,
-          crit ? "#ffd700" : "#87cefa"
+          crit ? '#ffd700' : '#87cefa'
         );
 
         proj.remove = true;
@@ -810,9 +810,9 @@ function updateProjectiles(ctx) {
 
     // 🌈 Silver gradient
     const gradient = ctx.createLinearGradient(0, 0, length, 0);
-    gradient.addColorStop(0, "#f0f0f0"); // bright silver tip
-    gradient.addColorStop(0.5, "#b0b0b0");
-    gradient.addColorStop(1, "#e0e0e0");
+    gradient.addColorStop(0, '#f0f0f0'); // bright silver tip
+    gradient.addColorStop(0.5, '#b0b0b0');
+    gradient.addColorStop(1, '#e0e0e0');
     ctx.fillStyle = gradient;
 
     // 🩶 Arrow shaft
@@ -824,7 +824,7 @@ function updateProjectiles(ctx) {
 
     // Optional glow
     ctx.shadowBlur = 6;
-    ctx.shadowColor = "#d9d9d9";
+    ctx.shadowColor = '#d9d9d9';
     ctx.fill();
 
     // Restore context
@@ -851,28 +851,28 @@ function combatLoop() {
   if (!canvas || !ctx) return;
 
   // 🧍 Get the current player reference
-  const p = typeof getPlayer === "function" ? getPlayer() : window.player;
+  const p = typeof getPlayer === 'function' ? getPlayer() : window.player;
 
   // ✅ Only update/draw when the game is running and in explore state
-  if (window.exploreRunning && window.uiState === "explore" && p) {
+  if (window.exploreRunning && window.uiState === 'explore' && p) {
     // 1️⃣ Update enemies
     for (const e of window.enemies ?? []) {
-      if (typeof e.update === "function") e.update(p);
+      if (typeof e.update === 'function') e.update(p);
     }
 
     // 2️⃣ Clear + Draw Background + Map
     // (Background drawn every frame to prevent flicker)
-    if (typeof window.drawBackground === "function") window.drawBackground();
+    if (typeof window.drawBackground === 'function') window.drawBackground();
 
     // 3️⃣ Draw all enemies
     for (const e of window.enemies ?? []) {
-      if (typeof e.draw === "function") e.draw(ctx);
+      if (typeof e.draw === 'function') e.draw(ctx);
     }
 
     updateProjectiles(ctx);
 
     // 4️⃣ Draw player
-    if (typeof window.drawPlayer === "function") window.drawPlayer();
+    if (typeof window.drawPlayer === 'function') window.drawPlayer();
 
     // 5️⃣ Update UI bars
     window.updateHPBar?.();
@@ -913,11 +913,11 @@ window.combatLoop = combatLoop;
      - Pauses automatically when uiState changes
   ========================================================== */
   function initFromExplore(detail) {
-    canvas = document.getElementById("explore-canvas");
-    ctx = canvas?.getContext("2d") || detail?.ctx || null;
+    canvas = document.getElementById('explore-canvas');
+    ctx = canvas?.getContext('2d') || detail?.ctx || null;
 
     if (!canvas || !ctx) {
-      console.warn("⚠️ Combat: missing explore canvas/ctx.");
+      console.warn('⚠️ Combat: missing explore canvas/ctx.');
       return;
     }
 
@@ -942,11 +942,11 @@ window.combatLoop = combatLoop;
     if (!combatFrameId) combatLoop();
     startRespawn();
 
-    console.log("🗡️ Real-time combat initialized on explore canvas.");
+    console.log('🗡️ Real-time combat initialized on explore canvas.');
   }
 
   // Listen for explore start (emitted by your explore.js)
-  window.addEventListener("explore:start", (ev) => initFromExplore(ev.detail || {}));
+  window.addEventListener('explore:start', (ev) => initFromExplore(ev.detail || {}));
 
   /* ==========================================================
      🛑 Pause / Resume guards (observe uiState changes)
@@ -957,13 +957,13 @@ window.combatLoop = combatLoop;
 
   // Safety: also hook when the explore page is shown manually without event
   // If your flow shows the explore screen directly, try to attach once DOM is ready
-  document.addEventListener("DOMContentLoaded", () => {
-    const page = document.getElementById("explore-page");
-    if (page?.classList.contains("active")) {
+  document.addEventListener('DOMContentLoaded', () => {
+    const page = document.getElementById('explore-page');
+    if (page?.classList.contains('active')) {
       // simulate explore:start if explore already visible
       setTimeout(() => initFromExplore({}), 0);
     }
   });
 
-  console.log("✅ realtime_combat.js loaded (shared-canvas, overlay-aware, auto-respawn).");
+  console.log('✅ realtime_combat.js loaded (shared-canvas, overlay-aware, auto-respawn).');
 })();

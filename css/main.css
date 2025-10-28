@@ -62,11 +62,11 @@ html, body {
 }
 
 :root {
-  --h1-size: 4rem;
   --intro-font-size: 1.5rem;
   --btn-font-size: 2rem;
   --btn-padding: 20px 40px;
-  --focus-ring: 3px solid rgba(255,255,255,0.9);
+  /* --h1-size and --focus-ring were removed because they're not used anywhere
+     keep only variables currently referenced via var() across the project */
 }
 
 
@@ -135,12 +135,6 @@ html, body {
   100% { background-position: 0% 50%; }
 }
 
-@keyframes rainbowBG {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
 
 /* ============================================================
    INTRO BOX
@@ -167,11 +161,7 @@ html, body {
   animation: rainbowBG 8s ease infinite;
 }
 
-@keyframes rainbowBG {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
+/* rainbowBG keyframes defined above in this file (single source of truth) */
 
 #intro-box {
   display: flex;

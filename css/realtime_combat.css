@@ -1,21 +1,66 @@
 /* ============================================================
-   ⚔️ REAL-TIME COMBAT VISUALS
-   ------------------------------------------------------------
-   Basic placeholder styles for future VFX
-============================================================ */
-
-.damage-text {
+   ⚔️ Floating Combat Text Styles – Olivia’s World RPG
+   ============================================================ */
+#combat-text-layer {
   position: absolute;
-  color: #ff69b4;
-  font-weight: bold;
-  font-family: 'Comic Sans MS', cursive;
-  text-shadow: 0 0 10px #fff;
-  animation: floatUp 1s ease-out forwards;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
+  overflow: visible;
   z-index: 9999;
 }
 
-@keyframes floatUp {
-  from { opacity: 1; transform: translateY(0); }
-  to { opacity: 0; transform: translateY(-30px); }
+.damage-text {
+  position: absolute;
+  font-family: 'Comic Sans MS', cursive;
+  font-weight: bold;
+  font-size: 24px;
+  color: #ff3366;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  animation: floatUp 1s ease-out forwards;
+  transform: translate(-50%, -50%);
+  opacity: 0;
 }
+
+.heal-text {
+  color: #33ff99;
+  text-shadow: 0 0 8px #fff;
+  animation: floatUpHeal 1.2s ease-out forwards;
+}
+
+.crit-text {
+  color: gold;
+  font-size: 36px;
+  text-shadow: 0 0 15px rgba(255, 215, 0, 0.9);
+  animation: floatUpCrit 1s cubic-bezier(0.36, 0, 0.66, -0.56) forwards;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -150%) scale(1.2);
+    opacity: 0;
+  }
+}
+
+@keyframes floatUpHeal {
+  0% {
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -150%) scale(1.3);
+    opacity: 0;
+  }
+}
+
+@keyframes floatUpCrit {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    op
+

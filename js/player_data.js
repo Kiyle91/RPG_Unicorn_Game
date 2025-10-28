@@ -24,52 +24,52 @@ playerDefaults.lastAttack = 0;
 ============================================================ */
 const classes = {
   glitterGuardian: {
-    name: "Glitter Guardian",
+    name: 'Glitter Guardian',
     baseStats: {
       hp: 120, mana: 40, speed: 0.8, armor: 5,
       healing: 5, attack: 15, ranged: 5, critChance: 10,
     },
-    preferredStats: ["hp", "attack"],
+    preferredStats: ['hp', 'attack'],
     classAttacks: [
-      { name: "Glitter Strike", type: "melee", damage: 10, extraEffect: "additional glitter damage" },
+      { name: 'Glitter Strike', type: 'melee', damage: 10, extraEffect: 'additional glitter damage' },
     ],
   },
 
   starSage: {
-    name: "Star Sage",
+    name: 'Star Sage',
     baseStats: {
       hp: 80, mana: 120, speed: 1.0, armor: 3,
       healing: 5, attack: 5, ranged: 5, critChance: 15,
     },
-    preferredStats: ["mana", "spell"],
+    preferredStats: ['mana', 'spell'],
     classAttacks: [
-      { name: "Fireball", type: "spell", damage: 25 },
-      { name: "Lightning Strike", type: "spell", damage: 30 },
+      { name: 'Fireball', type: 'spell', damage: 25 },
+      { name: 'Lightning Strike', type: 'spell', damage: 30 },
     ],
   },
 
   moonflower: {
-    name: "Moonflower",
+    name: 'Moonflower',
     baseStats: {
       hp: 100, mana: 100, speed: 1.0, armor: 4,
       healing: 15, attack: 10, ranged: 5, critChance: 10,
     },
-    preferredStats: ["healing", "mana"],
+    preferredStats: ['healing', 'mana'],
     classAttacks: [
-      { name: "Healing Bloom", type: "heal", amount: 25 },
-      { name: "Moonbeam", type: "spell", damage: 15 },
+      { name: 'Healing Bloom', type: 'heal', amount: 25 },
+      { name: 'Moonbeam', type: 'spell', damage: 15 },
     ],
   },
 
   silverArrow: {
-    name: "Silver Arrow",
+    name: 'Silver Arrow',
     baseStats: {
       hp: 90, mana: 50, speed: 1.2, armor: 3,
       healing: 5, attack: 10, ranged: 20, critChance: 15,
     },
-    preferredStats: ["ranged", "attack"],
+    preferredStats: ['ranged', 'attack'],
     classAttacks: [
-      { name: "Piercing Shot", type: "ranged", damage: 25, extraEffect: "chance to dodge enemy attack" },
+      { name: 'Piercing Shot', type: 'ranged', damage: 25, extraEffect: 'chance to dodge enemy attack' },
     ],
   },
 };
@@ -85,7 +85,7 @@ function createPlayer(selectedClass) {
   }
 
   // 🩷 Retrieve or set default player name
-  window.playerName = window.playerName || localStorage.getItem("playerName") || "Player";
+  window.playerName = window.playerName || localStorage.getItem('playerName') || 'Player';
 
   // 🎮 Build player object
   const newPlayer = {
@@ -101,29 +101,20 @@ function createPlayer(selectedClass) {
   window.player = newPlayer;
 
   // 💾 Save initial state
-  if (typeof saveGame === "function") {
+  if (typeof saveGame === 'function') {
     saveGame();
-    console.log("💾 Player saved after class selection.");
+    console.log('💾 Player saved after class selection.');
   }
 
   // 🧩 Debug summary
-  console.group("🎀 Player Created");
-  console.log("Name:", newPlayer.name);
-  console.log("Class:", newPlayer.classKey);
-  console.log("Stats:", newPlayer.currentStats);
-  console.log("Attacks:", newPlayer.classAttacks);
+  console.group('🎀 Player Created');
+  console.log('Name:', newPlayer.name);
+  console.log('Class:', newPlayer.classKey);
+  console.log('Stats:', newPlayer.currentStats);
+  console.log('Attacks:', newPlayer.classAttacks);
   console.groupEnd();
 
   return newPlayer;
 }
 
-/* ============================================================
-   🧾 HELPER – PRINT PLAYER NAME
-============================================================ */
-function printPlayerName() {
-  if (window.playerName) {
-    console.log("👑 Player name is:", window.playerName);
-  } else {
-    console.log("⚠️ Player name not set yet.");
-  }
-}
+

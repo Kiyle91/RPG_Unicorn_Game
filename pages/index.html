@@ -1,3 +1,4 @@
+<!-- ...existing code... -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,32 +43,28 @@
   </div>
 
 
-        <!-- ============================================================
-        🩷 LANDING PAGE
-        ============================================================ -->
-    <section id="landing-page" class="screen active">
-      <img src="../images/float_one.png" class="unicorn" id="unicorn1" />
-      <img src="../images/float_two.png" class="unicorn" id="unicorn2" />
-      <img src="../images/float_three.png" class="unicorn" id="unicorn3"/>
-      <img src="../images/gem_heart.png" class="unicorn" id="land-heart"/>
-    
+  <!-- ============================================================
+       🩷 LANDING PAGE
+  ============================================================ -->
+  <section id="landing-page" class="screen active">
+    <img src="../images/float_one.png" class="unicorn" id="unicorn1" alt="Floating unicorn 1" />
+    <img src="../images/float_two.png" class="unicorn" id="unicorn2" alt="Floating unicorn 2" />
+    <img src="../images/float_three.png" class="unicorn" id="unicorn3" alt="Floating unicorn 3" />
+    <img src="../images/gem_heart.png" class="unicorn" id="land-heart" alt="Gem heart" />
 
-      <div id="intro-box">
-        <img src="../images/grassy_background.jpg" class="grassy_background" id="grassy_background">
-        <h1>✨ OLIVIAS WORLD: THE UNICORN ISLES ✨</h1>
-        <p>
-          The Unicorn Isles were once a paradise — a world of radiant skies, loyal unicorns, and kindhearted princesses who ruled with courage and grace.<br><br>
-          But shadows have crept across the sea. Goblins now stalk the forests, stealing the light and hunting unicorns for their horns.
-        </p>
-      
+    <div id="intro-box">
+      <img src="../images/grassy_background.jpg" class="grassy_background" id="grassy_background" alt="Grassy background" />
+      <h1>✨ OLIVIAS WORLD: THE UNICORN ISLES ✨</h1>
+      <p>
+        The Unicorn Isles were once a paradise — a world of radiant skies, loyal unicorns, and kindhearted princesses who ruled with courage and grace.<br><br>
+        But shadows have crept across the sea. Goblins now stalk the forests, stealing the light and hunting unicorns for their horns.
+      </p>
 
-        <div id="landing-buttons" class="ret-but">
+      <div id="landing-buttons" class="ret-but">
         <button id="start-btn">New Game</button>
         <button id="continue-btn" style="display:none;">Continue</button>
         <button id="load-btn">Load Game</button>
-        </div>
       </div>
-    
     </div>
 
     <!-- 💾 LOAD MENU OVERLAY -->
@@ -86,11 +83,11 @@
   ============================================================ -->
   <section id="naming-page" class="screen">
 
-    <div id = "name-wrapper"  class = "screen_wrapper">
+    <div id="name-wrapper" class="screen_wrapper">
 
-      <img src="../images/float_one.png" id="naming-unicorn" />
-      <img src="../images/float_two.png" id="naming-unicorn2" />
-      <img src="../images/princess.png" id="princess" />
+      <img src="../images/float_one.png" id="naming-unicorn" alt="Floating unicorn" />
+      <img src="../images/float_two.png" id="naming-unicorn2" alt="Floating unicorn" />
+      <img src="../images/princess.png" id="princess" alt="Princess" />
       <div class="fireball fireball1"></div>
       <div class="fireball fireball2"></div>
       <div class="fireball fireball3"></div>
@@ -99,7 +96,7 @@
       <div class="fireball fireball6"></div>
 
       <div id="speech-bubble" class="namebubble"><p>"Nice to meet you! My name is Princess Ariana"</p></div>
-      <div id="speech-bubble-two" class="namebubble"><p>"We are so glad you arrived.. theres something strange happening in these lands..</p></div>
+      <div id="speech-bubble-two" class="namebubble"><p>"We are so glad you arrived.. theres something strange happening in these lands.."</p></div>
       <!-- <div id="speech-bubble-three" class="namebubble"><p>"Welcome to The Unicorn Isles!</p></div> -->
       <div id="speech-bubble-four" class="namebubble"><p>"These are troubled times for us in Presei Castle"</p></div>
       <div id="speech-bubble-five" class="namebubble"><p>"You are the Champion from Elysth right? - Whats your name?"</p></div>
@@ -110,9 +107,9 @@
           <button id="confirm-name">Next</button>
           <!--<button id="return-name">Return</button>-->
         </div>
+      </div>
 
     </div>
-
   </section>
 
 
@@ -120,58 +117,54 @@
        🌙 CLASS SELECTION
   ============================================================ -->
   <section id="class-selection-page" class="screen">
-    <div id="class-wrapper" class = "screen_wrapper">
-    
+    <div id="class-wrapper" class="screen_wrapper">
+
       <img src="../images/float_three.png" id="class-unicorn-2" alt="Floating unicorn" />
       <img src="../images/float_three.png" id="class-unicorn-5" alt="Floating unicorn" />
-      <img src="../images/princess.png" id="princess-two">w
-      
-    
+      <img src="../images/princess.png" id="princess-two" alt="Princess" />
+
       <div class="fireball fireball1"></div>
       <div class="fireball fireball2"></div>
       <div class="fireball fireball3"></div>
       <div class="fireball fireball4"></div>
       <div class="fireball fireball5"></div>
       <div class="fireball fireball6"></div>
-    
+
       <h2 class="page-title">✨ What Kind of Princess Are You? ✨</h2>
-    
+
       <div class="class-options">
         <button class="class-btn" data-class="glitterGuardian">
           GLITTER GUARDIAN
           <p class="class-desc">Protect unicorns with courage and magical strength.</p>
-          <img src="../images/guardian_icon.png" class="hover-icon" />
+          <img src="../images/guardian_icon.png" class="hover-icon" alt="Guardian icon" />
         </button>
 
         <button class="class-btn" data-class="starSage">
           STAR SAGE
           <p class="class-desc">Outsmart mysterious creatures with magical knowledge.</p>
-          <img src="../images/starsage_icon.png" class="hover-icon" />
+          <img src="../images/starsage_icon.png" class="hover-icon" alt="Star Sage icon" />
         </button>
 
         <button class="class-btn" data-class="moonflower">
           MOONFLOWER MYSTIC
           <p class="class-desc">Heal and protect with the gentle light of moonflowers.</p>
-          <img src="../images/moonflower_icon.png" class="hover-icon" />
+          <img src="../images/moonflower_icon.png" class="hover-icon" alt="Moonflower icon" />
         </button>
 
         <button class="class-btn" data-class="silverArrow">
           SILVER ARROW
           <p class="class-desc">Guide sparkling arrows to defend your unicorn allies.</p>
-          <img src="../images/silver_icon.png" class="hover-icon" />
-          
+          <img src="../images/silver_icon.png" class="hover-icon" alt="Silver Arrow icon" />
         </button>
 
-        <button id="return-class" class = "ret-but">Return</button>
+        <button id="return-class" class="ret-but">Return</button>
 
-        <div id="class-bubble"  class="classbubble"><p>"Oh yes! You are the one Mother sent for! - Im sure you are very powerful!"</p></div>
+        <div id="class-bubble" class="classbubble"><p>"Oh yes! You are the one Mother sent for! - Im sure you are very powerful!"</p></div>
         <div id="class-bubble-two" class="classbubble"><p>"We will have to visit the Guard Captian! - What kind of champion are you?"</p></div>
         <div id="class-bubble-three" class="classbubble"><p>"The recruits have been low on morale lately - surely your arrival will inspire them!"</p></div>
 
-        
       </div>
-      </div>
-   </div> 
+    </div>
   </section>
 
 
@@ -179,42 +172,41 @@
        ⚔️ DIFFICULTY SELECTION
   ============================================================ -->
   <section id="difficulty-screen" class="screen">
-      <div id="difficulty-box" >
-        <div class="fireball fireball1"></div>
-        <div class="fireball fireball2"></div>
-        <div class="fireball fireball3"></div>
-        <div class="fireball fireball4"></div>
-        <div class="fireball fireball5"></div>
-        <div class="fireball fireball6"></div>
-        <h1>⚔️ Select Difficulty ⚔️</h1>
-        <p>You will face many tough enemies and challenges during your adventure!<br><br>Harder difficulties will increase enemies health and make puzzles tougher! <br><br><br></p>
+    <div id="difficulty-box">
+      <div class="fireball fireball1"></div>
+      <div class="fireball fireball2"></div>
+      <div class="fireball fireball3"></div>
+      <div class="fireball fireball4"></div>
+      <div class="fireball fireball5"></div>
+      <div class="fireball fireball6"></div>
+      <h1>⚔️ Select Difficulty ⚔️</h1>
+      <p>You will face many tough enemies and challenges during your adventure!<br><br>Harder difficulties will increase enemies health and make puzzles tougher! <br><br><br></p>
 
-        <button class="difficulty-btn" data-difficulty="easy">
-          <div class="diff-icon-group">
-            <img src="../images/gem_heart.png" class="diff-icon" alt="Easy Icon" />
-          </div>
-          Easy
-        </button>
+      <button class="difficulty-btn" data-difficulty="easy">
+        <div class="diff-icon-group">
+          <img src="../images/gem_heart.png" class="diff-icon" alt="Easy Icon" />
+        </div>
+        Easy
+      </button>
 
-        <button class="difficulty-btn" data-difficulty="medium">
-          <div class="diff-icon-group">
-            <img src="../images/gem_heart.png" class="diff-icon" alt="Medium Icon" />
-            <img src="../images/gem_heart.png" class="diff-icon" alt="Medium Icon" />
-          </div>
-          Normal
-        </button>
+      <button class="difficulty-btn" data-difficulty="medium">
+        <div class="diff-icon-group">
+          <img src="../images/gem_heart.png" class="diff-icon" alt="Medium Icon" />
+          <img src="../images/gem_heart.png" class="diff-icon" alt="Medium Icon" />
+        </div>
+        Normal
+      </button>
 
-        <button class="difficulty-btn" data-difficulty="hard">
-          <div class="diff-icon-group">
-            <img src="../images/gem_heart.png" class="diff-icon" alt="Hard Icon" />
-            <img src="../images/gem_heart.png" class="diff-icon" alt="Hard Icon" />
-            <img src="../images/gem_heart.png" class="diff-icon" alt="Hard Icon" />
-          </div>
-          Hard
-        </button>
-       </div> 
-
-</section>
+      <button class="difficulty-btn" data-difficulty="hard">
+        <div class="diff-icon-group">
+          <img src="../images/gem_heart.png" class="diff-icon" alt="Hard Icon" />
+          <img src="../images/gem_heart.png" class="diff-icon" alt="Hard Icon" />
+          <img src="../images/gem_heart.png" class="diff-icon" alt="Hard Icon" />
+        </div>
+        Hard
+      </button>
+    </div>
+  </section>
 
 
   <!-- ============================================================
@@ -222,8 +214,8 @@
   ============================================================ -->
   <section id="story-section" class="screen">
 
-    <img src="../images/unicorn_background.png" class="background" />
-    
+    <img src="../images/unicorn_background.png" class="background" alt="Unicorn background" />
+
     <div class="story-box">
       <h2 id="story-title"></h2>
       <p id="story-text">
@@ -241,6 +233,7 @@
     <div id="explore-wrapper">
 
       <!-- 🗺️ Explore Canvas -->
+      <div id="combat-text-layer"></div>
       <canvas id="explore-canvas"></canvas>
 
       <!-- 🌸 Navigation -->
@@ -361,7 +354,7 @@
   <!-- ============================================================
        📜 SCRIPTS
   ============================================================ -->
-  
+
   <!-- 1️⃣ Core systems & UI navigation -->
   <script src="../js/screens.js"></script>
 
@@ -387,3 +380,4 @@
   <script src="../js/debug.js"></script>
 </body>
 </html>
+<!-- ...existing code... -->
