@@ -380,6 +380,43 @@ window.showAttackEffect = function () {
   }
   window.damagePlayer = damagePlayer;
 
+  function resolvePlayerEnemyCollisions() {
+    const p = window.player;
+    if (!p || !window.enemies || !canvas) return;
+
+    for (const e of window.enemies) {
+      const dx = p.x - e.x;
+      const dy = p.y - e.y;
+      const dist = Math.hypot(dx, dy);
+      const minDist = (p.size ?? 15) + (e.radius ?? 10);
+
+      if (dist < minDist && dist > 0) {
+        // 🧭 calculate push direction
+        const overlap = minDist - dist;
+        const nx = dx / dist;
+        const ny = dy / dist;
+
+        // push player slightly away
+        p.x += nx * overlap * 0.5;
+        p.y += ny * overlap * 0.5;
+
+        // optional: push enemy back too (for more dynamic feel)
+        e.x -= nx * overlap * 0.25;
+        e.y -= ny * overlap * 0.25;
+      }
+    }
+
+  // keep player inside canvas bounds
+    const r = (p.size ?? 15) / 2;
+    p.x = Math.max(r, Math.min(canvas.width - r, p.x));
+    p.y = Math.max(r, Math.min(canvas.height - r, p.y));
+  }
+  window.resolvePlayerEnemyCollisions = resolvePlayerEnemyCollisions;
+
+
+
+  
+
   /* ==========================================================
      🗡️ Melee + 🔮 Ranged Attacks (exported melee)
   ========================================================== */
@@ -840,6 +877,7 @@ function combatLoop() {
     // 5️⃣ Update UI bars
     window.updateHPBar?.();
     window.updateManaBar?.();
+    resolvePlayerEnemyCollisions();
   }
 
   // 🔁 Continue animation loop
