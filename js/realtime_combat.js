@@ -1,30 +1,32 @@
 /* ============================================================
    ⚔️ REALTIME_COMBAT.JS – Olivia’s World RPG
    ------------------------------------------------------------
-   Integrates with explore.js to provide:
-   ✦ Real-time player attacks
-   ✦ Enemy AI + proximity detection
-   ✦ Collision + safe damage system
+   Integrates with explore.js:
+   ✦ Melee (Space) + Ranged (Click) attacks
+   ✦ Enemy AI (chase + attack) with HP bars
+   ✦ Floating damage text + fairy FX
+   ✦ Auto-respawn enemies while exploring
+   ✦ Pauses automatically when overlays/menus open
 ============================================================ */
-
-document.addEventListener("DOMContentLoaded", () => {
-  if (!window.startExploreGame) {
-    console.warn("⚠️ Explore system not loaded yet!");
+(() => {
+  if (window.__combatLoaded) {
+    console.warn("⚠️ realtime_combat.js already loaded. Skipping re-init.");
     return;
   }
+  window.__combatLoaded = true;
 
-  /* ============================================================
-     🧍‍♀️ PLAYER COMBAT STATS
-  ============================================================ */
-  const player = window.player || {};
-  player.attackRange = 40;          // pixels
-  player.attackDamage = 15;
-  player.attackCooldown = 600;      // ms
-  player.lastAttack = 0;
+  /* ----------------------------------------------------------
+   Shared state references provided by explore.js / overlays
+  ---------------------------------------------------------- */
+  const getPlayer = () => window.player;
+  const isRunning = () => window.exploreRunning === true && window.uiState === "explore";
 
-  /* ============================================================
-     👹 ENEMY CLASS
-  ============================================================ */
+  let canvas = null;
+  let ctx = null;
+
+  /* ==========================================================
+     👹 Enemy Class + Collection
+  ========================================================== */
   class Enemy {
     constructor(x, y, hp = 50, speed = 1.2) {
       this.x = x;
@@ -33,176 +35,457 @@ document.addEventListener("DOMContentLoaded", () => {
       this.maxHp = hp;
       this.speed = speed;
       this.attackRange = 30;
-      this.attackCooldown = 1000;
+      this.attackCooldown = 900;
       this.lastAttack = 0;
-      this.color = "#9b59b6"; // purple enemy
+      this.radius = 10;
+      this.color = "#9b59b6";
     }
 
-    update(player) {
-      const dx = player.x - this.x;
-      const dy = player.y - this.y;
-      const dist = Math.hypot(dx, dy);
+    update(p) {
+      if (!p) return;
+      const dx = p.x - this.x;
+      const dy = p.y - this.y;
+      const dist = Math.hypot(dx, dy) || 0.0001;
 
-      // 🧭 Move toward player
       if (dist > this.attackRange) {
         this.x += (dx / dist) * this.speed;
         this.y += (dy / dist) * this.speed;
-      } 
-      // 💥 Attack when in range
-      else if (Date.now() - this.lastAttack > this.attackCooldown) {
-        if (window.player?.hp > 0) {
-          damagePlayer(10);
-          this.lastAttack = Date.now();
-          console.log(`💢 Enemy hit player for 10 damage`);
+      } else {
+        const now = performance.now();
+        if (now - this.lastAttack > this.attackCooldown) {
+          window.damagePlayer?.(3);
+          this.lastAttack = now;
         }
+      }
+
+      // Keep inside canvas
+      if (canvas) {
+        this.x = Math.max(this.radius, Math.min(canvas.width - this.radius, this.x));
+        this.y = Math.max(this.radius, Math.min(canvas.height - this.radius, this.y));
       }
     }
 
     draw(ctx) {
-      // Draw enemy (no background clearing)
+      // Body
       ctx.beginPath();
-      ctx.arc(this.x, this.y, 10, 0, Math.PI * 2);
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
       ctx.fillStyle = this.color;
       ctx.fill();
 
-      // Small HP bar above enemy
-      const barWidth = 20;
-      const hpRatio = this.hp / this.maxHp;
+      // HP bar
+      const barW = 22, barH = 4;
+      const ratio = Math.max(0, this.hp / this.maxHp);
       ctx.fillStyle = "#000";
-      ctx.fillRect(this.x - barWidth / 2, this.y - 20, barWidth, 4);
+      ctx.fillRect(this.x - barW / 2, this.y - this.radius - 12, barW, barH);
       ctx.fillStyle = "#ff69b4";
-      ctx.fillRect(this.x - barWidth / 2, this.y - 20, barWidth * hpRatio, 4);
+      ctx.fillRect(this.x - barW / 2, this.y - this.radius - 12, barW * ratio, barH);
     }
   }
 
-  /* ============================================================
-     ⚔️ COMBAT SYSTEM INIT
-  ============================================================ */
-  const enemies = [
-    new Enemy(250, 250),
-    new Enemy(500, 300),
-  ];
-  window.enemies = enemies;
+  let enemies = [];
+  window.enemies = enemies; // expose reference (reassigned on spawn)
 
-  /* ============================================================
-     🗡️ PLAYER ATTACK HANDLER
-  ============================================================ */
-  function playerAttack() {
-    const now = Date.now();
-    if (now - player.lastAttack < player.attackCooldown) return; // cooldown
-    player.lastAttack = now;
-
-    console.log("⚔️ Player attacks!");
-    for (const enemy of enemies) {
-      const dist = Math.hypot(enemy.x - player.x, enemy.y - player.y);
-      if (dist <= player.attackRange) {
-        const dmg = player.attackDamage;
-        enemy.hp = Math.max(0, enemy.hp - dmg);
-        console.log(`💥 Hit enemy for ${dmg} (HP: ${enemy.hp}/${enemy.maxHp})`);
-
-        // Floating damage text
-        showDamageText(`-${dmg}`, enemy.x, enemy.y, "#ff69b4");
-
-        if (enemy.hp <= 0) {
-          console.log("☠️ Enemy defeated!");
-          enemies.splice(enemies.indexOf(enemy), 1);
-        }
-      }
+  function spawnEnemies(n = 3) {
+    if (!canvas) return;
+    enemies = [];
+    for (let i = 0; i < n; i++) {
+      const ex = Math.random() * (canvas.width - 60) + 30;
+      const ey = Math.random() * (canvas.height - 60) + 30;
+      enemies.push(new Enemy(ex, ey));
     }
+    window.enemies = enemies;
   }
+  window.spawnEnemies = spawnEnemies;
 
-  document.addEventListener("keydown", (e) => {
-    if (e.code === "Space") playerAttack();
-  });
-
-  /* ============================================================
-     💥 DAMAGE PLAYER (SAFE)
-  ============================================================ */
-  function damagePlayer(amount = 10) {
-    if (!window.player) return console.warn("⚠️ No player found!");
-    player.hp = Math.max(0, player.hp - amount);
-    updateHPBar?.();
-    flashPlayerHit();
-
-    if (player.hp <= 0 && !window.__gameOverTriggered) {
-      console.log("💀 Player died! Triggering Game Over...");
-      window.__gameOverTriggered = true;
-      triggerGameOver?.();
-    }
-  }
-  window.damagePlayer = damagePlayer;
-
-  /* ============================================================
-     ✨ VISUAL FX HELPERS
-  ============================================================ */
+  /* ==========================================================
+     ✨ Visual FX Helpers (safe no-ops if CSS not present)
+  ========================================================== */
   function showDamageText(text, x, y, color = "#ff69b4") {
     const div = document.createElement("div");
     div.className = "damage-text";
     div.textContent = text;
     div.style.color = color;
-    div.style.left = `${x}px`;
-    div.style.top = `${y}px`;
+    if (canvas) {
+      const r = canvas.getBoundingClientRect();
+      div.style.left = `${r.left + x}px`;
+      div.style.top  = `${r.top + y - 20}px`;
+    } else {
+      div.style.left = `${x}px`;
+      div.style.top  = `${y - 20}px`;
+    }
     document.body.appendChild(div);
     setTimeout(() => div.remove(), 1000);
   }
+  if (!window.showDamageText) window.showDamageText = showDamageText;
 
-  function flashPlayerHit() {
-  const canvas = document.getElementById("explore-canvas");
-  if (!canvas) return;
+  function showAttackEffect(pageX, pageY) {
+    const aura = document.createElement("div");
+    aura.classList.add("fairy-aura");
+    const hue = Math.floor(Math.random() * 360);
+    aura.style.setProperty("--aura-color", `hsl(${hue}, 100%, 75%)`);
+    aura.style.left = `${pageX}px`;
+    aura.style.top  = `${pageY}px`;
+    document.body.appendChild(aura);
 
-  // Create a quick white overlay flash
-  const flash = document.createElement("div");
-  Object.assign(flash.style, {
-    position: "absolute",
-    left: `${canvas.offsetLeft}px`,
-    top: `${canvas.offsetTop}px`,
-    width: `${canvas.clientWidth}px`,
-    height: `${canvas.clientHeight}px`,
-    background: "rgba(255,255,255,0.6)",
-    pointerEvents: "none",
-    zIndex: 9999,
-    transition: "opacity 0.25s ease-out",
-  });
-  document.body.appendChild(flash);
-  setTimeout(() => (flash.style.opacity = 0), 50);
-  setTimeout(() => flash.remove(), 250);
-}
+    // burst sparkles
+    for (let i = 0; i < 20; i++) {
+      const s = document.createElement("div");
+      s.classList.add("fairy-sparkle");
+      s.style.setProperty("--sparkle-color", `hsl(${hue}, 100%, 85%)`);
+      s.style.left = `${pageX}px`;
+      s.style.top  = `${pageY}px`;
+      document.body.appendChild(s);
 
-  /* ============================================================
-     🧭 EXTEND EXPLORE LOOP (SHARED CANVAS, NO BACKGROUND CLEAR)
-  ============================================================ */
-  const oldStartExploreGame = window.startExploreGame;
-  window.startExploreGame = function () {
-    oldStartExploreGame?.();
-    console.log("🗡️ Real-time combat enabled!");
-    startCombatLoop();
-  };
+      const angle = Math.random() * Math.PI * 2;
+      const dist = Math.random() * 60 + 20;
+      const tx = Math.cos(angle) * dist;
+      const ty = Math.sin(angle) * dist;
 
-  function startCombatLoop() {
-    const canvas = document.getElementById("explore-canvas");
-    const ctx = canvas?.getContext("2d");
-    if (!ctx) return;
-
-    function loop() {
-      if (!window.player || !ctx) return;
-      if (!window.exploreRunning) return;
-
-      // Update enemies
-      enemies.forEach((enemy) => enemy.update(window.player));
-
-      // Redraw everything using existing explore.js functions
-      window.drawBackground?.();   // pastel background
-      window.drawMap?.();          // grid
-      enemies.forEach((enemy) => enemy.draw(ctx)); // 👹 enemies
-      window.drawPlayer?.();       // 🧍 player
-      window.updateHPBar?.();
-      window.updateManaBar?.();
-
-      requestAnimationFrame(loop);
+      s.animate(
+        [
+          { transform: `translate(${tx}px, ${ty}px) scale(1)`, opacity: 1 },
+          { transform: `translate(${tx * 1.2}px, ${ty * 1.2}px) scale(0.2)`, opacity: 0 },
+        ],
+        { duration: 600 + Math.random() * 300, easing: "linear", fill: "forwards" }
+      );
+      setTimeout(() => s.remove(), 800);
     }
 
-    loop();
+    aura.animate(
+      [
+        { transform: "translate(-50%, -50%) scale(0.8)", opacity: 1 },
+        { transform: "translate(-50%, -50%) scale(1.6)", opacity: 0 }
+      ],
+      { duration: 700, easing: "ease-out", fill: "forwards" }
+    );
+    setTimeout(() => aura.remove(), 700);
+  }
+  if (!window.showAttackEffect) window.showAttackEffect = showAttackEffect;
+
+  function showNoManaEffect(x = window.innerWidth / 2, y = window.innerHeight / 2) {
+    const puff = document.createElement("div");
+    puff.classList.add("fairy-aura");
+    puff.style.setProperty("--aura-color", "rgba(180, 200, 255, 0.6)");
+    puff.style.left = `${x}px`;
+    puff.style.top  = `${y}px`;
+    document.body.appendChild(puff);
+    puff.animate(
+      [
+        { transform: "translate(-50%, -50%) scale(0.6)", opacity: 1 },
+        { transform: "translate(-50%, -50%) scale(1.4)", opacity: 0 },
+      ],
+      { duration: 600, easing: "ease-out", fill: "forwards" }
+    );
+    setTimeout(() => puff.remove(), 600);
+  }
+  if (!window.showNoManaEffect) window.showNoManaEffect = showNoManaEffect;
+
+  function showRangedEffect(x, y) {
+    const aura = document.createElement("div");
+    aura.classList.add("fairy-aura");
+    const hue = 220 + Math.floor(Math.random() * 60);
+    aura.style.setProperty("--aura-color", `hsl(${hue}, 100%, 70%)`);
+    aura.style.left = `${x}px`;
+    aura.style.top  = `${y}px`;
+    document.body.appendChild(aura);
+
+    aura.animate(
+      [
+        { transform: "translate(-50%, -50%) scale(0.5)", opacity: 1 },
+        { transform: "translate(-50%, -50%) scale(2)", opacity: 0 },
+      ],
+      { duration: 800, easing: "ease-out", fill: "forwards" }
+    );
+    setTimeout(() => aura.remove(), 700);
+
+    for (let i = 0; i < 16; i++) {
+      const sparkle = document.createElement("div");
+      sparkle.classList.add("fairy-sparkle");
+      sparkle.style.setProperty("--sparkle-color", `hsl(${hue + Math.random() * 30 - 15}, 100%, 80%)`);
+      sparkle.style.left = `${x}px`;
+      sparkle.style.top  = `${y}px`;
+      document.body.appendChild(sparkle);
+
+      const angle = Math.random() * Math.PI * 2;
+      const dist = 50 + Math.random() * 40;
+      const tx = Math.cos(angle) * dist;
+      const ty = Math.sin(angle) * dist;
+
+      sparkle.animate(
+        [
+          { transform: "translate(-50%, -50%) scale(1)", opacity: 1 },
+          { transform: `translate(${tx}px, ${ty}px) scale(0.1)`, opacity: 0 },
+        ],
+        { duration: 700 + Math.random() * 200, easing: "ease-out", fill: "forwards" }
+      );
+      setTimeout(() => sparkle.remove(), 800);
+    }
   }
 
-  console.log("🧩 Realtime Combat System Loaded (Shared Canvas, No Background Fill)");
-});
+  /* ==========================================================
+     ❤️ HP / 🔵 Mana helpers (use existing if defined)
+  ========================================================== */
+  function updateHPBar()  { window.updateHPBar?.(); }
+  function updateManaBar(){ window.updateManaBar?.(); }
+
+  /* ==========================================================
+     💥 Damage Player (exported)
+  ========================================================== */
+  function flashPlayerHit() {
+    const p = getPlayer();
+    if (!p) return;
+    if (!p.baseColor) p.baseColor = p.color || "#ff69b4";
+    if (p.__isFlashing) return;
+    p.__isFlashing = true;
+    p.color = "#ffffff";
+    setTimeout(() => {
+      p.color = p.baseColor;
+      p.__isFlashing = false;
+    }, 120);
+  }
+
+  function damagePlayer(amount = 10) {
+    const p = getPlayer();
+    if (!p) return;
+    p.hp = Math.max(0, p.hp - amount);
+    flashPlayerHit();
+    updateHPBar();
+    if (p.hp <= 0 && !window.__gameOverTriggered) {
+      window.__gameOverTriggered = true;
+      window.triggerGameOver?.();
+      if (!window.triggerGameOver) {
+        (window.showAlert || alert)("💀 You were defeated!");
+        setTimeout(() => window.location.reload(), 650);
+      }
+    }
+  }
+  window.damagePlayer = damagePlayer;
+
+  /* ==========================================================
+     🗡️ Melee + 🔮 Ranged Attacks (exported melee)
+  ========================================================== */
+  function playerAttack() {
+    const p = getPlayer();
+    if (!p || !canvas) return;
+    const now = performance.now();
+    const cd = p.attackCooldown ?? 550;
+    if (p.lastAttack && now - p.lastAttack < cd) return;
+    p.lastAttack = now;
+
+    // page coords for effect
+    const rect = canvas.getBoundingClientRect();
+    showAttackEffect(rect.left + p.x, rect.top + p.y);
+
+    // small mana spend/refund loop (keeps synergy with ranged)
+    p.mana = Math.max(0, (p.mana ?? 80) - 3);
+    updateManaBar();
+
+    let hits = 0;
+    for (const e of enemies) {
+      const dist = Math.hypot(e.x - p.x, e.y - p.y);
+      if (dist <= (p.attackRange ?? 40)) {
+        e.hp = Math.max(0, e.hp - (p.attackDamage ?? 15));
+        showDamageText(`-${p.attackDamage ?? 15}`, e.x, e.y, "#ff69b4");
+        hits++;
+      }
+    }
+    enemies = enemies.filter(e => e.hp > 0);
+    window.enemies = enemies;
+
+    if (hits > 0) {
+      p.mana = Math.min(p.maxMana ?? 80, (p.mana ?? 0) + 2 * hits);
+      updateManaBar();
+    }
+  }
+  window.playerAttack = playerAttack;
+
+  /* ==========================================================
+     ⌨️/🖱️ Controls (attack-only; movement is in explore.js)
+  ========================================================== */
+  let keydownBound = false;
+  let clickBound = false;
+
+  function bindInput() {
+    if (!keydownBound) {
+      window.addEventListener("keydown", onKeyDown);
+      window.addEventListener("keyup", onKeyUp);
+      keydownBound = true;
+    }
+    if (!clickBound && canvas) {
+      canvas.addEventListener("click", onCanvasClick);
+      clickBound = true;
+    }
+  }
+  function unbindInput() {
+    if (keydownBound) {
+      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("keyup", onKeyUp);
+      keydownBound = false;
+    }
+    if (clickBound && canvas) {
+      canvas.removeEventListener("click", onCanvasClick);
+      clickBound = false;
+    }
+  }
+
+  function onKeyDown(e) {
+    // Melee – Space
+    if (e.code === "Space" && isRunning()) {
+      e.preventDefault();
+      const p = getPlayer();
+      if (!p) return;
+      // Optionally require mana; currently light cost handled in playerAttack()
+      playerAttack();
+    }
+  }
+  function onKeyUp(_e) {
+    // reserved if needed later
+  }
+
+  function onCanvasClick(e) {
+    if (!isRunning()) return;
+    const p = getPlayer();
+    if (!p || !canvas) return;
+
+    const manaCost = 10;
+    if ((p.mana ?? 0) < manaCost) {
+      showNoManaEffect(e.clientX, e.clientY);
+      return;
+    }
+
+    p.mana = Math.max(0, (p.mana ?? 0) - manaCost);
+    updateManaBar();
+
+    const rect = canvas.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const clickY = e.clientY - rect.top;
+
+    showRangedEffect(e.clientX, e.clientY);
+
+    const rangedDamage = p.ranged ?? 12;
+    const range = (p.attackRange ?? 40) * 2.2;
+    let hit = 0;
+
+    for (const en of enemies) {
+      const dist = Math.hypot(en.x - clickX, en.y - clickY);
+      if (dist <= range) {
+        en.hp = Math.max(0, en.hp - rangedDamage);
+        showDamageText(`-${rangedDamage}`, en.x, en.y, "#87cefa");
+        hit++;
+      }
+    }
+
+    enemies = enemies.filter(en => en.hp > 0);
+    window.enemies = enemies;
+
+    if (hit > 0) {
+      p.mana = Math.min(p.maxMana ?? 80, (p.mana ?? 0) + 3);
+      updateManaBar();
+    }
+  }
+
+  /* ==========================================================
+     🔁 Combat Render Loop (draws on the shared canvas)
+  ========================================================== */
+  let combatFrameId = null;
+  function combatLoop() {
+    if (!canvas || !ctx) return;
+    const p = getPlayer();
+
+    // Only update/draw when actually exploring
+    if (isRunning() && p) {
+      // Update enemies
+      for (const e of enemies) e.update(p);
+
+      // Draw using explore helpers for background/player
+      window.drawBackground?.();
+      window.drawMap?.();
+      for (const e of enemies) e.draw(ctx);
+      window.drawPlayer?.();
+      updateHPBar();
+      updateManaBar();
+    }
+    combatFrameId = requestAnimationFrame(combatLoop);
+  }
+
+  /* ==========================================================
+     🔄 Respawn Controller (auto while exploring)
+  ========================================================== */
+  let respawnTimer = null;
+  function startRespawn() {
+    stopRespawn();
+    respawnTimer = setInterval(() => {
+      if (!isRunning()) return;            // paused/overlay → do nothing
+      if (!enemies || enemies.length === 0) {
+        spawnEnemies(1);
+      }
+    }, 6000);
+  }
+  function stopRespawn() {
+    if (respawnTimer) {
+      clearInterval(respawnTimer);
+      respawnTimer = null;
+    }
+  }
+
+  /* ==========================================================
+     🔌 Wiring to Explore lifecycle
+     - Waits for explore:start to grab canvas/context
+     - Binds inputs and starts loops
+     - Pauses automatically when uiState changes
+  ========================================================== */
+  function initFromExplore(detail) {
+    canvas = document.getElementById("explore-canvas");
+    ctx = canvas?.getContext("2d") || detail?.ctx || null;
+
+    if (!canvas || !ctx) {
+      console.warn("⚠️ Combat: missing explore canvas/ctx.");
+      return;
+    }
+
+    // Ensure player has basic combat stats
+    const p = getPlayer();
+    if (p) {
+      p.attackRange   = p.attackRange   ?? 40;
+      p.attackDamage  = p.attackDamage  ?? 15;
+      p.attackCooldown= p.attackCooldown?? 550;
+      p.lastAttack    = 0;
+      p.mana          = p.mana          ?? 80;
+      p.maxMana       = p.maxMana       ?? 80;
+    }
+
+    // (Re)bind inputs
+    bindInput();
+
+    // Fresh spawn if needed
+    if (!enemies || enemies.length === 0) spawnEnemies(2);
+
+    // Start loops (idempotent)
+    if (!combatFrameId) combatLoop();
+    startRespawn();
+
+    console.log("🗡️ Real-time combat initialized on explore canvas.");
+  }
+
+  // Listen for explore start (emitted by your explore.js)
+  window.addEventListener("explore:start", (ev) => initFromExplore(ev.detail || {}));
+
+  /* ==========================================================
+     🛑 Pause / Resume guards (observe uiState changes)
+     - No direct listener to uiState, but loops check isRunning()
+     - Respawn interval continues but is gated by isRunning()
+     - Inputs remain bound; they do nothing when paused
+  ========================================================== */
+
+  // Safety: also hook when the explore page is shown manually without event
+  // If your flow shows the explore screen directly, try to attach once DOM is ready
+  document.addEventListener("DOMContentLoaded", () => {
+    const page = document.getElementById("explore-page");
+    if (page?.classList.contains("active")) {
+      // simulate explore:start if explore already visible
+      setTimeout(() => initFromExplore({}), 0);
+    }
+  });
+
+  console.log("✅ realtime_combat.js loaded (shared-canvas, overlay-aware, auto-respawn).");
+})();

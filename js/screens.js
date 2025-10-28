@@ -15,6 +15,48 @@ const storySection      = document.getElementById("story-section");
 const storyTitle        = document.getElementById("story-title");
 const storyText         = document.getElementById("story-text");
 
+/* ============================================================
+   ⚠️ CUSTOM ALERT BOX — Smooth OK / YES-NO Handling
+============================================================ */
+function showAlert(message, onConfirm = null, onCancel = null) {
+  const box = document.getElementById("custom-alert");
+  const msg = document.getElementById("alert-message");
+  const btns = box?.querySelector(".alert-btns");
+  if (!box || !msg || !btns) return alert(message);
+
+  msg.textContent = message;
+  btns.innerHTML = "";
+
+  // Helper to build buttons
+  const makeBtn = (text, cls, action) => {
+    const b = document.createElement("button");
+    b.textContent = text;
+    b.className = cls;
+    b.onclick = () => {
+      box.classList.add("alert-hidden");
+      action?.();
+    };
+    return b;
+  };
+
+  // ✅ Determine button type
+  const hasBoth = typeof onConfirm === "function" && typeof onCancel === "function";
+
+  if (hasBoth) {
+    // Confirmation dialog (Yes / No)
+    btns.append(
+      makeBtn("Yes", "alert-yes", onConfirm),
+      makeBtn("No", "alert-no", onCancel)
+    );
+  } else {
+    // Informational dialog (OK)
+    btns.append(makeBtn("OK", "alert-ok", onConfirm));
+  }
+
+  // Show the alert box
+  box.classList.remove("alert-hidden");
+}
+
 
 /* ============================================================
    🧭 UNIVERSAL SCREEN SWITCHER

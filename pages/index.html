@@ -359,16 +359,29 @@
   <!-- ============================================================
        📜 SCRIPTS
   ============================================================ -->
-  <script src="../js/explore.js"></script>
-  <script src="../js/script.js"></script>
-  <script src="../js/player_data.js"></script>
-  <script src="../js/realtime_combat.js"></script>
-  <script src="../js/save.js"></script>
-  <script src="../js/realtime_combat.js"></script>
+  
+  <!-- 1️⃣ Core systems & UI navigation -->
   <script src="../js/screens.js"></script>
-  <script src="../js/naming.js"></script>
-  <script src="../js/class_selection.js"></script>
-  <script src="../js/difficulty.js"></script>
-  <script src="../js/story.js"></script>
+
+  <!-- 2️⃣ Player + Class definitions -->
+  <script src="../js/player_data.js"></script>
+
+  <!-- 3️⃣ Save/Load system (depends on screens + player_data) -->
+  <script src="../js/save.js"></script>
+
+  <!-- 4️⃣ World exploration (core game loop) -->
+  <script src="../js/explore.js"></script>
+
+  <!-- 5️⃣ Combat + HP/Mana updates (extends explore.js) -->
+  <script src="../js/realtime_combat.js"></script>
+
+  <!-- 6️⃣ Visual & audio effects (can rely on existing globals) -->
+  <script src="../js/effects.js"></script>
+
+  <!-- 7️⃣ Overlay navigation, menus, and return-home -->
+  <script src="../js/gamenavbar.js"></script>
+
+  <!-- 8️⃣ Developer tools -->
+  <script src="../js/debug.js"></script>
 </body>
 </html>

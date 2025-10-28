@@ -10,6 +10,14 @@
    ✦ Initial save creation
 ============================================================ */
 
+/* ============================================================
+   🧍‍♀️ PLAYER COMBAT STATS (Base Defaults)
+============================================================ */
+const playerDefaults = window.player || {};
+playerDefaults.attackRange = 40;     // pixels
+playerDefaults.attackDamage = 15;
+playerDefaults.attackCooldown = 600; // ms
+playerDefaults.lastAttack = 0;
 
 /* ============================================================
    🧙 CLASS DEFINITIONS
@@ -66,7 +74,6 @@ const classes = {
   },
 };
 
-
 /* ============================================================
    👑 PLAYER CREATION LOGIC
 ============================================================ */
@@ -81,7 +88,7 @@ function createPlayer(selectedClass) {
   window.playerName = window.playerName || localStorage.getItem("playerName") || "Player";
 
   // 🎮 Build player object
-  const player = {
+  const newPlayer = {
     classKey: selectedClass,
     ...baseClass,
     name: window.playerName,
@@ -91,7 +98,7 @@ function createPlayer(selectedClass) {
     armorUpgrades: [],
   };
 
-  window.player = player;
+  window.player = newPlayer;
 
   // 💾 Save initial state
   if (typeof saveGame === "function") {
@@ -101,65 +108,14 @@ function createPlayer(selectedClass) {
 
   // 🧩 Debug summary
   console.group("🎀 Player Created");
-  console.log("Name:", player.name);
-  console.log("Class:", player.classKey);
-  console.log("Stats:", player.currentStats);
-  console.log("Attacks:", player.classAttacks);
+  console.log("Name:", newPlayer.name);
+  console.log("Class:", newPlayer.classKey);
+  console.log("Stats:", newPlayer.currentStats);
+  console.log("Attacks:", newPlayer.classAttacks);
   console.groupEnd();
 
-  return player;
+  return newPlayer;
 }
-
-
-/* ============================================================
-   ✨ CLASS SELECTION HANDLER
-============================================================ */
-document.addEventListener("DOMContentLoaded", () => {
-  const classButtons = document.querySelectorAll(".class-btn");
-  const returnButton = document.getElementById("return-class");
-
-  // 🧩 Attach class button listeners
-  classButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      const selectedClass = button.dataset.class;
-      const player = createPlayer(selectedClass);
-      if (!player) return;
-
-      // 💾 Optional silent save
-      if (typeof window.saveGame === "function") {
-        window.saveGame(false);
-      }
-
-      // 🌸 Personalized message
-      const playerName = window.playerName || "Adventurer";
-
-      // 💬 Use custom showAlert if available
-      if (typeof window.showAlert === "function") {
-        window.showAlert(
-          `Let's go ${playerName}, the Queen and our Castle await you!`,
-          () => {
-            showScreen("difficulty-screen");
-            console.log("🌸 Transitioned to difficulty screen after OK.");
-          }
-        );
-      } else {
-        alert(`Let's go Princess ${playerName}, the castle awaits us!`);
-        showScreen("difficulty-screen");
-      }
-
-      console.log(`✨ Class selected: ${selectedClass}`);
-    });
-  });
-
-  // 🔙 Return button logic
-  if (returnButton) {
-    returnButton.addEventListener("click", () => {
-      console.log("🔙 Return button clicked — going back to landing page.");
-      showScreen("landing-page");
-    });
-  }
-});
-
 
 /* ============================================================
    🧾 HELPER – PRINT PLAYER NAME

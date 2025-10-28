@@ -1,0 +1,15 @@
+showStats()	Prints player info in a table
+heal(50)	Heals 50 HP
+damage(20)	Deals 20 damage
+restoreMana(30)	Adds 30 mana
+spawnEnemy(300,200,100)	Creates an enemy at x=300, y=200 with 100 HP
+clearEnemies()	Removes all current enemies
+addXP(500)	Grants 500 experience points
+levelUp()	Increases level by 1 and heals fully
+quickSave()	Saves without alert popups
+quickLoad()	Loads the last autosave
+listSaves()	Lists all saves in table format
+toggleAI()	Stops or resumes enemy AI movement
+toggleRegen()	Toggles mana regeneration
+clearLocalSaves()	Deletes all Olivia’s World saves
+helpDebug()	Shows command summary
