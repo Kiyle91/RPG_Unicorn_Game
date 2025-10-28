@@ -78,6 +78,10 @@
     if (now - this.lastAttack > this.attackCooldown) {
       window.damagePlayer?.(3);
       this.lastAttack = now;
+      const original = this.color;
+      this.color = '#615757ff';
+      setTimeout(() => { this.color = original; }, 150);
+
     }
   }
 
@@ -146,8 +150,8 @@ window.showCritEffect = function (x, y) {
 
   aura.animate(
     [
-      { transform: 'translate(-50%, -50%) scale(0.6)', opacity: 1 },
-      { transform: 'translate(-50%, -50%) scale(2.4)', opacity: 0 }
+      { transform: 'translate(-50%, -50%) scale(1.2)', opacity: 1 },
+      { transform: 'translate(-50%, -50%) scale(5.2)', opacity: 0 }
     ],
     { duration: 400, easing: 'ease-out', fill: 'forwards' }
   );
@@ -169,8 +173,8 @@ window.showCritEffect = function (x, y) {
 
     s.animate(
       [
-        { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
-        { transform: `translate(${tx}px, ${ty}px) scale(0.2)`, opacity: 0 }
+        { transform: 'translate(-50%, -50%) scale(2)', opacity: 1 },
+        { transform: `translate(${tx}px, ${ty}px) scale(0.4)`, opacity: 0 }
       ],
       { duration: 420 + Math.random() * 180, easing: 'ease-out', fill: 'forwards' }
     );
@@ -203,8 +207,8 @@ window.showNoManaEffect = function () {
   // inward collapse animation
   aura.animate(
     [
-      { transform: 'translate(-50%, -50%) scale(1.4)', opacity: 0.8 },
-      { transform: 'translate(-50%, -50%) scale(0.2)', opacity: 0 }
+      { transform: 'translate(-50%, -50%) scale(2.8)', opacity: 0.8 },     
+      { transform: 'translate(-50%, -50%) scale(0.4)', opacity: 0 }
     ],
     { duration: 500, easing: 'ease-in', fill: 'forwards' }
   );
@@ -307,9 +311,9 @@ window.showAttackEffect = function () {
   // 🗡️ Aura animation (smaller melee flash)
   aura.animate(
     [
-      { transform: 'translate(-50%, -50%) scale(0.5)', opacity: 1 },
-      { transform: 'translate(-50%, -50%) scale(1.0)', opacity: 0.9 },
-      { transform: 'translate(-50%, -50%) scale(1.3)', opacity: 0 }
+      { transform: 'translate(-50%, -50%) scale(1.0)', opacity: 1 },
+      { transform: 'translate(-50%, -50%) scale(2.0)', opacity: 0.9 },
+      { transform: 'translate(-50%, -50%) scale(2.6)', opacity: 0 }
     ],
     { duration: 450, easing: 'ease-out', fill: 'forwards' }
   );
@@ -330,7 +334,7 @@ window.showAttackEffect = function () {
 
     s.animate(
       [
-        { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+        { transform: 'translate(-50%, -50%) scale(2)', opacity: 1 },
         { transform: `translate(${tx}px, ${ty}px) scale(0.3)`, opacity: 0 }
       ],
       { duration: 400 + Math.random() * 150, easing: 'ease-out', fill: 'forwards' }
@@ -347,6 +351,58 @@ window.showAttackEffect = function () {
 
 
 
+/* ============================================================
+   💢 Enemy Attack Effect – Red impact when player takes damage
+============================================================ */
+window.showEnemyAttackEffect = function (x, y) {
+  if (!canvas) return;
+
+  const rect = canvas.getBoundingClientRect();
+  const px = rect.left + x;
+  const py = rect.top + y;
+
+  // 🔴 Central red flash
+  const aura = document.createElement('div');
+  aura.classList.add('fairy-aura');
+  aura.style.setProperty('--aura-color', 'rgba(255, 0, 0, 0.9)');
+  aura.style.left = `${px}px`;
+  aura.style.top = `${py}px`;
+  document.body.appendChild(aura);
+
+  // Quick pulse animation
+  aura.animate(
+    [
+      { transform: 'translate(-50%, -50%) scale(0.8)', opacity: 1 },
+      { transform: 'translate(-50%, -50%) scale(3.6)', opacity: 0 },
+    ],
+    { duration: 320, easing: 'ease-out', fill: 'forwards' }
+  );
+  setTimeout(() => aura.remove(), 350);
+
+  // 💥 Small red sparks flying outward
+  for (let i = 0; i < 10; i++) {
+    const s = document.createElement('div');
+    s.classList.add('fairy-sparkle');
+    s.style.setProperty('--sparkle-color', 'rgba(255, 0, 0, 0.8)');
+    s.style.left = `${px}px`;
+    s.style.top = `${py}px`;
+    document.body.appendChild(s);
+
+    const angle = Math.random() * Math.PI * 2;
+    const dist = 20 + Math.random() * 30;
+    const tx = Math.cos(angle) * dist;
+    const ty = Math.sin(angle) * dist;
+
+    s.animate(
+      [
+        { transform: 'translate(-50%, -50%) scale(2)', opacity: 1 },
+        { transform: `translate(${tx}px, ${ty}px) scale(0.2)`, opacity: 0 },
+      ],
+      { duration: 400 + Math.random() * 120, easing: 'ease-out', fill: 'forwards' }
+    );
+    setTimeout(() => s.remove(), 450);
+  }
+};
 
 
   /* ==========================================================
@@ -608,9 +664,9 @@ function castSpell() {
 
   aura.animate(
     [
-      { transform: 'translate(-50%, -50%) scale(0.2)', opacity: 1 },
-      { transform: 'translate(-50%, -50%) scale(3.5)', opacity: 0.8 },
-      { transform: 'translate(-50%, -50%) scale(5.5)', opacity: 0 },
+      { transform: 'translate(-50%, -50%) scale(0.3)', opacity: 1 },
+      { transform: 'translate(-50%, -50%) scale(7.0)', opacity: 0.8 },
+      { transform: 'translate(-50%, -50%) scale(7.0)', opacity: 0 },
     ],
     { duration: 800, easing: 'ease-out', fill: 'forwards' }
   );
@@ -635,7 +691,7 @@ function castSpell() {
 
     sparkle.animate(
       [
-        { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+        { transform: 'translate(-50%, -50%) scale(2)', opacity: 1 },
         { transform: `translate(${tx}px, ${ty}px) scale(0.2)`, opacity: 0 },
       ],
       { duration: 900 + Math.random() * 300, easing: 'ease-out', fill: 'forwards' }
@@ -692,9 +748,9 @@ function castHeal() {
 
   aura.animate(
     [
-      { transform: 'translate(-50%, -50%) scale(0.5)', opacity: 1 },
-      { transform: 'translate(-50%, -50%) scale(2.8)', opacity: 0.8 },
-      { transform: 'translate(-50%, -50%) scale(4)', opacity: 0 },
+      { transform: 'translate(-50%, -50%) scale(1.0)', opacity: 1 },
+      { transform: 'translate(-50%, -50%) scale(4.6)', opacity: 0.8 },
+      { transform: 'translate(-50%, -50%) scale(8)', opacity: 0 },
     ],
     { duration: 800, easing: 'ease-out', fill: 'forwards' }
   );
@@ -716,8 +772,8 @@ function castHeal() {
 
     sparkle.animate(
       [
-        { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
-        { transform: `translate(${tx}px, ${ty}px) scale(0.2)`, opacity: 0 },
+        { transform: 'translate(-50%, -50%) scale(2)', opacity: 1 },
+        { transform: `translate(${tx}px, ${ty}px) scale(0.4)`, opacity: 0 },
       ],
       { duration: 700 + Math.random() * 200, easing: 'ease-out', fill: 'forwards' }
     );
