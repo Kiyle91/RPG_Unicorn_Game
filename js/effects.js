@@ -107,3 +107,71 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+
+/* ----------------------------------------------------------
+   ✨ Magic Effects Helpers
+---------------------------------------------------------- */
+
+// 🩵 Out of Mana Puff
+function showNoManaEffect(x = window.innerWidth / 2, y = window.innerHeight / 2) {
+  const puff = document.createElement("div");
+  puff.classList.add("fairy-aura");
+  puff.style.setProperty("--aura-color", "rgba(180, 200, 255, 0.6)");
+  puff.style.left = `${x}px`;
+  puff.style.top = `${y}px`;
+  document.body.appendChild(puff);
+  puff.animate(
+    [
+      { transform: "translate(-50%, -50%) scale(0.6)", opacity: 1 },
+      { transform: "translate(-50%, -50%) scale(1.4)", opacity: 0 },
+    ],
+    { duration: 600, easing: "ease-out", fill: "forwards" }
+  );
+  setTimeout(() => puff.remove(), 600);
+}
+
+// 💫 Blue/Purple Ranged Magic Effect
+function showRangedEffect(x, y) {
+  const aura = document.createElement("div");
+  aura.classList.add("fairy-aura");
+  const hue = 220 + Math.floor(Math.random() * 60); // blue/purple range
+  aura.style.setProperty("--aura-color", `hsl(${hue}, 100%, 70%)`);
+  aura.style.left = `${x}px`;
+  aura.style.top = `${y}px`;
+  document.body.appendChild(aura);
+
+  aura.animate(
+    [
+      { transform: "translate(-50%, -50%) scale(0.5)", opacity: 1 },
+      { transform: "translate(-50%, -50%) scale(2)", opacity: 0 },
+    ],
+    { duration: 800, easing: "ease-out", fill: "forwards" }
+  );
+  setTimeout(() => aura.remove(), 700);
+
+  // Scatter sparkles
+  for (let i = 0; i < 16; i++) {
+    const sparkle = document.createElement("div");
+    sparkle.classList.add("fairy-sparkle");
+    sparkle.style.setProperty("--sparkle-color", `hsl(${hue + Math.random() * 30 - 15}, 100%, 80%)`);
+    sparkle.style.left = `${x}px`;
+    sparkle.style.top = `${y}px`;
+    document.body.appendChild(sparkle);
+
+    const angle = Math.random() * Math.PI * 2;
+    const dist = 50 + Math.random() * 40;
+    const tx = Math.cos(angle) * dist;
+    const ty = Math.sin(angle) * dist;
+
+    sparkle.animate(
+      [
+        { transform: "translate(-50%, -50%) scale(1)", opacity: 1 },
+        { transform: `translate(${tx}px, ${ty}px) scale(0.1)`, opacity: 0 },
+      ],
+      { duration: 700 + Math.random() * 200, easing: "ease-out", fill: "forwards" }
+    );
+    setTimeout(() => sparkle.remove(), 800);
+  }
+}
+
