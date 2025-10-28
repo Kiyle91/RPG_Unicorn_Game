@@ -319,7 +319,7 @@ window.showAttackEffect = function () {
   );
 
   // ✨ Compact sparkles that stay near player
-  for (let i = 0; i < 8; i++) {
+  for (let i = 0; i < 70; i++) {
     const s = document.createElement('div');
     s.classList.add('fairy-sparkle');
     s.style.setProperty('--sparkle-color', `hsl(${hue}, 100%, 85%)`);
@@ -328,7 +328,7 @@ window.showAttackEffect = function () {
     document.body.appendChild(s);
 
     const angle = Math.random() * Math.PI * 2;
-    const dist = Math.random() * 20 + 10;
+    const dist = Math.random() * 30 + 30;
     const tx = Math.cos(angle) * dist;
     const ty = Math.sin(angle) * dist;
 
@@ -494,7 +494,7 @@ window.showEnemyAttackEffect = function (x, y) {
   // 🗡️ Melee attack — no mana cost now
   const rect = canvas.getBoundingClientRect();
   window.showAttackEffect?.(rect.left + p.x, rect.top + p.y);
-
+    setTimeout(() => {
     let hits = 0;
     for (const e of enemies) {
       const dist = Math.hypot(e.x - p.x, e.y - p.y);
@@ -528,7 +528,7 @@ window.showEnemyAttackEffect = function (x, y) {
     if (hits > 0) {
       p.mana = Math.min(p.maxMana ?? 80, (p.mana ?? 0) + 2 * hits);
       updateManaBar();
-    }
+    }}, 100); 
   }
   window.playerAttack = playerAttack;
 
@@ -665,8 +665,8 @@ function castSpell() {
   aura.animate(
     [
       { transform: 'translate(-50%, -50%) scale(0.3)', opacity: 1 },
-      { transform: 'translate(-50%, -50%) scale(7.0)', opacity: 0.8 },
-      { transform: 'translate(-50%, -50%) scale(7.0)', opacity: 0 },
+      { transform: 'translate(-50%, -50%) scale(12.0)', opacity: 0.8 },
+      { transform: 'translate(-50%, -50%) scale(15.0)', opacity: 0 },
     ],
     { duration: 800, easing: 'ease-out', fill: 'forwards' }
   );
@@ -685,7 +685,7 @@ function castSpell() {
     document.body.appendChild(sparkle);
 
     const angle = Math.random() * Math.PI * 2;
-    const distance = 60 + Math.random() * 140;
+    const distance = 160 + Math.random() * 140;
     const tx = Math.cos(angle) * distance;
     const ty = Math.sin(angle) * distance;
 
@@ -766,7 +766,7 @@ function castHeal() {
     document.body.appendChild(sparkle);
 
     const angle = Math.random() * Math.PI * 2;
-    const dist = 40 + Math.random() * 60;
+    const dist = 70 + Math.random() * 60;
     const tx = Math.cos(angle) * dist;
     const ty = Math.sin(angle) * dist;
 
@@ -792,11 +792,18 @@ let projectiles = [];
 let lastRangedAttack = 0; 
 
 function spawnProjectile(p, targetX, targetY) {
+  if (!p || !canvas) return;
+
   const dx = targetX - p.x;
   const dy = targetY - p.y;
   const dist = Math.hypot(dx, dy);
-  const speed = 8;
+  const speed = 12;
 
+  // 🌸 Trigger the same aura effect used by melee attacks
+  const rect = canvas.getBoundingClientRect();
+  window.showAttackEffect?.(rect.left + p.x, rect.top + p.y);
+
+  // 🚀 Launch the projectile (silver arrow bolt)
   projectiles.push({
     x: p.x,
     y: p.y,
@@ -804,9 +811,10 @@ function spawnProjectile(p, targetX, targetY) {
     dy: (dy / dist) * speed,
     radius: 4,
     color: '#87cefa',
-    damage: (p.classKey === 'silverArrow')
-  ?   (p.ranged ?? 12) * 1.4   // 🏹 Ranged bonus
-  :   (p.ranged ?? 12),
+    damage:
+      p.classKey === 'silverArrow'
+        ? (p.ranged ?? 12) * 1.4   // 🏹 Ranged bonus
+        : (p.ranged ?? 12),
     life: 100, // frames before despawn
   });
 }
@@ -862,16 +870,16 @@ function updateProjectiles(ctx) {
       }
     }
 
-    // ✨ Draw projectile
+    // ✨ Draw projectile (silver glowing bolt)
     const angle = Math.atan2(proj.dy, proj.dx); // direction of travel
-    const length = 24; // arrow length
+    const length = 90; // arrow length (long glowing bolt)
     const width = 4;   // shaft thickness
 
     ctx.save();
     ctx.translate(proj.x, proj.y);
     ctx.rotate(angle);
 
-    // 🌈 Silver gradient
+    // 🌈 Silver gradient for the arrow
     const gradient = ctx.createLinearGradient(0, 0, length, 0);
     gradient.addColorStop(0, '#f0f0f0'); // bright silver tip
     gradient.addColorStop(0.5, '#b0b0b0');
@@ -883,18 +891,15 @@ function updateProjectiles(ctx) {
     ctx.rect(0, -width / 2, length, width);
     ctx.fill();
 
-    
-
-    // Optional glow
+    // ✨ Optional glow
     ctx.shadowBlur = 6;
     ctx.shadowColor = '#d9d9d9';
     ctx.fill();
 
-    // Restore context
     ctx.restore();
   }
 
-  // Clean up
+  // Clean up old projectiles
   projectiles = projectiles.filter(p => !p.remove);
 }
 
