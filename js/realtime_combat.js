@@ -103,73 +103,84 @@
   }
   window.spawnEnemies = spawnEnemies;
 
-  /* ==========================================================
-     ✨ Visual FX Helpers (safe no-ops if CSS not present)
-  ========================================================== */
-  function showDamageText(text, x, y, color = "#ff69b4") {
-    const div = document.createElement("div");
-    div.className = "damage-text";
-    div.textContent = text;
-    div.style.color = color;
-    if (canvas) {
-      const r = canvas.getBoundingClientRect();
-      div.style.left = `${r.left + x}px`;
-      div.style.top  = `${r.top + y - 20}px`;
-    } else {
-      div.style.left = `${x}px`;
-      div.style.top  = `${y - 20}px`;
-    }
-    document.body.appendChild(div);
-    setTimeout(() => div.remove(), 1000);
-  }
-  if (!window.showDamageText) window.showDamageText = showDamageText;
+  /* ============================================================
+   ✨ VISUAL FX HELPERS – Always globally available
+============================================================ */
 
-  function showAttackEffect(pageX, pageY) {
-    const aura = document.createElement("div");
-    aura.classList.add("fairy-aura");
-    const hue = Math.floor(Math.random() * 360);
-    aura.style.setProperty("--aura-color", `hsl(${hue}, 100%, 75%)`);
-    aura.style.left = `${pageX}px`;
-    aura.style.top  = `${pageY}px`;
-    document.body.appendChild(aura);
+// 🩸 Floating damage text
+window.showDamageText = function (text, x, y, color = "#ff69b4") {
+  const rect = canvas?.getBoundingClientRect?.() ?? { left: 0, top: 0 };
+  const screenX = rect.left + x;
+  const screenY = rect.top + y - 20;
 
-    // burst sparkles
-    for (let i = 0; i < 20; i++) {
-      const s = document.createElement("div");
-      s.classList.add("fairy-sparkle");
-      s.style.setProperty("--sparkle-color", `hsl(${hue}, 100%, 85%)`);
-      s.style.left = `${pageX}px`;
-      s.style.top  = `${pageY}px`;
-      document.body.appendChild(s);
+  const div = document.createElement("div");
+  div.className = "damage-text";
+  div.textContent = (typeof text === "number") ? Math.round(text) : text;
+  div.style.color = color;
+  div.style.position = "absolute";
+  div.style.left = `${screenX}px`;
+  div.style.top = `${screenY}px`;
+  div.style.zIndex = "100000";
+  document.body.appendChild(div);
 
-      const angle = Math.random() * Math.PI * 2;
-      const dist = Math.random() * 60 + 20;
-      const tx = Math.cos(angle) * dist;
-      const ty = Math.sin(angle) * dist;
+  div.animate(
+    [
+      { transform: "translateY(0)", opacity: 1 },
+      { transform: "translateY(-40px)", opacity: 0 }
+    ],
+    { duration: 1000, easing: "ease-out", fill: "forwards" }
+  );
 
-      s.animate(
-        [
-          { transform: `translate(${tx}px, ${ty}px) scale(1)`, opacity: 1 },
-          { transform: `translate(${tx * 1.2}px, ${ty * 1.2}px) scale(0.2)`, opacity: 0 },
-        ],
-        { duration: 600 + Math.random() * 300, easing: "linear", fill: "forwards" }
-      );
-      setTimeout(() => s.remove(), 800);
-    }
+  setTimeout(() => div.remove(), 1100);
+};
 
-    aura.animate(
+// 💥 Attack sparkle burst
+window.showAttackEffect = function (pageX, pageY) {
+  const aura = document.createElement("div");
+  aura.classList.add("fairy-aura");
+  const hue = Math.floor(Math.random() * 360);
+  aura.style.setProperty("--aura-color", `hsl(${hue}, 100%, 75%)`);
+  aura.style.left = `${pageX}px`;
+  aura.style.top = `${pageY}px`;
+  document.body.appendChild(aura);
+
+  // burst sparkles
+  for (let i = 0; i < 20; i++) {
+    const s = document.createElement("div");
+    s.classList.add("fairy-sparkle");
+    s.style.setProperty("--sparkle-color", `hsl(${hue}, 100%, 85%)`);
+    s.style.left = `${pageX}px`;
+    s.style.top = `${pageY}px`;
+    document.body.appendChild(s);
+
+    const angle = Math.random() * Math.PI * 2;
+    const dist = Math.random() * 60 + 20;
+    const tx = Math.cos(angle) * dist;
+    const ty = Math.sin(angle) * dist;
+
+    s.animate(
       [
-        { transform: "translate(-50%, -50%) scale(0.8)", opacity: 1 },
-        { transform: "translate(-50%, -50%) scale(1.6)", opacity: 0 }
+        { transform: `translate(${tx}px, ${ty}px) scale(1)`, opacity: 1 },
+        { transform: `translate(${tx * 1.2}px, ${ty * 1.2}px) scale(0.2)`, opacity: 0 }
       ],
-      { duration: 700, easing: "ease-out", fill: "forwards" }
+      { duration: 600 + Math.random() * 300, easing: "linear", fill: "forwards" }
     );
-    setTimeout(() => aura.remove(), 700);
+    setTimeout(() => s.remove(), 800);
   }
-  if (!window.showAttackEffect) window.showAttackEffect = showAttackEffect;
 
-  function showNoManaEffect() {
-  const p = getPlayer();
+  aura.animate(
+    [
+      { transform: "translate(-50%, -50%) scale(0.8)", opacity: 1 },
+      { transform: "translate(-50%, -50%) scale(1.6)", opacity: 0 }
+    ],
+    { duration: 700, easing: "ease-out", fill: "forwards" }
+  );
+  setTimeout(() => aura.remove(), 700);
+};
+
+// 💧 “Out of Mana” puff at player
+window.showNoManaEffect = function () {
+  const p = getPlayer?.();
   if (!p || !canvas) return;
 
   const rect = canvas.getBoundingClientRect();
@@ -180,19 +191,20 @@
   puff.classList.add("fairy-aura");
   puff.style.setProperty("--aura-color", "rgba(180, 200, 255, 0.6)");
   puff.style.left = `${px}px`;
-  puff.style.top  = `${py}px`;
+  puff.style.top = `${py}px`;
   document.body.appendChild(puff);
 
   puff.animate(
     [
       { transform: "translate(-50%, -50%) scale(0.6)", opacity: 1 },
-      { transform: "translate(-50%, -50%) scale(1.6)", opacity: 0 },
+      { transform: "translate(-50%, -50%) scale(1.6)", opacity: 0 }
     ],
     { duration: 700, easing: "ease-out", fill: "forwards" }
   );
 
   setTimeout(() => puff.remove(), 650);
-}
+};
+
 
 
   /* ==========================================================
@@ -247,13 +259,16 @@
 
   // 🗡️ Melee attack — no mana cost now
   const rect = canvas.getBoundingClientRect();
-  showAttackEffect(rect.left + p.x, rect.top + p.y);
+  window.showAttackEffect?.(rect.left + p.x, rect.top + p.y);
 
     let hits = 0;
     for (const e of enemies) {
       const dist = Math.hypot(e.x - p.x, e.y - p.y);
       if (dist <= (p.attackRange ?? 40)) {
-        e.hp = Math.max(0, e.hp - (p.attackDamage ?? 15));
+        let dmg = p.attackDamage ?? 15;
+        if (p.classKey === "glitterGuardian") dmg *= 1.5; // 🛡️ Melee bonus
+        e.hp = Math.max(0, e.hp - dmg);
+        showDamageText(`-${Math.floor(dmg)}`, e.x, e.y, "#ff69b4");
         showDamageText(`-${p.attackDamage ?? 15}`, e.x, e.y, "#ff69b4");
         hits++;
       }
@@ -366,7 +381,8 @@ function castSpell() {
   lastSpellCast = now;
 
   const radius = 180; // large AoE radius
-  const baseDamage = p.spellDamage ?? 40;
+  let baseDamage = p.spellDamage ?? 40;
+  if (p.classKey === "starSage") baseDamage *= 1.6; // 🔮 Spell bonus
 
   // 💥 Damage all enemies in range
   for (const e of enemies) {
@@ -449,7 +465,7 @@ function castHeal() {
 
   // 💧 Check Mana
   if ((p.mana ?? 0) < HEAL_COST) {
-    showNoManaEffect(); // now spawns at player
+    window.showNoManaEffect?.(); // now spawns at player
     return;
   }
 
@@ -460,20 +476,20 @@ function castHeal() {
 
   // 🌿 Restore HP
   const baseHeal = p.healing ?? 25;
-  const healAmount = Math.floor(baseHeal * (p.classKey === "moonflowerHealer" ? 1.8 : 1));
+  const healAmount = Math.round(baseHeal * (p.classKey === "moonflowerHealer" ? 1.8 : 1));
   const oldHP = p.hp;
   p.hp = Math.min(p.maxHp, (p.hp ?? 0) + healAmount);
   updateHPBar();
 
-  // 💖 Floating +HP text
+  // ✅ Get rect *before* using it
   const rect = canvas.getBoundingClientRect();
-  const screenX = rect.left + p.x;
-  const screenY = rect.top + p.y - 20;
-  showDamageText(`+${healAmount} HP`, screenX, screenY, "#00ff99");
-
-  // 🌈 Healing Visual Effect
   const px = rect.left + p.x;
   const py = rect.top + p.y;
+
+  // 💖 Floating +HP text
+  window.showDamageText?.(`+${healAmount} HP`, p.x, p.y, "#00ff99");
+
+  // 🌈 Healing Visual Effect
   const aura = document.createElement("div");
   aura.classList.add("fairy-aura");
   aura.style.setProperty("--aura-color", "rgba(100, 255, 150, 0.8)");
@@ -519,6 +535,7 @@ function castHeal() {
 }
 
 
+
 /* ============================================================
    🎯 PROJECTILE SYSTEM – Canvas-based ranged attacks
 ============================================================ */
@@ -538,7 +555,9 @@ function spawnProjectile(p, targetX, targetY) {
     dy: (dy / dist) * speed,
     radius: 4,
     color: "#87cefa",
-    damage: p.ranged ?? 12,
+    damage: (p.classKey === "silverArrow")
+  ?   (p.ranged ?? 12) * 1.4   // 🏹 Ranged bonus
+  :   (p.ranged ?? 12),
     life: 100, // frames before despawn
   });
 }
