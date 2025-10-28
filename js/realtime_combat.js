@@ -29,6 +29,8 @@
   let lastHealCast = 0;
   const HEAL_COOLDOWN = 3000; // 3 seconds
   const HEAL_COST = 30; 
+  const ENEMY_SEPARATION_RADIUS = 30;  // how close before pushing away
+  const ENEMY_SEPARATION_FORCE  = 0.4;
 
   /* ==========================================================
      👹 Enemy Class + Collection
@@ -49,27 +51,42 @@
 
     update(p) {
       if (!p) return;
-      const dx = p.x - this.x;
-      const dy = p.y - this.y;
-      const dist = Math.hypot(dx, dy) || 0.0001;
+        const dx = p.x - this.x;
+        const dy = p.y - this.y;
+        const dist = Math.hypot(dx, dy) || 0.0001;
 
-      if (dist > this.attackRange) {
-        this.x += (dx / dist) * this.speed;
-        this.y += (dy / dist) * this.speed;
-      } else {
-        const now = performance.now();
-        if (now - this.lastAttack > this.attackCooldown) {
-          window.damagePlayer?.(3);
-          this.lastAttack = now;
-        }
+    // --- 💥 Enemy separation logic ---
+      for (const other of window.enemies ?? []) {
+        if (other === this) continue;
+      const ox = this.x - other.x;
+      const oy = this.y - other.y;
+      const od = Math.hypot(ox, oy);
+      if (od > 0 && od < ENEMY_SEPARATION_RADIUS) {
+        const push = (ENEMY_SEPARATION_RADIUS - od) / ENEMY_SEPARATION_RADIUS;
+        this.x += (ox / od) * push * ENEMY_SEPARATION_FORCE;
+        this.y += (oy / od) * push * ENEMY_SEPARATION_FORCE;
       }
+  }
+  // --------------------------------
 
-      // Keep inside canvas
-      if (canvas) {
-        this.x = Math.max(this.radius, Math.min(canvas.width - this.radius, this.x));
-        this.y = Math.max(this.radius, Math.min(canvas.height - this.radius, this.y));
-      }
+  // 🧭 Movement toward player
+  if (dist > this.attackRange) {
+    this.x += (dx / dist) * this.speed;
+    this.y += (dy / dist) * this.speed;
+  } else {
+    const now = performance.now();
+    if (now - this.lastAttack > this.attackCooldown) {
+      window.damagePlayer?.(3);
+      this.lastAttack = now;
     }
+  }
+
+  // Keep inside canvas
+  if (canvas) {
+    this.x = Math.max(this.radius, Math.min(canvas.width - this.radius, this.x));
+    this.y = Math.max(this.radius, Math.min(canvas.height - this.radius, this.y));
+  }
+}
 
     draw(ctx) {
       // Body
