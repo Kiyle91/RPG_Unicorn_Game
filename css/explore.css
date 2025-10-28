@@ -58,41 +58,43 @@
 }
 
 /* ============================================================
-   🌸 NAVIGATION BUTTONS
+   🌸 NAVIGATION BUTTONS — smaller + sleeker
 ============================================================ */
 #explore-nav {
   position: absolute;
-  top: 25px;
+  top: 20px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 9999;
   display: flex;
-  gap: 12px;
+  gap: 10px;
 }
 
 #explore-nav .nav-btn {
   font-family: 'Comic Sans MS', cursive;
-  font-size: 1.4rem;
+  font-size: 1.1rem;                 /* smaller text */
   text-align: center;
   color: #fff;
   cursor: pointer;
-  padding: 14px 36px;
-  border-radius: 30px;
+  padding: 8px 22px;                 /* smaller padding */
+  border-radius: 20px;
   background: linear-gradient(135deg, #ffb6c1, #dda0dd, #87cefa);
   border: 2px solid #fff;
-  box-shadow: 0 0 25px rgba(255, 182, 193, 0.6);
-  transition: all 0.3s ease-in-out;
+  box-shadow: 0 0 18px rgba(255, 182, 193, 0.5);
+  transition: all 0.25s ease-in-out;
 }
 
 #explore-nav .nav-btn:hover {
   background: linear-gradient(135deg, #ff69b4, #ba55d3, #87cefa);
-  box-shadow: 0 0 40px rgba(255, 182, 193, 0.9);
-  transform: scale(1.08);
+  box-shadow: 0 0 30px rgba(255, 182, 193, 0.8);
+  transform: scale(1.06);
 }
 
 #explore-nav .nav-btn:active {
   filter: brightness(1.15);
+  transform: scale(1.0);
 }
+
 
 /* ============================================================
    💚 PLAYER HP BAR – RESIZED AND CENTERED

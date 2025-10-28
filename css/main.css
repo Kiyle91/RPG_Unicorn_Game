@@ -508,12 +508,12 @@ body:has(#explore-page.active) #mute-btn {
 
 .alert-btns button {
   background: linear-gradient(135deg, #ff69b4, #dda0dd, #87cefa);
-  border: none;
+  border: 2px solid #fff;           /* 💖 added white border */
   border-radius: 25px;
   padding: 10px 25px;
   font-size: 1.2rem;
   color: #fff;
-  font-family: 'Comic Sans MS';
+  font-family: 'Comic Sans MS', cursive;
   cursor: pointer;
   transition: all 0.3s ease;
   margin: 10px;
