@@ -150,7 +150,7 @@ function startManaRegen() {
       // Call only if present to avoid load-order errors
       window.updateManaBar?.();
     }
-  }, 2000);
+  }, 500);
 }
 
 /* ------------------------------------------------------------
