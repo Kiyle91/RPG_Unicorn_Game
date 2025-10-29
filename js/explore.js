@@ -245,6 +245,7 @@ function startExploreGame() {
   drawPlayer();
   window.updateHPBar?.();
   window.updateManaBar?.();
+  window.syncPlayerInGame?.();
 
   window.exploreRunning = true;
   step();

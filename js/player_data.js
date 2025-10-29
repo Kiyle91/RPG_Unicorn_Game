@@ -104,6 +104,7 @@ function createPlayer(selectedClass) {
   window.player = newPlayer;
   if (typeof saveGame === "function") saveGame();
   window.syncPlayerInGame?.();
+  
 
   console.group("🎀 Player Created");
   console.log("Name:", newPlayer.name);
@@ -112,6 +113,7 @@ function createPlayer(selectedClass) {
   console.groupEnd();
 
   return newPlayer;
+  
 }
 
 /* ============================================================

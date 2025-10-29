@@ -291,6 +291,7 @@ window.addEventListener('load', () => {
 
     console.log('▶️ Game resumed from last save.');
   });
-
+  
+  
   console.log('✅ In-game Save/Load buttons initialized (instant reload + unpause).');
 });
