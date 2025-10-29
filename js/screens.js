@@ -300,3 +300,32 @@ function showAlert(message, onConfirm = null, onCancel = null) {
   // Show the alert box
   box.classList.remove('alert-hidden');
 }
+
+
+/* ============================================================
+   🌸 GAME MESSAGE SYSTEM
+============================================================ */
+window.showGameMessage = function (text, callback) {
+  const overlay = document.getElementById("game-message-overlay");
+  const messageText = document.getElementById("game-message-text");
+  const continueBtn = document.getElementById("game-message-continue");
+
+  if (!overlay || !messageText) return;
+
+  messageText.textContent = text;
+  overlay.classList.remove("hidden");
+
+  // Pause gameplay
+  window.exploreRunning = false;
+  window.uiState = "message";
+
+  const continueHandler = () => {
+    overlay.classList.add("hidden");
+    window.exploreRunning = true;
+    window.uiState = "explore";
+    continueBtn.removeEventListener("click", continueHandler);
+    if (typeof callback === "function") callback();
+  };
+
+  continueBtn.addEventListener("click", continueHandler);
+};

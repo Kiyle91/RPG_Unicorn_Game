@@ -402,3 +402,16 @@ style.textContent = `
 }
 `;
 document.head.appendChild(style);
+
+
+/* ============================================================
+   🌸 AUTO INTRO MESSAGE ON EXPLORE START
+============================================================ */
+window.addEventListener("explore:start", () => {
+  window.showGameMessage(
+    "The air sparkles with magic in the Royal Courtyard..",
+    () => {
+      console.log("✨ Exploration resumes!");
+    }
+  );
+});
