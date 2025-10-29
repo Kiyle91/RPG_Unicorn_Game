@@ -480,10 +480,10 @@ window.showEnemyAttackEffect = function (x, y) {
 
   
 
-  /* ==========================================================
-     🗡️ Melee + 🔮 Ranged Attacks (exported melee)
-  ========================================================== */
-  function playerAttack() {
+/* ==========================================================
+   🗡️ Melee + 🔮 Ranged Attacks (exported melee)
+========================================================== */
+function playerAttack() {
   const p = getPlayer();
   if (!p || !canvas) return;
   const now = performance.now();
@@ -494,21 +494,22 @@ window.showEnemyAttackEffect = function (x, y) {
   // 🗡️ Melee attack — no mana cost now
   const rect = canvas.getBoundingClientRect();
   window.showAttackEffect?.(rect.left + p.x, rect.top + p.y);
-    setTimeout(() => {
+
+  setTimeout(() => {
     let hits = 0;
     for (const e of enemies) {
       const dist = Math.hypot(e.x - p.x, e.y - p.y);
       if (dist <= (p.attackRange ?? 80)) {
         let dmg = p.attackDamage ?? 15;
 
-                  // roll crit
+        // roll crit
         const crit = isCritical(p);
         if (crit) {
           dmg *= 1.8;
           window.showCritEffect?.(p.x, p.y); // flash at player position
         }
 
-        // class melee bonus (if you already use this)
+        // class melee bonus
         if (p.classKey === 'glitterGuardian') dmg *= 1.5;
 
         e.hp = Math.max(0, e.hp - dmg);
@@ -519,20 +520,28 @@ window.showEnemyAttackEffect = function (x, y) {
           e.x, e.y,
           crit ? '#ffd700' : '#ff69b4'
         );
+
+        // ✅ Award EXP only when enemy dies
+        if (e.hp <= 0) {
+          window.addExperience?.(25);
+        }
+
         hits++;
       }
     }
+
+    // remove defeated enemies
     enemies = enemies.filter(e => e.hp > 0);
     window.enemies = enemies;
-    window.addExperience?.(25);
-    
 
     if (hits > 0) {
       p.mana = Math.min(p.maxMana ?? 80, (p.mana ?? 0) + 2 * hits);
       updateManaBar();
-    }}, 100); 
-  }
-  window.playerAttack = playerAttack;
+    }
+  }, 100);
+}
+
+window.playerAttack = playerAttack;
 
   /* ==========================================================
      ⌨️/🖱️ Controls (attack-only; movement is in explore.js)
