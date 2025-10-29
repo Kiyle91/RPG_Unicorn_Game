@@ -169,6 +169,35 @@
 }
 
 /* ============================================================
+   🌸 PLAYER PORTRAIT (Explore Page)
+============================================================ */
+#player-portrait-container {
+  position: absolute;
+  top: 2%;
+  right: 2%;
+  width: 160px;
+  height: auto;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 20px rgba(255, 182, 193, 0.5);
+  backdrop-filter: blur(6px);
+  padding: 8px;
+}
+
+#player-portrait {
+  width: 100%;
+  height: auto;
+  border-radius: 15px;
+  object-fit: contain;
+  transition: all 0.5s ease;
+}
+
+
+/* ============================================================
    🌸 GLOBAL TRANSITION KEYFRAMES
 ============================================================ */
 @keyframes fadeInUp {

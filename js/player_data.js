@@ -103,6 +103,7 @@ function createPlayer(selectedClass) {
 
   window.player = newPlayer;
   if (typeof saveGame === "function") saveGame();
+  window.syncPlayerInGame?.();
 
   console.group("🎀 Player Created");
   console.log("Name:", newPlayer.name);
@@ -199,6 +200,7 @@ window.syncPlayerInGame = function () {
   window.updateManaBar?.();
   window.updateStatsUI?.();
   window.updateClassIcon?.();
+  window.updatePlayerPortrait?.();
 
   console.log(
     `%c🔄 Player Synced | ${p.classKey} | HP:${cs.health} | MP:${cs.mana} | Spell:${cs.spellPower} | Heal:${cs.healPower} | ATK:${cs.rangedAttack} | ARM:${cs.armor}`,
@@ -271,3 +273,22 @@ window.updateStatsUI = function () {
   update("stat-armor", cs.armor);
 };
 
+/* ============================================================
+   🖼️ PLAYER PORTRAIT LOADER
+============================================================ */
+window.updatePlayerPortrait = function () {
+  const p = window.player;
+  if (!p) return;
+
+  const portrait = document.getElementById("player-portrait");
+  if (!portrait) return;
+
+  const portraits = {
+    glitterGuardian: "../images/portrait_glitter.png",
+    starSage: "../images/portait_star_sage.png",
+    moonflower: "../images/portait_moonflower.png",
+    silverArrow: "../images/portait_silver_arrow.png",
+  };
+
+  portrait.src = portraits[p.classKey] || "";
+};
