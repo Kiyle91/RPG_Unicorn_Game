@@ -25,7 +25,7 @@ const classes = {
     name: 'Glitter Guardian',
     baseStats: {
       hp: 120, mana: 40, speed: 1.8, armor: 5,
-      healing: 5, attack: 15, ranged: 5, critChance: 10,
+      healing: 5, attack: 25, ranged: 5, critChance: 10,
       level: 1, experience: 0, expToNextLevel: 100,
     },
     preferredStats: ['hp', 'attack'],
@@ -37,14 +37,14 @@ const classes = {
   starSage: {
     name: 'Star Sage',
     baseStats: {
-      hp: 80, mana: 120, speed: 1.8, armor: 3,
+      hp: 80, mana: 200, speed: 1.8, armor: 3,
       healing: 5, attack: 5, ranged: 5, critChance: 15,
       level: 1, experience: 0, expToNextLevel: 100,
     },
     preferredStats: ['mana', 'spell'],
     classAttacks: [
-      { name: 'Fireball', type: 'spell', damage: 25 },
-      { name: 'Lightning Strike', type: 'spell', damage: 30 },
+      { name: 'Fireball', type: 'spell', damage: 50 },
+      { name: 'Lightning Strike', type: 'spell', damage: 50 },
     ],
   },
 
@@ -108,6 +108,8 @@ function createPlayer(selectedClass) {
     console.log('💾 Player saved after class selection.');
   }
 
+  
+
   // Debug summary
   console.group('🎀 Player Created');
   console.log('Name:', newPlayer.name);
@@ -161,7 +163,7 @@ window.levelUp = function () {
 
   // 📊 Core stat growth
   const hpGain = 10;
-  const manaGain = 5;
+  const manaGain = 20;
 
   p.maxHp = (p.maxHp ?? p.hp ?? 100) + hpGain;
   p.hp = p.maxHp;
@@ -173,7 +175,7 @@ window.levelUp = function () {
   // ⚔️ Combat stat scaling
   const cs = p.currentStats ?? {};
   const scale = 1.08; // +8% per level
-  const allowed = ['attack', 'ranged', 'healing', 'armor', 'critChance']; // speed excluded
+  const allowed = ['attack', 'ranged', 'healing', 'armor', 'critChance','mana']; // speed excluded
 
   for (const key of allowed) {
     if (typeof cs[key] === 'number') {
@@ -213,6 +215,7 @@ window.levelUp = function () {
   window.updateManaBar?.();
   window.updateExpDisplay?.();
   window.updateStatsUI?.();
+  window.updateClassIcon?.(); 
 
   // 💾 Auto-save silently
   window.saveGame?.(false);
@@ -220,29 +223,90 @@ window.levelUp = function () {
 
 
 /* ============================================================
-   🔁 UNIVERSAL PLAYER SYNC – Keeps all game systems aligned
+   🔁 UNIVERSAL PLAYER SYNC – Keeps All Game Systems Aligned
+   ------------------------------------------------------------
+   Ensures stats, combat values, UI bars, and icons are
+   updated across Explore, Combat, and Inventory systems.
 ============================================================ */
 window.syncPlayerInGame = function () {
   const p = window.player;
   if (!p) return;
 
-  // Sync combat + exploration values
+  // --- ⚔️ Sync Derived Combat Stats ---
   p.attackDamage = p.currentStats?.attack ?? p.attackDamage ?? 15;
   p.rangedDamage = p.currentStats?.ranged ?? p.rangedDamage ?? 10;
-  p.speed = p.currentStats?.speed ?? p.speed ?? 1.8;
-  p.armor = p.currentStats?.armor ?? p.armor ?? 3;
-  p.healing = p.currentStats?.healing ?? p.healing ?? 10;
-  p.critChance = p.currentStats?.critChance ?? p.critChance ?? 10;
+  p.armor        = p.currentStats?.armor ?? p.armor ?? 3;
+  p.healing      = p.currentStats?.healing ?? p.healing ?? 10;
+  p.critChance   = p.currentStats?.critChance ?? p.critChance ?? 10;
 
-  // Update UI
+  // 🚫 Speed remains constant (not scaled)
+  p.speed = p.speed ?? 1.8;
+
+  // --- 🧠 Refresh UI ---
   window.updateHPBar?.();
   window.updateManaBar?.();
   window.updateStatsUI?.();
+  window.updateClassIcon?.();
 
+  // --- 🧾 Debug Output ---
   console.log(
-    `%c🔄 Player synced in-game → ATK:${p.attackDamage}, SPD:${p.speed.toFixed(2)}, HP:${p.hp}/${p.maxHp}`,
+    `%c🔄 Player Synced → Class: ${p.classKey || 'Unknown'} | ATK: ${
+      p.attackDamage
+    } | RNG: ${p.rangedDamage} | CRIT: ${p.critChance}% | HP: ${p.hp}/${
+      p.maxHp
+    }`,
     'color:#87cefa; font-weight:bold;'
   );
+};
+
+/* ============================================================
+   🪞 CLASS ICON HANDLER – Auto Updates Player UI
+   ------------------------------------------------------------
+   Loads the correct class icon near HP/Mana bars and
+   applies a glowing border based on class type.
+============================================================ */
+window.updateClassIcon = function () {
+  const p = window.player;
+  if (!p) return;
+
+  const icon = document.getElementById('class-icon');
+  if (!icon) return;
+
+  // 🎨 Map each class to its corresponding icon and color glow
+  const icons = {
+    glitterGuardian: {
+      src: '../images/guardian_icon.png',
+      glow: '0 0 15px #ff69b4', // pink
+    },
+    starSage: {
+      src: '../images/starsage_icon.png',
+      glow: '0 0 15px #87cefa', // soft blue
+    },
+    moonflower: {
+      src: '../images/moonflower_icon.png',
+      glow: '0 0 15px #98ffb2', // mint green
+    },
+    silverArrow: {
+      src: '../images/silver_icon.png',
+      glow: '0 0 15px #d0d0d0', // silver white
+    },
+  };
+
+  // ✨ Fallback to default if missing
+  const iconData = icons[p.classKey] || {
+    src: '../images/default_icon.png',
+    glow: '0 0 10px #fff',
+  };
+
+  // 🖼️ Apply image + glow
+  icon.src = iconData.src;
+  icon.alt = p.classKey ?? 'Unknown';
+  icon.style.filter = `drop-shadow(${iconData.glow})`;
+
+  // 💫 Smooth animation (optional aesthetic)
+  icon.style.transition = 'filter 0.4s ease, transform 0.2s ease';
+  icon.onmouseenter = () => (icon.style.transform = 'scale(1.1)');
+  icon.onmouseleave = () => (icon.style.transform = 'scale(1)');
 };
 
 /* ============================================================
