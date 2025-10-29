@@ -149,28 +149,31 @@ window.addExperience = function (amount = 50) {
 };
 
 /* ============================================================
-   🆙 LEVEL UP HANDLER – Stat Scaling + Sync
+   🆙 LEVEL UP HANDLER – Stat Scaling + In-Game Sync (Final)
 ============================================================ */
 window.levelUp = function () {
   const p = window.player;
   if (!p) return console.warn('⚠️ Player not initialized!');
 
-  // Level progression
+  // 🎚️ Level progression
   p.level = (p.level ?? 1) + 1;
   p.expToNextLevel = Math.floor((p.expToNextLevel ?? 100) * 1.25);
 
-  // Core stat growth
+  // 📊 Core stat growth
   const hpGain = 10;
   const manaGain = 5;
+
   p.maxHp = (p.maxHp ?? p.hp ?? 100) + hpGain;
   p.hp = p.maxHp;
-  p.maxMana = (p.maxMana ?? p.mana ?? 50) + manaGain;
-  p.mana = p.maxMana;
 
-  // Combat stat scaling
+  // ✅ Proper mana growth and restore
+  p.maxMana = (p.maxMana ?? p.mana ?? 50) + manaGain;
+  p.mana = Math.min(p.maxMana, p.mana + manaGain); // grow + restore slightly
+
+  // ⚔️ Combat stat scaling
   const cs = p.currentStats ?? {};
   const scale = 1.08; // +8% per level
-  const allowed = ['attack', 'ranged', 'healing', 'speed', 'armor', 'critChance'];
+  const allowed = ['attack', 'ranged', 'healing', 'armor', 'critChance']; // speed excluded
 
   for (const key of allowed) {
     if (typeof cs[key] === 'number') {
@@ -182,32 +185,39 @@ window.levelUp = function () {
 
   p.currentStats = cs;
 
-  // Derived combat fields
+  // 💥 Derived stats + sync
   p.attackDamage = cs.attack ?? p.attackDamage ?? 15;
   p.currentStats.attack = p.attackDamage;
+
   p.rangedDamage = cs.ranged ?? p.rangedDamage ?? 10;
   p.currentStats.ranged = p.rangedDamage;
+
   p.healing = cs.healing ?? p.healing ?? 10;
-  p.speed = cs.speed ?? p.speed ?? 1.8;
   p.armor = cs.armor ?? p.armor ?? 3;
   p.critChance = cs.critChance ?? p.critChance ?? 10;
 
-  // Sync game + UI
+  // 🚫 Speed remains constant — not scaled
+  p.speed = p.speed ?? 1.8;
+
+  // 🔁 Sync live game + UI
   window.syncPlayerInGame?.();
 
-  // Visual feedback
+  // 🎉 Feedback
   console.log(`🆙 Level ${p.level}!`);
   console.log('📈 Updated stats:', p.currentStats);
+
   window.showDamageText?.(`LEVEL ${p.level}!`, p.x ?? 200, p.y ?? 200, '#00ffcc');
   window.showCritEffect?.(p.x, p.y);
 
-  // UI + save updates
   window.updateHPBar?.();
   window.updateManaBar?.();
   window.updateExpDisplay?.();
   window.updateStatsUI?.();
+
+  // 💾 Auto-save silently
   window.saveGame?.(false);
 };
+
 
 /* ============================================================
    🔁 UNIVERSAL PLAYER SYNC – Keeps all game systems aligned
@@ -248,27 +258,33 @@ window.updateExpDisplay = function () {
 };
 
 /* ============================================================
-   🎛️ STATS PANEL UPDATER – Inventory UI
+   🎛️ STATS PANEL UPDATER – Inventory UI (Simplified)
 ============================================================ */
 window.updateStatsUI = function () {
   const p = window.player;
   if (!p) return;
+
   const stats = p.currentStats ?? {};
   const set = (id, value) => {
     const el = document.getElementById(id);
     if (el) el.textContent = value;
   };
 
+  // Core Info
+  set('stat-class', p.classKey 
+  ? p.classKey
+      .replace(/([A-Z])/g, ' $1') // split CamelCase
+      .replace(/^./, str => str.toUpperCase()) // capitalize first letter
+  : 'Unknown');
   set('stat-level', p.level ?? 1);
   set('stat-exp', `${p.experience ?? 0} / ${p.expToNextLevel ?? 100}`);
   set('stat-hp', `${Math.round(p.hp)} / ${Math.round(p.maxHp)}`);
   set('stat-mana', `${Math.round(p.mana)} / ${Math.round(p.maxMana)}`);
 
-  // Combat stats
+  // Combat Stats
   set('stat-attack', stats.attack ?? p.attackDamage ?? 0);
-  set('stat-ranged', stats.ranged ?? 0);
+  set('stat-ranged-attack', stats.ranged ?? p.rangedDamage ?? 0);
   set('stat-healing', stats.healing ?? 0);
-  set('stat-speed', stats.speed ?? 0);
   set('stat-armor', stats.armor ?? 0);
   set('stat-crit', `${stats.critChance ?? 0}%`);
 };

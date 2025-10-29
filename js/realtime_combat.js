@@ -15,6 +15,13 @@
   }
   window.__combatLoaded = true;
 
+
+
+function getRangedDamage(p) {
+  // prefer derived, fall back to currentStats, then a sane default
+  return p.rangedDamage ?? p.currentStats?.ranged ?? 10;
+}
+
   /* ----------------------------------------------------------
    Shared state references provided by explore.js / overlays
   ---------------------------------------------------------- */
@@ -486,6 +493,7 @@ window.showEnemyAttackEffect = function (x, y) {
 function playerAttack() {
   const p = getPlayer();
   if (!p || !canvas) return;
+  window.syncPlayerInGame?.();
   const now = performance.now();
   const cd = p.attackCooldown ?? 550;
   if (p.lastAttack && now - p.lastAttack < cd) return;
@@ -500,7 +508,7 @@ function playerAttack() {
     for (const e of enemies) {
       const dist = Math.hypot(e.x - p.x, e.y - p.y);
       if (dist <= (p.attackRange ?? 80)) {
-        let dmg = p.attackDamage ?? 15;
+        let dmg = p.attackDamage ?? p.currentStats?.attack ?? 15;
 
         // roll crit
         const crit = isCritical(p);
@@ -808,16 +816,23 @@ let lastRangedAttack = 0;
 function spawnProjectile(p, targetX, targetY) {
   if (!p || !canvas) return;
 
+  // make sure stats are up-to-date before snapshotting projectile dmg
+  window.syncPlayerInGame?.();
+
   const dx = targetX - p.x;
   const dy = targetY - p.y;
-  const dist = Math.hypot(dx, dy);
+  const dist = Math.hypot(dx, dy) || 1;
   const speed = 12;
 
-  // 🌸 Trigger the same aura effect used by melee attacks
+  // snapshot the correct ranged stat at FIRE TIME
+  let dmg = getRangedDamage(p);
+
+  // class bonus for Silver Arrow
+  if (p.classKey === 'silverArrow') dmg = Math.round(dmg * 1.4);
+
   const rect = canvas.getBoundingClientRect();
   window.showAttackEffect?.(rect.left + p.x, rect.top + p.y);
 
-  // 🚀 Launch the projectile (silver arrow bolt)
   projectiles.push({
     x: p.x,
     y: p.y,
@@ -825,13 +840,11 @@ function spawnProjectile(p, targetX, targetY) {
     dy: (dy / dist) * speed,
     radius: 4,
     color: '#87cefa',
-    damage:
-      p.classKey === 'silverArrow'
-        ? (p.ranged ?? 12) * 1.4   // 🏹 Ranged bonus
-        : (p.ranged ?? 12),
-    life: 100, // frames before despawn
+    damage: dmg,     // ← uses ranged stat now
+    life: 100
   });
 }
+
 
 /* ------------------------------------------------------------
    Update + Draw Projectiles (called inside combatLoop)
