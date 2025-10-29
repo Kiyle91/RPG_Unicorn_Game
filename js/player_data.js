@@ -119,42 +119,46 @@ function createPlayer(selectedClass) {
 
 
 /* ============================================================
-   🧙‍♀️ EXPERIENCE / LEVEL SYSTEM – Olivia’s World RPG
+   🧙‍♀️ EXPERIENCE & LEVEL SYSTEM – Olivia’s World RPG
    ------------------------------------------------------------
-   ✦ Unified XP / Level-up logic
-   ✦ Automatically updates EXP display and saves progress
-   ✦ Plays floating XP text and level-up visuals
+   ✦ Unified, self-contained leveling logic
+   ✦ Works automatically with combat and UI
+   ✦ Persists through save/load
 ============================================================ */
 
 window.addExperience = function (amount = 50) {
-  if (!window.player) return console.warn('⚠️ Player not initialized!');
   const p = window.player;
+  if (!p) return console.warn('⚠️ Player not initialized!');
 
   // Initialize fields if missing
   p.experience = p.experience ?? 0;
   p.expToNextLevel = p.expToNextLevel ?? 100;
   p.level = p.level ?? 1;
 
-  // 🪄 Add XP
+  // Add XP
   p.experience += amount;
-  console.log(`🌟 +${amount} XP → Total: ${p.experience}/${p.expToNextLevel}`);
+  console.log(`🌟 +${amount} XP → ${p.experience}/${p.expToNextLevel}`);
 
-  // ✨ Floating text feedback
+  // Floating XP text
   window.showDamageText?.(`+${amount} XP`, p.x ?? 200, p.y ?? 200, '#ffd700');
 
-  // 🩵 Update UI
-  window.updateExpDisplay?.();
-
-  // 💥 Level-up check
-  if (p.experience >= p.expToNextLevel) {
+  // Check for level-up
+  while (p.experience >= p.expToNextLevel) {
     p.experience -= p.expToNextLevel;
-    window.levelUp();
+    window.levelUp?.();
   }
+
+  // Update on-screen XP info
+  window.updateExpDisplay?.();
 };
 
+
+/* ============================================================
+   🆙 LEVEL UP HANDLER
+============================================================ */
 window.levelUp = function () {
-  if (!window.player) return console.warn('⚠️ Player not initialized!');
   const p = window.player;
+  if (!p) return console.warn('⚠️ Player not initialized!');
 
   p.level = (p.level ?? 1) + 1;
   p.expToNextLevel = Math.floor((p.expToNextLevel ?? 100) * 1.25);
@@ -165,23 +169,25 @@ window.levelUp = function () {
   p.maxMana = (p.maxMana ?? p.mana ?? 50) + 5;
   p.mana = p.maxMana;
 
-  console.log(`🆙 LEVEL UP! → Level ${p.level} | Next at ${p.expToNextLevel} XP`);
+  console.log(`🆙 Level ${p.level}! Next at ${p.expToNextLevel} XP`);
 
-  // 🌈 Floating "LEVEL UP!" effect
-  window.showDamageText?.(`LEVEL UP!`, p.x ?? 200, p.y ?? 200, '#00ffcc');
-
-  // Refresh UI bars
+  // Visual & UI feedback
+  window.showDamageText?.(`LEVEL ${p.level}!`, p.x ?? 200, p.y ?? 200, '#00ffcc');
   window.updateHPBar?.();
   window.updateManaBar?.();
   window.updateExpDisplay?.();
 
-  // Auto-save (optional)
+  // Optional: small golden burst animation
+  window.showCritEffect?.(p.x, p.y);
+
+  // Auto-save silently
   window.saveGame?.(false);
 };
 
+
 /* ============================================================
    📊 EXPERIENCE DISPLAY UPDATER
-   (Call this in inventory/stats panel or after combat)
+   (Call this from inventory/stats or overlay UI)
 ============================================================ */
 window.updateExpDisplay = function () {
   const p = window.player;
