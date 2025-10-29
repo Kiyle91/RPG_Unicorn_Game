@@ -1,7 +1,14 @@
 /* ============================================================
    🦄 EXPLORE.JS – Olivia’s World RPG (Core Explore Loop)
+   ------------------------------------------------------------
+   ✦ Handles player movement, sprite rendering, and HUD updates
+   ✦ Fixes sticky keys + ensures consistent sprite size on reload
+   ✦ Integrates with save/load + enemy systems
 ============================================================ */
 
+/* ------------------------------------------------------------
+   ❤️ UI BARS
+------------------------------------------------------------ */
 function updateManaBar() {
   const bar = document.getElementById('player-mana-bar');
   const text = document.getElementById('player-mana-text');
@@ -37,7 +44,7 @@ window.enemies        = window.enemies ?? [];
 window.keys           = {};
 
 /* ------------------------------------------------------------
-   ⌨️ Input
+   ⌨️ Input + Sticky-Key Prevention
 ------------------------------------------------------------ */
 const ignoredKeys = ['meta', 'alt', 'control', 'capslock', 'tab'];
 
@@ -47,18 +54,29 @@ window.addEventListener('keydown', (e) => {
   if (ignoredKeys.includes(key)) return;
   keys[key] = true;
 });
+
 window.addEventListener('keyup', (e) => {
   if (!e.key) return;
   const key = e.key.toLowerCase();
   if (ignoredKeys.includes(key)) return;
   keys[key] = false;
 });
+
 window.addEventListener('blur', () => {
   for (let k in keys) keys[k] = false;
 });
 
+function resetKeys() {
+  for (const k in keys) keys[k] = false;
+}
+window.resetKeys = resetKeys;
+
+window.addEventListener('visibilitychange', () => {
+  if (document.hidden) resetKeys();
+});
+
 /* ------------------------------------------------------------
-   🎨 Canvas
+   🎨 Canvas Setup
 ------------------------------------------------------------ */
 let canvas = null;
 let ctx = null;
@@ -68,9 +86,10 @@ function resizeCanvas() {
   const rect = canvas.getBoundingClientRect();
   canvas.width = Math.max(1, Math.floor(rect.width));
   canvas.height = Math.max(1, Math.floor(rect.height));
+
   const p = window.player;
   if (p) {
-    const r = (p.size ?? 15) / 2;
+    const r = (p.size ?? 64) / 2;
     p.x = Math.max(r, Math.min(canvas.width - r, p.x ?? canvas.width / 2));
     p.y = Math.max(r, Math.min(canvas.height - r, p.y ?? canvas.height / 2));
   }
@@ -103,21 +122,15 @@ function drawBackground() {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
 }
-function drawMap() {
-  if (!ctx || !canvas) return;
-  const { cols, rows } = getMapSize();
-  for (let y = 0; y < rows; y++) {
-    for (let x = 0; x < cols; x++) {
-      ctx.fillStyle = (x + y) % 2 ? '#fff7da' : '#faf0e6';
-      ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
-    }
-  }
-}
 
 
+/* ------------------------------------------------------------
+   🧍 Draw Player (Sprite-Based)
+------------------------------------------------------------ */
 function drawPlayer() {
   if (!ctx || !window.player) return;
   const p = window.player;
+
   const spriteMap = {
     glitterGuardian: '../images/glitter_sprite.png',
     starSage: '../images/star_sprite.png',
@@ -125,29 +138,31 @@ function drawPlayer() {
     silverArrow: '../images/silver_sprite.png',
   };
 
-  // load or reuse the image
+  const sizeMap = {
+    glitterGuardian: 72,
+    starSage: 68,
+    moonflower: 70,
+    silverArrow: 66,
+  };
+
   if (!p.sprite) {
     const img = new Image();
     img.src = spriteMap[p.classKey] || '../images/glitter_sprite.png';
     p.sprite = img;
   }
 
-  const size = p.size ?? 64; // sprite display size
+  const size = p.size ?? sizeMap[p.classKey] ?? 64;
   const half = size / 2;
   const sprite = p.sprite;
 
   if (sprite.complete) {
     ctx.save();
-    ctx.drawImage(
-      sprite,
-      p.x - half,
-      p.y - half,
-      size,
-      size
-    );
+    ctx.shadowColor = 'rgba(255,255,255,0.6)';
+    ctx.shadowBlur = 15;
+    ctx.drawImage(sprite, p.x - half, p.y - half, size, size);
+    ctx.shadowBlur = 0;
     ctx.restore();
   } else {
-    // fallback (if image not yet loaded)
     ctx.fillStyle = '#ff69b4';
     ctx.beginPath();
     ctx.arc(p.x, p.y, 15, 0, Math.PI * 2);
@@ -156,7 +171,6 @@ function drawPlayer() {
 }
 
 window.drawBackground = drawBackground;
-window.drawMap = drawMap;
 window.drawPlayer = drawPlayer;
 
 /* ------------------------------------------------------------
@@ -183,23 +197,30 @@ function step() {
     window.exploreFrameId = requestAnimationFrame(step);
     return;
   }
+
   const p = window.player;
   if (window.uiState === 'explore' && p && canvas) {
     const spd = p.currentStats?.speed ?? p.speed ?? 3;
     let dx = 0, dy = 0;
+
     if (keys['w'] || keys['arrowup']) dy -= 1;
     if (keys['s'] || keys['arrowdown']) dy += 1;
     if (keys['a'] || keys['arrowleft']) dx -= 1;
     if (keys['d'] || keys['arrowright']) dx += 1;
     if (dx !== 0 && dy !== 0) { dx *= Math.SQRT1_2; dy *= Math.SQRT1_2; }
+
     const isSprinting = keys['shift'];
     const moveSpeed = isSprinting ? spd * 1.5 : spd;
     p.x += dx * moveSpeed;
     p.y += dy * moveSpeed;
-    const r = (p.size ?? 15) / 2;
+
+    const r = (p.size ?? 64) / 2;
     p.x = Math.max(r, Math.min(canvas.width - r, p.x));
     p.y = Math.max(r, Math.min(canvas.height - r, p.y));
   }
+
+  drawBackground();
+  drawPlayer();
   window.updateHPBar?.();
   window.updateManaBar?.();
   window.exploreFrameId = requestAnimationFrame(step);
@@ -219,6 +240,17 @@ function startExploreGame() {
   const p = window.player;
   if (!p) { console.error('❌ No Player Found'); return; }
 
+  // 🌈 Safety fix for older save data – force correct sprite size
+  const sizeMap = {
+    glitterGuardian: 72,
+    starSage: 68,
+    moonflower: 70,
+    silverArrow: 66,
+  };
+  if (!p.size || p.size < 32) {
+    p.size = sizeMap[p.classKey] ?? 64;
+  }
+
   p.x ??= canvas.width / 2;
   p.y ??= canvas.height / 2;
   p.hp ??= p.currentStats?.hp ?? 100;
@@ -227,17 +259,22 @@ function startExploreGame() {
   p.maxMana ??= p.currentStats?.mana ?? 80;
   p.lastAttack ??= 0;
 
-  drawBackground();
-  drawMap();
+  if (bgImage.complete && bgImage.naturalWidth > 0) {
+    drawBackground();
+  } else {
+    bgImage.onload = () => {
+      drawBackground();
+    };
+  }
   drawPlayer();
   window.updateHPBar?.();
   window.updateManaBar?.();
   window.syncPlayerInGame?.();
 
-  // 🌸 Initialize enemies via external manager
   window.initializeEnemies?.();
 
   window.exploreRunning = true;
+  resetKeys?.();
   step();
   startManaRegen();
 
@@ -273,8 +310,3 @@ document.addEventListener('DOMContentLoaded', () => {
   const page = document.getElementById('explore-page');
   if (page?.classList.contains('active')) startExploreGame();
 });
-
-/* ------------------------------------------------------------
-   💀 Game Over Screen (unchanged)
------------------------------------------------------------- */
-// ... keep your existing showGameOverScreen() and message code

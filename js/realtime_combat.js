@@ -49,7 +49,7 @@ function getRangedDamage(p) {
       this.hp = hp;
       this.maxHp = hp;
       this.speed = speed;
-      this.attackRange = 50;
+      this.attackRange = 100;
       this.attackCooldown = 900;
       this.lastAttack = 0;
       this.radius = 15;

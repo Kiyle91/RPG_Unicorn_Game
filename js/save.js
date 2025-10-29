@@ -1,13 +1,15 @@
 /* ============================================================
-   💾 SAVE.JS – Olivia’s World RPG (Unified)
+   💾 SAVE.JS – Olivia’s World RPG (Unified, Size-Safe)
    ------------------------------------------------------------
    ✦ Start / Continue / Load Menu (Landing Page)
    ✦ Multi-save management (max 5 per player)
    ✦ Save slot UI population
    ✦ In-game Save / Load (Settings)
+   ✦ ✅ Persists player.size and restores correct class size
 ============================================================ */
 
-if (!window.__saveMenuBound) {
+(function () {
+  if (window.__saveMenuBound) return;
   window.__saveMenuBound = true;
 
   // DOM References
@@ -26,18 +28,18 @@ if (!window.__saveMenuBound) {
   });
 
   /* ============================================================
-     💾 CONTINUE (Latest Autosave)
+     💾 CONTINUE (Autosave key: "olivia_save")
   ============================================================ */
   if (continueBtn) {
     const hasSave = localStorage.getItem('olivia_save');
     continueBtn.style.display = hasSave ? 'inline-block' : 'none';
     console.log(hasSave ? '💾 Save found — showing Continue button.' : '⚠️ No save found.');
 
-    continueBtn.addEventListener('click', async () => {
-      const save = window.loadGame?.();
-      if (!save) return showAlert?.('⚠️ No saved game found!');
+    continueBtn.addEventListener('click', () => {
+      const save = window.loadGame?.('olivia_save');
+      if (!save) return (window.showAlert || alert)('⚠️ No saved game found!');
       showScreen('explore-page');
-      setTimeout(() => startExploreGame?.(), 300);
+      setTimeout(() => window.startExploreGame?.(), 300);
     });
   }
 
@@ -53,20 +55,17 @@ if (!window.__saveMenuBound) {
   closeLoadBtn?.addEventListener('click', () => {
     loadWrapper?.classList.remove('active');
   });
+})();
 
-    loadBtn?.addEventListener('click', () => {
-    
-    window.populateSaveSlots?.();
-    loadWrapper?.classList.add('active');
-  });
-
-  closeLoadBtn?.addEventListener('click', () => {
-    loadWrapper?.classList.remove('active');
-  });
-}
-
-
-
+/* ------------------------------------------------------------
+   🌸 Shared per-class size defaults (used on load as fallback)
+------------------------------------------------------------ */
+const __CLASS_SIZE_MAP__ = {
+  glitterGuardian: 72,
+  starSage: 68,
+  moonflower: 70,
+  silverArrow: 66,
+};
 
 /* ============================================================
    🧩 POPULATE SAVE SLOTS (Globalized)
@@ -92,7 +91,7 @@ window.populateSaveSlots = function populateSaveSlots() {
     .slice(0, 5);
 
   if (saves.length === 0) {
-    saveSlotList.innerHTML = '<p class=\'no-saves\'>No saved games found.</p>';
+    saveSlotList.innerHTML = '<p class="no-saves">No saved games found.</p>';
     return;
   }
 
@@ -100,18 +99,17 @@ window.populateSaveSlots = function populateSaveSlots() {
     const btn = document.createElement('button');
     btn.textContent = `${save.name} (${new Date(save.timestamp).toLocaleString()})`;
     btn.classList.add('save-slot-btn');
-    btn.onclick = async () => {
+    btn.onclick = () => {
       console.log(`📖 Loading save: ${save.key}`);
       window.loadGame(save.key);
       loadWrapper?.classList.remove('active');
       settingsWrapper?.classList.remove('active');
 
-      // Use custom alert if available
       (window.showAlert || alert)(
         `🌸 Loaded save for ${window.player.name}!`,
         () => {
           showScreen('explore-page');
-          setTimeout(() => startExploreGame?.(), 300);
+          setTimeout(() => window.startExploreGame?.(), 300);
           console.log('▶️ Game resumed after loading save.');
         }
       );
@@ -147,13 +145,16 @@ window.saveGame = (showAlertBox = true) => {
     experience: p.experience,
     difficulty: window.difficulty,
     position: { x: p.x, y: p.y },
+    size: p.size ?? __CLASS_SIZE_MAP__[p.classKey] ?? 64, // ✅ persist sprite size
     timestamp: new Date().toISOString(),
   };
 
+  // Autosave & unique slot
   const key = `olivia_save_${p.name}_${saveData.timestamp}`;
   localStorage.setItem('olivia_save', JSON.stringify(saveData)); // overwrite autosave
   localStorage.setItem(key, JSON.stringify(saveData));
 
+  // Enforce per-player max
   const playerSaves = Object.keys(localStorage)
     .filter((k) => k.startsWith(`olivia_save_${p.name}_`))
     .sort(
@@ -171,48 +172,68 @@ window.saveGame = (showAlertBox = true) => {
   }
 
   console.log(`💾 Game saved successfully → ${key}`);
-  if (showAlertBox) {
-    (window.showAlert || alert)(`💾 Game saved as "${p.name}"!`);
-  }
+  if (showAlertBox) (window.showAlert || alert)(`💾 Game saved as "${p.name}"!`);
 };
 
 /* ============================================================
-   🔁 LOAD GAME (Helper)
+   🔁 LOAD GAME (Helper) — now restores correct size
 ============================================================ */
 window.loadGame = (slotKey = 'olivia_save') => {
   const data = localStorage.getItem(slotKey);
   if (!data) {
     console.warn(`⚠️ No save data found for key: ${slotKey}`);
-    (window.showAlert || alert)('⚠️ No save data found!');
+    (window.showAlert || alert)('⚠️ No saved game found!');
     return null;
   }
 
   const save = JSON.parse(data);
+
+  // Derive safe stats from save.currentStats
+  const cs = save.currentStats || {};
+
   window.player = {
     ...save,
+
+    // Position
     x: save.position?.x ?? 100,
     y: save.position?.y ?? 100,
-    size: 15,
+
+    // ✅ Size (saved or class default; avoids tiny sprite)
+    size: save.size ?? __CLASS_SIZE_MAP__[save.classKey] ?? 64,
+
+    // Visuals / runtime fields
     color: '#ff69b4',
-    speed: save.currentStats?.speed || 3,
-    hp: save.currentStats?.currentHp ?? save.currentStats?.hp ?? 100,
-    maxHp: save.currentStats?.maxHp ?? save.currentStats?.hp ?? 100,
-    mana: save.currentStats?.currentMana ?? save.currentStats?.mana ?? 80,
-    maxMana: save.currentStats?.maxMana ?? save.currentStats?.mana ?? 80,
-    expToNextLevel: save.expToNextLevel ?? 100,
-    attackRange: 40,
-    attackDamage: 15,
-    attackCooldown: 550,
     lastAttack: 0,
+
+    // Core stats from saved snapshot with fallbacks
+    speed: cs.speed ?? 3,
+
+    hp: cs.currentHp ?? cs.hp ?? 100,
+    maxHp: cs.maxHp ?? cs.hp ?? 100,
+
+    mana: cs.currentMana ?? cs.mana ?? 80,
+    maxMana: cs.maxMana ?? cs.mana ?? 80,
+
+    expToNextLevel: cs.expToNextLevel ?? save.expToNextLevel ?? 100,
+
+    attackRange: save.attackRange ?? 40,
+    attackDamage: save.attackDamage ?? 15,
+    attackCooldown: save.attackCooldown ?? 550,
   };
 
   window.difficulty = save.difficulty;
+
+  // Sync UI & systems if available
+  window.syncPlayerInGame?.();
+  window.updateHPBar?.();
+  window.updateManaBar?.();
+
   console.log(`🎮 Loaded save for ${window.player.name} (${window.player.classKey})`);
   return window.player;
 };
 
 /* ============================================================
-   💾 IN-GAME SAVE / LOAD (Settings Menu – Instant Reload + Unpause)
+   💾 IN-GAME SAVE / LOAD (Settings Menu – Instant Reload)
 ============================================================ */
 window.addEventListener('load', () => {
   const saveGameBtn     = document.getElementById('save-game-btn');
@@ -231,14 +252,6 @@ window.addEventListener('load', () => {
         settingsWrapper?.classList.remove('active');
         uiState = 'explore';
         exploreRunning = true;
-        
-        
-        
-        
-        
-        
-        
-        
         console.log('▶️ Game resumed after save.');
       }
     );
@@ -248,16 +261,14 @@ window.addEventListener('load', () => {
   loadGameBtn?.addEventListener('click', () => {
     console.log('🔁 Load Game (instant reload) clicked!');
 
-    // Find the latest save key
+    // Find the latest multi-slot save; fallback to autosave
     const saves = Object.keys(localStorage)
       .filter(k => k.startsWith('olivia_save_') && k !== 'olivia_save')
       .map(k => {
         try {
           const data = JSON.parse(localStorage.getItem(k));
           return { key: k, timestamp: new Date(data.timestamp).getTime() };
-        } catch {
-          return null;
-        }
+        } catch { return null; }
       })
       .filter(Boolean)
       .sort((a, b) => b.timestamp - a.timestamp);
@@ -273,13 +284,13 @@ window.addEventListener('load', () => {
     console.log(`📖 Loading latest save: ${latestSave}`);
     window.loadGame(latestSave);
 
-    // ✅ Unpause and resume game
+    // ✅ Unpause and resume
     settingsWrapper?.classList.remove('active');
     uiState = 'explore';
     exploreRunning = true;
     showScreen('explore-page');
 
-    // restart loop safely
+    // Restart explore loop safely
     cancelAnimationFrame(window.exploreFrameId);
     setTimeout(() => {
       if (typeof window.startExploreGame === 'function') {
@@ -291,7 +302,6 @@ window.addEventListener('load', () => {
 
     console.log('▶️ Game resumed from last save.');
   });
-  
-  
+
   console.log('✅ In-game Save/Load buttons initialized (instant reload + unpause).');
 });
