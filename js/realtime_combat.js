@@ -524,6 +524,8 @@ window.showEnemyAttackEffect = function (x, y) {
     }
     enemies = enemies.filter(e => e.hp > 0);
     window.enemies = enemies;
+    window.addExperience?.(25);
+    
 
     if (hits > 0) {
       p.mana = Math.min(p.maxMana ?? 80, (p.mana ?? 0) + 2 * hits);
@@ -641,6 +643,9 @@ function castSpell() {
       e.hp = Math.max(0, e.hp - dmg);
       showDamageText(`-${Math.round(dmg)}`, e.x, e.y, '#dda0dd');
       if (e.hp <= 0) {
+         window.addExperience?.(25);
+        const expGain = Math.floor(20 + Math.random() * 10); 
+        window.addExperience(expGain);
         enemies = enemies.filter(en => en.hp > 0);
         window.enemies = enemies;
       }
@@ -863,6 +868,7 @@ function updateProjectiles(ctx) {
         proj.remove = true;
 
         if (e.hp <= 0) {
+           window.addExperience?.(25);
           enemies = enemies.filter(en => en.hp > 0);
           window.enemies = enemies;
         }
@@ -872,8 +878,8 @@ function updateProjectiles(ctx) {
 
     // ✨ Draw projectile (silver glowing bolt)
     const angle = Math.atan2(proj.dy, proj.dx); // direction of travel
-    const length = 90; // arrow length (long glowing bolt)
-    const width = 4;   // shaft thickness
+    const length = 110; // arrow length (long glowing bolt)
+    const width = 5;   // shaft thickness
 
     ctx.save();
     ctx.translate(proj.x, proj.y);

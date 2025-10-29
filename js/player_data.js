@@ -27,7 +27,7 @@ const classes = {
     name: 'Glitter Guardian',
     baseStats: {
       hp: 120, mana: 40, speed: 1.8, armor: 5,
-      healing: 5, attack: 15, ranged: 5, critChance: 10,
+      healing: 5, attack: 15, ranged: 5, critChance: 10, level: 1, experience: 0, expToNextLevel: 100,
     },
     preferredStats: ['hp', 'attack'],
     classAttacks: [
@@ -39,7 +39,7 @@ const classes = {
     name: 'Star Sage',
     baseStats: {
       hp: 80, mana: 120, speed: 1.8, armor: 3,
-      healing: 5, attack: 5, ranged: 5, critChance: 15,
+      healing: 5, attack: 5, ranged: 5, critChance: 15, level: 1, experience: 0, expToNextLevel: 100,
     },
     preferredStats: ['mana', 'spell'],
     classAttacks: [
@@ -52,7 +52,7 @@ const classes = {
     name: 'Moonflower',
     baseStats: {
       hp: 100, mana: 100, speed: 1.8, armor: 4,
-      healing: 15, attack: 10, ranged: 5, critChance: 10,
+      healing: 15, attack: 10, ranged: 5, critChance: 10, level: 1, experience: 0, expToNextLevel: 100,
     },
     preferredStats: ['healing', 'mana'],
     classAttacks: [
@@ -65,7 +65,7 @@ const classes = {
     name: 'Silver Arrow',
     baseStats: {
       hp: 90, mana: 50, speed: 1.8, armor: 3,
-      healing: 5, attack: 10, ranged: 20, critChance: 15,
+      healing: 5, attack: 10, ranged: 20, critChance: 15, level: 1, experience: 0, expToNextLevel: 100,
     },
     preferredStats: ['ranged', 'attack'],
     classAttacks: [
@@ -118,3 +118,78 @@ function createPlayer(selectedClass) {
 }
 
 
+/* ============================================================
+   🧙‍♀️ EXPERIENCE / LEVEL SYSTEM – Olivia’s World RPG
+   ------------------------------------------------------------
+   ✦ Unified XP / Level-up logic
+   ✦ Automatically updates EXP display and saves progress
+   ✦ Plays floating XP text and level-up visuals
+============================================================ */
+
+window.addExperience = function (amount = 50) {
+  if (!window.player) return console.warn('⚠️ Player not initialized!');
+  const p = window.player;
+
+  // Initialize fields if missing
+  p.experience = p.experience ?? 0;
+  p.expToNextLevel = p.expToNextLevel ?? 100;
+  p.level = p.level ?? 1;
+
+  // 🪄 Add XP
+  p.experience += amount;
+  console.log(`🌟 +${amount} XP → Total: ${p.experience}/${p.expToNextLevel}`);
+
+  // ✨ Floating text feedback
+  window.showDamageText?.(`+${amount} XP`, p.x ?? 200, p.y ?? 200, '#ffd700');
+
+  // 🩵 Update UI
+  window.updateExpDisplay?.();
+
+  // 💥 Level-up check
+  if (p.experience >= p.expToNextLevel) {
+    p.experience -= p.expToNextLevel;
+    window.levelUp();
+  }
+};
+
+window.levelUp = function () {
+  if (!window.player) return console.warn('⚠️ Player not initialized!');
+  const p = window.player;
+
+  p.level = (p.level ?? 1) + 1;
+  p.expToNextLevel = Math.floor((p.expToNextLevel ?? 100) * 1.25);
+
+  // Stat gains
+  p.maxHp = (p.maxHp ?? p.hp ?? 100) + 10;
+  p.hp = p.maxHp;
+  p.maxMana = (p.maxMana ?? p.mana ?? 50) + 5;
+  p.mana = p.maxMana;
+
+  console.log(`🆙 LEVEL UP! → Level ${p.level} | Next at ${p.expToNextLevel} XP`);
+
+  // 🌈 Floating "LEVEL UP!" effect
+  window.showDamageText?.(`LEVEL UP!`, p.x ?? 200, p.y ?? 200, '#00ffcc');
+
+  // Refresh UI bars
+  window.updateHPBar?.();
+  window.updateManaBar?.();
+  window.updateExpDisplay?.();
+
+  // Auto-save (optional)
+  window.saveGame?.(false);
+};
+
+/* ============================================================
+   📊 EXPERIENCE DISPLAY UPDATER
+   (Call this in inventory/stats panel or after combat)
+============================================================ */
+window.updateExpDisplay = function () {
+  const p = window.player;
+  if (!p) return;
+
+  const levelEl = document.getElementById('stat-level');
+  const expEl = document.getElementById('stat-exp');
+
+  if (levelEl) levelEl.textContent = p.level ?? 1;
+  if (expEl) expEl.textContent = `${p.experience ?? 0} / ${p.expToNextLevel ?? 100}`;
+};

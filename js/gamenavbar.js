@@ -144,3 +144,109 @@ if (returnHomeBtn) {
     );
   });
 }
+
+
+/* ============================================================
+   💀 GAME OVER SCREEN – Olivia’s World RPG (Fairy Theme, Fixed)
+   ------------------------------------------------------------
+   ✦ Pauses gameplay completely
+   ✦ Fairy pink glow & fade
+   ✦ “OK” now properly returns to landing/start page
+============================================================ */
+window.showGameOverScreen = function () {
+  // Prevent duplicates
+  if (document.getElementById('game-over-screen')) return;
+
+  // 🛑 Pause gameplay
+  window.exploreRunning = false;
+  if (typeof window.stopRespawn === 'function') window.stopRespawn();
+
+  // 💫 Create overlay
+  const overlay = document.createElement('div');
+  overlay.id = 'game-over-screen';
+  overlay.innerHTML = `
+    <div class="game-over-content">
+      <h1>💀 You Were Defeated 💀</h1>
+      <p>Your adventure ends here... for now.</p>
+      <button id="gameover-ok-btn">OK</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  /* 🌈 Overlay styling */
+  Object.assign(overlay.style, {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100vw',
+    height: '100vh',
+    background: 'rgba(0, 0, 0, 0.85)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: '100000',
+    cursor: 'url("../images/ui/cursor.png"), auto',
+    animation: 'fadeIn 0.6s ease'
+  });
+
+  /* 🎀 Content box */
+  const content = overlay.querySelector('.game-over-content');
+  Object.assign(content.style, {
+    textAlign: 'center',
+    color: '#fff',
+    fontFamily: "'Comic Sans MS', cursive",
+    padding: '50px 60px',
+    border: '4px solid #ff69b4',
+    borderRadius: '25px',
+    background: 'rgba(255, 192, 203, 0.25)',
+    boxShadow: '0 0 25px #ff69b4',
+    maxWidth: '480px'
+  });
+
+  /* 💖 OK Button */
+  const btn = content.querySelector('#gameover-ok-btn');
+  Object.assign(btn.style, {
+    marginTop: '25px',
+    padding: '12px 40px',
+    fontSize: '22px',
+    borderRadius: '15px',
+    border: 'none',
+    cursor: 'pointer',
+    background: '#ff69b4',
+    color: '#fff',
+    fontWeight: 'bold',
+    boxShadow: '0 0 10px #fff',
+    transition: 'all 0.25s ease'
+  });
+  btn.onmouseenter = () => (btn.style.background = '#ff1493');
+  btn.onmouseleave = () => (btn.style.background = '#ff69b4');
+
+  // 💖 OK button logic
+  btn.onclick = () => {
+    overlay.remove();
+
+    // Reset gameplay flags
+    window.__gameOverTriggered = false;
+    window.exploreRunning = false;
+
+    // Try to return to your main/landing page
+    if (typeof window.showScreen === 'function') {
+      window.showScreen('landing-page'); // 👈 Change to your actual landing page ID if needed
+    } else {
+      // fallback: reload to start fresh
+      window.location.reload();
+    }
+  };
+
+  console.log('💀 Game Over screen displayed — gameplay paused.');
+};
+
+/* ✨ Optional fade-in animation */
+const fadeStyle = document.createElement('style');
+fadeStyle.textContent = `
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+`;
+document.head.appendChild(fadeStyle);

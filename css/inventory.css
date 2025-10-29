@@ -201,6 +201,29 @@
   }
 }
 
+
+/* ============================================================
+   ✨ LEVEL & EXPERIENCE STATS – Olivia’s World RPG
+============================================================ */
+
+#stat-level {
+  color: #7fffd4;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(127, 255, 212, 0.9), 0 0 20px #7fffd4;
+}
+
+#stat-exp {
+  color: #ffd700;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.9), 0 0 25px #fff59d;
+  animation: glowXP 2s ease-in-out infinite alternate;
+}
+
+@keyframes glowXP {
+  0%   { text-shadow: 0 0 6px rgba(255, 215, 0, 0.7); }
+  100% { text-shadow: 0 0 14px rgba(255, 255, 150, 1); }
+}
+
 /* ============================================================
    🌈 END OF INVENTORY OVERLAY STYLES
 ============================================================ */
