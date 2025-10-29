@@ -14,14 +14,15 @@ const classes = {
     name: "Glitter Guardian",
     baseStats: {
       health: 120,
+      attack: 15,  
       mana: 50,
       spellPower: 10,
       healPower: 25,
       rangedAttack: 20,
-      armor: 6,
+      armor: 20,
       experience: 0,
       expToNextLevel: 100,
-      speed: 1.8,
+      speed: 1.5,
     },
     classAttacks: [], // reserved for later
   },
@@ -30,6 +31,7 @@ const classes = {
     name: "Star Sage",
     baseStats: {
       health: 80,
+      attack: 15,  
       mana: 200,
       spellPower: 25,
       healPower: 25,
@@ -37,7 +39,7 @@ const classes = {
       armor: 3,
       experience: 0,
       expToNextLevel: 100,
-      speed: 1.8,
+      speed: 1.5,
     },
     classAttacks: [],
   },
@@ -46,6 +48,7 @@ const classes = {
     name: "Moonflower",
     baseStats: {
       health: 100,
+      attack: 15,  
       mana: 120,
       spellPower: 15,
       healPower: 50,
@@ -53,7 +56,7 @@ const classes = {
       armor: 4,
       experience: 0,
       expToNextLevel: 100,
-      speed: 1.8,
+      speed: 1.5,
     },
     classAttacks: [],
   },
@@ -62,6 +65,7 @@ const classes = {
     name: "Silver Arrow",
     baseStats: {
       health: 90,
+      attack: 15,  
       mana: 60,
       spellPower: 5,
       healPower: 25,
@@ -69,7 +73,7 @@ const classes = {
       armor: 5,
       experience: 0,
       expToNextLevel: 100,
-      speed: 1.9,
+      speed: 1.5,
     },
     classAttacks: [],
   },
@@ -148,6 +152,7 @@ window.levelUp = function () {
 
   cs.health = Math.round((cs.health ?? 100) + 15);
   cs.mana = Math.round((cs.mana ?? 50) + 20);
+  cs.attack = Math.round((cs.attack ?? 10) * scale);
   cs.spellPower = Math.round((cs.spellPower ?? 10) * scale);
   cs.healPower = Math.round((cs.healPower ?? 5) * scale);
   cs.rangedAttack = Math.round((cs.rangedAttack ?? 10) * scale);
@@ -259,6 +264,7 @@ window.updateStatsUI = function () {
   };
 
   update("stat-health", cs.health);
+  update("stat-attack", cs.attack);
   update("stat-mana", cs.mana);
   update("stat-spellpower", cs.spellPower);
   update("stat-healpower", cs.healPower);

@@ -437,7 +437,10 @@ window.showEnemyAttackEffect = function (x, y) {
   function damagePlayer(amount = 10) {
     const p = getPlayer();
     if (!p) return;
-    p.hp = Math.max(0, p.hp - amount);
+    const armor = p?.currentStats?.armor ?? 0;
+    const mitigation = Math.min(0.8, armor * 0.05);
+    const finalDamage = Math.max(1, Math.round(amount * (1 - mitigation)));
+    p.hp = Math.max(0, (p.hp ?? 0) - finalDamage);
     flashPlayerHit();
     updateHPBar();
     if (p.hp <= 0 && !window.__gameOverTriggered) {
