@@ -1,17 +1,15 @@
 /* ============================================================
-   🌸 CLASS_SELECTION.JS – Olivia’s World RPG
+   🌸 PLAYER & CLASS SYSTEM – Olivia’s World RPG
    ------------------------------------------------------------
    Handles:
-   ✦ Player name entry and validation
-   ✦ Class definitions & base stats
-   ✦ Player creation logic
-   ✦ Screen transitions to difficulty select
-   ✦ Return button navigation
-   ✦ Initial save creation
+   ✦ Player name + class selection
+   ✦ Base stats + derived combat fields
+   ✦ EXP + Level system with scaling
+   ✦ Real-time stat syncing across UI and combat
 ============================================================ */
 
 /* ============================================================
-   🧍‍♀️ PLAYER COMBAT STATS (Base Defaults)
+   🧍‍♀️ PLAYER COMBAT DEFAULTS
 ============================================================ */
 const playerDefaults = window.player || {};
 playerDefaults.attackRange = 40;     // pixels
@@ -27,11 +25,12 @@ const classes = {
     name: 'Glitter Guardian',
     baseStats: {
       hp: 120, mana: 40, speed: 1.8, armor: 5,
-      healing: 5, attack: 15, ranged: 5, critChance: 10, level: 1, experience: 0, expToNextLevel: 100,
+      healing: 5, attack: 15, ranged: 5, critChance: 10,
+      level: 1, experience: 0, expToNextLevel: 100,
     },
     preferredStats: ['hp', 'attack'],
     classAttacks: [
-      { name: 'Glitter Strike', type: 'melee', damage: 10, extraEffect: 'additional glitter damage' },
+      { name: 'Glitter Strike', type: 'melee', damage: 10, extraEffect: 'glitter damage' },
     ],
   },
 
@@ -39,7 +38,8 @@ const classes = {
     name: 'Star Sage',
     baseStats: {
       hp: 80, mana: 120, speed: 1.8, armor: 3,
-      healing: 5, attack: 5, ranged: 5, critChance: 15, level: 1, experience: 0, expToNextLevel: 100,
+      healing: 5, attack: 5, ranged: 5, critChance: 15,
+      level: 1, experience: 0, expToNextLevel: 100,
     },
     preferredStats: ['mana', 'spell'],
     classAttacks: [
@@ -52,7 +52,8 @@ const classes = {
     name: 'Moonflower',
     baseStats: {
       hp: 100, mana: 100, speed: 1.8, armor: 4,
-      healing: 15, attack: 10, ranged: 5, critChance: 10, level: 1, experience: 0, expToNextLevel: 100,
+      healing: 15, attack: 10, ranged: 5, critChance: 10,
+      level: 1, experience: 0, expToNextLevel: 100,
     },
     preferredStats: ['healing', 'mana'],
     classAttacks: [
@@ -65,11 +66,12 @@ const classes = {
     name: 'Silver Arrow',
     baseStats: {
       hp: 90, mana: 50, speed: 1.8, armor: 3,
-      healing: 5, attack: 10, ranged: 20, critChance: 15, level: 1, experience: 0, expToNextLevel: 100,
+      healing: 5, attack: 10, ranged: 20, critChance: 15,
+      level: 1, experience: 0, expToNextLevel: 100,
     },
     preferredStats: ['ranged', 'attack'],
     classAttacks: [
-      { name: 'Piercing Shot', type: 'ranged', damage: 25, extraEffect: 'chance to dodge enemy attack' },
+      { name: 'Piercing Shot', type: 'ranged', damage: 25, extraEffect: 'dodge chance' },
     ],
   },
 };
@@ -84,10 +86,10 @@ function createPlayer(selectedClass) {
     return null;
   }
 
-  // 🩷 Retrieve or set default player name
+  // Retrieve or set player name
   window.playerName = window.playerName || localStorage.getItem('playerName') || 'Player';
 
-  // 🎮 Build player object
+  // Build player object
   const newPlayer = {
     classKey: selectedClass,
     ...baseClass,
@@ -100,13 +102,13 @@ function createPlayer(selectedClass) {
 
   window.player = newPlayer;
 
-  // 💾 Save initial state
+  // Save initial state
   if (typeof saveGame === 'function') {
     saveGame();
     console.log('💾 Player saved after class selection.');
   }
 
-  // 🧩 Debug summary
+  // Debug summary
   console.group('🎀 Player Created');
   console.log('Name:', newPlayer.name);
   console.log('Class:', newPlayer.classKey);
@@ -117,15 +119,9 @@ function createPlayer(selectedClass) {
   return newPlayer;
 }
 
-
 /* ============================================================
-   🧙‍♀️ EXPERIENCE & LEVEL SYSTEM – Olivia’s World RPG
-   ------------------------------------------------------------
-   ✦ Unified, self-contained leveling logic
-   ✦ Works automatically with combat and UI
-   ✦ Persists through save/load
+   🧙‍♀️ EXPERIENCE / LEVEL SYSTEM – Olivia’s World RPG
 ============================================================ */
-
 window.addExperience = function (amount = 50) {
   const p = window.player;
   if (!p) return console.warn('⚠️ Player not initialized!');
@@ -142,60 +138,137 @@ window.addExperience = function (amount = 50) {
   // Floating XP text
   window.showDamageText?.(`+${amount} XP`, p.x ?? 200, p.y ?? 200, '#ffd700');
 
-  // Check for level-up
+  // Level-up check
   while (p.experience >= p.expToNextLevel) {
     p.experience -= p.expToNextLevel;
     window.levelUp?.();
   }
 
-  // Update on-screen XP info
+  // Update display
   window.updateExpDisplay?.();
 };
 
-
 /* ============================================================
-   🆙 LEVEL UP HANDLER
+   🆙 LEVEL UP HANDLER – Stat Scaling + Sync
 ============================================================ */
 window.levelUp = function () {
   const p = window.player;
   if (!p) return console.warn('⚠️ Player not initialized!');
 
+  // Level progression
   p.level = (p.level ?? 1) + 1;
   p.expToNextLevel = Math.floor((p.expToNextLevel ?? 100) * 1.25);
 
-  // Stat gains
-  p.maxHp = (p.maxHp ?? p.hp ?? 100) + 10;
+  // Core stat growth
+  const hpGain = 10;
+  const manaGain = 5;
+  p.maxHp = (p.maxHp ?? p.hp ?? 100) + hpGain;
   p.hp = p.maxHp;
-  p.maxMana = (p.maxMana ?? p.mana ?? 50) + 5;
+  p.maxMana = (p.maxMana ?? p.mana ?? 50) + manaGain;
   p.mana = p.maxMana;
 
-  console.log(`🆙 Level ${p.level}! Next at ${p.expToNextLevel} XP`);
+  // Combat stat scaling
+  const cs = p.currentStats ?? {};
+  const scale = 1.08; // +8% per level
+  const allowed = ['attack', 'ranged', 'healing', 'speed', 'armor', 'critChance'];
 
-  // Visual & UI feedback
+  for (const key of allowed) {
+    if (typeof cs[key] === 'number') {
+      cs[key] = key === 'critChance'
+        ? Math.min(100, Math.round(cs[key] * scale))
+        : Math.round(cs[key] * scale);
+    }
+  }
+
+  p.currentStats = cs;
+
+  // Derived combat fields
+  p.attackDamage = cs.attack ?? p.attackDamage ?? 15;
+  p.currentStats.attack = p.attackDamage;
+  p.rangedDamage = cs.ranged ?? p.rangedDamage ?? 10;
+  p.currentStats.ranged = p.rangedDamage;
+  p.healing = cs.healing ?? p.healing ?? 10;
+  p.speed = cs.speed ?? p.speed ?? 1.8;
+  p.armor = cs.armor ?? p.armor ?? 3;
+  p.critChance = cs.critChance ?? p.critChance ?? 10;
+
+  // Sync game + UI
+  window.syncPlayerInGame?.();
+
+  // Visual feedback
+  console.log(`🆙 Level ${p.level}!`);
+  console.log('📈 Updated stats:', p.currentStats);
   window.showDamageText?.(`LEVEL ${p.level}!`, p.x ?? 200, p.y ?? 200, '#00ffcc');
+  window.showCritEffect?.(p.x, p.y);
+
+  // UI + save updates
   window.updateHPBar?.();
   window.updateManaBar?.();
   window.updateExpDisplay?.();
-
-  // Optional: small golden burst animation
-  window.showCritEffect?.(p.x, p.y);
-
-  // Auto-save silently
+  window.updateStatsUI?.();
   window.saveGame?.(false);
 };
 
+/* ============================================================
+   🔁 UNIVERSAL PLAYER SYNC – Keeps all game systems aligned
+============================================================ */
+window.syncPlayerInGame = function () {
+  const p = window.player;
+  if (!p) return;
+
+  // Sync combat + exploration values
+  p.attackDamage = p.currentStats?.attack ?? p.attackDamage ?? 15;
+  p.rangedDamage = p.currentStats?.ranged ?? p.rangedDamage ?? 10;
+  p.speed = p.currentStats?.speed ?? p.speed ?? 1.8;
+  p.armor = p.currentStats?.armor ?? p.armor ?? 3;
+  p.healing = p.currentStats?.healing ?? p.healing ?? 10;
+  p.critChance = p.currentStats?.critChance ?? p.critChance ?? 10;
+
+  // Update UI
+  window.updateHPBar?.();
+  window.updateManaBar?.();
+  window.updateStatsUI?.();
+
+  console.log(
+    `%c🔄 Player synced in-game → ATK:${p.attackDamage}, SPD:${p.speed.toFixed(2)}, HP:${p.hp}/${p.maxHp}`,
+    'color:#87cefa; font-weight:bold;'
+  );
+};
 
 /* ============================================================
    📊 EXPERIENCE DISPLAY UPDATER
-   (Call this from inventory/stats or overlay UI)
 ============================================================ */
 window.updateExpDisplay = function () {
   const p = window.player;
   if (!p) return;
-
   const levelEl = document.getElementById('stat-level');
   const expEl = document.getElementById('stat-exp');
-
   if (levelEl) levelEl.textContent = p.level ?? 1;
   if (expEl) expEl.textContent = `${p.experience ?? 0} / ${p.expToNextLevel ?? 100}`;
+};
+
+/* ============================================================
+   🎛️ STATS PANEL UPDATER – Inventory UI
+============================================================ */
+window.updateStatsUI = function () {
+  const p = window.player;
+  if (!p) return;
+  const stats = p.currentStats ?? {};
+  const set = (id, value) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+  };
+
+  set('stat-level', p.level ?? 1);
+  set('stat-exp', `${p.experience ?? 0} / ${p.expToNextLevel ?? 100}`);
+  set('stat-hp', `${Math.round(p.hp)} / ${Math.round(p.maxHp)}`);
+  set('stat-mana', `${Math.round(p.mana)} / ${Math.round(p.maxMana)}`);
+
+  // Combat stats
+  set('stat-attack', stats.attack ?? p.attackDamage ?? 0);
+  set('stat-ranged', stats.ranged ?? 0);
+  set('stat-healing', stats.healing ?? 0);
+  set('stat-speed', stats.speed ?? 0);
+  set('stat-armor', stats.armor ?? 0);
+  set('stat-crit', `${stats.critChance ?? 0}%`);
 };

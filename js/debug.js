@@ -108,23 +108,7 @@ window.clearEnemies = function () {
   console.log(`🧹 Cleared ${count} enemies from the map.`);
 };
 
-/* ============================================================
-   🧙‍♀️ EXPERIENCE / LEVEL
-============================================================ */
-window.addXP = function (amount = 100) {
-  if (!window.player) return console.warn('⚠️ Player not initialized!');
-  window.player.experience = (window.player.experience ?? 0) + amount;
-  console.log(`🌟 Added ${amount} XP → Total: ${window.player.experience}`);
-};
 
-window.levelUp = function () {
-  if (!window.player) return console.warn('⚠️ Player not initialized!');
-  window.player.level = (window.player.level ?? 1) + 1;
-  window.player.maxHp += 10;
-  window.player.hp = window.player.maxHp;
-  console.log(`🆙 Level Up! → Level ${window.player.level}, Max HP: ${window.player.maxHp}`);
-  window.updateHPBar?.();
-};
 
 /* ============================================================
    💾 SAVE / LOAD SHORTCUTS
@@ -193,7 +177,7 @@ window.helpDebug = function () {
   console.log('❤️ HP / Mana → heal(x), damage(x), setHP(x), restoreMana(x), setMana(x)');
   console.log('🚶 Movement → moveTo(x,y), addSpeed(x), resetSpeed()');
   console.log('👹 Enemies → spawnEnemy(x,y,hp), clearEnemies()');
-  console.log('🌟 Progress → addXP(x), levelUp()');
+  console.log('🌟 Progress → addExperience(x) // auto-levels and syncs in-game');
   console.log('💾 Save / Load → quickSave(), quickLoad(), listSaves()');
   console.log('🧩 Toggles → toggleAI(), toggleRegen(), toggleCollisions()');
   console.log('🧹 Environment → clearLocalSaves(), reloadExplore()');

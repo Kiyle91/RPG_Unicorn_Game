@@ -30,6 +30,11 @@ function toggleInventory(show) {
   closeAllOverlays();
   uiState = show ? 'inventory' : 'explore';
   inventoryWrapper.classList.toggle('active', show);
+
+  // ✅ Refresh player stats when the inventory opens
+  if (show && typeof window.updateStatsUI === 'function') {
+    window.updateStatsUI();
+  }
 }
 
 inventoryBtn?.addEventListener('click', () => toggleInventory(true));
