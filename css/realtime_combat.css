@@ -1,0 +1,11 @@
+.player-damage-text {
+  position: fixed;
+  transform: translate(-50%, 0);
+  color: #ff5555;
+  font-weight: 900;
+  font-size: 36px;
+  text-shadow: 0 0 10px #fff, 0 0 20px #ff0000;
+  z-index: 9999;
+  pointer-events: none;
+  user-select: none;
+}

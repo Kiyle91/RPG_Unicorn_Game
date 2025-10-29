@@ -411,6 +411,40 @@ window.showEnemyAttackEffect = function (x, y) {
   }
 };
 
+/* ============================================================
+   💢 PLAYER DAMAGE TEXT (Fixed Screen Position)
+============================================================ */
+window.showPlayerDamageText = function (text) {
+  const div = document.createElement("div");
+  div.className = "player-damage-text";
+  div.textContent = `-${Math.round(text)}`;
+  document.body.appendChild(div);
+
+  // fixed dead-center test position
+  div.style.position = "fixed";
+  div.style.left = "50%";
+  div.style.top = "20%";
+  div.style.transform = "translate(-50%, 0)";
+  div.style.color = "#ff0000";
+  div.style.fontSize = "42px";
+  div.style.fontWeight = "900";
+  div.style.zIndex = "999999";
+  div.style.textShadow = "0 0 15px #fff, 0 0 25px #ff0000";
+  div.style.pointerEvents = "none";
+
+  div.animate(
+    [
+      { transform: "translate(-50%, 0)", opacity: 1 },
+      { transform: "translate(-50%, -60px)", opacity: 0 },
+    ],
+    { duration: 1000, easing: "ease-out", fill: "forwards" }
+  );
+
+  setTimeout(() => div.remove(), 950);
+};
+
+
+
 
   /* ==========================================================
      ❤️ HP / 🔵 Mana helpers (use existing if defined)
@@ -440,6 +474,8 @@ window.showEnemyAttackEffect = function (x, y) {
     const armor = p?.currentStats?.armor ?? 0;
     const mitigation = Math.min(0.8, armor * 0.05);
     const finalDamage = Math.max(1, Math.round(amount * (1 - mitigation)));
+    console.log("💢 showPlayerDamageText fired:", finalDamage);
+    window.showPlayerDamageText?.(finalDamage);
     p.hp = Math.max(0, (p.hp ?? 0) - finalDamage);
     flashPlayerHit();
     updateHPBar();
