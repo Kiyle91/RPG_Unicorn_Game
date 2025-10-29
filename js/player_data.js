@@ -93,9 +93,10 @@ function createPlayer(selectedClass) {
     window.playerName || localStorage.getItem("playerName") || "Player";
 
   const newPlayer = {
-    name: window.playerName,
+    
     classKey: selectedClass,
     ...baseClass,
+    name: window.playerName,
     currentStats: { ...baseClass.baseStats },
     level: 1,
     experience: 0,
@@ -203,6 +204,7 @@ window.syncPlayerInGame = function () {
   window.updateStatsUI?.();
   window.updateClassIcon?.();
   window.updatePlayerPortrait?.();
+  window.updatePlayerInfoBox?.();
 
   console.log(
     `%c🔄 Player Synced | ${p.classKey} | HP:${cs.health} | MP:${cs.mana} | Spell:${cs.spellPower} | Heal:${cs.healPower} | ATK:${cs.rangedAttack} | ARM:${cs.armor}`,
@@ -294,3 +296,17 @@ window.updatePlayerPortrait = function () {
 
   portrait.src = portraits[p.classKey] || "";
 };
+
+/* ============================================================
+   🩷 PLAYER INFO BOX UPDATER
+============================================================ */
+window.updatePlayerInfoBox = function () {
+  const p = window.player;
+  if (!p) return;
+
+  const nameEl = document.getElementById("player-info-name");
+  const levelEl = document.getElementById("player-info-level");
+
+  if (nameEl) nameEl.textContent = `Princess ${p.name ?? "Unknown"}`;
+  if (levelEl) levelEl.textContent = `Level ${p.level ?? 1}`;
+};;
