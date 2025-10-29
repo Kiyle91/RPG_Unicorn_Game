@@ -250,8 +250,11 @@ window.showNoManaEffect = function () {
 
 
 
-// 🩸 Floating damage text
+// 🩸 Floating damage text (XP filtered out)
 window.showDamageText = function (text, x, y, style = 'damage') {
+  // 🧹 Skip XP floating text entirely
+  if (typeof text === 'string' && text.toUpperCase().includes('XP')) return;
+
   const rect = canvas?.getBoundingClientRect?.() ?? { left: 0, top: 0 };
   const screenX = rect.left + x;
   const screenY = rect.top + y - 20;
@@ -280,6 +283,7 @@ window.showDamageText = function (text, x, y, style = 'damage') {
 
   setTimeout(() => div.remove(), 1200);
 };
+
 
 
 
@@ -570,7 +574,8 @@ function playerAttack() {
 
         // ✅ Award EXP only when enemy dies
         if (e.hp <= 0) {
-          window.addExperience?.(25);
+          const expGain = Math.floor(20 + Math.random() * 10);
+          window.addExperience(expGain);
         }
 
         hits++;
@@ -699,7 +704,6 @@ function castSpell() {
       e.hp = Math.max(0, e.hp - dmg);
       showDamageText(`-${Math.round(dmg)}`, e.x, e.y, '#dda0dd');
       if (e.hp <= 0) {
-         window.addExperience?.(25);
         const expGain = Math.floor(20 + Math.random() * 10); 
         window.addExperience(expGain);
         enemies = enemies.filter(en => en.hp > 0);
@@ -929,7 +933,9 @@ function updateProjectiles(ctx) {
         proj.remove = true;
 
         if (e.hp <= 0) {
-           window.addExperience?.(25);
+          const expGain = Math.floor(20 + Math.random() * 10);
+          window.addExperience(expGain);
+
           enemies = enemies.filter(en => en.hp > 0);
           window.enemies = enemies;
         }

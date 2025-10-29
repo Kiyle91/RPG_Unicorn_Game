@@ -182,6 +182,7 @@ window.levelUp = function () {
   window.updateClassIcon?.();
 
   window.saveGame?.(false);
+  window.showStoryMessage("You Levelled up!!");
 };
 
 /* ============================================================
