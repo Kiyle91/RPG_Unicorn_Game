@@ -649,7 +649,7 @@ function castSpell() {
   lastSpellCast = now;
 
   const radius = 180; // large AoE radius
-  let baseDamage = p.spellDamage ?? 40;
+  let baseDamage = p?.currentStats?.spellPower ?? 40;
   if (p.classKey === 'starSage') baseDamage *= 1.6; // 🔮 Spell bonus
 
   // 💥 Damage all enemies in range
@@ -746,7 +746,7 @@ function castHeal() {
   lastHealCast = now;
 
   // 🌿 Restore HP
-  const baseHeal = p.healing ?? 25;
+  const baseHeal = p?.currentStats?.healPower ?? 25;
   const healAmount = Math.round(baseHeal * (p.classKey === 'moonflowerHealer' ? 1.8 : 1));
   const oldHP = p.hp;
   p.hp = Math.min(p.maxHp, (p.hp ?? 0) + healAmount);
