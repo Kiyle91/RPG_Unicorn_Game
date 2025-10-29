@@ -100,20 +100,42 @@ function getRangedDamage(p) {
 }
 
     draw(ctx) {
-      // Body
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.fillStyle = this.color;
-      ctx.fill();
+  if (!ctx) return;
 
-      // HP bar
-      const barW = 22, barH = 4;
-      const ratio = Math.max(0, this.hp / this.maxHp);
-      ctx.fillStyle = '#000';
-      ctx.fillRect(this.x - barW / 2, this.y - this.radius - 12, barW, barH);
-      ctx.fillStyle = '#ff69b4';
-      ctx.fillRect(this.x - barW / 2, this.y - this.radius - 12, barW * ratio, barH);
-    }
+  // 🧩 Lazy-load enemy sprite only once
+  if (!this.sprite) {
+    this.sprite = new Image();
+    this.sprite.src = '../images/guard_sprite.png';
+  }
+
+  const size = this.size ?? 72;
+  const half = size / 2;
+
+  // ✅ Draw the sprite once it's ready
+  if (this.sprite.complete && this.sprite.naturalWidth > 0) {
+    ctx.save();
+    ctx.shadowColor = 'rgba(255, 182, 193, 0.5)';
+    ctx.shadowBlur = 10;
+    ctx.drawImage(this.sprite, this.x - half, this.y - half, size, size);
+    ctx.shadowBlur = 0;
+    ctx.restore();
+  } else {
+    // fallback if sprite not loaded
+    ctx.fillStyle = this.color || '#9b59b6';
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // ❤️ HP Bar (keep on top)
+  const barW = 30, barH = 5;
+  const ratio = Math.max(0, this.hp / this.maxHp);
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
+  ctx.fillRect(this.x - barW / 2, this.y - half - 12, barW, barH);
+  ctx.fillStyle = '#ff4d4f';
+  ctx.fillRect(this.x - barW / 2, this.y - half - 12, barW * ratio, barH);
+}
+
   }
 
   let enemies = [];

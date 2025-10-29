@@ -113,14 +113,48 @@ function drawMap() {
     }
   }
 }
+
+
 function drawPlayer() {
   if (!ctx || !window.player) return;
   const p = window.player;
-  ctx.fillStyle = p.color ?? '#ff69b4';
-  ctx.beginPath();
-  ctx.arc(p.x ?? 0, p.y ?? 0, p.size ?? 15, 0, Math.PI * 2);
-  ctx.fill();
+  const spriteMap = {
+    glitterGuardian: '../images/glitter_sprite.png',
+    starSage: '../images/star_sprite.png',
+    moonflower: '../images/moon_sprite.png',
+    silverArrow: '../images/silver_sprite.png',
+  };
+
+  // load or reuse the image
+  if (!p.sprite) {
+    const img = new Image();
+    img.src = spriteMap[p.classKey] || '../images/glitter_sprite.png';
+    p.sprite = img;
+  }
+
+  const size = p.size ?? 64; // sprite display size
+  const half = size / 2;
+  const sprite = p.sprite;
+
+  if (sprite.complete) {
+    ctx.save();
+    ctx.drawImage(
+      sprite,
+      p.x - half,
+      p.y - half,
+      size,
+      size
+    );
+    ctx.restore();
+  } else {
+    // fallback (if image not yet loaded)
+    ctx.fillStyle = '#ff69b4';
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, 15, 0, Math.PI * 2);
+    ctx.fill();
+  }
 }
+
 window.drawBackground = drawBackground;
 window.drawMap = drawMap;
 window.drawPlayer = drawPlayer;

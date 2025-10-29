@@ -567,22 +567,4 @@ body:has(#explore-page.active) #mute-btn {
    🌸 END OF MAIN STYLES CSS
 ============================================================ */
 
-/* ============================================================
-   🚫 Prevent Scrolling on Active Game Screens
-============================================================ */
-body, html {
-  overflow: hidden;
-  height: 100%;
-}
-
-.screen {
-  overflow: hidden !important;
-  height: 100vh;
-}
-
-.screen.active {
-  overflow: hidden !important;
-  height: 100vh;
-}
-
 
