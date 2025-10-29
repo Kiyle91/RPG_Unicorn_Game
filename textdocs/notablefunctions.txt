@@ -1,0 +1,1 @@
+window.showStoryMessage("A mysterious unicorn appears from the mist...");

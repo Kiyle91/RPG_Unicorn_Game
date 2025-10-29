@@ -329,3 +329,42 @@ window.showGameMessage = function (text, callback) {
 
   continueBtn.addEventListener("click", continueHandler);
 };
+
+
+/* ============================================================
+   💬 GAME STORY MESSAGE (uses existing custom alert)
+============================================================ */
+window.showStoryMessage = function (text, callback) {
+  const alertBox = document.getElementById("custom-alert");
+  const message = document.getElementById("alert-message");
+  const btnContainer = document.querySelector("#custom-alert .alert-btns");
+
+  if (!alertBox || !message || !btnContainer) return;
+
+  // Pause game while message is open
+  window.exploreRunning = false;
+  window.uiState = "story";
+
+  // Set the message text
+  message.textContent = text;
+
+  // Clear old buttons
+  btnContainer.innerHTML = "";
+
+  // Create Continue button
+  const continueBtn = document.createElement("button");
+  continueBtn.textContent = "Continue";
+  continueBtn.className = "alert-btn";
+  btnContainer.appendChild(continueBtn);
+
+  // Show the alert box
+  alertBox.classList.remove("alert-hidden");
+
+  // Handle click → close + resume
+  continueBtn.addEventListener("click", () => {
+    alertBox.classList.add("alert-hidden");
+    window.exploreRunning = true;
+    window.uiState = "explore";
+    if (typeof callback === "function") callback();
+  });
+};
