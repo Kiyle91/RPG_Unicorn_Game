@@ -156,7 +156,6 @@ window.levelUp = function () {
   cs.spellPower = Math.round((cs.spellPower ?? 10) * scale);
   cs.healPower = Math.round((cs.healPower ?? 5) * scale);
   cs.rangedAttack = Math.round((cs.rangedAttack ?? 10) * scale);
-  cs.armor = Math.round((cs.armor ?? 3) * scale);
 
   p.currentStats = cs;
   p.hp = cs.health;
